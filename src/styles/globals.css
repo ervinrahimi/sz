@@ -1,0 +1,91 @@
+/*  */
+:root {
+  --max-width: 1100px;
+
+  /* Border radios size */
+  --border-radius-accent: 10px;
+  --border-radius-main: 15px;
+  --border-radius-start: 25px;
+
+  /* App color */
+  --primary-main-rgb: 0, 219, 211;
+  --primary-dark-rgb: 0, 173, 181;
+  --secondary-main-rgb: 125, 206, 130;
+  --secondary-dark-rgb: 74, 186, 82;
+
+  /* Alert color */
+  --info-rgb: 15, 188, 249;
+  --error-rgb: 255, 71, 87;
+  --warning-rgb: 255, 217, 61;
+  --success-rgb: 46, 213, 115;
+  --alert-text-rgb: 255, 255, 255;
+
+  /* Foregrounds color */
+  --foreground-alt-rgb: 140, 149, 175;
+  --foreground-accent-rgb: 85, 90, 107;
+  --foreground-main-rgb: 51, 60, 73;
+  --foreground-start-rgb: 14, 16, 20;
+
+  /* Backgrounds color */
+  --background-alt-rgb: 222, 226, 230;
+  --background-accent-rgb: 238, 238, 238;
+  --background-main-rgb: 247, 247, 247;
+  --background-start-rgb: 255, 255, 255;
+
+  /* Other color */
+  --scrollbar-rgb: 0, 0, 0;
+  --button-text-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Foregrounds color */
+    --foreground-alt-rgb: 97, 103, 122;
+    --foreground-accent-rgb: 140, 149, 175;
+    --foreground-main-rgb: 192, 200, 224;
+    --foreground-start-rgb: 238, 238, 238;
+
+    /* Backgrounds color */
+    --background-alt-rgb: 51, 60, 73;
+    --background-accent-rgb: 34, 40, 49;
+    --background-main-rgb: 19, 23, 28;
+    --background-start-rgb: 14, 16, 20;
+
+    /* Other color */
+    --scrollbar-rgb: 255, 255, 255;
+  }
+}
+
+/* Reset css */
+* {
+  direction: rtl;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* Default body properties */
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Set default color */
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-start-rgb));
+}
+
+/* Disable default theme link */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Change dark and light mode */
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}

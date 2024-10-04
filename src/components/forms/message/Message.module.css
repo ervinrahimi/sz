@@ -1,0 +1,43 @@
+.formError,
+.formSuccess,
+.formInfo,
+.formWarning {
+  color: var(--cl-button-text);
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.formError > svg ,
+.formSuccess > svg ,
+.formInfo > svg ,
+.formWarning > svg {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.formError > p ,
+.formSuccess > p ,
+.formInfo > p ,
+.formWarning > p {
+  font-size: 0.8rem;
+}
+
+.formError {
+  background: var(--cl-error);
+}
+
+.formSuccess {
+  background: var(--cl-success);
+}
+
+.formInfo {
+  background: var(--cl-info);
+}
+
+.formWarning {
+  background: var(--cl-warning);
+}
