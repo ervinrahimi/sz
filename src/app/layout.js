@@ -1,5 +1,5 @@
 import { SessionProvider } from 'next-auth/react'
-import { yekanBakh } from '@/styles/fonts/fonts'
+import { yekanBakh, kahroba } from '@/fonts/fonts'
 import { auth } from '@/security/auth'
 import '@/styles/globals.css'
 
@@ -14,7 +14,7 @@ export default async function RootLayout({ children }) {
   return (
     <SessionProvider session={session}>
       <html lang="en">
-        <body className={`${yekanBakh.className}`}>{children}</body>
+        <body className={`${kahroba.variable} ${yekanBakh.variable}`}>{children}</body>
       </html>
     </SessionProvider>
   )

@@ -8,7 +8,7 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
- 
+
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
   userId            String  @db.ObjectId
@@ -28,14 +28,6 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-model Session {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  sessionToken String   @unique
-  userId       String   @db.ObjectId
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 model User {
   id                    String                 @id @default(auto()) @map("_id") @db.ObjectId
   name                  String?
@@ -52,11 +44,22 @@ model User {
   twoFactorConfirmation TwoFactorConfirmation?
   accounts              Account[]
   sessions              Session[]
-  Authenticator         Authenticator[]
+  Authenticators        Authenticator[]
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
+  // ارتباط با سفارش‌ها
+  orders                Order[]
+  UploadedFile          UploadedFile[]
 
   @@unique([email, username])
+}
+
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
@@ -76,7 +79,6 @@ model TwoFactorConfirmation {
   @@unique([userId])
 }
 
-
 model Authenticator {
   credentialID         String  @id @map("_id")
   userId               String  @db.ObjectId
@@ -90,4 +92,116 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, credentialID])
+}
+
+model Car {
+  id             String             @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  description    String
+  price          Float
+  images         String[]
+  // لیست مشخصات فنی
+  specifications CarSpecification[]
+  // شرایط فروش
+  saleConditions CarSaleCondition[]
+  // مشخصات ظاهری
+  appearances    AppearanceOption[]
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  Order          Order[]
+}
+
+model Order {
+  id                   String                @id @default(auto()) @map("_id") @db.ObjectId
+  user                 User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId               String                @db.ObjectId
+  car                  Car                   @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId                String                @db.ObjectId
+  saleCondition        CarSaleCondition      @relation(fields: [saleConditionId], references: [id], onDelete: Cascade)
+  saleConditionId      String                @db.ObjectId
+  appearanceSelections AppearanceSelection[]
+  // مراحل سفارش
+  steps                OrderStep[]
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  UploadedFile         UploadedFile[]
+}
+
+model OrderStep {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId    String   @db.ObjectId
+  stepNumber Int
+  status     String // وضعیت مرحله (در حال انجام، تکمیل شده، نیاز به تایید و ...)
+  data       Json // داده‌های مرتبط با هر مرحله
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model UploadedFile {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @db.ObjectId
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId   String   @db.ObjectId
+  step      Int // شماره مرحله‌ای که فایل در آن آپلود شده
+  fileType  String // نوع فایل (کارت ملی، شناسنامه و ...)
+  filePath  String // مسیر فایل در سرور
+  createdAt DateTime @default(now())
+}
+
+model CarSpecification {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  car     Car     @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId   String  @db.ObjectId
+  feature String // ویژگی
+  value   String // مقدار
+  note    String? // یادداشت
+}
+
+model AppearanceOption {
+  id                  String                @id @default(auto()) @map("_id") @db.ObjectId
+  car                 Car                   @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId               String                @db.ObjectId
+  title               String // عنوان (مثلاً رنگ بدنه)
+  options             String[] // لیست گزینه‌ها
+  AppearanceSelection AppearanceSelection[]
+}
+
+model CarSaleCondition {
+  id                    String           @id @default(auto()) @map("_id") @db.ObjectId
+  car                   Car              @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId                 String           @db.ObjectId
+  conditionType         String // نوع شرایط (عمومی، خاص، سازمانی)
+  method                String // روش فروش (نقدی، اقساطی، علی‌الحساب)
+  price                 Float // قیمت کل
+  registrationPayment   Float // پرداخت زمان ثبت‌نام
+  firstMonthPayment     Float // پرداخت یک ماهه
+  totalInstallments     Int // تعداد اقساط
+  monthlyInstallment    Float // مبلغ هر قسط
+  remainingDeliveryTime Int // مانده زمان تحویل
+  finalPrice            Float // قیمت نهایی
+  deliveryDate          DateTime // موعد تحویل
+  participationProfit   Float // سود مشارکت
+  isLocked              Boolean // نیاز به مجوز یا نه
+  authorizedUsers       AuthorizedUser[]
+  Order                 Order[]
+}
+
+model AuthorizedUser {
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  saleCondition   CarSaleCondition @relation(fields: [saleConditionId], references: [id], onDelete: Cascade)
+  saleConditionId String           @db.ObjectId
+  nationalCode    String // کد ملی
+  name            String
+  family          String
+}
+
+model AppearanceSelection {
+  id                 String           @id @default(auto()) @map("_id") @db.ObjectId
+  order              Order            @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId            String           @db.ObjectId
+  appearanceOption   AppearanceOption @relation(fields: [appearanceOptionId], references: [id], onDelete: Cascade)
+  appearanceOptionId String           @db.ObjectId
+  selectedOption     String // گزینه انتخاب‌شده توسط کاربر
 }
