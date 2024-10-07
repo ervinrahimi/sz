@@ -5,10 +5,6 @@ import prisma from '@/db/client';
 
 export async function getCars() {
   // دریافت لیست خودروها از دیتابیس
-  const cars = await prisma.car.findMany({
-    include: {
-      images: true,
-    },
-  });
+  const cars = await prisma.car.findMany();
   return cars;
 }
