@@ -4,6 +4,7 @@ import PersonalInfo from '@/components/account/PersonalInfo';
 import OrderHistory from '@/components/account/OrderHistory';
 import Notifications from '@/components/account/Notifications';
 import { auth } from '@/security/auth'
+import PaymentManagement from '@/components/account/PaymentManagement';
 
 export default async function AccountPage() {
   const session = await auth()
@@ -13,6 +14,7 @@ export default async function AccountPage() {
       <PersonalInfo user={session.user} />
       <OrderHistory user={session.user}/>
       <Notifications user={session.user}/>
+      <PaymentManagement user={session.user} />
     </div>
   );
 }

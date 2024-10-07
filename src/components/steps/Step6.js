@@ -2,14 +2,14 @@
 import React, { useState } from 'react';
 import { uploadBankReceipt } from '@/actions/uploadBankReceipt';
 
-export default function Step6({ order }) {
+export default function Step6({ order , user }) {
   // لینک فایل آپلود شده توسط ادمین
   const adminFileLink = '/uploads/admin/' + order.id + '/payment_identifier.pdf';
   const [file, setFile] = useState(null);
 
   // تابع برای ارسال فایل
   const handleUpload = async () => {
-    const success = await uploadBankReceipt(order.id, 6, file);
+    const success = await uploadBankReceipt(order.id, 6, file,userId = user.id);
     if (success) {
       // رفرش صفحه یا انتقال به مرحله بعد
     }

@@ -14,7 +14,7 @@ export default async function OrderProcessPage({ params }) {
   return (
     <div>
       <h1>فرآیند ثبت سفارش</h1>
-      <Stepper order={order} />
+      <Stepper order={order} user={session.user} />
     </div>
   )
 }

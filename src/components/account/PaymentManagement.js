@@ -1,35 +1,35 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { getUserPayments, uploadPaymentReceipt } from '@/actions/paymentActions';
+'use client'
+import React, { useState, useEffect } from 'react'
+import { getUserPayments, uploadPaymentReceipt } from '@/actions/paymentActions'
 
-export default function PaymentManagement() {
-  const [payments, setPayments] = useState([]);
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [receiptFile, setReceiptFile] = useState(null);
+export default function PaymentManagement({ user }) {
+  const [payments, setPayments] = useState([])
+  const [selectedOrder, setSelectedOrder] = useState(null)
+  const [receiptFile, setReceiptFile] = useState(null)
 
   // دریافت لیست پرداخت‌ها
   useEffect(() => {
     async function fetchData() {
-      const data = await getUserPayments();
-      setPayments(data);
+      const data = await getUserPayments()
+      setPayments(data)
     }
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   // تابع برای آپلود رسید پرداخت
   const handleUploadReceipt = async () => {
     if (!receiptFile || !selectedOrder) {
-      alert('لطفاً سفارش و فایل رسید را انتخاب کنید.');
-      return;
+      alert('لطفاً سفارش و فایل رسید را انتخاب کنید.')
+      return
     }
-    const success = await uploadPaymentReceipt(selectedOrder.id, receiptFile);
+    const success = await uploadPaymentReceipt(selectedOrder.id, userId = user.id, receiptFile)
     if (success) {
-      alert('رسید پرداخت با موفقیت ارسال شد.');
+      alert('رسید پرداخت با موفقیت ارسال شد.')
       // به‌روزرسانی لیست پرداخت‌ها
     } else {
-      alert('خطا در ارسال رسید پرداخت.');
+      alert('خطا در ارسال رسید پرداخت.')
     }
-  };
+  }
 
   return (
     <div>
@@ -75,5 +75,5 @@ export default function PaymentManagement() {
         <button onClick={handleUploadReceipt}>ارسال رسید</button>
       </div>
     </div>
-  );
+  )
 }
