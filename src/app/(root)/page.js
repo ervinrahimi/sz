@@ -1,6 +1,16 @@
-import styles from './page.module.css'
-import Image from 'next/image'
+// صفحه اصلی که لیست خودروها را نمایش می‌دهد
+import React from 'react'
+import CarList from '@/components/CarList'
+import { getCars } from '@/actions/getCars'
 
-export default function Home() {
-  return <div className={styles.page}>خانه</div>
+export default async function HomePage() {
+  // دریافت لیست خودروها از سرور
+  const cars = await getCars()
+
+  return (
+    <div>
+      <h1>لیست خودروها</h1>
+      <CarList cars={cars} />
+    </div>
+  )
 }
