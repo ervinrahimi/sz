@@ -9,7 +9,7 @@ export default async function OrderProcessPage({ params }) {
   const session = await auth()
 
   // دریافت سفارش یا ایجاد سفارش جدید
-  const order = await getOrder(carId, conditionId, (userId = session.user))
+  const order = await getOrder(carId, conditionId, session.user.id)
 
   return (
     <div>

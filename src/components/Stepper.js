@@ -1,4 +1,4 @@
-// کامپوننت نمایش مراحل سفارش
+'use client'
 import React from 'react'
 import Step1 from './steps/Step1'
 import Step2 from './steps/Step2'

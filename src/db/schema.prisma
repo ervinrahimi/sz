@@ -54,6 +54,7 @@ model User {
   // اعلان‌ها
   notifications         Notification[]
   UploadedFile          UploadedFile[]
+  Installment           Installment[]
 
   @@unique([email, username])
 }
@@ -132,6 +133,7 @@ model Order {
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
   UploadedFile         UploadedFile[]
+  Installment          Installment[]
 }
 
 model Payment {
@@ -234,4 +236,17 @@ model AppearanceSelection {
   appearanceOption   AppearanceOption @relation(fields: [appearanceOptionId], references: [id], onDelete: Cascade)
   appearanceOptionId String           @db.ObjectId
   selectedOption     String // گزینه انتخاب‌شده توسط کاربر
+}
+
+model Installment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @db.ObjectId
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId   String   @db.ObjectId
+  amount    Float // مبلغ قسط
+  dueDate   DateTime // تاریخ سررسید
+  status    String // وضعیت (پرداخت شده، در انتظار پرداخت)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

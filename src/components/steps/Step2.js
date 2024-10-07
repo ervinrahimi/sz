@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { uploadFiles } from '@/actions/uploadFiles';
 
-export default function Step2({ order }) {
+export default function Step2({ order , user}) {
   const [nationalCard, setNationalCard] = useState(null);
   const [idDocument, setIdDocument] = useState(null);
 
@@ -11,7 +11,7 @@ export default function Step2({ order }) {
     const success = await uploadFiles(order.id, 2, [
       { file: nationalCard, fileType: 'تصویر کارت ملی' },
       { file: idDocument, fileType: 'تصویر شناسنامه' },
-    ]);
+    ], user.id);
     if (success) {
       // رفرش صفحه یا انتقال به مرحله بعد
     }

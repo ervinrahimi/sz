@@ -1,4 +1,4 @@
-// کامپوننت مشخصات فنی
+'use client'
 import React from 'react';
 
 export default function Specifications({ specifications }) {

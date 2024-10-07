@@ -1,4 +1,4 @@
-// کامپوننت برای نمایش لیست خودروها
+'use client'
 import React from 'react';
 import CarCard from './CarCard';
 

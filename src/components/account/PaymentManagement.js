@@ -10,7 +10,7 @@ export default function PaymentManagement({ user }) {
   // دریافت لیست پرداخت‌ها
   useEffect(() => {
     async function fetchData() {
-      const data = await getUserPayments()
+      const data = await getUserPayments(user.id)
       setPayments(data)
     }
     fetchData()
@@ -22,7 +22,7 @@ export default function PaymentManagement({ user }) {
       alert('لطفاً سفارش و فایل رسید را انتخاب کنید.')
       return
     }
-    const success = await uploadPaymentReceipt(selectedOrder.id, userId = user.id, receiptFile)
+    const success = await uploadPaymentReceipt(selectedOrder.id, user.id, receiptFile)
     if (success) {
       alert('رسید پرداخت با موفقیت ارسال شد.')
       // به‌روزرسانی لیست پرداخت‌ها

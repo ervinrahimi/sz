@@ -1,4 +1,4 @@
-// صفحه ثبت سفارش
+'use client'
 import React, { useState } from 'react';
 import { checkAuthorization } from '@/actions/checkAuthorization';
 import { useRouter } from 'next/navigation';

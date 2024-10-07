@@ -1,10 +1,11 @@
 // صفحه اصلی حساب کاربری
-import React from 'react';
-import PersonalInfo from '@/components/account/PersonalInfo';
-import OrderHistory from '@/components/account/OrderHistory';
-import Notifications from '@/components/account/Notifications';
+import React from 'react'
+import PersonalInfo from '@/components/account/PersonalInfo'
+import OrderHistory from '@/components/account/OrderHistory'
+import Notifications from '@/components/account/Notifications'
 import { auth } from '@/security/auth'
-import PaymentManagement from '@/components/account/PaymentManagement';
+import PaymentManagement from '@/components/account/PaymentManagement'
+import InstallmentCalendar from '@/components/account/InstallmentCalendar'
 
 export default async function AccountPage() {
   const session = await auth()
@@ -12,9 +13,10 @@ export default async function AccountPage() {
     <div>
       <h1>حساب کاربری</h1>
       <PersonalInfo user={session.user} />
-      <OrderHistory user={session.user}/>
-      <Notifications user={session.user}/>
+      <OrderHistory user={session.user} />
+      <Notifications user={session.user} />
+      <InstallmentCalendar user={session.user} />
       <PaymentManagement user={session.user} />
     </div>
-  );
+  )
 }

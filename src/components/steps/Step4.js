@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { uploadPaymentReceipts } from '@/actions/uploadPaymentReceipts';
 
-export default function Step4({ order }) {
+export default function Step4({ order, user }) {
   const [files, setFiles] = useState([]);
 
   // تابع برای اضافه کردن فایل‌ها
@@ -12,7 +12,7 @@ export default function Step4({ order }) {
 
   // تابع برای ارسال فایل‌ها
   const handleUpload = async () => {
-    const success = await uploadPaymentReceipts(order.id, 4, files);
+    const success = await uploadPaymentReceipts(order.id, 4, files, user.id);
     if (success) {
       // رفرش صفحه یا انتقال به مرحله بعد
     }

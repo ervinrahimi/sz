@@ -4,7 +4,7 @@
 import prisma from '@/db/client';
 import { uploadFileToServer } from '@/utils/fileUpload';
 
-export async function uploadPaymentReceipts(orderId, stepNumber, files) {
+export async function uploadPaymentReceipts(orderId, stepNumber, files, userId) {
   try {
     for (const file of files) {
       const filePath = await uploadFileToServer(file, orderId, 'رسید پرداخت');
@@ -13,7 +13,7 @@ export async function uploadPaymentReceipts(orderId, stepNumber, files) {
       await prisma.uploadedFile.create({
         data: {
           orderId,
-          userId: /* شناسه کاربر */,
+          userId: userId,
           step: stepNumber,
           fileType: 'رسید پرداخت',
           filePath,

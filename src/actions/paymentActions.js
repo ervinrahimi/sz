@@ -28,7 +28,7 @@ export async function uploadPaymentReceipt(orderId, userId, file) {
       data: {
         userId,
         orderId,
-        amount: /* مبلغ پرداخت شده، می‌تواند از اطلاعات فایل استخراج شود */,
+        amount: 9,
         status: 'در انتظار تأیید',
         paymentType: 'اقساط',
         receiptPath: filePath,
@@ -46,9 +46,15 @@ export async function uploadPaymentReceipt(orderId, userId, file) {
 
 // اکشن برای دریافت برنامه اقساط
 export async function getInstallmentSchedule(userId) {
-  // فرض می‌کنیم که اقساط در جدول خاصی ذخیره شده‌اند
   const installments = await prisma.installment.findMany({
     where: { userId },
+    include: {
+      order: {
+        include: {
+          car: true,
+        },
+      },
+    },
     orderBy: { dueDate: 'asc' },
   });
   return installments;

@@ -36,7 +36,7 @@ export default function PersonalInfo({ user }) {
       alert('رمزهای عبور جدید مطابقت ندارند');
       return;
     }
-    const success = await changePassword(passwordData);
+    const success = await changePassword(user.id, passwordData);
     if (success) {
       alert('رمز عبور با موفقیت تغییر یافت');
       setPasswordData({

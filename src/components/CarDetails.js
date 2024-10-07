@@ -1,4 +1,4 @@
-// کامپوننت جزئیات خودرو
+'use client'
 import React, { useState } from 'react';
 import AppearanceSelector from './AppearanceSelector';
 import Specifications from './Specifications';

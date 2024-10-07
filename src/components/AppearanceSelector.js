@@ -1,4 +1,4 @@
-// کامپوننت انتخاب مشخصات ظاهری
+'use client'
 import React from 'react';
 
 export default function AppearanceSelector({ appearances, selectedAppearances, setSelectedAppearances }) {
