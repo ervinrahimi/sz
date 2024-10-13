@@ -1,4 +1,4 @@
-// This is Prisma schema
+// فایل schema.prisma برای پروژه فروش خودرو
 
 generator client {
   provider = "prisma-client-js"
@@ -9,6 +9,348 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// مدل کاربر
+model User {
+  id                    String                 @id @default(auto()) @map("_id") @db.ObjectId
+  name                  String? // نام
+  family                String? // نام خانوادگی
+  email                 String?                @unique // ایمیل
+  emailVerified         DateTime? // تایید ایمیل
+  image                 String? // تصویر
+  phone                 String? // شماره تلفن همراه اول
+  phone2                String? // شماره تلفن همراه دوم
+  landlinePhone         String? // تلفن ثابت
+  username              String?                @unique // نام کاربری
+  role                  Int                    @default(0) // نقش کاربر (0: کاربر عادی، 1: ادمین، ...)
+  password              String? // رمز عبور
+  isTwoFactorEnabled    Boolean                @default(false) // فعال بودن تایید دو مرحله‌ای
+  loginTime             DateTime? // زمان آخرین ورود
+  nationalCode          String?                @unique // کد ملی
+  fatherName            String? // نام پدر
+  idNumber              String? // شماره شناسنامه
+  gender                Gender? // جنسیت
+  occupation            Occupation? // شغل
+  educationLevel        EducationLevel? // سطح تحصیلات
+  addresses             Address[] // آدرس‌ها
+  twoFactorConfirmation TwoFactorConfirmation? // تاییدیه دو مرحله‌ای
+  accounts              Account[] // حساب‌های کاربری (برای Auth.js)
+  sessions              Session[] // جلسات کاربر (برای Auth.js)
+  Authenticators        Authenticator[] // احراز هویت‌ها
+  orders                Order[] // سفارش‌ها
+  notifications         Notification[] // اعلان‌ها
+  documents             Document[] // مدارک
+  createdAt             DateTime               @default(now()) // تاریخ ایجاد
+  updatedAt             DateTime               @updatedAt // تاریخ به‌روزرسانی
+
+  @@unique([email, username, nationalCode])
+}
+
+// جنسیت
+enum Gender {
+  MALE // مرد
+  FEMALE // زن
+}
+
+// شغل
+enum Occupation {
+  EMPLOYED // شاغل
+  RETIRED // بازنشسته
+  HOMEMAKER // خانه‌دار
+  UNEMPLOYED // بیکار
+  STUDENT // محصل_دانشجو
+  ABROAD // خارج_از_کشور
+}
+
+// سطح تحصیلات
+enum EducationLevel {
+  ILLITERATE // بی‌سواد
+  ELEMENTARY // ابتدایی
+  MIDDLE_SCHOOL // سیکل
+  HIGH_SCHOOL // دیپلم
+  ASSOCIATE // فوق دیپلم
+  BACHELOR // لیسانس
+  MASTER // فوق لیسانس
+  DOCTORATE // دکترا
+}
+
+// مدل آدرس
+model Address {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String      @db.ObjectId
+  type        AddressType // نوع آدرس (منزل یا محل کار)
+  province    String // نام استان
+  city        String // نام شهر
+  district    String? // منطقه شهری
+  addressLine String // آدرس پستی
+  buildingNo  String? // پلاک
+  floor       String? // طبقه
+  unit        String? // واحد
+  postalCode  String? // کد پستی
+  createdAt   DateTime    @default(now()) // تاریخ ایجاد
+  updatedAt   DateTime    @updatedAt // تاریخ به‌روزرسانی
+}
+
+// نوع آدرس
+enum AddressType {
+  HOME // منزل
+  WORK // محل کار
+}
+
+// مدل خودرو
+model Car {
+  id                       String                    @id @default(auto()) @map("_id") @db.ObjectId
+  model                    String // مدل خودرو (مثلاً M4، T5)
+  name                     String // نام خودرو
+  image                    String? // تصویر خودرو
+  status                   CarStatus? // وضعیت خودرو (موجود/ناموجود)
+  appearanceSpecifications AppearanceSpecification[] // مشخصات ظاهری
+  technicalSpecifications  TechnicalSpecification[] // مشخصات فنی
+  salesConditions          SalesCondition[] // شرایط فروش
+  orders                   Order[] // سفارش‌ها
+  createdAt                DateTime                  @default(now()) // تاریخ ایجاد
+  updatedAt                DateTime                  @updatedAt // تاریخ به‌روزرسانی
+}
+
+// وضعیت خودرو
+enum CarStatus {
+  AVAILABLE // موجود
+  UNAVAILABLE // ناموجود
+}
+
+// مدل مشخصات ظاهری
+model AppearanceSpecification {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  car          Car      @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId        String   @db.ObjectId
+  title        String // عنوان (مثلاً رنگ)
+  options      String[] // لیست مقادیر قابل انتخاب
+  isSelectable Boolean  @default(true) // قابل انتخاب بودن توسط کاربر
+}
+
+// مدل مشخصات فنی
+model TechnicalSpecification {
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  car   Car     @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId String  @db.ObjectId
+  key   String // ویژگی (مثلاً حجم موتور)
+  value String // مقدار (مثلاً 1590)
+  note  String? // یادداشت
+}
+
+// مدل شرایط فروش
+model SalesCondition {
+  id                  String           @id @default(auto()) @map("_id") @db.ObjectId
+  car                 Car              @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId               String           @db.ObjectId
+  name                String // نام شرایط فروش (مثلاً شرایط عمومی 1)
+  conditionType       ConditionType // نوع شرایط فروش (عمومی، خاص، سازمانی)
+  salesMethod         SalesMethod // روش فروش (نقدی، اقساطی، علی‌الحساب)
+  paymentType         PaymentType // نوع پرداخت (نقدی، اقساط، علی‌الحساب)
+  price               Float // قیمت خودرو
+  registrationPayment Float? // پرداخت زمان ثبت‌نام
+  oneMonthPayment     Float? // پرداخت یک ماهه
+  totalInstallments   Int? // تعداد اقساط
+  monthlyInstallment  Float? // مبلغ اقساط ماهیانه
+  remainingAtDelivery Float? // مانده زمان تحویل
+  finalPrice          Float // قیمت نهایی
+  deliveryDate        DateTime? // موعد تحویل
+  participationProfit Float? // سود مشارکت
+  isLocked            Boolean          @default(false) // نیاز به مجوز
+  authorizedUsers     AuthorizedUser[] // کاربران مجاز
+  orders              Order[] // سفارش‌ها
+  createdAt           DateTime         @default(now()) // تاریخ ایجاد
+  updatedAt           DateTime         @updatedAt // تاریخ به‌روزرسانی
+}
+
+// نوع شرایط فروش
+enum ConditionType {
+  GENERAL // شرایط عمومی
+  SPECIAL // شرایط خاص
+  ORGANIZATIONAL // شرایط سازمانی
+}
+
+// روش فروش
+enum SalesMethod {
+  CASH // نقدی
+  INSTALLMENT // اقساطی
+  PREPAYMENT // علی‌الحساب
+}
+
+// نوع پرداخت
+enum PaymentType {
+  CASH // نقدی
+  INSTALLMENT // اقساط
+  PREPAYMENT // علی‌الحساب
+}
+
+// مدل کاربران مجاز برای شرایط فروش خاص
+model AuthorizedUser {
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  salesCondition   SalesCondition @relation(fields: [salesConditionId], references: [id], onDelete: Cascade)
+  salesConditionId String         @db.ObjectId
+  nationalCode     String // کد ملی
+  name             String? // نام
+  family           String? // نام خانوادگی
+}
+
+// مدل سفارش
+model Order {
+  id                        String                     @id @default(auto()) @map("_id") @db.ObjectId
+  user                      User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                    String                     @db.ObjectId
+  car                       Car                        @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId                     String                     @db.ObjectId
+  salesCondition            SalesCondition             @relation(fields: [salesConditionId], references: [id], onDelete: Cascade)
+  salesConditionId          String                     @db.ObjectId
+  status                    OrderStatus // وضعیت سفارش
+  selectedAppearanceOptions SelectedAppearanceOption[] // انتخاب‌های ظاهری
+  orderSteps                OrderStep[] // مراحل سفارش
+  payments                  Payment[] // پرداخت‌ها
+  documents                 Document[] // مدارک
+  installments              Installment[] // اقساط
+  createdAt                 DateTime                   @default(now()) // تاریخ ایجاد
+  updatedAt                 DateTime                   @updatedAt // تاریخ به‌روزرسانی
+}
+
+// وضعیت سفارش
+enum OrderStatus {
+  PENDING // در انتظار
+  PROCESSING // در حال پردازش
+  CONFIRMED // تایید شده
+  COMPLETED // تکمیل شده
+  CANCELED // لغو شده
+  SUSPENDED // معلق
+}
+
+// مدل انتخاب‌های ظاهری
+model SelectedAppearanceOption {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId String @db.ObjectId
+  title   String // عنوان ویژگی
+  value   String // مقدار انتخاب شده
+}
+
+// مدل مراحل سفارش
+model OrderStep {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  order      Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId    String     @db.ObjectId
+  stepNumber Int // شماره مرحله
+  name       String // نام مرحله
+  status     StepStatus // وضعیت مرحله
+  data       Json? // اطلاعات مرحله
+  adminNotes String? // یادداشت‌های ادمین
+  createdAt  DateTime   @default(now()) // تاریخ ایجاد
+  updatedAt  DateTime   @updatedAt // تاریخ به‌روزرسانی
+}
+
+// وضعیت مرحله
+enum StepStatus {
+  PENDING // در انتظار
+  COMPLETED // تکمیل شده
+  REJECTED // رد شده
+}
+
+// مدل پرداخت
+model Payment {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  order       Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId     String        @db.ObjectId
+  amount      Float // مبلغ پرداختی
+  method      String // روش پرداخت
+  status      PaymentStatus // وضعیت پرداخت
+  date        DateTime      @default(now()) // تاریخ پرداخت
+  receipts    File[] // رسیدهای پرداخت
+  Installment Installment[]
+}
+
+// وضعیت پرداخت
+enum PaymentStatus {
+  PENDING // در انتظار
+  CONFIRMED // تایید شده
+  REJECTED // رد شده
+}
+
+// مدل فایل
+model File {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  url       String // آدرس فایل
+  filename  String // نام فایل
+  mimetype  String? // نوع فایل
+  size      Int? // اندازه فایل
+  createdAt DateTime   @default(now()) // تاریخ ایجاد
+  Payment   Payment?   @relation(fields: [paymentId], references: [id])
+  paymentId String?    @db.ObjectId
+  Document  Document[]
+}
+
+// مدل سند
+model Document {
+  id         String         @id @default(auto()) @map("_id") @db.ObjectId
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String         @db.ObjectId
+  order      Order?         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId    String?        @db.ObjectId
+  type       DocumentType // نوع سند (کارت ملی، شناسنامه و ...)
+  file       File           @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  fileId     String         @db.ObjectId
+  status     DocumentStatus // وضعیت بررسی
+  adminNotes String? // یادداشت‌های ادمین
+  createdAt  DateTime       @default(now()) // تاریخ ایجاد
+  updatedAt  DateTime       @updatedAt // تاریخ به‌روزرسانی
+}
+
+// نوع سند
+enum DocumentType {
+  NATIONAL_ID // کارت ملی
+  BIRTH_CERTIFICATE // شناسنامه
+  OTHER // سایر
+}
+
+// وضعیت سند
+enum DocumentStatus {
+  PENDING // در انتظار بررسی
+  CONFIRMED // تایید شده
+  REJECTED // رد شده
+}
+
+// مدل اعلان
+model Notification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @db.ObjectId
+  title     String // عنوان پیام
+  message   String // متن پیام
+  isRead    Boolean  @default(false) // وضعیت خوانده شدن
+  createdAt DateTime @default(now()) // تاریخ ایجاد
+  updatedAt DateTime @updatedAt // تاریخ به‌روزرسانی
+}
+
+// مدل قسط
+model Installment {
+  id        String            @id @default(auto()) @map("_id") @db.ObjectId
+  order     Order             @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId   String            @db.ObjectId
+  amount    Float // مبلغ قسط
+  dueDate   DateTime // تاریخ سررسید
+  status    InstallmentStatus // وضعیت پرداخت
+  payment   Payment?          @relation(fields: [paymentId], references: [id])
+  paymentId String?           @db.ObjectId
+  createdAt DateTime          @default(now()) // تاریخ ایجاد
+  updatedAt DateTime          @updatedAt // تاریخ به‌روزرسانی
+}
+
+// وضعیت قسط
+enum InstallmentStatus {
+  PAID // پرداخت شده
+  UNPAID // پرداخت نشده
+}
+
+// مدل‌های مربوط به Auth.js
+
+// مدل حساب کاربری
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
   userId            String  @db.ObjectId
@@ -28,32 +370,7 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-model User {
-  id                    String                 @id @default(auto()) @map("_id") @db.ObjectId
-  name                  String?
-  family                String?
-  email                 String?                @unique
-  emailVerified         DateTime?
-  image                 String?
-  phone                 String?
-  username              String?                @unique
-  role                  Int                    @default(0)
-  password              String?
-  isTwoFactorEnabled    Boolean                @default(false)
-  loginTime             DateTime?
-  twoFactorConfirmation TwoFactorConfirmation?
-  accounts              Account[]
-  sessions              Session[]
-  Authenticators        Authenticator[]
-  createdAt             DateTime               @default(now())
-  updatedAt             DateTime               @updatedAt
-  // ارتباط با سفارش‌ها
-  orders                Order[]
-  UploadedFile          UploadedFile[]
-
-  @@unique([email, username])
-}
-
+// مدل جلسه کاربری
 model Session {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String   @unique
@@ -62,6 +379,7 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// مدل توکن تایید
 model VerificationToken {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   identifier String
@@ -71,6 +389,7 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+// مدل تایید دو مرحله‌ای
 model TwoFactorConfirmation {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
   userId String @db.ObjectId
@@ -79,6 +398,7 @@ model TwoFactorConfirmation {
   @@unique([userId])
 }
 
+// مدل احراز هویت
 model Authenticator {
   credentialID         String  @id @map("_id")
   userId               String  @db.ObjectId
@@ -92,116 +412,4 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, credentialID])
-}
-
-model Car {
-  id             String             @id @default(auto()) @map("_id") @db.ObjectId
-  name           String
-  description    String
-  price          Float
-  images         String[]
-  // لیست مشخصات فنی
-  specifications CarSpecification[]
-  // شرایط فروش
-  saleConditions CarSaleCondition[]
-  // مشخصات ظاهری
-  appearances    AppearanceOption[]
-  createdAt      DateTime           @default(now())
-  updatedAt      DateTime           @updatedAt
-  Order          Order[]
-}
-
-model Order {
-  id                   String                @id @default(auto()) @map("_id") @db.ObjectId
-  user                 User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId               String                @db.ObjectId
-  car                  Car                   @relation(fields: [carId], references: [id], onDelete: Cascade)
-  carId                String                @db.ObjectId
-  saleCondition        CarSaleCondition      @relation(fields: [saleConditionId], references: [id], onDelete: Cascade)
-  saleConditionId      String                @db.ObjectId
-  appearanceSelections AppearanceSelection[]
-  // مراحل سفارش
-  steps                OrderStep[]
-  createdAt            DateTime              @default(now())
-  updatedAt            DateTime              @updatedAt
-  UploadedFile         UploadedFile[]
-}
-
-model OrderStep {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  orderId    String   @db.ObjectId
-  stepNumber Int
-  status     String // وضعیت مرحله (در حال انجام، تکمیل شده، نیاز به تایید و ...)
-  data       Json // داده‌های مرتبط با هر مرحله
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
-model UploadedFile {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String   @db.ObjectId
-  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  orderId   String   @db.ObjectId
-  step      Int // شماره مرحله‌ای که فایل در آن آپلود شده
-  fileType  String // نوع فایل (کارت ملی، شناسنامه و ...)
-  filePath  String // مسیر فایل در سرور
-  createdAt DateTime @default(now())
-}
-
-model CarSpecification {
-  id      String  @id @default(auto()) @map("_id") @db.ObjectId
-  car     Car     @relation(fields: [carId], references: [id], onDelete: Cascade)
-  carId   String  @db.ObjectId
-  feature String // ویژگی
-  value   String // مقدار
-  note    String? // یادداشت
-}
-
-model AppearanceOption {
-  id                  String                @id @default(auto()) @map("_id") @db.ObjectId
-  car                 Car                   @relation(fields: [carId], references: [id], onDelete: Cascade)
-  carId               String                @db.ObjectId
-  title               String // عنوان (مثلاً رنگ بدنه)
-  options             String[] // لیست گزینه‌ها
-  AppearanceSelection AppearanceSelection[]
-}
-
-model CarSaleCondition {
-  id                    String           @id @default(auto()) @map("_id") @db.ObjectId
-  car                   Car              @relation(fields: [carId], references: [id], onDelete: Cascade)
-  carId                 String           @db.ObjectId
-  conditionType         String // نوع شرایط (عمومی، خاص، سازمانی)
-  method                String // روش فروش (نقدی، اقساطی، علی‌الحساب)
-  price                 Float // قیمت کل
-  registrationPayment   Float // پرداخت زمان ثبت‌نام
-  firstMonthPayment     Float // پرداخت یک ماهه
-  totalInstallments     Int // تعداد اقساط
-  monthlyInstallment    Float // مبلغ هر قسط
-  remainingDeliveryTime Int // مانده زمان تحویل
-  finalPrice            Float // قیمت نهایی
-  deliveryDate          DateTime // موعد تحویل
-  participationProfit   Float // سود مشارکت
-  isLocked              Boolean // نیاز به مجوز یا نه
-  authorizedUsers       AuthorizedUser[]
-  Order                 Order[]
-}
-
-model AuthorizedUser {
-  id              String           @id @default(auto()) @map("_id") @db.ObjectId
-  saleCondition   CarSaleCondition @relation(fields: [saleConditionId], references: [id], onDelete: Cascade)
-  saleConditionId String           @db.ObjectId
-  nationalCode    String // کد ملی
-  name            String
-  family          String
-}
-
-model AppearanceSelection {
-  id                 String           @id @default(auto()) @map("_id") @db.ObjectId
-  order              Order            @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  orderId            String           @db.ObjectId
-  appearanceOption   AppearanceOption @relation(fields: [appearanceOptionId], references: [id], onDelete: Cascade)
-  appearanceOptionId String           @db.ObjectId
-  selectedOption     String // گزینه انتخاب‌شده توسط کاربر
 }
