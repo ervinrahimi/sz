@@ -6,7 +6,6 @@ import Link from 'next/link'
 import styles from './UsersTable.module.css'
 
 export default function UsersTable({ users }) {
-  console.log(users)
   return (
     <div className={styles.usersTable}>
       <Link href="/admin/users/create">
@@ -36,7 +35,9 @@ export default function UsersTable({ users }) {
               <td>{user.role === 1 ? 'ادمین' : 'کاربر'}</td>
               <td>{new Date(user.createdAt).toLocaleDateString('fa-IR')}</td>
               <td>
-                <Link href={`/admin/users/${user.id}`} className={styles.actionLink}>مشاهده</Link>
+                <Link href={`/admin/users/${user.id}`} className={styles.actionLink}>
+                  مشاهده
+                </Link>
               </td>
             </tr>
           ))}

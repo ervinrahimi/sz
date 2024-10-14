@@ -15,10 +15,10 @@ export default function CreateUserPage() {
     phone: '',
     password: '',
     nationalCode: '',
-    role: '0',  // نقش پیش‌فرض: کاربر عادی
+    role: '0', // نقش پیش‌فرض: کاربر عادی
   })
   const [message, setMessage] = useState('')
-  const router = useRouter()  // برای استفاده از ریدایرکت
+  const router = useRouter() // برای استفاده از ریدایرکت
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -85,9 +85,7 @@ export default function CreateUserPage() {
           <input
             type="password"
             value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             required
           />
         </label>
@@ -101,7 +99,9 @@ export default function CreateUserPage() {
             <option value="1">ادمین</option>
           </select>
         </label>
-        <button className={styles.button} type="submit">ایجاد کاربر</button>
+        <button className={styles.button} type="submit">
+          ایجاد کاربر
+        </button>
       </form>
       {message && <p className={styles.message}>{message}</p>}
     </div>

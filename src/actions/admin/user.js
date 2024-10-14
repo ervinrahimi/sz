@@ -5,7 +5,7 @@
 import prisma from '@/db/client'
 
 export async function updateUser(data) {
-  const { id, name, family, email, phone, role } = data
+  const { id, name, family, email, phone, nationalCode, role } = data
   // به‌روزرسانی کاربر در دیتابیس
   await prisma.user.update({
     where: { id },
@@ -23,7 +23,7 @@ export async function createUser(data) {
   const { name, family, email, phone, password, nationalCode, role } = data
 
   console.log(data)
-  
+
   // بررسی وجود ایمیل تکراری
   const existingUser = await prisma.user.findUnique({
     where: { email },
@@ -41,9 +41,9 @@ export async function createUser(data) {
       email,
       phone,
       nationalCode,
-      password,  // توجه داشته باشید که رمز باید هش شود
-      role: parseInt(role) || 0,  // 0 به عنوان کاربر عادی، 1 به عنوان ادمین
-      emailVerified: new Date(),  // تایید خودکار ایمیل
+      password, // توجه داشته باشید که رمز باید هش شود
+      role: parseInt(role) || 0, // 0 به عنوان کاربر عادی، 1 به عنوان ادمین
+      emailVerified: new Date(), // تایید خودکار ایمیل
     },
   })
 
