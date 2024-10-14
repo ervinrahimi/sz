@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import styles from './ChangePassword.module.css'
+import styles from './page.module.css'
 import { changePassword } from '@/actions/dashboard/changePassword'
 
 export default function ChangePassword() {

@@ -2,7 +2,7 @@
 
 import { auth } from '@/security/auth'
 import prisma from '@/db/client'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 export async function changePassword({ currentPassword, newPassword }) {
   const session = await auth()
