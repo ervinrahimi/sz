@@ -14,6 +14,7 @@ export default function CreateUserPage() {
     email: '',
     phone: '',
     password: '',
+    nationalCode: '',
     role: '0',  // نقش پیش‌فرض: کاربر عادی
   })
   const [message, setMessage] = useState('')
@@ -50,6 +51,15 @@ export default function CreateUserPage() {
             type="text"
             value={formData.family}
             onChange={(e) => setFormData({ ...formData, family: e.target.value })}
+            required
+          />
+        </label>
+        <label>
+          کد ملی:
+          <input
+            type="number"
+            value={formData.nationalCode}
+            onChange={(e) => setFormData({ ...formData, nationalCode: e.target.value })}
             required
           />
         </label>

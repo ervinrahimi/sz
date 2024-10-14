@@ -6,6 +6,7 @@ import Link from 'next/link'
 import styles from './UsersTable.module.css'
 
 export default function UsersTable({ users }) {
+  console.log(users)
   return (
     <div className={styles.usersTable}>
       <Link href="/admin/users/create">
@@ -16,6 +17,7 @@ export default function UsersTable({ users }) {
           <tr>
             <th>نام</th>
             <th>نام خانوادگی</th>
+            <th>کد ملی</th>
             <th>ایمیل</th>
             <th>شماره تماس</th>
             <th>نقش</th>
@@ -28,6 +30,7 @@ export default function UsersTable({ users }) {
             <tr key={user.id}>
               <td>{user.name}</td>
               <td>{user.family}</td>
+              <td>{user.nationalCode}</td>
               <td>{user.email}</td>
               <td>{user.phone}</td>
               <td>{user.role === 1 ? 'ادمین' : 'کاربر'}</td>

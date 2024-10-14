@@ -20,7 +20,7 @@ export async function updateUser(data) {
 }
 
 export async function createUser(data) {
-  const { name, family, email, phone, password, role } = data
+  const { name, family, email, phone, password, nationalCode, role } = data
 
   console.log(data)
   
@@ -40,6 +40,7 @@ export async function createUser(data) {
       family,
       email,
       phone,
+      nationalCode,
       password,  // توجه داشته باشید که رمز باید هش شود
       role: parseInt(role) || 0,  // 0 به عنوان کاربر عادی، 1 به عنوان ادمین
       emailVerified: new Date(),  // تایید خودکار ایمیل
