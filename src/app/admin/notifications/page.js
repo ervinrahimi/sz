@@ -2,6 +2,7 @@
 
 import prisma from '@/db/client'
 import NotificationsTable from '@/components/admin/notifications/NotificationsTable'
+import Link from 'next/link'
 
 export default async function NotificationsPage() {
   const notifications = await prisma.notification.findMany({
@@ -13,6 +14,7 @@ export default async function NotificationsPage() {
   return (
     <div>
       <h1>مدیریت نوتیفیکیشن‌ها و پیام‌ها</h1>
+      <Link href='../../admin/notifications/new'>ارسال</Link>
       <NotificationsTable notifications={notifications} />
     </div>
   )
