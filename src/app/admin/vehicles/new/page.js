@@ -1,5 +1,3 @@
-// src/app/admin/vehicles/new/page.jsx
-
 'use client'
 
 import { useState, useTransition } from 'react'
@@ -15,7 +13,7 @@ export default function CreateVehiclePage() {
     image: '',
     status: 'AVAILABLE',
     appearanceSpecifications: [],
-    technicalSpecifications: []
+    technicalSpecifications: [],
   })
   const [isPending, startTransition] = useTransition()
 
@@ -28,24 +26,40 @@ export default function CreateVehiclePage() {
     })
   }
 
+  // اضافه کردن مشخصات ظاهری جدید
   const handleAddAppearanceSpec = () => {
     setFormData({
       ...formData,
       appearanceSpecifications: [
         ...formData.appearanceSpecifications,
-        { title: '', options: [], isSelectable: true }
-      ]
+        { title: '', options: [], isSelectable: true },
+      ],
     })
   }
 
+  // حذف مشخصات ظاهری اضافه‌شده
+  const handleRemoveAppearanceSpec = (index) => {
+    const newSpecs = [...formData.appearanceSpecifications]
+    newSpecs.splice(index, 1)
+    setFormData({ ...formData, appearanceSpecifications: newSpecs })
+  }
+
+  // اضافه کردن مشخصات فنی جدید
   const handleAddTechnicalSpec = () => {
     setFormData({
       ...formData,
       technicalSpecifications: [
         ...formData.technicalSpecifications,
-        { key: '', value: '', note: '' }
-      ]
+        { key: '', value: '', note: '' },
+      ],
     })
+  }
+
+  // حذف مشخصات فنی اضافه‌شده
+  const handleRemoveTechnicalSpec = (index) => {
+    const newSpecs = [...formData.technicalSpecifications]
+    newSpecs.splice(index, 1)
+    setFormData({ ...formData, technicalSpecifications: newSpecs })
   }
 
   return (
@@ -121,17 +135,50 @@ export default function CreateVehiclePage() {
             </label>
             <label className={styles.label}>
               مقادیر:
-              <input
-                type="text"
-                value={spec.options.join(',')}
-                onChange={(e) => {
+              {spec.options.map((option, optIndex) => (
+                <div key={optIndex} className={styles.optionContainer}>
+                  <input
+                    type="text"
+                    value={option}
+                    onChange={(e) => {
+                      const newSpecs = [...formData.appearanceSpecifications]
+                      newSpecs[index].options[optIndex] = e.target.value
+                      setFormData({ ...formData, appearanceSpecifications: newSpecs })
+                    }}
+                    className={styles.input}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newSpecs = [...formData.appearanceSpecifications]
+                      newSpecs[index].options.splice(optIndex, 1)
+                      setFormData({ ...formData, appearanceSpecifications: newSpecs })
+                    }}
+                    className={styles.removeButton}
+                  >
+                    حذف
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => {
                   const newSpecs = [...formData.appearanceSpecifications]
-                  newSpecs[index].options = e.target.value.split(',')
+                  newSpecs[index].options.push('')
                   setFormData({ ...formData, appearanceSpecifications: newSpecs })
                 }}
-                className={styles.input}
-              />
+                className={styles.addButton}
+              >
+                افزودن مقدار
+              </button>
             </label>
+            <button
+              type="button"
+              onClick={() => handleRemoveAppearanceSpec(index)}
+              className={styles.removeButton}
+            >
+              حذف مشخصه
+            </button>
           </div>
         ))}
         <button type="button" onClick={handleAddAppearanceSpec} className={styles.addButton}>
@@ -179,6 +226,13 @@ export default function CreateVehiclePage() {
                 className={styles.input}
               />
             </label>
+            <button
+              type="button"
+              onClick={() => handleRemoveTechnicalSpec(index)}
+              className={styles.removeButton}
+            >
+              حذف مشخصه
+            </button>
           </div>
         ))}
         <button type="button" onClick={handleAddTechnicalSpec} className={styles.addButton}>
