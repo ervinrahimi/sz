@@ -10,6 +10,11 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const session = await auth()
+  
+  // بررسی نقش کاربر
+  if (!session || session.user.role !== 1) {
+    return <div className={styles.unauthorized}>دسترسی غیرمجاز</div>
+  }
 
   return (
     <SessionProvider session={session}>

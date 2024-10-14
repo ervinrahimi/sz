@@ -22,6 +22,7 @@ model User {
   landlinePhone         String? // تلفن ثابت
   username              String?                @unique // نام کاربری
   role                  Int                    @default(0) // نقش کاربر (0: کاربر عادی، 1: ادمین، ...)
+  active                Boolean                @default(true) // وضعیت حساب کاربر
   password              String? // رمز عبور
   isTwoFactorEnabled    Boolean                @default(false) // فعال بودن تایید دو مرحله‌ای
   loginTime             DateTime? // زمان آخرین ورود

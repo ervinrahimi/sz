@@ -1,0 +1,50 @@
+/* استایل جدول نمایش خودروها */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+}
+
+.thead {
+  background-color: #007bff;
+  color: white;
+}
+
+.headerRow {
+  font-weight: bold;
+  text-align: left;
+}
+
+.headerCell {
+  padding: 12px 15px;
+  border-bottom: 2px solid #ddd;
+}
+
+.tbody {
+  background-color: #fff;
+}
+
+.row {
+  transition: background-color 0.3s ease;
+}
+
+.row:hover {
+  background-color: #f1f1f1;
+}
+
+.cell {
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
