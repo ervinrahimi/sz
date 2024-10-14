@@ -1,15 +1,15 @@
 // src/app/admin/sales-conditions/[id]/page.jsx
 
-import prisma from '@/db/client'
-import SalesConditionDetails from '@/components/admin/sales-conditions/SalesConditionDetails'
+import prisma  from '@/db/client'
+import SalesConditionEditForm from '@/components/admin/sales-conditions/SalesConditionEditForm'
 
-export default async function SalesConditionDetailsPage({ params }) {
+export default async function SalesConditionEditPage({ params }) {
   const conditionId = params.id
   const salesCondition = await prisma.salesCondition.findUnique({
     where: { id: conditionId },
     include: {
-      car: true,
       authorizedUsers: true,
+      car: true,
     },
   })
 
@@ -19,8 +19,8 @@ export default async function SalesConditionDetailsPage({ params }) {
 
   return (
     <div>
-      <h1>جزئیات شرایط فروش</h1>
-      <SalesConditionDetails salesCondition={salesCondition} />
+      <h1>ویرایش شرایط فروش</h1>
+      <SalesConditionEditForm salesCondition={salesCondition} />
     </div>
   )
 }
