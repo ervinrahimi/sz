@@ -11,11 +11,7 @@ export const register = async (values) => {
 
   if (!validatedFields.success) return { error: 'Invalid fields!' }
 
-  const { username, email, password } = validatedFields.data
-
-  const existingUsername = await prisma.user.findFirst({ where: { username } })
-
-  if (existingUsername) return { error: 'User already exists!' }
+  const { email, password } = validatedFields.data
 
   const existingUser = await prisma.user.findUnique({ where: { email } })
 
@@ -23,7 +19,6 @@ export const register = async (values) => {
 
   await prisma.user.create({
     data: {
-      username,
       email,
       password: await bcrypt.hash(password, 10),
     },
