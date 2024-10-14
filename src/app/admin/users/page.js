@@ -14,6 +14,7 @@ export default async function UsersPage() {
       email: true,
       phone: true,
       role: true,
+      nationalCode: true,
       createdAt: true,
     },
   })

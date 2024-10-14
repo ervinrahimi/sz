@@ -1,0 +1,47 @@
+/* استایل‌های فرم ارسال نوتیفیکیشن */
+.notificationForm {
+  margin-bottom: 20px;
+}
+
+.notificationForm label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.notificationForm input,
+.notificationForm textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.searchResults {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  border-radius: 4px;
+}
+
+.searchResults li {
+  padding: 8px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+}
+
+.searchResults li:hover {
+  background-color: #ddd;
+}
+
+.success {
+  color: green;
+}
+
+.error {
+  color: red;
+}
