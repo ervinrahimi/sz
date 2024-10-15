@@ -1,10 +1,9 @@
-// src/components/admin/sales-conditions/SalesConditionEditForm.jsx
-
 'use client'
 
 import { useState, useTransition } from 'react'
-import { updateSalesCondition, addAuthorizedUser } from '@/actions/admin/sales-conditions'
+import { updateSalesCondition, addAuthorizedUser, removeAuthorizedUser } from '@/actions/admin/sales-conditions'
 import styles from './SalesConditionEditForm.module.css'
+import toast from 'react-hot-toast'
 
 export default function SalesConditionEditForm({ salesCondition }) {
   const [formData, setFormData] = useState({
@@ -14,8 +13,15 @@ export default function SalesConditionEditForm({ salesCondition }) {
     conditionType: salesCondition.conditionType,
     salesMethod: salesCondition.salesMethod,
     paymentType: salesCondition.paymentType,
-    price: salesCondition.price.toString(), // تغییر به string برای ورودی
-    finalPrice: salesCondition.finalPrice.toString(), // افزودن فیلد finalPrice
+    price: salesCondition.price.toString(),
+    registrationPayment: salesCondition.registrationPayment?.toString() || '',
+    oneMonthPayment: salesCondition.oneMonthPayment?.toString() || '',
+    totalInstallments: salesCondition.totalInstallments?.toString() || '',
+    monthlyInstallment: salesCondition.monthlyInstallment?.toString() || '',
+    remainingAtDelivery: salesCondition.remainingAtDelivery?.toString() || '',
+    finalPrice: salesCondition.finalPrice.toString(),
+    deliveryDate: salesCondition.deliveryDate ? new Date(salesCondition.deliveryDate).toISOString().split('T')[0] : '',
+    participationProfit: salesCondition.participationProfit?.toString() || '',
     isLocked: salesCondition.isLocked,
   })
 
@@ -30,34 +36,49 @@ export default function SalesConditionEditForm({ salesCondition }) {
     // تبدیل قیمت‌ها به عدد قبل از ارسال
     const updatedFormData = {
       ...formData,
-      price: parseInt(formData.price), 
-      finalPrice: parseInt(formData.finalPrice),
+      price: parseFloat(formData.price),
+      registrationPayment: formData.registrationPayment ? parseFloat(formData.registrationPayment) : null,
+      oneMonthPayment: formData.oneMonthPayment ? parseFloat(formData.oneMonthPayment) : null,
+      totalInstallments: formData.totalInstallments ? parseInt(formData.totalInstallments) : null,
+      monthlyInstallment: formData.monthlyInstallment ? parseFloat(formData.monthlyInstallment) : null,
+      remainingAtDelivery: formData.remainingAtDelivery ? parseFloat(formData.remainingAtDelivery) : null,
+      finalPrice: parseFloat(formData.finalPrice),
+      deliveryDate: formData.deliveryDate ? new Date(formData.deliveryDate) : null,
+      participationProfit: formData.participationProfit ? parseFloat(formData.participationProfit) : null,
     }
 
     startTransition(() => {
       updateSalesCondition(updatedFormData)
-
-      // اگر شرایط فروش قفل شده و کاربران مجاز وجود دارند
-      if (formData.isLocked && authorizedUsers.length > 0) {
-        authorizedUsers.forEach(async (user) => {
-          await addAuthorizedUser(formData.id, user)
-        })
-      }
     })
   }
 
   // افزودن کاربر جدید به لیست
-  const handleAddUser = (e) => {
+  const handleAddUser = async (e) => {
     e.preventDefault()
 
-    if (newUser.nationalCode && newUser.name && newUser.family) {
-      setAuthorizedUsers([...authorizedUsers, newUser])
+    // بررسی وجود کاربر با کد ملی تکراری
+    if (
+      newUser.nationalCode && 
+      !authorizedUsers.some(user => user.nationalCode === newUser.nationalCode)
+    ) {
+      const updatedUsers = [...authorizedUsers, newUser]
+      setAuthorizedUsers(updatedUsers)
+      
+      // افزودن کاربر به سرور
+      await addAuthorizedUser(formData.id, newUser)
       setNewUser({ nationalCode: '', name: '', family: '' }) // پاک کردن فیلدهای کاربر جدید
+    } else {
+      toast('کاربری با این کد ملی قبلاً اضافه شده است.')
     }
   }
 
   // حذف کاربر از لیست
-  const handleRemoveUser = (index) => {
+  const handleRemoveUser = async (index) => {
+    const userToRemove = authorizedUsers[index]
+    
+    // حذف کاربر از سرور
+    await removeAuthorizedUser(userToRemove.id)
+
     const updatedUsers = authorizedUsers.filter((_, i) => i !== index)
     setAuthorizedUsers(updatedUsers)
   }
@@ -69,7 +90,6 @@ export default function SalesConditionEditForm({ salesCondition }) {
       <input
         type="text"
         value={formData.carId}
-        onChange={(e) => setFormData({ ...formData, carId: e.target.value })}
         disabled
       />
 
@@ -113,15 +133,64 @@ export default function SalesConditionEditForm({ salesCondition }) {
       <label>قیمت:</label>
       <input
         type="text"
-        value={formData.price} // تغییر از number به string
+        value={formData.price}
         onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+      />
+
+      <label>پرداخت زمان ثبت‌نام:</label>
+      <input
+        type="text"
+        value={formData.registrationPayment}
+        onChange={(e) => setFormData({ ...formData, registrationPayment: e.target.value })}
+      />
+
+      <label>پرداخت یک ماهه:</label>
+      <input
+        type="text"
+        value={formData.oneMonthPayment}
+        onChange={(e) => setFormData({ ...formData, oneMonthPayment: e.target.value })}
+      />
+
+      <label>تعداد اقساط:</label>
+      <input
+        type="text"
+        value={formData.totalInstallments}
+        onChange={(e) => setFormData({ ...formData, totalInstallments: e.target.value })}
+      />
+
+      <label>مبلغ اقساط ماهیانه:</label>
+      <input
+        type="text"
+        value={formData.monthlyInstallment}
+        onChange={(e) => setFormData({ ...formData, monthlyInstallment: e.target.value })}
+      />
+
+      <label>مانده زمان تحویل:</label>
+      <input
+        type="text"
+        value={formData.remainingAtDelivery}
+        onChange={(e) => setFormData({ ...formData, remainingAtDelivery: e.target.value })}
       />
 
       <label>قیمت نهایی:</label>
       <input
         type="text"
-        value={formData.finalPrice} // افزودن فیلد finalPrice
+        value={formData.finalPrice}
         onChange={(e) => setFormData({ ...formData, finalPrice: e.target.value })}
+      />
+
+      <label>تاریخ تحویل:</label>
+      <input
+        type="date"
+        value={formData.deliveryDate}
+        onChange={(e) => setFormData({ ...formData, deliveryDate: e.target.value })}
+      />
+
+      <label>سود مشارکت:</label>
+      <input
+        type="text"
+        value={formData.participationProfit}
+        onChange={(e) => setFormData({ ...formData, participationProfit: e.target.value })}
       />
 
       <label>قفل کردن شرایط فروش:</label>

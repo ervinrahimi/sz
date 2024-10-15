@@ -5,7 +5,7 @@
 import { createUser } from '@/actions/admin/user'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation' // برای ریدایرکت
-import styles from './page.module.css'
+import styles from '../../page.module.css'
 
 export default function CreateUserPage() {
   const [formData, setFormData] = useState({

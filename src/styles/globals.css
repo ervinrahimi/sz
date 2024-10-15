@@ -94,3 +94,18 @@ h6 {
   font-size: 14px;
   border-radius: 10px !important;
 }
+
+.adminPanel {
+  display: flex;
+  height: 100vh;
+}
+
+.adminPanelContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.adminPanelMainContent {
+  padding: 20px;
+  overflow-y: auto;
+}

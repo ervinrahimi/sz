@@ -6,7 +6,23 @@ import prisma from '@/db/client'
 
 // اکشن برای ایجاد شرایط فروش
 export async function createSalesCondition(data) {
-  const { carId, name, conditionType, salesMethod, paymentType, price, finalPrice, isLocked } = data
+  const {
+    carId,
+    name,
+    conditionType,
+    salesMethod,
+    paymentType,
+    price,
+    finalPrice,
+    registrationPayment,
+    oneMonthPayment,
+    totalInstallments,
+    monthlyInstallment,
+    remainingAtDelivery,
+    deliveryDate,
+    participationProfit,
+    isLocked,
+  } = data
 
   return await prisma.salesCondition.create({
     data: {
@@ -15,8 +31,15 @@ export async function createSalesCondition(data) {
       conditionType,
       salesMethod,
       paymentType,
-      price: parseInt(price),
-      finalPrice: parseInt(finalPrice), // ذخیره قیمت نهایی
+      price: parseFloat(price),
+      finalPrice: parseFloat(finalPrice), // ذخیره قیمت نهایی
+      registrationPayment: registrationPayment ? parseFloat(registrationPayment) : null,
+      oneMonthPayment: oneMonthPayment ? parseFloat(oneMonthPayment) : null,
+      totalInstallments: totalInstallments ? parseInt(totalInstallments) : null,
+      monthlyInstallment: monthlyInstallment ? parseFloat(monthlyInstallment) : null,
+      remainingAtDelivery: remainingAtDelivery ? parseFloat(remainingAtDelivery) : null,
+      deliveryDate: deliveryDate ? new Date(deliveryDate) : null,
+      participationProfit: participationProfit ? parseFloat(participationProfit) : null,
       isLocked,
     },
   })
@@ -24,7 +47,23 @@ export async function createSalesCondition(data) {
 
 // اکشن برای ویرایش شرایط فروش
 export async function updateSalesCondition(data) {
-  const { id, name, conditionType, salesMethod, paymentType, price, finalPrice, isLocked } = data
+  const {
+    id,
+    name,
+    conditionType,
+    salesMethod,
+    paymentType,
+    price,
+    registrationPayment,
+    oneMonthPayment,
+    totalInstallments,
+    monthlyInstallment,
+    remainingAtDelivery,
+    finalPrice,
+    deliveryDate,
+    participationProfit,
+    isLocked,
+  } = data
 
   return await prisma.salesCondition.update({
     where: { id },
@@ -34,7 +73,14 @@ export async function updateSalesCondition(data) {
       salesMethod,
       paymentType,
       price,
-      finalPrice, // اضافه کردن قیمت نهایی
+      registrationPayment,
+      oneMonthPayment,
+      totalInstallments,
+      monthlyInstallment,
+      remainingAtDelivery,
+      finalPrice,
+      deliveryDate,
+      participationProfit,
       isLocked,
     },
   })

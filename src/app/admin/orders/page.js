@@ -2,6 +2,7 @@
 
 import prisma from '@/db/client'
 import OrdersTable from '@/components/admin/orders/OrdersTable'
+import styles from '../page.module.css'
 
 export default async function OrdersPage() {
   const orders = await prisma.order.findMany({
@@ -13,9 +14,15 @@ export default async function OrdersPage() {
   })
 
   return (
-    <div>
-      <h1>مدیریت سفارش‌ها</h1>
-      <OrdersTable orders={orders} />
+    <div className={styles.container}>
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>مدیریت سفارش‌ها</h1>
+        </div>
+        <div className={styles.balanceBox}>
+          <OrdersTable orders={orders} />
+        </div>
+      </div>
     </div>
   )
 }

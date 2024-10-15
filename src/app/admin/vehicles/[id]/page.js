@@ -2,7 +2,7 @@
 
 import prisma from '@/db/client'
 import VehicleDetails from '@/components/admin/vehicles/VehicleDetails'
-import styles from './page.module.css'
+import styles from '../../page.module.css'
 
 export default async function VehicleDetailsPage({ params }) {
   const vehicleId = params.id
@@ -21,8 +21,14 @@ export default async function VehicleDetailsPage({ params }) {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>جزئیات خودرو</h1>
-      <VehicleDetails vehicle={vehicle} />
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>جزئیات خودرو</h1>
+        </div>
+        <div className={styles.balanceBox}>
+          <VehicleDetails vehicle={vehicle} />
+        </div>
+      </div>
     </div>
   )
 }

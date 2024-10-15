@@ -4,8 +4,13 @@
 
 import Link from 'next/link'
 import styles from './OrdersTable.module.css'
+import toast from 'react-hot-toast'
 
 export default function OrdersTable({ orders }) {
+  const handleToast = () => {
+    toast('در حال حاضر نمیتوانید این عملیات را انجام دهید')
+  }
+
   return (
     <table className={styles.table}>
       <thead>
@@ -31,7 +36,8 @@ export default function OrdersTable({ orders }) {
             <td>{order.status}</td>
             <td>{new Date(order.createdAt).toLocaleDateString('fa-IR')}</td>
             <td>
-              <Link href={`/admin/orders/${order.id}`}>مشاهده</Link>
+              {/* <Link href={`/admin/orders/${order.id}`}>مشاهده</Link> */}
+              <Link onClick={handleToast} href={`#`}>مشاهده</Link>
             </td>
           </tr>
         ))}

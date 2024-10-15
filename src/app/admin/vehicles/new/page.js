@@ -3,7 +3,7 @@
 import { useState, useTransition } from 'react'
 import { createVehicle } from '@/actions/admin/vehicles'
 import { useRouter } from 'next/navigation'
-import styles from './page.module.css'
+import styles from '../../page.module.css'
 
 export default function CreateVehiclePage() {
   const router = useRouter()

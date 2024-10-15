@@ -31,7 +31,6 @@ export default function UserDetails({ user }) {
 
   return (
     <div className={styles.userDetails}>
-      <h1>جزئیات کاربر</h1>
       {editing ? (
         <form onSubmit={handleSubmit} className={styles.form}>
           <label>
