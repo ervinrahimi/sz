@@ -7,32 +7,32 @@ import styles from './DocumentsTable.module.css'
 
 export default function DocumentsTable({ documents }) {
   return (
-    <table className={styles.table}>
-      <thead>
-        <tr>
-          <th>کد سند</th>
-          <th>کاربر</th>
-          <th>نوع سند</th>
-          <th>وضعیت</th>
-          <th>عملیات</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div className={styles.container}>
+      <div className={styles.headerRow}>
+        <div className={styles.headerCell}>کد سند</div>
+        <div className={styles.headerCell}>کاربر</div>
+        <div className={styles.headerCell}>نوع سند</div>
+        <div className={styles.headerCell}>وضعیت</div>
+        <div className={styles.headerCell}>عملیات</div>
+      </div>
+      <div className={styles.body}>
         {documents.map((doc) => (
-          <tr key={doc.id}>
-            <td>{doc.id}</td>
-            <td>
+          <div key={doc.id} className={styles.row}>
+            <div className={styles.cell}>{doc.id}</div>
+            <div className={styles.cell}>
               {doc.user.name} {doc.user.family}
-            </td>
-            <td>{getDocumentType(doc.type)}</td>
-            <td>{getDocumentStatus(doc.status)}</td>
-            <td>
-              <Link href={`/admin/documents/${doc.id}`}>بررسی</Link>
-            </td>
-          </tr>
+            </div>
+            <div className={styles.cell}>{getDocumentType(doc.type)}</div>
+            <div className={styles.cell}>{getDocumentStatus(doc.status)}</div>
+            <div className={styles.cell}>
+              <Link href={`/admin/documents/${doc.id}`}>
+                <button className={styles.button}>بررسی</button>
+              </Link>
+            </div>
+          </div>
         ))}
-      </tbody>
-    </table>
+      </div>
+    </div>
   )
 }
 

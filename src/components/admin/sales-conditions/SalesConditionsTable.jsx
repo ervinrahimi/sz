@@ -7,32 +7,34 @@ import styles from './SalesConditionsTable.module.css'
 
 export default function SalesConditionsTable({ salesConditions }) {
   return (
-    <table className={styles.table}>
-      <thead>
-        <tr>
-          <th>کد شرایط</th>
-          <th>نام شرایط</th>
-          <th>خودرو</th>
-          <th>نوع شرایط</th>
-          <th>وضعیت</th>
-          <th>عملیات</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div className={styles.container}>
+      <div className={styles.headerRow}>
+        <div className={styles.headerCell}>کد شرایط</div>
+        <div className={styles.headerCell}>نام شرایط</div>
+        <div className={styles.headerCell}>خودرو</div>
+        <div className={styles.headerCell}>نوع شرایط</div>
+        <div className={styles.headerCell}>وضعیت</div>
+        <div className={styles.headerCell}>عملیات</div>
+      </div>
+      <div className={styles.body}>
         {salesConditions.map((condition) => (
-          <tr key={condition.id}>
-            <td>{condition.id}</td>
-            <td>{condition.name}</td>
-            <td>{condition.car.name}</td>
-            <td>{getConditionType(condition.conditionType)}</td>
-            <td>{condition.isLocked ? 'قفل شده' : 'باز'}</td>
-            <td>
-              <Link href={`/admin/sales-conditions/${condition.id}`}>ویرایش</Link>
-            </td>
-          </tr>
+          <div key={condition.id} className={styles.row}>
+            <div className={styles.cell}>{condition.id}</div>
+            <div className={styles.cell}>{condition.name}</div>
+            <div className={styles.cell}>{condition.car.name}</div>
+            <div className={styles.cell}>{getConditionType(condition.conditionType)}</div>
+            <div className={styles.cell}>
+              {condition.isLocked ? 'قفل شده' : 'باز'}
+            </div>
+            <div className={styles.cell}>
+              <Link href={`/admin/sales-conditions/${condition.id}`}>
+                <button className={styles.button}>ویرایش</button>
+              </Link>
+            </div>
+          </div>
         ))}
-      </tbody>
-    </table>
+      </div>
+    </div>
   )
 }
 

@@ -7,36 +7,36 @@ import styles from './PaymentsTable.module.css'
 
 export default function PaymentsTable({ payments }) {
   return (
-    <table className={styles.table}>
-      <thead>
-        <tr>
-          <th>کد پرداخت</th>
-          <th>خریدار</th>
-          <th>مبلغ</th>
-          <th>روش پرداخت</th>
-          <th>وضعیت</th>
-          <th>تاریخ پرداخت</th>
-          <th>عملیات</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div className={styles.container}>
+      <div className={styles.headerRow}>
+        <div className={styles.headerCell}>کد پرداخت</div>
+        <div className={styles.headerCell}>خریدار</div>
+        <div className={styles.headerCell}>مبلغ</div>
+        <div className={styles.headerCell}>روش پرداخت</div>
+        <div className={styles.headerCell}>وضعیت</div>
+        <div className={styles.headerCell}>تاریخ پرداخت</div>
+        <div className={styles.headerCell}>عملیات</div>
+      </div>
+      <div className={styles.body}>
         {payments.map((payment) => (
-          <tr key={payment.id}>
-            <td>{payment.id}</td>
-            <td>
+          <div key={payment.id} className={styles.row}>
+            <div className={styles.cell}>{payment.id}</div>
+            <div className={styles.cell}>
               {payment.order.user.name} {payment.order.user.family}
-            </td>
-            <td>{payment.amount}</td>
-            <td>{payment.method}</td>
-            <td>{getPaymentStatus(payment.status)}</td>
-            <td>{new Date(payment.date).toLocaleDateString('fa-IR')}</td>
-            <td>
-              <Link href={`/admin/payments/${payment.id}`}>بررسی</Link>
-            </td>
-          </tr>
+            </div>
+            <div className={styles.cell}>{payment.amount}</div>
+            <div className={styles.cell}>{payment.method}</div>
+            <div className={styles.cell}>{getPaymentStatus(payment.status)}</div>
+            <div className={styles.cell}>{new Date(payment.date).toLocaleDateString('fa-IR')}</div>
+            <div className={styles.cell}>
+              <Link href={`/admin/payments/${payment.id}`}>
+                <button className={styles.button}>بررسی</button>
+              </Link>
+            </div>
+          </div>
         ))}
-      </tbody>
-    </table>
+      </div>
+    </div>
   )
 }
 

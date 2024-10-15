@@ -12,36 +12,38 @@ export default function OrdersTable({ orders }) {
   }
 
   return (
-    <table className={styles.table}>
-      <thead>
-        <tr>
-          <th>کد سفارش</th>
-          <th>نام خریدار</th>
-          <th>خودرو</th>
-          <th>روش فروش</th>
-          <th>وضعیت سفارش</th>
-          <th>تاریخ ثبت</th>
-          <th>عملیات</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div className={styles.container}>
+      <div className={styles.headerRow}>
+        <div className={styles.headerCell}>کد سفارش</div>
+        <div className={styles.headerCell}>نام خریدار</div>
+        <div className={styles.headerCell}>خودرو</div>
+        <div className={styles.headerCell}>روش فروش</div>
+        <div className={styles.headerCell}>وضعیت سفارش</div>
+        <div className={styles.headerCell}>تاریخ ثبت</div>
+        <div className={styles.headerCell}>عملیات</div>
+      </div>
+      <div className={styles.body}>
         {orders.map((order) => (
-          <tr key={order.id}>
-            <td>{order.id}</td>
-            <td>
+          <div key={order.id} className={styles.row}>
+            <div className={styles.cell}>{order.id}</div>
+            <div className={styles.cell}>
               {order.user.name} {order.user.family}
-            </td>
-            <td>{order.car.name}</td>
-            <td>{order.salesCondition.salesMethod}</td>
-            <td>{order.status}</td>
-            <td>{new Date(order.createdAt).toLocaleDateString('fa-IR')}</td>
-            <td>
-              <Link href={`/admin/orders/${order.id}`}>مشاهده</Link>
-              {/* <Link onClick={handleToast} href={`#`}>مشاهده</Link> */}
-            </td>
-          </tr>
+            </div>
+            <div className={styles.cell}>{order.car.name}</div>
+            <div className={styles.cell}>{order.salesCondition.salesMethod}</div>
+            <div className={styles.cell}>{order.status}</div>
+            <div className={styles.cell}>
+              {new Date(order.createdAt).toLocaleDateString('fa-IR')}
+            </div>
+            <div className={styles.cell}>
+              <Link href={`/admin/orders/${order.id}`}>
+                <button className={styles.button}>مشاهده</button>
+              </Link>
+              {/* <button onClick={handleToast} className={styles.button}>مشاهده</button> */}
+            </div>
+          </div>
         ))}
-      </tbody>
-    </table>
+      </div>
+    </div>
   )
 }

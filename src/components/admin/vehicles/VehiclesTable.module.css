@@ -1,50 +1,81 @@
-/* استایل جدول نمایش خودروها */
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-}
+/* src/components/admin/vehicles/VehiclesTable.module.css */
 
-.thead {
-  background-color: #007bff;
-  color: white;
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  border-radius: 8px;
 }
 
 .headerRow {
+  display: flex;
+  background-color: #2a3138;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: space-between;
   font-weight: bold;
-  text-align: left;
 }
 
 .headerCell {
-  padding: 12px 15px;
-  border-bottom: 2px solid #ddd;
+  flex: 1;
+  text-align: center;
+  color: #d1d1d1; /* رنگ کم‌رنگ‌تر از مشکی */
 }
 
-.tbody {
-  background-color: #fff;
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .row {
+  display: flex;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: space-between;
   transition: background-color 0.3s ease;
 }
 
 .row:hover {
-  background-color: #f1f1f1;
+  background-color: #e6e6e6;
 }
 
 .cell {
-  padding: 10px 15px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
+  flex: 1;
+  text-align: center;
+  color: #2a3138;
 }
 
-.link {
-  color: #007bff;
-  text-decoration: none;
-  font-weight: bold;
+.button {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.link:hover {
-  text-decoration: underline;
+.button:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .headerRow,
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .headerCell,
+  .cell {
+    text-align: left;
+  }
 }

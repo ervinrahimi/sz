@@ -7,33 +7,37 @@ import styles from './NotificationsTable.module.css'
 
 export default function NotificationsTable({ notifications }) {
   return (
-    <table className={styles.table}>
-      <thead>
-        <tr>
-          <th>کد نوتیفیکیشن</th>
-          <th>کاربر</th>
-          <th>عنوان پیام</th>
-          <th>تاریخ ارسال</th>
-          <th>وضعیت مشاهده</th>
-          <th>عملیات</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div className={styles.container}>
+      <div className={styles.headerRow}>
+        <div className={styles.headerCell}>کد نوتیفیکیشن</div>
+        <div className={styles.headerCell}>کاربر</div>
+        <div className={styles.headerCell}>عنوان پیام</div>
+        <div className={styles.headerCell}>تاریخ ارسال</div>
+        <div className={styles.headerCell}>وضعیت مشاهده</div>
+        <div className={styles.headerCell}>عملیات</div>
+      </div>
+      <div className={styles.body}>
         {notifications.map((notif) => (
-          <tr key={notif.id}>
-            <td>{notif.id}</td>
-            <td>
+          <div key={notif.id} className={styles.row}>
+            <div className={styles.cell}>{notif.id}</div>
+            <div className={styles.cell}>
               {notif.user.name} {notif.user.family}
-            </td>
-            <td>{notif.title}</td>
-            <td>{new Date(notif.createdAt).toLocaleDateString('fa-IR')}</td>
-            <td>{notif.isRead ? 'خوانده شده' : 'خوانده نشده'}</td>
-            <td>
-              <Link href={`/admin/notifications/${notif.id}`}>مشاهده</Link>
-            </td>
-          </tr>
+            </div>
+            <div className={styles.cell}>{notif.title}</div>
+            <div className={styles.cell}>
+              {new Date(notif.createdAt).toLocaleDateString('fa-IR')}
+            </div>
+            <div className={styles.cell}>
+              {notif.isRead ? 'خوانده شده' : 'خوانده نشده'}
+            </div>
+            <div className={styles.cell}>
+              <Link href={`/admin/notifications/${notif.id}`}>
+                <button className={styles.button}>مشاهده</button>
+              </Link>
+            </div>
+          </div>
         ))}
-      </tbody>
-    </table>
+      </div>
+    </div>
   )
 }
