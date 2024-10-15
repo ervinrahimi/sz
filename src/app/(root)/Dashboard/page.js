@@ -14,19 +14,6 @@ export default async function Dashboard() {
 
   return (
     <div className={styles.dashboard}>
-      <h1>پنل کاربری</h1>
-      <div>
-        <Link href="../Dashboard/Personal-Information">مشاهده اطلاعات شخصی</Link>
-      </div>
-      <div>
-        <Link href="../Dashboard/Change-Password">تغییر رمز عبور</Link>
-      </div>
-      <div>
-        <Link href="../Dashboard/Payments">مدیریت پرداخت ها</Link>
-      </div>
-      <div>
-        <Link href="../Dashboard/Notifications">اطلاعیه ها و پیام ها</Link>
-      </div>
     </div>
   )
 }
