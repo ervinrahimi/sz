@@ -77,9 +77,9 @@
     position: relative;
     overflow: hidden;
   }
-  .sidebar {
-    background: red;
-  }
+  /* .sidebar { */
+    /* background: red; */
+  /* } */
 
   .profileDetails {display: block;}
 
