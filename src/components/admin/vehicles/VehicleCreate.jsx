@@ -3,9 +3,9 @@
 import { useState, useTransition } from 'react'
 import { createVehicle } from '@/actions/admin/vehicles'
 import { useRouter } from 'next/navigation'
-import styles from '../../page.module.css'
+import styles from './VehicleCreate'
 
-export default function CreateVehiclePage() {
+export default function VehicleCreate() {
   const router = useRouter()
   const [formData, setFormData] = useState({
     model: '',
@@ -64,7 +64,6 @@ export default function CreateVehiclePage() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>ایجاد خودرو جدید</h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         <label className={styles.label}>
           مدل:

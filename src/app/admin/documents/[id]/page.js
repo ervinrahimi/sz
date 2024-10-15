@@ -18,9 +18,15 @@ export default async function DocumentDetailsPage({ params }) {
   }
 
   return (
-    <div>
-      <h1>جزئیات سند</h1>
-      <DocumentDetails document={document} />
+    <div className={styles.container}>
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>جزئیات سند</h1>
+        </div>
+        <div className={styles.balanceBox}>
+          <DocumentDetails document={document} />
+        </div>
+      </div>
     </div>
   )
 }

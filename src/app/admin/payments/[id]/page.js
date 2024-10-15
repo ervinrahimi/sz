@@ -2,6 +2,7 @@
 
 import prisma from '@/db/client'
 import PaymentDetails from '@/components/admin/payments/PaymentDetails'
+import styles from '../../page.module.css'
 
 export default async function PaymentDetailsPage({ params }) {
   const paymentId = params.id
@@ -22,9 +23,15 @@ export default async function PaymentDetailsPage({ params }) {
   }
 
   return (
-    <div>
-      <h1>جزئیات پرداخت</h1>
-      <PaymentDetails payment={payment} />
+    <div className={styles.container}>
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>جزئیات پرداخت</h1>
+        </div>
+        <div className={styles.balanceBox}>
+          <PaymentDetails payment={payment} />
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 // src/app/admin/sales-conditions/[id]/page.jsx
 
-import prisma  from '@/db/client'
+import prisma from '@/db/client'
 import styles from '../../page.module.css'
 import SalesConditionEditForm from '@/components/admin/sales-conditions/SalesConditionEditForm'
 
@@ -19,9 +19,15 @@ export default async function SalesConditionEditPage({ params }) {
   }
 
   return (
-    <div>
-      <h1>ویرایش شرایط فروش</h1>
-      <SalesConditionEditForm salesCondition={salesCondition} />
+    <div className={styles.container}>
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>ویرایش شرایط فروش</h1>
+        </div>
+        <div className={styles.balanceBox}>
+          <SalesConditionEditForm salesCondition={salesCondition} />
+        </div>
+      </div>
     </div>
   )
 }

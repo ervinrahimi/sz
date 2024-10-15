@@ -14,7 +14,6 @@ export default function AdminDashboard() {
         <div className={styles.balanceBox}>
           <h2>محتوای داشبورد </h2>
         </div>
-        {/* محتوای داشبورد */}
       </div>
     </div>
   )

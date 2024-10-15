@@ -2,6 +2,7 @@
 
 import prisma from '@/db/client'
 import OrderDetails from '@/components/admin/orders/OrderDetails'
+import styles from '../../page.module.css'
 
 export default async function OrderDetailsPage({ params }) {
   const orderId = params.id
@@ -22,9 +23,15 @@ export default async function OrderDetailsPage({ params }) {
   }
 
   return (
-    <div>
-      <h1>جزئیات سفارش</h1>
-      <OrderDetails order={order} />
+    <div className={styles.container}>
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>جزئیات سفارش</h1>
+        </div>
+        <div className={styles.balanceBox}>
+          <OrderDetails order={order} />
+        </div>
+      </div>
     </div>
   )
 }

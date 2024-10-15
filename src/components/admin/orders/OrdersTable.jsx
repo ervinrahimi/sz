@@ -36,8 +36,8 @@ export default function OrdersTable({ orders }) {
             <td>{order.status}</td>
             <td>{new Date(order.createdAt).toLocaleDateString('fa-IR')}</td>
             <td>
-              {/* <Link href={`/admin/orders/${order.id}`}>مشاهده</Link> */}
-              <Link onClick={handleToast} href={`#`}>مشاهده</Link>
+              <Link href={`/admin/orders/${order.id}`}>مشاهده</Link>
+              {/* <Link onClick={handleToast} href={`#`}>مشاهده</Link> */}
             </td>
           </tr>
         ))}

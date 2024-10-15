@@ -1,15 +1,11 @@
 // src/app/admin/notifications/[id]/page.jsx
 
-import prisma  from '@/db/client'
+import prisma from '@/db/client'
+import styles from '../../page.module.css'
 import NotificationDetails from '@/components/admin/notifications/NotificationDetails'
 
 export default async function NotificationDetailsPage({ params }) {
   const notificationId = params.id
-
-  // اطمینان از وجود id
-  if (!notificationId) {
-    return <div>نوتیفیکیشن یافت نشد</div>
-  }
 
   // جستجوی نوتیفیکیشن بر اساس id
   const notification = await prisma.notification.findUnique({
@@ -24,9 +20,15 @@ export default async function NotificationDetailsPage({ params }) {
   }
 
   return (
-    <div>
-      <h1>جزئیات نوتیفیکیشن</h1>
-      <NotificationDetails notification={notification} />
+    <div className={styles.container}>
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>جزئیات نوتیفیکیشن</h1>
+        </div>
+        <div className={styles.balanceBox}>
+          <NotificationDetails notification={notification} />
+        </div>
+      </div>
     </div>
   )
 }
