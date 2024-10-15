@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
+import { ROUTES } from '@/constants/routes'
 
 export default function Header({ product }) {
   const [showContent, setShowContent] = useState(true)
@@ -55,7 +56,7 @@ export default function Header({ product }) {
   }
 
   const handleLogin = () => {
-    router.push('/auth/login'), { scroll: false }
+    router.push('/Dashboard'), { scroll: false }
   }
 
   const handleShopClick = () => {

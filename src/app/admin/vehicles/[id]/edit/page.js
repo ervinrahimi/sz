@@ -5,7 +5,7 @@
 import { useState, useTransition } from 'react'
 import { updateVehicle } from '@/actions/admin/vehicles'
 import { useRouter } from 'next/navigation'
-import styles from './page.module.css'
+import styles from '../../../page.module.css'
 
 export default function EditVehiclePage({ vehicle }) {
   const router = useRouter()

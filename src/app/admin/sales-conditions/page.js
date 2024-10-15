@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import prisma from '@/db/client'
 import SalesConditionsTable from '@/components/admin/sales-conditions/SalesConditionsTable'
+import styles from '../page.module.css'
 
 export default async function SalesConditionsPage() {
   const salesConditions = await prisma.salesCondition.findMany({
@@ -12,14 +13,20 @@ export default async function SalesConditionsPage() {
   })
 
   return (
-    <div>
-      <h1>مدیریت شرایط فروش</h1>
-      <div style={{ marginBottom: '20px' }}>
-        <Link href="/admin/sales-conditions/new">
-          <button>ایجاد شرایط فروش جدید</button>
-        </Link>
+    <div className={styles.container}>
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>مدیریت شرایط فروش</h1>
+          <div className={styles.buttons}>
+            <Link href={'/admin/sales-conditions/new'} className={styles.button}>
+              ایجاد شرایط فروش
+            </Link>
+          </div>
+        </div>
+        <div className={styles.balanceBox}>
+          <SalesConditionsTable salesConditions={salesConditions} />
+        </div>
       </div>
-      <SalesConditionsTable salesConditions={salesConditions} />
     </div>
   )
 }

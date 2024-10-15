@@ -1,7 +1,7 @@
 // src/app/admin/vehicles/page.jsx
 
 import Link from 'next/link'
-import styles from './page.module.css'
+import styles from '../page.module.css'
 import VehiclesTable from '@/components/admin/vehicles/VehiclesTable'
 
 export default async function VehiclesPage() {

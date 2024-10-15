@@ -1,5 +1,3 @@
-// src/components/admin/sales-conditions/NewSalesConditionForm.jsx
-
 'use client'
 
 import { useState, useTransition } from 'react'
@@ -16,8 +14,16 @@ export default function NewSalesConditionForm({ cars }) {
     paymentType: 'CASH',
     price: '',
     finalPrice: '',
+    registrationPayment: '',
+    oneMonthPayment: '',
+    totalInstallments: '',
+    monthlyInstallment: '',
+    remainingAtDelivery: '',
+    deliveryDate: '',
+    participationProfit: '',
     isLocked: false,
   })
+
   const [users, setUsers] = useState([]) // ذخیره کاربران مجاز
   const [newUser, setNewUser] = useState({ nationalCode: '', name: '', family: '' })
   const [isPending, startTransition] = useTransition()
@@ -112,12 +118,61 @@ export default function NewSalesConditionForm({ cars }) {
         value={formData.price}
         onChange={(e) => setFormData({ ...formData, price: e.target.value })}
       />
-      
+
       <label>قیمت نهایی:</label>
       <input
-        type="text"
-        value={formData.finalPrice} // افزودن فیلد finalPrice
+        type="number"
+        value={formData.finalPrice}
         onChange={(e) => setFormData({ ...formData, finalPrice: e.target.value })}
+      />
+
+      <label>پرداخت زمان ثبت‌نام:</label>
+      <input
+        type="number"
+        value={formData.registrationPayment}
+        onChange={(e) => setFormData({ ...formData, registrationPayment: e.target.value })}
+      />
+
+      <label>پرداخت یک ماهه:</label>
+      <input
+        type="number"
+        value={formData.oneMonthPayment}
+        onChange={(e) => setFormData({ ...formData, oneMonthPayment: e.target.value })}
+      />
+
+      <label>تعداد اقساط:</label>
+      <input
+        type="number"
+        value={formData.totalInstallments}
+        onChange={(e) => setFormData({ ...formData, totalInstallments: e.target.value })}
+      />
+
+      <label>مبلغ اقساط ماهیانه:</label>
+      <input
+        type="number"
+        value={formData.monthlyInstallment}
+        onChange={(e) => setFormData({ ...formData, monthlyInstallment: e.target.value })}
+      />
+
+      <label>مانده زمان تحویل:</label>
+      <input
+        type="number"
+        value={formData.remainingAtDelivery}
+        onChange={(e) => setFormData({ ...formData, remainingAtDelivery: e.target.value })}
+      />
+
+      <label>تاریخ تحویل:</label>
+      <input
+        type="date"
+        value={formData.deliveryDate}
+        onChange={(e) => setFormData({ ...formData, deliveryDate: e.target.value })}
+      />
+
+      <label>سود مشارکت:</label>
+      <input
+        type="number"
+        value={formData.participationProfit}
+        onChange={(e) => setFormData({ ...formData, participationProfit: e.target.value })}
       />
 
       <label>قفل کردن شرایط فروش:</label>

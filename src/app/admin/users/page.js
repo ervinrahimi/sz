@@ -1,8 +1,9 @@
 // src/app/admin/users/page.jsx
 
-
 import UsersTable from '@/components/admin/users/UsersTable'
 import prisma from '@/db/client'
+import styles from '../page.module.css'
+import Link from 'next/link'
 
 export default async function UsersPage() {
   // دریافت لیست کاربران از دیتابیس
@@ -20,9 +21,20 @@ export default async function UsersPage() {
   })
 
   return (
-    <div>
-      <h1>مدیریت کاربران</h1>
-      <UsersTable users={users} />
+    <div className={styles.container}>
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>مدیریت کاربران</h1>
+          <div className={styles.buttons}>
+            <Link href={'/admin/users/create'} className={styles.button}>
+              ایجاد کاربر جدید
+            </Link>
+          </div>
+        </div>
+        <div className={styles.balanceBox}>
+          <UsersTable users={users} />
+        </div>
+      </div>
     </div>
   )
 }

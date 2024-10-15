@@ -6,7 +6,8 @@ import { ROUTES } from "./constants/routes"
  * @type {string[]}
  */
 export const MW_PRIVATE_ROUTES = [
-  ROUTES.ADMIN.MAIN
+  ROUTES.ADMIN.MAIN,
+  '/Dashboard'
 ]
 
 /**
@@ -15,7 +16,13 @@ export const MW_PRIVATE_ROUTES = [
  * @type {string[]}
  */
 export const MW_AUTH_ROUTES = [
-  ROUTES.AUTH.MAIN
+  ROUTES.AUTH.MAIN,
+  ROUTES.AUTH.ERROR,
+  ROUTES.AUTH.LOGIN,
+  ROUTES.AUTH.REGISTER,
+  ROUTES.AUTH.VERIFY_EMAIL,
+  ROUTES.AUTH.RESET_PASSWORD,
+  ROUTES.AUTH.FORGOT_PASSWORD,
 ]
 
 /**

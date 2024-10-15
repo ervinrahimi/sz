@@ -1,5 +1,63 @@
-/* استایل‌های Sidebar */
+/* src/components/admin/sidebar/Sidebar.module.css */
+
 .sidebar {
-  width: 200px;
-  /* سایر استایل‌ها */
+  width: 250px;
+  background-color: #f7f8fa;
+  padding: 20px;
+  height: 100vh;
+  position: fixed;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.profileImage {
+  border-radius: 100%;
+  width: 50px;
+  height: 50px;
+}
+
+.profileDetails {
+  border-right: 3px solid #000000;
+  margin-right: 5px;
+  padding-right: 5px;
+}
+
+.profileDetails h2 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.profileDetails p {
+  font-size: 14px;
+  color: #888;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menuItem {
+  margin-bottom: 10px;
+  display: block;
+  padding: 10px;
+  font-size: 16px;
+  color: #333;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.menuItem:hover {
+  background-color: #ececec;
+}
+
+.active {
+  background-color: #2a3138; /* رنگ زمینه برای لینک فعال */
+  color: #fff; /* رنگ متن برای لینک فعال */
 }

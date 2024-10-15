@@ -2,6 +2,7 @@
 
 import prisma from '@/db/client'
 import UserDetails from '@/components/admin/users/UserDetails'
+import styles from '../../page.module.css'
 
 export default async function UserDetailsPage({ params }) {
   const userId = params.id
@@ -18,9 +19,15 @@ export default async function UserDetailsPage({ params }) {
   }
 
   return (
-    <div>
-      <h1>جزئیات کاربر</h1>
-      <UserDetails user={user} />
+    <div className={styles.container}>
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>جزئیات کاربر</h1>
+        </div>
+        <div className={styles.balanceBox}>
+          <UserDetails user={user} />
+        </div>
+      </div>
     </div>
   )
 }

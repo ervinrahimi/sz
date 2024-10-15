@@ -3,35 +3,45 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import styles from './Sidebar.module.css'
 
-export default function Sidebar() {
+export default function Sidebar({ admin }) {
+  const pathname = usePathname()
+
   return (
     <nav className={styles.sidebar}>
-      <ul>
+      <div className={styles.profile}>
+        <img src="/profile-image.png" alt="Profile" className={styles.profileImage} />
+        <div className={styles.profileDetails}>
+          <h2>{admin?.name || 'ادمین'} {admin?.family}</h2>
+          <p>{admin?.email}</p>
+        </div>
+      </div>
+      <ul className={styles.menu}>
         <li>
-          <Link href="/admin">داشبورد</Link>
+          <Link href="/admin" className={`${styles.menuItem} ${pathname === '/admin' ? styles.active : ''}`}>داشبورد</Link>
         </li>
         <li>
-          <Link href="/admin/users">مدیریت کاربران</Link>
+          <Link href="/admin/users" className={`${styles.menuItem} ${pathname === '/admin/users' ? styles.active : ''}`}>مدیریت کاربران</Link>
         </li>
         <li>
-          <Link href="/admin/orders">مدیریت سفارش‌ها</Link>
+          <Link href="/admin/orders" className={`${styles.menuItem} ${pathname === '/admin/orders' ? styles.active : ''}`}>مدیریت سفارش‌ها</Link>
         </li>
         <li>
-          <Link href="/admin/vehicles">مدیریت خودروها</Link>
+          <Link href="/admin/vehicles" className={`${styles.menuItem} ${pathname === '/admin/vehicles' ? styles.active : ''}`}>مدیریت خودروها</Link>
         </li>
         <li>
-          <Link href="/admin/sales-conditions">مدیریت شرایط فروش</Link>
+          <Link href="/admin/sales-conditions" className={`${styles.menuItem} ${pathname === '/admin/sales-conditions' ? styles.active : ''}`}>مدیریت شرایط فروش</Link>
         </li>
         <li>
-          <Link href="/admin/payments">مدیریت پرداخت‌ها</Link>
+          <Link href="/admin/payments" className={`${styles.menuItem} ${pathname === '/admin/payments' ? styles.active : ''}`}>مدیریت پرداخت‌ها</Link>
         </li>
         <li>
-          <Link href="/admin/documents">مدیریت اسناد و مدارک</Link>
+          <Link href="/admin/documents" className={`${styles.menuItem} ${pathname === '/admin/documents' ? styles.active : ''}`}>مدیریت اسناد و مدارک</Link>
         </li>
         <li>
-          <Link href="/admin/notifications">مدیریت نوتیفیکیشن‌ها و پیام‌ها</Link>
+          <Link href="/admin/notifications" className={`${styles.menuItem} ${pathname === '/admin/notifications' ? styles.active : ''}`}>مدیریت نوتیفیکیشن‌ها و پیام‌ها</Link>
         </li>
       </ul>
     </nav>

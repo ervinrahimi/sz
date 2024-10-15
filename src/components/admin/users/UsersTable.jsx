@@ -8,9 +8,6 @@ import styles from './UsersTable.module.css'
 export default function UsersTable({ users }) {
   return (
     <div className={styles.usersTable}>
-      <Link href="/admin/users/create">
-        <button className={styles.createUserButton}>ایجاد کاربر جدید</button>
-      </Link>
       <table className={styles.table}>
         <thead>
           <tr>
