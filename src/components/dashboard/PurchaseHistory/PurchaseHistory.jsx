@@ -1,3 +1,4 @@
+// src/components/dashboard/PurchaseHistory/PurchaseHistory.jsx
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -19,28 +20,30 @@ export default function PurchaseHistory() {
 
   return (
     <div className={styles.purchaseHistory}>
-      <h2>سوابق خرید و سفارشات</h2>
+      <h2 className={styles.title}>سوابق خرید و سفارشات</h2>
       {orders.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>تاریخ خرید</th>
-              <th>نام خودرو</th>
-              <th>شرایط فروش</th>
-              <th>وضعیت سفارش</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order.id}>
-                <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-                <td>{order.car.name}</td>
-                <td>{order.salesCondition.name}</td>
-                <td>{order.status}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className={styles.ordersList}>
+          {orders.map((order) => (
+            <div key={order.id} className={styles.orderCard}>
+              <div className={styles.orderRow}>
+                <span className={styles.orderLabel}>تاریخ خرید:</span>
+                <span>{new Date(order.createdAt).toLocaleDateString()}</span>
+              </div>
+              <div className={styles.orderRow}>
+                <span className={styles.orderLabel}>نام خودرو:</span>
+                <span>{order.car.name}</span>
+              </div>
+              <div className={styles.orderRow}>
+                <span className={styles.orderLabel}>شرایط فروش:</span>
+                <span>{order.salesCondition.name}</span>
+              </div>
+              <div className={styles.orderRow}>
+                <span className={styles.orderLabel}>وضعیت سفارش:</span>
+                <span>{order.status}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       ) : (
         <p>هیچ سفارشی یافت نشد.</p>
       )}

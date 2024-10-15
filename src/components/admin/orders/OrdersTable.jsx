@@ -36,10 +36,10 @@ export default function OrdersTable({ orders }) {
               {new Date(order.createdAt).toLocaleDateString('fa-IR')}
             </div>
             <div className={styles.cell}>
-              <Link href={`/admin/orders/${order.id}`}>
+              {/* <Link href={`/admin/orders/${order.id}`}>
                 <button className={styles.button}>مشاهده</button>
-              </Link>
-              {/* <button onClick={handleToast} className={styles.button}>مشاهده</button> */}
+              </Link> */}
+              <button onClick={handleToast} className={styles.button}>مشاهده</button>
             </div>
           </div>
         ))}

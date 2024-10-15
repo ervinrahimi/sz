@@ -1,3 +1,4 @@
+// src/components/dashboard/PersonalInformation/PersonalInformation.jsx
 'use client'
 
 import { useState } from 'react'
@@ -28,27 +29,47 @@ export default function PersonalInformation({ user }) {
 
   return (
     <div className={styles.personalInformation}>
-      <h2>اطلاعات شخصی</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
+      <h2 className={styles.title}>اطلاعات شخصی</h2>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <label className={styles.label}>
           نام:
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className={styles.input}
+          />
         </label>
-        <label>
+        <label className={styles.label}>
           نام خانوادگی:
-          <input type="text" value={family} onChange={(e) => setFamily(e.target.value)} />
+          <input
+            type="text"
+            value={family}
+            onChange={(e) => setFamily(e.target.value)}
+            className={styles.input}
+          />
         </label>
-        <label>
+        <label className={styles.label}>
           ایمیل:
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className={styles.input}
+          />
         </label>
-        <label>
+        <label className={styles.label}>
           شماره تلفن:
-          <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
+          <input
+            type="text"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className={styles.input}
+          />
         </label>
-        <button type="submit">ذخیره تغییرات</button>
+        <button type="submit" className={styles.button}>ذخیره تغییرات</button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className={styles.message}>{message}</p>}
     </div>
   )
 }

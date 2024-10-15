@@ -5,15 +5,20 @@ import Link from 'next/link'
 
 export default async function Dashboard() {
   const session = await auth()
-  const user = session?.user
-
-  if (!user) {
-    // در صورت عدم ورود کاربر، می‌توانید به صفحه لاگین ریدایرکت کنید
-    return null
-  }
 
   return (
-    <div className={styles.dashboard}>
+    <div className={styles.container}>
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>داشبورد کاربر</h1>
+          {/* <div className={styles.buttons}>
+            <Link href={'/'} className={styles.button}>ایجاد</Link>
+          </div> */}
+        </div>
+        <div className={styles.balanceBox}>
+          <h2>محتوای داشبورد</h2>
+        </div>
+      </div>
     </div>
   )
 }

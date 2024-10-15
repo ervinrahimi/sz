@@ -1,21 +1,24 @@
 // src/app/(root)/dashboard/page.jsx
 import { auth } from '@/security/auth'
-import styles from './page.module.css'
+import styles from '../page.module.css'
 import PersonalInformation from '@/components/dashboard/PersonalInformation/PersonalInformation'
 
 export default async function Dashboard() {
   const session = await auth()
-  const user = session?.user
-
-  if (!user) {
-    // در صورت عدم ورود کاربر، می‌توانید به صفحه لاگین ریدایرکت کنید
-    return null
-  }
 
   return (
-    <div className={styles.dashboard}>
-      <h1>اطلاعات و ویرایش آن</h1>
-      <PersonalInformation user={user} />
+    <div className={styles.container}>
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>اطلاعات و ویرایش آن</h1>
+          {/* <div className={styles.buttons}>
+              <Link href={'/'} className={styles.button}>ایجاد</Link>
+            </div> */}
+        </div>
+        <div className={styles.balanceBox}>
+          <PersonalInformation user={session.user} />
+        </div>
+      </div>
     </div>
   )
 }

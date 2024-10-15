@@ -32,35 +32,38 @@ export default function ChangePassword() {
 
   return (
     <div className={styles.changePassword}>
-      <h2>تغییر رمز عبور</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
+      <h2 className={styles.title}>تغییر رمز عبور</h2>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <label className={styles.label}>
           رمز عبور فعلی:
           <input
             type="password"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
+            className={styles.input}
           />
         </label>
-        <label>
+        <label className={styles.label}>
           رمز عبور جدید:
           <input
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
+            className={styles.input}
           />
         </label>
-        <label>
+        <label className={styles.label}>
           تکرار رمز عبور جدید:
           <input
             type="password"
             value={confirmNewPassword}
             onChange={(e) => setConfirmNewPassword(e.target.value)}
+            className={styles.input}
           />
         </label>
-        <button type="submit">تغییر رمز عبور</button>
+        <button type="submit" className={styles.button}>تغییر رمز عبور</button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className={styles.message}>{message}</p>}
     </div>
   )
 }

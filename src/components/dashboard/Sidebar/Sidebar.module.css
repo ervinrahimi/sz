@@ -1,48 +1,63 @@
-.menu {
-  list-style: none;
-  padding: 0;
-}
-
-.menuItem {
-  display: flex;
-  align-items: center;
-  padding: 10px 0;
-  font-size: 16px;
-  color: #555;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.menuItem:hover {
-  background-color: #e0e4e8;
-  border-radius: 8px;
-}
-
-.icon {
-  margin-right: 10px;
-  font-size: 20px;
-}
-
-.layout {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-}
-
-.main {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
+/* src/components/admin/sidebar/Sidebar.module.css */
 
 .sidebar {
   width: 250px;
-  background-color: #f5f7fa;
-  height: 100vh;
+  background-color: #f7f8fa;
   padding: 20px;
+  height: 100vh;
+  position: fixed;
 }
 
-.content {
-  flex-grow: 1;
-  padding: 20px;
+.profile {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.profileImage {
+  border-radius: 100%;
+  width: 50px;
+  height: 50px;
+}
+
+.profileDetails {
+  border-right: 3px solid #000000;
+  margin-right: 5px;
+  padding-right: 5px;
+}
+
+.profileDetails h2 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.profileDetails p {
+  font-size: 14px;
+  color: #888;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menuItem {
+  margin-bottom: 10px;
+  display: block;
+  padding: 10px;
+  font-size: 16px;
+  color: #333;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.menuItem:hover:not(.active) {
+  background-color: #ececec;
+}
+
+.active {
+  background-color: #2a3138; /* رنگ زمینه برای لینک فعال */
+  color: #fff; /* رنگ متن برای لینک فعال */
 }

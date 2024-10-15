@@ -28,35 +28,35 @@ export default function InstallmentManagement() {
 
   return (
     <div className={styles.installmentManagement}>
-      <h2>مدیریت اقساط</h2>
+      <h2 className={styles.title}>مدیریت اقساط</h2>
       {installments.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>تاریخ قسط</th>
-              <th>مبلغ قسط</th>
-              <th>وضعیت</th>
-              <th>آپلود رسید</th>
-            </tr>
-          </thead>
-          <tbody>
-            {installments.map((installment) => (
-              <tr key={installment.id}>
-                <td>{new Date(installment.dueDate).toLocaleDateString()}</td>
-                <td>{installment.amount}</td>
-                <td>{installment.status}</td>
-                <td>
-                  {installment.status === 'UNPAID' && (
-                    <input
-                      type="file"
-                      onChange={(e) => handleUpload(installment.id, e.target.files[0])}
-                    />
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className={styles.installments}>
+          {installments.map((installment) => (
+            <div key={installment.id} className={styles.installment}>
+              <div className={styles.detail}>
+                <span className={styles.label}>تاریخ قسط:</span>
+                <span>{new Date(installment.dueDate).toLocaleDateString()}</span>
+              </div>
+              <div className={styles.detail}>
+                <span className={styles.label}>مبلغ قسط:</span>
+                <span>{installment.amount}</span>
+              </div>
+              <div className={styles.detail}>
+                <span className={styles.label}>وضعیت:</span>
+                <span>{installment.status}</span>
+              </div>
+              <div className={styles.detail}>
+                {installment.status === 'UNPAID' && (
+                  <input
+                    type="file"
+                    onChange={(e) => handleUpload(installment.id, e.target.files[0])}
+                    className={styles.fileInput}
+                  />
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       ) : (
         <p>هیچ قسطی یافت نشد.</p>
       )}
