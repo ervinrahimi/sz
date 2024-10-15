@@ -1,0 +1,484 @@
+.container {
+  position: relative;
+  display: flex;
+  width: 1920px;
+  height: max-content;
+  padding: 0 173px;
+  /* background-color: rgba(255, 0, 0, 0.187); */
+  justify-content: space-between;
+  direction: ltr;
+  padding-bottom: 75px;
+  left: -50%;
+  transform: translateX(50%);
+}
+
+.titleContainer {
+  display: block;
+  width: 1570px;
+  height: max-content;
+  margin: 0;
+  margin-bottom: 51px;
+  position: relative;
+  padding-right: 23px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.titleContainer::after {
+  content: ' ';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 1.5px;
+  height: 83%;
+  background-color: rgba(0, 9, 46, 0.18);
+}
+
+.titleOff {
+  display: none;
+}
+
+.titleContainer h3 {
+  font-variation-settings: 'wdth' 100, 'wght' 750, 'CNTR' 40;
+  color: #25283e;
+  font-size: 24px;
+  line-height: 1.5;
+  margin-bottom: 9px;
+}
+
+.titleContainer p {
+  font-variation-settings: 'wdth' 100, 'wght' 600, 'DOTS' 0;
+  color: #969baf;
+  font-size: 14px;
+  letter-spacing: -0.6px;
+}
+
+.box {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: max-content;
+  background-color: #ffffff;
+  margin-right: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+  direction: rtl;
+  box-shadow: 0px 12px 30px -8px rgba(0, 0, 0, 0.1);
+}
+
+.box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0px 20px -5px rgba(0, 0, 0, 0.2);
+}
+
+.box:hover .subTitle,
+.box:hover .text,
+.box:hover .actionButton {
+  color: #0a122a;
+}
+
+.box:last-child {
+  margin: 0;
+}
+
+.image {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 216px;
+  object-fit: cover;
+  margin-bottom: 24px;
+  cursor: pointer;
+}
+
+.colorContainer {
+  position: absolute;
+  background: hsla(0, 0%, 0%, 0.2);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  top: 15px;
+  left: 13px;
+  padding: 5px 10px;
+  display: flex;
+  z-index: 999;
+  justify-content: space-between;
+  border-radius: 100px;
+}
+
+.colors {
+  background-color: #8484ff;
+  width: 4px;
+  height: 4px;
+  border-radius: 100px;
+  display: block;
+  position: relative;
+  margin-right: 7px;
+}
+
+.colors:first-child {
+  margin: 0;
+}
+
+.title,
+.subTitle,
+.text,
+.priceNum {
+  padding-right: 25px;
+}
+
+.title {
+  font-family: var(--font-cairo), sans-serif;
+  font-variation-settings: 'wght' 700;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: -1.5px;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.subTitle {
+  font-size: 15px;
+  font-variation-settings: 'wght' 600, 'CNTR' 40;
+  color: rgba(0, 9, 45, 0.5);
+  letter-spacing: -0.2px;
+  margin-bottom: 28px;
+  cursor: pointer;
+}
+
+.text {
+  position: relative;
+  font-size: 11.5px;
+  font-variation-settings: 'wdth' 100, 'wght' 600, 'DOTS' 0;
+  text-align: justify;
+  line-height: 1.8;
+  padding-left: 25px;
+  letter-spacing: -0.4px;
+  color: #6a6f84;
+  min-height: 65px;
+}
+
+.line {
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.15);
+  /* margin-bottom: 20px; */
+  direction: ltr;
+}
+
+.line span {
+  position: relative;
+  display: block;
+  width: 15%;
+  height: 2px;
+  background: rgba(63, 56, 255, 0.2);
+  display: none;
+}
+
+.priceContainer {
+  width: 100%;
+  height: 66px;
+  align-items: center;
+  display: flex;
+  position: relative;
+  border-bottom: 2px solid hsla(0, 0%, 0%, 0.1);
+}
+
+.priceNum {
+  display: block;
+  font-family: var(--font-kahroba), sans-serif;
+  font-variation-settings: 'wdth' 100, 'wght' 750, 'DOTS' 0;
+  font-size: 17px;
+  letter-spacing: 0.1px;
+}
+
+.priceNum > span {
+  margin-right: 10px;
+}
+
+.actionBox {
+  width: 100%;
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+}
+
+.actionButton {
+  font-family: var(--font-kahroba), sans-serif;
+  font-variation-settings: 'wdth' 100, 'wght' 600, 'CNTR' 40;
+  width: 100%;
+  height: max-content;
+  padding: 26px 0;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  background: none;
+  color: rgba(0, 9, 45, 0.32);
+  font-size: 16px;
+}
+
+.box:hover .actionButton:hover {
+  background: #1b2441;
+  color: #f1f1f1;
+}
+
+.actionButton:first-child {
+  border-left: 2px solid hsla(0, 0%, 0%, 0.1);
+}
+
+@media (max-width: 1680px) {
+  .container {
+    width: 1680px;
+  }
+
+  .subTitle {
+    margin-bottom: 15px;
+  }
+
+  .image {
+    margin-bottom: 15px;
+  }
+
+  .text {
+    font-size: 9.5px;
+  }
+  .priceContainer {
+    height: 50px;
+  }
+
+  .actionButton {
+    padding: 20px 0;
+  }
+
+  .titleContainer {
+    display: block;
+    width: 1335px;
+    height: max-content;
+    margin: 0;
+    margin-bottom: 51px;
+    position: relative;
+    padding-right: 23px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 1360px) {
+  .titleContainer {
+    display: block;
+    width: 100%;
+    height: max-content;
+    margin: 0;
+    margin-bottom: 51px;
+    position: relative;
+    padding-right: 23px;
+    margin-right: 25px;
+    margin-left: auto;
+  }
+
+  .titleContainer h3 {
+    font-size: 20px;
+  }
+
+  .container {
+    width: 100%;
+    padding: 0;
+    direction: rtl;
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* برای مخفی کردن اسکرول در فایرفاکس */
+    margin-right: 22px;
+    padding-bottom: 60px;
+    border-radius: 15px;
+    padding-left: 45px;
+  }
+
+  .container::-webkit-scrollbar {
+    display: none; /* مخفی کردن اسکرول در کروم و سافاری */
+  }
+
+  .box {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    width: 27%;
+    margin-right: 20px;
+  }
+
+  .box:last-child {
+    margin-right: 20px;
+  }
+
+  .subTitle {
+    margin-bottom: 15px;
+  }
+
+  .image {
+    margin-bottom: 15px;
+  }
+
+  .text {
+    font-size: 9.5px;
+  }
+  .priceContainer {
+    height: 50px;
+  }
+
+  .actionButton {
+    padding: 20px 0;
+  }
+}
+
+@media (max-width: 1000px) {
+  .container {
+    width: 100%;
+    padding: 0;
+    direction: rtl;
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* برای مخفی کردن اسکرول در فایرفاکس */
+    margin-right: 22px;
+    padding-bottom: 60px;
+    border-radius: 15px;
+    padding-left: 45px;
+  }
+
+  .container::-webkit-scrollbar {
+    display: none; /* مخفی کردن اسکرول در کروم و سافاری */
+  }
+
+  .box {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    width: 38%;
+    margin-right: 20px;
+  }
+
+  .box:last-child {
+    margin-right: 20px;
+  }
+
+  .subTitle {
+    margin-bottom: 15px;
+  }
+
+  .image {
+    margin-bottom: 15px;
+  }
+
+  .text {
+    font-size: 9.5px;
+  }
+  .priceContainer {
+    height: 50px;
+  }
+
+  .actionButton {
+    padding: 20px 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .container {
+    width: 100%;
+    padding: 0;
+    direction: rtl;
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* برای مخفی کردن اسکرول در فایرفاکس */
+    margin-right: 22px;
+    padding-bottom: 60px;
+    border-radius: 15px;
+    padding-left: 45px;
+  }
+
+  .container::-webkit-scrollbar {
+    display: none; /* مخفی کردن اسکرول در کروم و سافاری */
+  }
+
+  .box {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    width: 52%;
+    margin-right: 20px;
+  }
+
+  .box:last-child {
+    margin-right: 20px;
+  }
+
+  .subTitle {
+    margin-bottom: 15px;
+  }
+
+  .image {
+    margin-bottom: 15px;
+  }
+
+  .text {
+    font-size: 9.5px;
+  }
+  .priceContainer {
+    height: 50px;
+  }
+
+  .actionButton {
+    padding: 20px 0;
+  }
+}
+
+@media (max-width: 540px) {
+  .container {
+    width: 100%;
+    padding: 0;
+    direction: rtl;
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* برای مخفی کردن اسکرول در فایرفاکس */
+    margin-right: 22px;
+    padding-bottom: 60px;
+    border-radius: 15px;
+    padding-left: 45px;
+  }
+
+  .container::-webkit-scrollbar {
+    display: none; /* مخفی کردن اسکرول در کروم و سافاری */
+  }
+
+  .box {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    width: 68%;
+    margin-right: 20px;
+  }
+
+  .box:last-child {
+    margin-right: 20px;
+  }
+
+  .subTitle {
+    margin-bottom: 15px;
+  }
+
+  .image {
+    margin-bottom: 15px;
+  }
+
+  .text {
+    font-size: 9.5px;
+  }
+  .priceContainer {
+    height: 50px;
+  }
+
+  .actionButton {
+    padding: 20px 0;
+  }
+}

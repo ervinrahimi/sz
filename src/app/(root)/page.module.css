@@ -1,2 +1,43 @@
 .page {
+  position: relative;
+  width: 100%;
+  height: max-content;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: max-content;
+}
+
+.background {
+  width: 100vw;
+  height: max-content;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -100;
+}
+
+.loginContainer {
+  filter: invert();
+  position: absolute;
+  right: 208px;
+  bottom: 172px;
+  width: 317px;
+}
+
+.copyRights {
+  width: 193px;
+  height: auto;
+  object-fit: contain;
+  position: absolute;
+  bottom: 71px;
+  right: 327px;
+  z-index: 1;
+}
+
+.test {
+  color: white;
 }

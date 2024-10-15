@@ -1,0 +1,388 @@
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: max-content;
+  display: block;
+  font-variation-settings: 'wdth' 98, 'wght' 600, 'DOTS' 1;
+  font-size: 13px;
+  letter-spacing: -0.35px;
+  color: rgba(255, 255, 255, 0.85);
+  z-index: 999;
+}
+
+.containerP {
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 100%;
+  height: max-content;
+  display: block;
+  font-variation-settings: 'wdth' 98, 'wght' 600, 'DOTS' 1;
+  font-size: 13px;
+  letter-spacing: -0.35px;
+  color: rgba(255, 255, 255, 0.85);
+  z-index: 999;
+}
+
+.addressBarContainer {
+  width: 100%;
+  height: max-content;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+}
+
+.addressBar {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 173px;
+}
+
+.headerMenu {
+  margin-top: 31px;
+  /* margin-top: 70px; */
+  padding: 0 173px;
+  display: flex;
+  justify-content: space-between;
+  font-variation-settings: 'wdth' 98, 'wght' 400, 'DOTS' 1;
+  font-size: 14px;
+  letter-spacing: -0px;
+}
+
+.rightSideMenu,
+.leftSideMenu {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: block;
+  cursor: pointer;
+  position: relative;
+  top: -5px;
+}
+
+.logo:hover path {
+  fill: #cef0ff;
+}
+
+.headerMenu ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 36px;
+  width: max-content;
+  height: max-content;
+}
+
+.headerMenu ul li {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 18px;
+  cursor: pointer;
+}
+
+.headerMenu ul li:hover {
+  color: #cbe3eb;
+}
+
+.headerMenu ul li svg {
+  position: relative;
+  display: block;
+  color: yellow;
+  margin-right: 10px;
+  bottom: 1px;
+}
+
+.menuArrowIcon path {
+  fill: #ffffff;
+}
+
+.headerMenu ul li:hover svg path {
+  fill: #cbe3eb;
+}
+
+.headerMenu ul li:hover svg {
+  transform: rotate(180deg);
+}
+
+.active {
+  color: #d7dfff;
+  font-variation-settings: 'wdth' 98, 'wght' 800, 'DOTS' 1;
+}
+
+.active path {
+  fill: #d7dfff;
+}
+
+.menuButton {
+  position: relative;
+  width: 47px;
+  height: 47px;
+  border-radius: 50px;
+  border: none;
+  margin-right: 10px;
+  cursor: pointer;
+  background: unset;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.menuButton:hover {
+  /* background: rgb(170, 184, 192); */
+  background: #e3eff5;
+}
+
+.menuButton svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.menuButton:hover svg path {
+  stroke: #050b29;
+}
+
+.menuLinkButton {
+  display: flex;
+  padding: 13px 34px;
+  border: 2px solid #a6e4a6;
+  border-radius: 50px;
+  margin-right: 10px;
+  color: #a6e4a6;
+  cursor: pointer;
+  font-variation-settings: 'wdth' 98, 'wght' 700, 'DOTS' 1;
+}
+
+.menuLinkButton:hover {
+  background: #a6e4a6;
+  color: black;
+}
+
+.phoneIcon {
+  margin-right: 10px;
+}
+
+.menuLinkButton:hover .phoneIcon {
+  filter: brightness(0);
+}
+
+/* STICKY MENU CODES */
+
+.stickyContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: max-content;
+  background: rgba(12, 14, 20, 0.7);
+  z-index: 999999;
+  backdrop-filter: blur(20px);
+  padding: 15px 0;
+}
+
+.stickyContainer .container {
+  position: relative;
+}
+
+.stickyContainer .headerMenu {
+  margin: 0;
+}
+
+.hidden {
+  transform: translateY(-100%);
+}
+.visible {
+  transform: translateY(0);
+}
+
+@media (max-width: 1600px) {
+  .container {
+    font-size: 13px;
+  }
+
+  .containerP {
+    font-size: 13px;
+    letter-spacing: -0.35px;
+    z-index: 999;
+  }
+
+  .addressBar {
+    padding: 16px 20px;
+  }
+
+  .headerMenu {
+    margin-top: 31px;
+    padding: 0 20px;
+    font-size: 14px;
+    letter-spacing: -0px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .container {
+    font-size: 13px;
+  }
+
+  .containerP {
+    font-size: 13px;
+    letter-spacing: -0.35px;
+    z-index: 999;
+  }
+
+  .addressBar {
+    padding: 16px 20px;
+  }
+
+  .headerMenu {
+    margin-top: 31px;
+    padding: 0 20px;
+    font-size: 14px;
+    letter-spacing: -0px;
+  }
+
+  .headerMenu ul li {
+    margin-left: 10px;
+  }
+  .menuLinkButton {
+    padding: 13px 18px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .container {
+    font-size: 13px;
+  }
+
+  .containerP {
+    font-size: 13px;
+    letter-spacing: -0.35px;
+    z-index: 999;
+  }
+
+  .addressBar {
+    padding: 16px 20px;
+  }
+
+  .headerMenu {
+    margin-top: 31px;
+    padding: 0 20px;
+    font-size: 14px;
+    letter-spacing: -0px;
+  }
+  .headerMenu ul {
+    margin-right: 0;
+  }
+
+  .headerMenu ul li {
+    margin-left: 10px;
+    display: none;
+  }
+  .menuLinkButton {
+    padding: 13px 18px;
+  }
+
+  .menuLinkButton {
+    margin-right: 6px;
+  }
+
+  .menuButton {
+    margin-right: 6px;
+  }
+
+  .menuLinkButton {
+    padding: 13px 13px;
+  }
+
+  .menuLinkButton svg {
+    margin: 0;
+  }
+
+  .menuIconButton {
+    display: flex;
+    padding: 16px 16px;
+    border: 2px solid #b0b0b0;
+    border-radius: 50px;
+    margin-right: 10px;
+    cursor: pointer;
+    background: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .addressBar {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .addressBar {
+    display: none;
+  }
+}
+
+/* HamburgerMenu.module.css */
+.hamburger {
+  font-size: 24px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  position: fixed;
+  top: 20px;
+  left: 20px; /* موقعیت دکمه همبرگری در سمت چپ */
+  z-index: 10;
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: -100%; /* شروع منو از خارج از صفحه سمت چپ */
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 20, 29, 0.75);
+  color: #fff;
+  transition: left 0.25s ease; /* انیمیشن حرکت از چپ به راست */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999999;
+  backdrop-filter: blur(10px);
+}
+
+.menu.open {
+  left: 0; /* در حالت باز، منو به داخل صفحه وارد می‌شود */
+}
+
+.close {
+  font-size: 24px;
+  background: none;
+  border: 2px solid white;
+  color: #fff;
+  position: absolute;
+  top: 25px;
+  left: 25px; /* دکمه بستن در سمت چپ منو قرار می‌گیرد */
+  cursor: pointer;
+  width: 43px;
+  height: 43px;
+  border-radius: 100px;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.menu ul li {
+  margin: 15px 0;
+  text-align: center;
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 1;
+}
+
+.menu ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 18px;
+}

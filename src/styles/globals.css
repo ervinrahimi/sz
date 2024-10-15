@@ -1,6 +1,7 @@
 :root {
   --font-yekanBakh: var(--font-yekanBakh);
   --font-kahroba: var(--font-kahroba);
+  --font-cairo: var(--font-cairo);
 }
 
 html,
@@ -12,11 +13,25 @@ body {
 
 body {
   font-family: var(--font-yekanBakh), sans-serif;
-  font-variation-settings: 'wdth' 100, 'wght' 800, 'DOTS' 1, "CNTR" 40;
+  font-variation-settings: 'wdth' 100, 'wght' 800, 'DOTS' 1, 'CNTR' 40;
   color: black;
-  background: linear-gradient(104.99deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 32, 158, 0.2) 100%),
-    linear-gradient(104.58deg, #f0f0f0 0%, #e9f4ff 100%);
+  background: #f8f9fa;
 }
+
+/* 'wght' 400,   Weight: تنظیم وزن */
+/* 'wdth' 100,   Width: تنظیم عرض */
+/* 'ital' 0,     Italic: حالت ایتالیک */
+/* 'slnt' 0,     Slant: تنظیم شیب فونت */
+/* 'opsz' 16,    Optical Size: تنظیم اندازه اپتیکال */
+/* 'GRAD' 50,    Gradient: تنظیم گرادینت */
+/* 'XTRA' 500,   Width Axis: تنظیم عرض اضافی */
+/* 'XOPQ' 120,   Opacity Axis: تنظیم شفافیت */
+/* 'YOPQ' 80,    Y Opacity Axis: تنظیم شفافیت در محور Y */
+/* 'YTLC' 512,   Lowercase Top Axis: تنظیم حروف کوچک */
+/* 'YTUC' 540,   Uppercase Top Axis: تنظیم حروف بزرگ */
+/* 'YTAS' 750,   Ascender Axis: تنظیم ارتفاع صعودی */
+/* 'YTDE' -250,  Descender Axis: تنظیم ارتفاع نزولی */
+/* 'YTFI' 500;   Figure Axis: تنظیم ارقام */
 
 * {
   box-sizing: border-box;
@@ -25,4 +40,57 @@ body {
   -webkit-user-drag: none; /* برای مرورگرهای وب‌کیت */
   user-drag: none;
   user-select: none; /* غیرفعال کردن انتخاب متن */
+  transition: all 0.2s ease-out;
+  ::-webkit-scrollbar {
+    width: 8px; /* عرض اسکرول‌بار */
+    height: 8px; /* ارتفاع اسکرول‌بار برای حالت اسکرول افقی */
+  }
+
+  /* استایل‌دهی به پس‌زمینه اسکرول‌بار */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* رنگ پس‌زمینه */
+    border-radius: 0px; /* گرد کردن گوشه‌ها */
+  }
+
+  /* استایل‌دهی به خود دستگیره اسکرول‌بار */
+  ::-webkit-scrollbar-thumb {
+    background: #888; /* رنگ دستگیره */
+    border-radius: 0px; /* گرد کردن گوشه‌ها */
+  }
+
+  /* استایل‌دهی به دستگیره اسکرول‌بار هنگام هاور */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* تغییر رنگ دستگیره هنگام هاور */
+  }
+
+  /* استایل‌دهی به گوشه‌های اسکرول‌بار */
+  ::-webkit-scrollbar-corner {
+    background: #f1f1f1; /* رنگ گوشه‌های اسکرول‌بار */
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-kahroba);
+  font-variation-settings: 'wdth' 100, 'wght' 400, 'DOTS' 1;
+}
+
+.toaster {
+  border: none !important;
+  padding: 20px !important;
+  color: rgb(255, 255, 255) !important;
+  background: rgba(21, 22, 29, 0.6) !important;
+  font-variation-settings: 'wdth' 98, 'wght' 400, 'DOTS' 1;
+  backdrop-filter: blur(10px);
+  font-size: 14px;
+  border-radius: 10px !important;
 }

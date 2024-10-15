@@ -7,16 +7,49 @@ const yekanBakh = localFont({
   style: 'normal',
   variable: '--font-yekanBakh',
   display: 'swap', // این ویژگی برای بهبود لودینگ فونت است
+  // variable: '--plus-jakarta-sans',
 })
 
 const kahroba = localFont({
-  src: '../assets/fonts/Kahroba-VF[wght,wdth,CNTR].woff2',
+  src: '../assets/fonts/Kahroba-VF-FD[wght,wdth,CNTR].woff2',
   weight: '100 900', // محدوده وزن فونت
   style: 'normal',
   variable: '--font-kahroba',
   display: 'swap', // این ویژگی برای بهبود لودینگ فونت است
+  // variable: '--plus-jakarta-sans-italic',
 })
-export { yekanBakh, kahroba }
+
+const cairo = localFont({
+  src: '../assets/fonts/Cairo-VariableFont_slnt,wght.ttf',
+  weight: '100 900', // محدوده وزن فونت
+  style: 'normal',
+  variable: '--font-cairo',
+  display: 'swap', // این ویژگی برای بهبود لودینگ فونت است
+  // variable: '--plus-jakarta-sans-italic',
+})
+
+// const nuestadt = localFont({
+//   src: [
+//     {
+//       path: '../assets/fonts/Neustadt W00 Light.woff2',
+//       variable: '--nuestadt-Light',
+//       weight: '300',
+//     },
+//     {
+//       path: '../assets/fonts/Neustadt W00 Regular.woff2',
+//       variable: '--nuestadt-Regular',
+//       weight: '400',
+//     },
+//     {
+//       path: '../assets/fonts/Neustadt W00 SemiBold.woff2',
+//       variable: '--nuestadt-SemiBold',
+//       weight: '600',
+//     },
+//   ],
+// })
+
+// export { inter, lora, sourceCodePro400, sourceCodePro700, greatVibes }
+export { yekanBakh, kahroba, cairo }
 
 // bold
 // extrude
