@@ -4,7 +4,7 @@ import Sidebar from '@/components/dashboard/Sidebar/Sidebar'
 import { ROUTES } from '@/constants/routes'
 import { auth } from '@/security/auth'
 import { redirect } from 'next/navigation'
-import '@/styles/admin.css'
+import '@/styles/dashboard.css'
 
 export const metadata = {
   title: 'پنل کاربری',
@@ -21,7 +21,7 @@ export default async function AdminLayout({ children }) {
 
   return (
     <div className={'layout'}>
-      <Sidebar />
+      <Sidebar user={session.user}/>
       <div className={'content'}>{children}</div>
     </div>
   )

@@ -1,0 +1,60 @@
+/* src/components/dashboard/InstallmentManagement/InstallmentManagement.module.css */
+
+.installmentManagement {
+  width: 100%;
+}
+
+.title {
+  text-align: center;
+  color: #2a3138;
+  margin-bottom: 20px;
+}
+
+.installments {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.installment {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.detail {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #2a3138;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.fileInput {
+  padding: 5px;
+  font-size: 14px;
+}
+
+.fileInput:hover {
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .installment {
+    padding: 10px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .detail {
+    flex-direction: column;
+    gap: 5px;
+  }
+}

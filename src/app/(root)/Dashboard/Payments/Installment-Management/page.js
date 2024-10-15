@@ -1,21 +1,27 @@
 // src/app/(root)/dashboard/page.jsx
 import { auth } from '@/security/auth'
-import styles from './page.module.css'
+import styles from '../../page.module.css'
+import Link from 'next/link'
 import InstallmentManagement from '@/components/dashboard/InstallmentManagement/InstallmentManagement'
 
 export default async function Dashboard() {
   const session = await auth()
-  const user = session?.user
-
-  if (!user) {
-    // در صورت عدم ورود کاربر، می‌توانید به صفحه لاگین ریدایرکت کنید
-    return null
-  }
 
   return (
-    <div className={styles.dashboard}>
-      <h1>مدیریت اقساط</h1>
-      <InstallmentManagement />
+    <div className={styles.container}>
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>سوابق خرید و سفارشات</h1>
+          <div className={styles.buttons}>
+            <Link href={'/Dashboard/Payments/Orders'} className={styles.button}>
+              سوابق خرید و سفارشات
+            </Link>
+          </div>
+        </div>
+        <div className={styles.balanceBox}>
+          <InstallmentManagement />
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,65 +1,21 @@
-'use client'
+// src/app/(root)/dashboard/page.jsx
+import { auth } from '@/security/auth'
+import styles from '../page.module.css'
+import ChangePassword from '@/components/dashboard/ChangePassword/ChangePassword'
 
-import { useState } from 'react'
-import styles from './page.module.css'
-import { changePassword } from '@/actions/dashboard/changePassword'
-
-export default function ChangePassword() {
-  const [currentPassword, setCurrentPassword] = useState('')
-  const [newPassword, setNewPassword] = useState('')
-  const [confirmNewPassword, setConfirmNewPassword] = useState('')
-  const [message, setMessage] = useState('')
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (newPassword !== confirmNewPassword) {
-      setMessage('رمز عبور جدید و تکرار آن مطابقت ندارند.')
-      return
-    }
-
-    const res = await changePassword({
-      currentPassword,
-      newPassword,
-    })
-
-    if (res.success) {
-      setMessage('رمز عبور با موفقیت تغییر کرد.')
-    } else {
-      setMessage(res.message || 'خطا در تغییر رمز عبور.')
-    }
-  }
+export default async function Dashboard() {
+  const session = await auth()
 
   return (
-    <div className={styles.changePassword}>
-      <h2>تغییر رمز عبور</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          رمز عبور فعلی:
-          <input
-            type="password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-          />
-        </label>
-        <label>
-          رمز عبور جدید:
-          <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-        </label>
-        <label>
-          تکرار رمز عبور جدید:
-          <input
-            type="password"
-            value={confirmNewPassword}
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
-          />
-        </label>
-        <button type="submit">تغییر رمز عبور</button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className={styles.container}>
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>تغییر رمز عبور</h1>
+        </div>
+        <div className={styles.balanceBox}>
+          <ChangePassword />
+        </div>
+      </div>
     </div>
   )
 }

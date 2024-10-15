@@ -1,3 +1,4 @@
+// src/components/dashboard/Notifications/Notifications.jsx
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -19,19 +20,21 @@ export default function Notifications() {
 
   return (
     <div className={styles.notifications}>
-      <h2>پیام‌ها و اطلاعیه‌ها</h2>
+      <h2 className={styles.title}>پیام‌ها و اطلاعیه‌ها</h2>
       {notifications.length > 0 ? (
-        <ul>
+        <ul className={styles.notificationList}>
           {notifications.map((notif) => (
-            <li key={notif.id}>
-              <h3>{notif.title}</h3>
-              <p>{notif.message}</p>
-              <p>{new Date(notif.createdAt).toLocaleDateString()}</p>
+            <li key={notif.id} className={styles.notificationItem}>
+              <h3 className={styles.notificationTitle}>{notif.title}</h3>
+              <p className={styles.notificationMessage}>{notif.message}</p>
+              <p className={styles.notificationDate}>
+                {new Date(notif.createdAt).toLocaleDateString()}
+              </p>
             </li>
           ))}
         </ul>
       ) : (
-        <p>هیچ پیامی یافت نشد.</p>
+        <p className={styles.noNotifications}>هیچ پیامی یافت نشد.</p>
       )}
     </div>
   )
