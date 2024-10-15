@@ -1,0 +1,226 @@
+.page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background-image: url(../../../../../../public/slider/5.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  padding: 0px;
+}
+
+.page::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: ' ';
+  background: rgba(54, 61, 73, 0.8);
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  margin: auto;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  padding-top: 220px;
+  padding-bottom: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.textContainer {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: hsla(0, 0%, 98%, 0.8);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+  max-width: 600px;
+}
+
+.textContainer h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #333;
+margin-top: 5px;
+  font-family: var(--font-kahroba);
+  font-variation-settings: 'wdth' 100, 'wght' 750, 'CNTR' 40;
+}
+
+.textContainer p {
+  line-height: 1.8;
+  font-size: 15px;
+  color: #555;
+  font-variation-settings: 'wdth' 97, 'wght' 600, 'CNTR' 40;
+}
+
+.checkboxContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  border-top: 2px solid rgba(0, 0, 0, 0.2);
+  padding-top: 10px;
+  align-items: center;
+}
+
+.checkboxContainer label {
+  font-size: 16px;
+  color: #333;
+}
+
+.checkboxContainer input[type="checkbox"] {
+  position: relative;
+  margin-left: 10px;
+  transform: scale(1.2);
+  top: 1.7px;
+}
+
+
+
+.link {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  direction: rtl;
+  color: white;
+  text-align: right;
+  align-items: start;
+  border-top: 2px solid white;
+  display: block;
+  padding: 15px 0;
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'CNTR' 40;
+}
+
+/* styles/UploadForm.module.css */
+.formContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: max-content;
+  margin-bottom: 30px;
+}
+
+.uploadForm {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.label {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.inputFile {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+
+
+.submitButton {
+  font-family: var(--font-kahroba);
+  font-variation-settings: 'wdth' 100, 'wght' 750, 'CNTR' 40;
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  font-size: 15px;
+
+}
+
+.submitButton:hover {
+  background-color: #005bb5;
+}
+
+.title {
+  font-family: var(--font-kahroba);
+  font-variation-settings: 'wdth' 100, 'wght' 750, 'CNTR' 40;
+  margin: 20px 0;
+  margin-top: 40px;
+  text-align: center;
+  color: white;
+  margin-bottom: 30px;
+}
+
+.alert {
+  max-width: 600px;
+  background: #686868;
+  color: white;
+  font-size: 14px;
+  padding: 20px 10px;
+  border-radius: 10px;
+  margin: 0 auto;
+  margin-bottom: 30px;
+  font-variation-settings: 'wdth' 100, 'wght' 400, 'DOTS' 0;
+}
+
+/* Media Queries برای ریسپانسیو کردن */
+@media (max-width: 768px) {
+  .uploadForm {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .uploadForm {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .label {
+    font-size: 1rem;
+  }
+
+  .submitButton {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .form {
+    padding: 0 20px;
+  }
+}
+
+/* ریسپانسیو برای نمایش در گوشی موبایل */
+@media (max-width: 600px) {
+  .textContainer {
+    padding: 10px;
+  }
+
+  .textContainer h2 {
+    font-size: 20px;
+  }
+
+  .textContainer p {
+    font-size: 14px;
+  }
+
+  /* label {
+    font-size: 14px;
+  } */
+}

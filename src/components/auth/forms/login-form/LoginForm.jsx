@@ -8,7 +8,7 @@ import { login } from '@/actions/auth/login'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 
-export default function LoginForm() {
+export default function LoginForm({className}) {
   const {
     register,
     handleSubmit,
@@ -48,25 +48,25 @@ export default function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form className={className} onSubmit={handleSubmit(onSubmit)}>
     {showTwoFactor && (
       <>
-        <input disabled={isSubmitting} type="text" placeholder="Two Factor Code" {...register('code')} />
+        <input disabled={isSubmitting} type="text" placeholder="کد 2 مرحله‌ای" {...register('code')} />
         {errors.code && <p>{errors.code.message}</p>}
       </>
     )}
     {!showTwoFactor && (
       <>
-        <input disabled={isSubmitting} type="email" placeholder="Email" {...register('email')} />
+        <input disabled={isSubmitting} type="email" placeholder="ایمیل خود را بنویسید" {...register('email')} />
         {errors.email && <p>{errors.email.message}</p>}
-        <input disabled={isSubmitting} type="password" placeholder="Password" {...register('password')} />
+        <input disabled={isSubmitting} type="password" placeholder="پسورد خود را وارد کنید" {...register('password')} />
         {errors.password && <p>{errors.password.message}</p>}
       </>
     )}
     <FormError message={error || urlError} />
     <FormSuccess message={success} />
     <button type="submit" disabled={isSubmitting}>
-      {showTwoFactor ? 'Confirm' : 'Login'}
+      {showTwoFactor ? 'Confirm' : 'ورود'}
     </button>
   </form>
   )

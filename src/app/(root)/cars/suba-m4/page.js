@@ -7,10 +7,18 @@ import { MainSlider } from '@/components/ui/Slider/Slider'
 import ProductsBox from '@/components/ui/Products/ProductsBox'
 import { TypeAnimation } from 'react-type-animation'
 import toast from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
 
 export default function ProductPage() {
+  const router = useRouter()
   const handleToast = () => {
     toast('در حال حاضر نمیتوانید این عملیات را انجام دهید')
+  }
+  const handleShopping = (carName) => {
+    router.push(
+      `/cart/shopping?carName=${carName}`, // استفاده از فرمت صحیح برای query string
+      { scroll: true }
+    )
   }
   return (
     <div className={styles.page}>
@@ -47,9 +55,7 @@ export default function ProductPage() {
               <li className={styles.subMargin}>
                 <span>
                   حجم موتور (cc)
-                  <div className={styles.subText}>
-                    موتور تحت لیسانس میتسوبیشی
-                  </div>
+                  <div className={styles.subText}>موتور تحت لیسانس میتسوبیشی</div>
                 </span>
                 <Image src={'/dots.png'} width={700} height={700} alt="dots" />
                 <span>1481</span>
@@ -178,7 +184,7 @@ export default function ProductPage() {
               </li>
             </div>
             <div className={styles.actionButton}>
-              <button onClick={handleToast}>ثــبـت سفارش</button>
+              <button onClick={() => handleShopping('suba-m4')}>ثــبـت سفارش</button>
               <button onClick={handleToast}>درخواستـ مشاوره</button>
             </div>
           </div>
@@ -233,7 +239,7 @@ export default function ProductPage() {
               </li>
             </div>
             <div className={styles.actionButton}>
-              <button onClick={handleToast}>ثــبـت سفارش</button>
+              <button onClick={() => handleShopping('suba-m4')}>ثــبـت سفارش</button>
               <button onClick={handleToast}>درخواستـ مشاوره</button>
             </div>
           </div>

@@ -7,10 +7,17 @@ import { MainSlider } from '@/components/ui/Slider/Slider'
 import ProductsBox from '@/components/ui/Products/ProductsBox'
 import { TypeAnimation } from 'react-type-animation'
 import toast from 'react-hot-toast'
-
+import { useRouter } from 'next/navigation'
 export default function ProductPage() {
+  const router = useRouter()
   const handleToast = () => {
     toast('در حال حاضر نمیتوانید این عملیات را انجام دهید')
+  }
+  const handleShopping = (carName) => {
+    router.push(
+      `/cart/shopping?carName=${carName}`, // استفاده از فرمت صحیح برای query string
+      { scroll: true }
+    )
   }
   return (
     <div className={styles.page}>
@@ -47,9 +54,7 @@ export default function ProductPage() {
               <li className={styles.subMargin}>
                 <span>
                   حجم موتور (CC)
-                  <div className={styles.subText}>
-                    موتور تحت لیسانس میتسوبیشی
-                  </div>
+                  <div className={styles.subText}>موتور تحت لیسانس میتسوبیشی</div>
                 </span>
                 <Image src={'/dots.png'} width={700} height={700} alt="dots" />
                 <span>1481</span>
@@ -175,77 +180,77 @@ export default function ProductPage() {
               </li>
             </div>
             <div className={styles.actionButton}>
-                <button onClick={handleToast}>ثــبـت سفارش</button>
-                <button onClick={handleToast}>درخواستـ مشاوره</button>
-              </div>
+              <button onClick={() => handleShopping('t5')}>ثــبـت سفارش</button>
+              <button onClick={handleToast}>درخواستـ مشاوره</button>
             </div>
-
-            <div className={styles.line} />
-            <div className={styles.salesBox}>
-              <h5>شرایط فروش T5</h5>
-              <h5>عمومی</h5>
-            </div>
-            {/* 1 */}
-            <div className={styles.information}>
-              <div className={styles.informationGrid}>
-                <li>
-                  <span>قیمت</span>
-                  <Image src={'/dots.png'} width={700} height={700} alt="dots" />
-                  <span>1,395,000,000</span>
-                </li>
-                <li>
-                  <span>زمان ثبت نام</span>
-                  <Image src={'/dots.png'} width={700} height={700} alt="dots" />
-                  <span>558,000,000</span>
-                </li>
-                <li>
-                  <span>پرداخت یکماهه</span>
-                  <Image src={'/dots.png'} width={700} height={700} alt="dots" />
-                  <span>139,500,000</span>
-                </li>
-                <li>
-                  <span>مبلغ اقساط ماهیانه (12 ماه)</span>
-                  <Image src={'/dots.png'} width={700} height={700} alt="dots" />
-                  <span>55,400,000</span>
-                </li>
-                <li>
-                  <span>مانده زمان تحویل</span>
-                  <Image src={'/dots.png'} width={700} height={700} alt="dots" />
-                  <span>137,100,000</span>
-                </li>
-                <li>
-                  <span>قیمت نهایی</span>
-                  <Image src={'/dots.png'} width={700} height={700} alt="dots" />
-                  <span>1,499,700,000</span>
-                </li>
-                <li>
-                  <span>موعد تحویل</span>
-                  <Image src={'/dots.png'} width={700} height={700} alt="dots" />
-                  <span>120 روز کاری</span>
-                </li>
-                <li>
-                  <span>سود مشارکت</span>
-                  <Image src={'/dots.png'} width={700} height={700} alt="dots" />
-                  <span>18%</span>
-                </li>
-              </div>
-              <div className={styles.actionButton}>
-                <button onClick={handleToast}>ثــبـت سفارش</button>
-                <button onClick={handleToast}>درخواستـ مشاوره</button>
-              </div>
-            </div>
-            <div className={`${styles.line} ${styles.line2}`} />
           </div>
 
-          <ProductsBox title={'محصولات محبوب'} subTitle={'آخرین محصولات فروشگاه'} />
+          <div className={styles.line} />
+          <div className={styles.salesBox}>
+            <h5>شرایط فروش T5</h5>
+            <h5>عمومی</h5>
+          </div>
+          {/* 1 */}
+          <div className={styles.information}>
+            <div className={styles.informationGrid}>
+              <li>
+                <span>قیمت</span>
+                <Image src={'/dots.png'} width={700} height={700} alt="dots" />
+                <span>1,395,000,000</span>
+              </li>
+              <li>
+                <span>زمان ثبت نام</span>
+                <Image src={'/dots.png'} width={700} height={700} alt="dots" />
+                <span>558,000,000</span>
+              </li>
+              <li>
+                <span>پرداخت یکماهه</span>
+                <Image src={'/dots.png'} width={700} height={700} alt="dots" />
+                <span>139,500,000</span>
+              </li>
+              <li>
+                <span>مبلغ اقساط ماهیانه (12 ماه)</span>
+                <Image src={'/dots.png'} width={700} height={700} alt="dots" />
+                <span>55,400,000</span>
+              </li>
+              <li>
+                <span>مانده زمان تحویل</span>
+                <Image src={'/dots.png'} width={700} height={700} alt="dots" />
+                <span>137,100,000</span>
+              </li>
+              <li>
+                <span>قیمت نهایی</span>
+                <Image src={'/dots.png'} width={700} height={700} alt="dots" />
+                <span>1,499,700,000</span>
+              </li>
+              <li>
+                <span>موعد تحویل</span>
+                <Image src={'/dots.png'} width={700} height={700} alt="dots" />
+                <span>120 روز کاری</span>
+              </li>
+              <li>
+                <span>سود مشارکت</span>
+                <Image src={'/dots.png'} width={700} height={700} alt="dots" />
+                <span>18%</span>
+              </li>
+            </div>
+            <div className={styles.actionButton}>
+              <button onClick={() => handleShopping('t5')}>ثــبـت سفارش</button>
+              <button onClick={handleToast}>درخواستـ مشاوره</button>
+            </div>
+          </div>
+          <div className={`${styles.line} ${styles.line2}`} />
         </div>
-        {/* <Image
+
+        <ProductsBox title={'محصولات محبوب'} subTitle={'آخرین محصولات فروشگاه'} />
+      </div>
+      {/* <Image
         className={styles.background}
         width={4000}
         height={4000}
         src={'/figma/2.jpg'}
         alt={'figma'}
       /> */}
-      </div>
+    </div>
   )
 }

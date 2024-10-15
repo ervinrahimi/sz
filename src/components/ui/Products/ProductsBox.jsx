@@ -76,7 +76,7 @@ export default function ProductsBox({ title, subTitle }) {
           </div>
           <Image
             className={styles.image}
-            src={'/suba.jpg'}
+            src={'/suba-m4.jpg'}
             width={1000}
             height={1000}
             alt={'car-image'}
