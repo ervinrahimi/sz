@@ -5,6 +5,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import styles from './Sidebar.module.css'
+import { signOut } from 'next-auth/react'
 
 export default function Sidebar({ admin }) {
   const pathname = usePathname()
@@ -42,6 +43,9 @@ export default function Sidebar({ admin }) {
         </li>
         <li>
           <Link href="/admin/notifications" className={`${styles.menuItem} ${pathname === '/admin/notifications' ? styles.active : ''}`}>مدیریت نوتیفیکیشن‌ها و پیام‌ها</Link>
+        </li>
+        <li>
+          <span className={`${styles.menuItem}`} onClick={signOut}>خروج از حساب</span>
         </li>
       </ul>
     </nav>

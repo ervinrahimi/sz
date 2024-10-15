@@ -43,6 +43,7 @@
 }
 
 .menuItem {
+  cursor: pointer;
   margin-bottom: 10px;
   display: block;
   padding: 10px;

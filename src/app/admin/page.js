@@ -12,7 +12,7 @@ export default function AdminDashboard() {
           </div> */}
         </div>
         <div className={styles.balanceBox}>
-          <h2>محتوای داشبورد </h2>
+          <h2>محتوای داشبورد</h2>
         </div>
       </div>
     </div>
