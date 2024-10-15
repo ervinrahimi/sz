@@ -5,13 +5,19 @@
   background-color: #f7f8fa;
   padding: 20px;
   height: 100vh;
-  position: fixed;
+  position: relative;
 }
 
 .profile {
   display: flex;
   align-items: center;
   margin-bottom: 30px;
+}
+
+.profileImage {
+  border-radius: 100%;
+  width: 50px;
+  height: 50px;
 }
 
 .profileImage {
@@ -61,4 +67,31 @@
 .active {
   background-color: #2a3138; /* رنگ زمینه برای لینک فعال */
   color: #fff; /* رنگ متن برای لینک فعال */
+}
+
+@media (max-width: 600px) {
+  .sidebar {
+    width: 100px;
+    background-color: #f7f8fa;
+    padding: 2px;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+  /* .sidebar { */
+    /* background: red; */
+  /* } */
+
+  .profileDetails {display: block;}
+
+  .profile {
+    display: block;
+    margin-bottom: 30px;
+  }
+
+  .profileDetails {
+    border-right: unset;
+    margin-right: 0px;
+    padding-right: 5px;
+  }
 }
