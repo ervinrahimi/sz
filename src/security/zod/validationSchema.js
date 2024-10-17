@@ -1,4 +1,6 @@
 import { z } from 'zod'
+
+
 // For Personal Information Form
 export const personalInfoSchema = z.object({
   name: z.string().min(1, 'نام الزامی است.'),
@@ -6,6 +8,7 @@ export const personalInfoSchema = z.object({
   email: z.string().email('ایمیل معتبر نیست.'),
   phone: z.string().regex(/^(\+98|0)?9\d{9}$/, 'شماره تلفن معتبر نیست.'),
 })
+
 // For Change Password Form
 export const changePasswordSchema = z
   .object({
@@ -17,12 +20,14 @@ export const changePasswordSchema = z
     path: ['confirmNewPassword'],
     message: 'رمز عبور جدید و تکرار آن مطابقت ندارند.',
   })
+
 // For Send Notifications Form
 export const sendNotificationSchema = z.object({
   userId: z.string().min(1, 'لطفاً یک کاربر را انتخاب کنید.'),
   title: z.string().min(1, 'عنوان پیام الزامی است.'),
   message: z.string().min(1, 'متن پیام الزامی است.'),
 })
+
 // For New Sales Conditions Form
 export const newSalesConditionSchema = z.object({
   carId: z.string().min(1, 'انتخاب خودرو الزامی است.'),
@@ -41,6 +46,7 @@ export const newSalesConditionSchema = z.object({
   participationProfit: z.string().optional(),
   isLocked: z.boolean(),
 })
+
 // For Sales Conditions Form
 export const salesConditionSchema = z.object({
   name: z.string().min(1, 'نام شرایط الزامی است.'),
@@ -57,12 +63,13 @@ export const salesConditionSchema = z.object({
   deliveryDate: z.string().optional(),
   participationProfit: z.string().optional(),
 })
+
 // For Create User Form
 export const userCreateSchema = z.object({
   name: z.string().min(1, 'نام الزامی است.'),
   family: z.string().min(1, 'نام خانوادگی الزامی است.'),
   nationalCode: z
-    .string()
+    .number()
     .min(10, 'کد ملی باید حداقل ۱۰ رقم باشد.')
     .max(10, 'کد ملی نباید بیشتر از ۱۰ رقم باشد.'),
   email: z.string().email('ایمیل معتبر نیست.'),
@@ -73,6 +80,7 @@ export const userCreateSchema = z.object({
   password: z.string().min(8, 'رمز عبور باید حداقل ۸ کاراکتر باشد.'),
   role: z.enum(['0', '1'], 'نقش معتبر نیست.'),
 })
+
 // For Update User Form
 export const userSchema = z.object({
   id: z.string(), // فرض بر این است که شناسه کاربر الزامی و string است
@@ -82,6 +90,7 @@ export const userSchema = z.object({
   phone: z.string().regex(/^(\+98|0)?9\d{9}$/, 'شماره تلفن معتبر نیست.'),
   role: z.number().int().min(0, 'نقش معتبر نیست.').max(1, 'نقش معتبر نیست.'),
 })
+
 // For Create Vehicle And Update Vehicle Form
 export const vehicleSchema = z.object({
   model: z.string().min(1, 'مدل الزامی است.'),

@@ -170,6 +170,7 @@ export default function NewSalesConditionForm({ cars }) {
             <input
               type="text"
               value={newUser.nationalCode}
+              className={styles.formInput}
               onChange={(e) => setNewUser({ ...newUser, nationalCode: e.target.value })}
             />
 
@@ -177,6 +178,7 @@ export default function NewSalesConditionForm({ cars }) {
             <input
               type="text"
               value={newUser.name}
+              className={styles.formInput}
               onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
             />
 
@@ -184,10 +186,11 @@ export default function NewSalesConditionForm({ cars }) {
             <input
               type="text"
               value={newUser.family}
+              className={styles.formInput}
               onChange={(e) => setNewUser({ ...newUser, family: e.target.value })}
             />
 
-            <button type="button" onClick={handleAddUser}>
+            <button type="button" onClick={handleAddUser} className={styles.formButton}>
               افزودن کاربر
             </button>
           </div>
@@ -198,7 +201,7 @@ export default function NewSalesConditionForm({ cars }) {
             {users.map((user, index) => (
               <li key={index}>
                 {user.name} {user.family} - {user.nationalCode}
-                <button type="button" onClick={() => handleRemoveUser(index)}>
+                <button type="button" onClick={() => handleRemoveUser(index)}  className={styles.formButton}>
                   حذف
                 </button>
               </li>

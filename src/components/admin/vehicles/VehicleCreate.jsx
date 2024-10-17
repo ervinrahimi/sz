@@ -155,6 +155,11 @@ export default function VehicleCreate() {
                 {...register(`technicalSpecifications.${index}.value`)}
                 className={styles.formInput}
               />
+              {errors.technicalSpecifications?.[index]?.value && (
+                <p className={styles.formError}>
+                  {errors.technicalSpecifications[index].value.message}
+                </p>
+              )}
             </label>
             <label className={styles.formLabel}>
               یادداشت:
