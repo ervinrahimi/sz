@@ -1,29 +1,33 @@
 // src/components/dashboard/ChangePassword/ChangePassword.jsx
 'use client'
 
-import { useState } from 'react'
-import styles from './ChangePassword.module.css'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { changePasswordSchema } from '@/security/zod/validationSchema'
+import styles from '@/styles/form.module.css'
 import { changePassword } from '@/actions/dashboard/changePassword'
+import { useState } from 'react'
 
 export default function ChangePassword() {
-  const [currentPassword, setCurrentPassword] = useState('')
-  const [newPassword, setNewPassword] = useState('')
-  const [confirmNewPassword, setConfirmNewPassword] = useState('')
   const [message, setMessage] = useState('')
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (newPassword !== confirmNewPassword) {
-      setMessage('رمز عبور جدید و تکرار آن مطابقت ندارند.')
-      return
-    }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm({
+    resolver: zodResolver(changePasswordSchema),
+  })
 
+  const onSubmit = async (data) => {
     const res = await changePassword({
-      currentPassword,
-      newPassword,
+      currentPassword: data.currentPassword,
+      newPassword: data.newPassword,
     })
 
     if (res.success) {
+      reset()
       setMessage('رمز عبور با موفقیت تغییر کرد.')
     } else {
       setMessage(res.message || 'خطا در تغییر رمز عبور.')
@@ -31,39 +35,39 @@ export default function ChangePassword() {
   }
 
   return (
-    <div className={styles.changePassword}>
+    <div className={styles.formWrapper}>
       <h2 className={styles.title}>تغییر رمز عبور</h2>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <label className={styles.label}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+        <label className={styles.formLabel}>
           رمز عبور فعلی:
           <input
             type="password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            className={styles.input}
+            {...register('currentPassword')}
+            className={styles.formInput}
           />
+          {errors.currentPassword && <p className={styles.formError}>{errors.currentPassword.message}</p>}
         </label>
-        <label className={styles.label}>
+        <label className={styles.formLabel}>
           رمز عبور جدید:
           <input
             type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            className={styles.input}
+            {...register('newPassword')}
+            className={styles.formInput}
           />
+          {errors.newPassword && <p className={styles.formError}>{errors.newPassword.message}</p>}
         </label>
-        <label className={styles.label}>
+        <label className={styles.formLabel}>
           تکرار رمز عبور جدید:
           <input
             type="password"
-            value={confirmNewPassword}
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
-            className={styles.input}
+            {...register('confirmNewPassword')}
+            className={styles.formInput}
           />
+          {errors.confirmNewPassword && <p className={styles.formError}>{errors.confirmNewPassword.message}</p>}
         </label>
-        <button type="submit" className={styles.button}>تغییر رمز عبور</button>
+        <button type="submit" className={styles.formButton}>تغییر رمز عبور</button>
       </form>
-      {message && <p className={styles.message}>{message}</p>}
+      {message && <p className={styles.formMessage}>{message}</p>}
     </div>
   )
 }

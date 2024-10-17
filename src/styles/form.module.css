@@ -1,0 +1,137 @@
+.formWrapper {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+}
+
+.formContainer {
+  width: 100%;
+  padding: 24px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formInput {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.formInput:focus {
+  border-color: #007bff;
+}
+
+.formSelect {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.formError {
+  font-size: 12px;
+  color: #e74c3c;
+  margin-top: 4px;
+}
+
+.serverError {
+  font-size: 14px;
+  color: #fff;
+  background-color: #e74c3c;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.formFile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.formFile input[type="file"] {
+  display: none;
+}
+
+.formFile label {
+  background-color: #007bff;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.formFile label:hover {
+  background-color: #0056b3;
+}
+
+.formPasswordHint {
+  font-size: 12px;
+  color: #e74c3c;
+  margin-top: 4px;
+}
+
+.phoneInput {
+  display: flex;
+  gap: 8px;
+}
+
+.phoneSelect {
+  width: 80px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.phoneNumber {
+  flex-grow: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.formButton {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.formButton:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .formContainer {
+    padding: 16px;
+  }
+
+  .formInput,
+  .formSelect {
+    font-size: 14px;
+  }
+
+  .formButton {
+    font-size: 14px;
+  }
+}

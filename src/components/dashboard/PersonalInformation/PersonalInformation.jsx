@@ -1,26 +1,29 @@
 // src/components/dashboard/PersonalInformation/PersonalInformation.jsx
 'use client'
 
-import { useState } from 'react'
-import styles from './PersonalInformation.module.css'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { personalInfoSchema } from '@/security/zod/validationSchema'
+import styles from '@/styles/form.module.css'
 import { updatePersonalInfo } from '@/actions/dashboard/updatePersonalInfo'
+import { useState } from 'react'
 
 export default function PersonalInformation({ user }) {
-  const [name, setName] = useState(user.name || '')
-  const [family, setFamily] = useState(user.family || '')
-  const [email, setEmail] = useState(user.email || '')
-  const [phone, setPhone] = useState(user.phone || '')
   const [message, setMessage] = useState('')
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const res = await updatePersonalInfo({
-      name,
-      family,
-      email,
-      phone,
-    })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm({
+    resolver: zodResolver(personalInfoSchema),
+  })
+
+  const onSubmit = async (data) => {
+    const res = await updatePersonalInfo(data)
     if (res.success) {
+      reset(data) // ریست کردن فرم با داده‌های جدید
       setMessage('اطلاعات با موفقیت به‌روزرسانی شد.')
     } else {
       setMessage(res.message || 'خطا در به‌روزرسانی اطلاعات.')
@@ -28,48 +31,48 @@ export default function PersonalInformation({ user }) {
   }
 
   return (
-    <div className={styles.personalInformation}>
+    <div className={styles.formWrapper}>
       <h2 className={styles.title}>اطلاعات شخصی</h2>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <label className={styles.label}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+        <label className={styles.formLabel}>
           نام:
           <input
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className={styles.input}
+            {...register('name')}
+            className={styles.formInput}
           />
+          {errors.name && <p className={styles.formError}>{errors.name.message}</p>}
         </label>
-        <label className={styles.label}>
+        <label className={styles.formLabel}>
           نام خانوادگی:
           <input
             type="text"
-            value={family}
-            onChange={(e) => setFamily(e.target.value)}
-            className={styles.input}
+            {...register('family')}
+            className={styles.formInput}
           />
+          {errors.family && <p className={styles.formError}>{errors.family.message}</p>}
         </label>
-        <label className={styles.label}>
+        <label className={styles.formLabel}>
           ایمیل:
           <input
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className={styles.input}
+            {...register('email')}
+            className={styles.formInput}
           />
+          {errors.email && <p className={styles.formError}>{errors.email.message}</p>}
         </label>
-        <label className={styles.label}>
+        <label className={styles.formLabel}>
           شماره تلفن:
           <input
             type="text"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className={styles.input}
+            {...register('phone')}
+            className={styles.formInput}
           />
+          {errors.phone && <p className={styles.formError}>{errors.phone.message}</p>}
         </label>
-        <button type="submit" className={styles.button}>ذخیره تغییرات</button>
+        <button type="submit" className={styles.formButton}>ذخیره تغییرات</button>
       </form>
-      {message && <p className={styles.message}>{message}</p>}
+      {message && <p className={styles.formMessage}>{message}</p>}
     </div>
   )
 }

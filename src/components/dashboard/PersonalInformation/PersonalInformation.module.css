@@ -38,6 +38,7 @@
 }
 
 .button {
+  width: 100%;
   background-color: #007bff;
   color: white;
   border: none;
