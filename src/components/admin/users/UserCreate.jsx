@@ -2,108 +2,89 @@
 
 'use client'
 
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import { createUser } from '@/actions/admin/user'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation' // برای ریدایرکت
-import styles from './UserCreate.module.css'
+import { userCreateSchema } from '@/security/zod/validationSchema'
 import toast from 'react-hot-toast'
+import styles from '@/styles/form.module.css'
 
 export default function UserCreate() {
-  const [formData, setFormData] = useState({
-    name: '',
-    family: '',
-    email: '',
-    phone: '',
-    password: '',
-    nationalCode: '',
-    role: '0', // نقش پیش‌فرض: کاربر عادی
-  })
-  const [message, setMessage] = useState('')
-  const router = useRouter() // برای استفاده از ریدایرکت
+  const router = useRouter()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: zodResolver(userCreateSchema),
+  })
+
+  const onSubmit = async (data) => {
     try {
-      await createUser(formData)
+      await createUser(data)
       toast.success('کاربر با موفقیت ایجاد شد.')
-      // پس از ایجاد موفقیت‌آمیز، ریدایرکت به صفحه لیست کاربران
-      router.push('/admin/users')
+      reset() // ریست کردن فرم بعد از موفقیت
+      router.push('/admin/users') // ریدایرکت به صفحه کاربران
     } catch (error) {
       toast.error(error.message || 'خطایی رخ داده است!')
     }
   }
 
   return (
-    <div className={styles.createUserPage}>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <label>
+    <div className={styles.formWrapper}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+        <label className={styles.formLabel}>
           نام:
-          <input
-            type="text"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            required
-          />
+          <input type="text" {...register('name')} className={styles.formInput} />
+          {errors.name && <p className={styles.formError}>{errors.name.message}</p>}
         </label>
-        <label>
+
+        <label className={styles.formLabel}>
           نام خانوادگی:
-          <input
-            type="text"
-            value={formData.family}
-            onChange={(e) => setFormData({ ...formData, family: e.target.value })}
-            required
-          />
+          <input type="text" {...register('family')} className={styles.formInput} />
+          {errors.family && <p className={styles.formError}>{errors.family.message}</p>}
         </label>
-        <label>
+
+        <label className={styles.formLabel}>
           کد ملی:
-          <input
-            type="number"
-            value={formData.nationalCode}
-            onChange={(e) => setFormData({ ...formData, nationalCode: e.target.value })}
-            required
-          />
+          <input type="number" {...register('nationalCode')} className={styles.formInput} />
+          {errors.nationalCode && <p className={styles.formError}>{errors.nationalCode.message}</p>}
         </label>
-        <label>
+
+        <label className={styles.formLabel}>
           ایمیل:
-          <input
-            type="email"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            required
-          />
+          <input type="email" {...register('email')} className={styles.formInput} />
+          {errors.email && <p className={styles.formError}>{errors.email.message}</p>}
         </label>
-        <label>
+
+        <label className={styles.formLabel}>
           شماره تماس:
-          <input
-            type="tel"
-            value={formData.phone}
-            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-          />
+          <input type="tel" {...register('phone')} className={styles.formInput} />
+          {errors.phone && <p className={styles.formError}>{errors.phone.message}</p>}
         </label>
-        <label>
+
+        <label className={styles.formLabel}>
           رمز عبور:
-          <input
-            type="password"
-            value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            required
-          />
+          <input type="password" {...register('password')} className={styles.formInput} />
+          {errors.password && <p className={styles.formError}>{errors.password.message}</p>}
         </label>
-        <label>
+
+        <label className={styles.formLabel}>
           نقش:
-          <select
-            value={formData.role}
-            onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-          >
+          <select {...register('role')} className={styles.formSelect}>
             <option value="0">کاربر عادی</option>
             <option value="1">ادمین</option>
           </select>
+          {errors.role && <p className={styles.formError}>{errors.role.message}</p>}
         </label>
-        <button className={styles.button} type="submit">
+
+        <button className={styles.formButton} type="submit">
           ایجاد کاربر
         </button>
       </form>
-      {message && <p className={styles.message}>{message}</p>}
     </div>
   )
 }

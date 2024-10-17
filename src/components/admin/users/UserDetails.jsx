@@ -1,28 +1,39 @@
 // src/components/admin/users/UserDetails.jsx
-
 'use client'
 
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { userSchema } from '@/security/zod/validationSchema'
 import { updateUser } from '@/actions/admin/user'
-import styles from './UserDetails.module.css'
+import styles from '@/styles/form.module.css'
 
 export default function UserDetails({ user }) {
   const [editing, setEditing] = useState(false)
-  const [formData, setFormData] = useState({
-    id: user.id,
-    name: user.name || '',
-    family: user.family || '',
-    email: user.email || '',
-    phone: user.phone || '',
-    role: user.role || 0,
-  })
   const [message, setMessage] = useState('')
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: zodResolver(userSchema),
+    defaultValues: {
+      id: user.id,
+      name: user.name || '',
+      family: user.family || '',
+      email: user.email || '',
+      phone: user.phone || '',
+      role: user.role || 0,
+    },
+  })
+
+  const onSubmit = async (formData) => {
     try {
       await updateUser(formData)
       setMessage('اطلاعات کاربر با موفقیت به‌روزرسانی شد.')
+      reset(formData)
       setEditing(false)
     } catch (error) {
       setMessage('خطایی رخ داده است.')
@@ -30,65 +41,45 @@ export default function UserDetails({ user }) {
   }
 
   return (
-    <div className={styles.userDetails}>
+    <div className={styles.formWrapper}>
       {editing ? (
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <label>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+          <label className={styles.formLabel}>
             نام:
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-            />
+            <input type="text" {...register('name')} className={styles.formInput} />
+            {errors.name && <p className={styles.formError}>{errors.name.message}</p>}
           </label>
-          <label>
+          <label className={styles.formLabel}>
             نام خانوادگی:
-            <input
-              type="text"
-              value={formData.family}
-              onChange={(e) =>
-                setFormData({ ...formData, family: e.target.value })
-              }
-            />
+            <input type="text" {...register('family')} className={styles.formInput} />
+            {errors.family && <p className={styles.formError}>{errors.family.message}</p>}
           </label>
-          <label>
+          <label className={styles.formLabel}>
             ایمیل:
-            <input
-              type="email"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-            />
+            <input type="email" {...register('email')} className={styles.formInput} />
+            {errors.email && <p className={styles.formError}>{errors.email.message}</p>}
           </label>
-          <label>
+          <label className={styles.formLabel}>
             شماره تماس:
-            <input
-              type="tel"
-              value={formData.phone}
-              onChange={(e) =>
-                setFormData({ ...formData, phone: e.target.value })
-              }
-            />
+            <input type="tel" {...register('phone')} className={styles.formInput} />
+            {errors.phone && <p className={styles.formError}>{errors.phone.message}</p>}
           </label>
-          <label>
+          <label className={styles.formLabel}>
             نقش:
-            <select
-              value={formData.role}
-              onChange={(e) =>
-                setFormData({ ...formData, role: parseInt(e.target.value) })
-              }
-            >
+            <select {...register('role', { valueAsNumber: true })} className={styles.formSelect}>
               <option value={0}>کاربر عادی</option>
               <option value={1}>ادمین</option>
             </select>
+            {errors.role && <p className={styles.formError}>{errors.role.message}</p>}
           </label>
-          <button className={styles.button} type="submit">ذخیره</button>
-          <button className={styles.button} type="button" onClick={() => setEditing(false)}>
-            لغو
-          </button>
+          <div className={styles.buttonGroup}>
+            <button className={styles.formButton} type="submit">
+              ذخیره
+            </button>
+            <button className={styles.formButton} type="button" onClick={() => setEditing(false)}>
+              لغو
+            </button>
+          </div>
         </form>
       ) : (
         <div className={styles.details}>
@@ -97,12 +88,12 @@ export default function UserDetails({ user }) {
           <p>ایمیل: {user.email}</p>
           <p>شماره تماس: {user.phone}</p>
           <p>نقش: {user.role === 1 ? 'ادمین' : 'کاربر'}</p>
-          <button onClick={() => setEditing(true)} className={styles.editButton}>
+          <button onClick={() => setEditing(true)} className={styles.formButton}>
             ویرایش اطلاعات
           </button>
         </div>
       )}
-      {message && <p className={styles.message}>{message}</p>}
+      {message && <p className={styles.formMessage}>{message}</p>}
     </div>
   )
 }

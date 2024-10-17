@@ -1,35 +1,51 @@
 'use client'
 
-import { useState, useTransition } from 'react'
-import { createSalesCondition, addAuthorizedUser } from '@/actions/admin/sales-conditions'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useTransition, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import styles from './NewSalesConditionForm.module.css'
+import { createSalesCondition, addAuthorizedUser } from '@/actions/admin/sales-conditions'
+import { newSalesConditionSchema } from '@/security/zod/validationSchema'
+import styles from '@/styles/form.module.css'
 
 export default function NewSalesConditionForm({ cars }) {
-  const [formData, setFormData] = useState({
-    carId: cars[0]?.id || '',
-    name: '',
-    conditionType: 'GENERAL',
-    salesMethod: 'CASH',
-    paymentType: 'CASH',
-    price: '',
-    finalPrice: '',
-    registrationPayment: '',
-    oneMonthPayment: '',
-    totalInstallments: '',
-    monthlyInstallment: '',
-    remainingAtDelivery: '',
-    deliveryDate: '',
-    participationProfit: '',
-    isLocked: false,
-  })
-
   const [users, setUsers] = useState([]) // ذخیره کاربران مجاز
   const [newUser, setNewUser] = useState({ nationalCode: '', name: '', family: '' })
+  const [message, setMessage] = useState('')
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
 
-  // مدیریت افزودن کاربر به لیست
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    reset,
+    watch,
+  } = useForm({
+    resolver: zodResolver(newSalesConditionSchema),
+    defaultValues: {
+      carId: cars[0]?.id || '',
+      name: '',
+      conditionType: 'GENERAL',
+      salesMethod: 'CASH',
+      paymentType: 'CASH',
+      price: '',
+      finalPrice: '',
+      registrationPayment: '',
+      oneMonthPayment: '',
+      totalInstallments: '',
+      monthlyInstallment: '',
+      remainingAtDelivery: '',
+      deliveryDate: '',
+      participationProfit: '',
+      isLocked: false,
+    },
+  })
+
+  // استفاده از watch برای دریافت مقدار isLocked
+  const isLocked = watch('isLocked')
+
   const handleAddUser = () => {
     if (newUser.nationalCode) {
       setUsers([...users, newUser])
@@ -37,153 +53,116 @@ export default function NewSalesConditionForm({ cars }) {
     }
   }
 
-  // مدیریت حذف کاربر از لیست
   const handleRemoveUser = (index) => {
     const updatedUsers = users.filter((_, i) => i !== index)
     setUsers(updatedUsers)
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    // ابتدا شرایط فروش ایجاد شود
+  const onSubmit = async (formData) => {
     startTransition(async () => {
       const createdCondition = await createSalesCondition(formData)
 
-      // سپس کاربران مجاز به صورت دونه‌دونه اضافه شوند
       for (const user of users) {
         await addAuthorizedUser(createdCondition.id, user)
       }
 
-      // بازگشت به صفحه اصلی مدیریت شرایط فروش
       router.push('/admin/sales-conditions')
     })
   }
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
-      {/* فرم انتخاب خودرو و سایر فیلدها */}
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
       <label>خودرو:</label>
-      <select
-        value={formData.carId}
-        onChange={(e) => setFormData({ ...formData, carId: e.target.value })}
-      >
+      <select {...register('carId')} className={styles.formSelect}>
         {cars.map((car) => (
           <option key={car.id} value={car.id}>
             {car.name}
           </option>
         ))}
       </select>
+      {errors.carId && <p className={styles.formError}>{errors.carId.message}</p>}
 
       <label>نام شرایط:</label>
-      <input
-        type="text"
-        value={formData.name}
-        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-      />
+      <input type="text" {...register('name')} className={styles.formInput} />
+      {errors.name && <p className={styles.formError}>{errors.name.message}</p>}
 
       <label>نوع شرایط:</label>
-      <select
-        value={formData.conditionType}
-        onChange={(e) => setFormData({ ...formData, conditionType: e.target.value })}
-      >
+      <select {...register('conditionType')} className={styles.formSelect}>
         <option value="GENERAL">عمومی</option>
         <option value="SPECIAL">خاص</option>
         <option value="ORGANIZATIONAL">سازمانی</option>
       </select>
+      {errors.conditionType && <p className={styles.formError}>{errors.conditionType.message}</p>}
 
       <label>روش فروش:</label>
-      <select
-        value={formData.salesMethod}
-        onChange={(e) => setFormData({ ...formData, salesMethod: e.target.value })}
-      >
+      <select {...register('salesMethod')} className={styles.formSelect}>
         <option value="CASH">نقدی</option>
         <option value="INSTALLMENT">اقساطی</option>
         <option value="PREPAYMENT">علی‌الحساب</option>
       </select>
+      {errors.salesMethod && <p className={styles.formError}>{errors.salesMethod.message}</p>}
 
       <label>نوع پرداخت:</label>
-      <select
-        value={formData.paymentType}
-        onChange={(e) => setFormData({ ...formData, paymentType: e.target.value })}
-      >
+      <select {...register('paymentType')} className={styles.formSelect}>
         <option value="CASH">نقدی</option>
         <option value="INSTALLMENT">اقساط</option>
         <option value="PREPAYMENT">علی‌الحساب</option>
       </select>
+      {errors.paymentType && <p className={styles.formError}>{errors.paymentType.message}</p>}
 
       <label>قیمت:</label>
-      <input
-        type="number"
-        value={formData.price}
-        onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-      />
+      <input type="number" {...register('price')} className={styles.formInput} />
+      {errors.price && <p className={styles.formError}>{errors.price.message}</p>}
 
       <label>قیمت نهایی:</label>
-      <input
-        type="number"
-        value={formData.finalPrice}
-        onChange={(e) => setFormData({ ...formData, finalPrice: e.target.value })}
-      />
+      <input type="number" {...register('finalPrice')} className={styles.formInput} />
+      {errors.finalPrice && <p className={styles.formError}>{errors.finalPrice.message}</p>}
 
       <label>پرداخت زمان ثبت‌نام:</label>
-      <input
-        type="number"
-        value={formData.registrationPayment}
-        onChange={(e) => setFormData({ ...formData, registrationPayment: e.target.value })}
-      />
+      <input type="number" {...register('registrationPayment')} className={styles.formInput} />
+      {errors.registrationPayment && (
+        <p className={styles.formError}>{errors.registrationPayment.message}</p>
+      )}
 
       <label>پرداخت یک ماهه:</label>
-      <input
-        type="number"
-        value={formData.oneMonthPayment}
-        onChange={(e) => setFormData({ ...formData, oneMonthPayment: e.target.value })}
-      />
+      <input type="number" {...register('oneMonthPayment')} className={styles.formInput} />
+      {errors.oneMonthPayment && (
+        <p className={styles.formError}>{errors.oneMonthPayment.message}</p>
+      )}
 
       <label>تعداد اقساط:</label>
-      <input
-        type="number"
-        value={formData.totalInstallments}
-        onChange={(e) => setFormData({ ...formData, totalInstallments: e.target.value })}
-      />
+      <input type="number" {...register('totalInstallments')} className={styles.formInput} />
+      {errors.totalInstallments && (
+        <p className={styles.formError}>{errors.totalInstallments.message}</p>
+      )}
 
       <label>مبلغ اقساط ماهیانه:</label>
-      <input
-        type="number"
-        value={formData.monthlyInstallment}
-        onChange={(e) => setFormData({ ...formData, monthlyInstallment: e.target.value })}
-      />
+      <input type="number" {...register('monthlyInstallment')} className={styles.formInput} />
+      {errors.monthlyInstallment && (
+        <p className={styles.formError}>{errors.monthlyInstallment.message}</p>
+      )}
 
       <label>مانده زمان تحویل:</label>
-      <input
-        type="number"
-        value={formData.remainingAtDelivery}
-        onChange={(e) => setFormData({ ...formData, remainingAtDelivery: e.target.value })}
-      />
+      <input type="number" {...register('remainingAtDelivery')} className={styles.formInput} />
+      {errors.remainingAtDelivery && (
+        <p className={styles.formError}>{errors.remainingAtDelivery.message}</p>
+      )}
 
       <label>تاریخ تحویل:</label>
-      <input
-        type="date"
-        value={formData.deliveryDate}
-        onChange={(e) => setFormData({ ...formData, deliveryDate: e.target.value })}
-      />
+      <input type="date" {...register('deliveryDate')} className={styles.formInput} />
+      {errors.deliveryDate && <p className={styles.formError}>{errors.deliveryDate.message}</p>}
 
       <label>سود مشارکت:</label>
-      <input
-        type="number"
-        value={formData.participationProfit}
-        onChange={(e) => setFormData({ ...formData, participationProfit: e.target.value })}
-      />
+      <input type="number" {...register('participationProfit')} className={styles.formInput} />
+      {errors.participationProfit && (
+        <p className={styles.formError}>{errors.participationProfit.message}</p>
+      )}
 
       <label>قفل کردن شرایط فروش:</label>
-      <input
-        type="checkbox"
-        checked={formData.isLocked}
-        onChange={(e) => setFormData({ ...formData, isLocked: e.target.checked })}
-      />
+      <input type="checkbox" {...register('isLocked')} className={styles.formCheckbox} />
 
       {/* بخش مدیریت کاربران مجاز */}
-      {formData.isLocked && (
+      {isLocked && (
         <div className={styles.userManagement}>
           <h3>افزودن کاربران مجاز</h3>
           <div>
@@ -227,7 +206,8 @@ export default function NewSalesConditionForm({ cars }) {
           </ul>
         </div>
       )}
-      <button type="submit" disabled={isPending}>
+
+      <button type="submit" disabled={isPending} className={styles.formButton}>
         ایجاد شرایط فروش
       </button>
     </form>

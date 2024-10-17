@@ -1,243 +1,187 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useForm, useFieldArray } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { vehicleSchema } from '@/security/zod/validationSchema' // فایل Zod مربوط به ولیدیشن خودرو
 import { createVehicle } from '@/actions/admin/vehicles'
 import { useRouter } from 'next/navigation'
-import styles from './VehicleCreate'
+import styles from '@/styles/form.module.css'
 
 export default function VehicleCreate() {
   const router = useRouter()
-  const [formData, setFormData] = useState({
-    model: '',
-    name: '',
-    image: '',
-    status: 'AVAILABLE',
-    appearanceSpecifications: [],
-    technicalSpecifications: [],
+
+  // استفاده از useForm با resolver zod
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: zodResolver(vehicleSchema),
+    defaultValues: {
+      model: '',
+      name: '',
+      image: '',
+      status: 'AVAILABLE',
+      appearanceSpecifications: [{ title: '', options: [], isSelectable: true }],
+      technicalSpecifications: [{ key: '', value: '', note: '' }],
+    },
   })
-  const [isPending, startTransition] = useTransition()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    startTransition(() => {
-      createVehicle(formData).then(() => {
-        router.push('/admin/vehicles')
-      })
-    })
-  }
+  // مدیریت فیلدهای داینامیک با useFieldArray
+  const {
+    fields: appearanceFields,
+    append: appendAppearance,
+    remove: removeAppearance,
+  } = useFieldArray({
+    control,
+    name: 'appearanceSpecifications',
+  })
 
-  // اضافه کردن مشخصات ظاهری جدید
-  const handleAddAppearanceSpec = () => {
-    setFormData({
-      ...formData,
-      appearanceSpecifications: [
-        ...formData.appearanceSpecifications,
-        { title: '', options: [], isSelectable: true },
-      ],
-    })
-  }
+  const {
+    fields: technicalFields,
+    append: appendTechnical,
+    remove: removeTechnical,
+  } = useFieldArray({
+    control,
+    name: 'technicalSpecifications',
+  })
 
-  // حذف مشخصات ظاهری اضافه‌شده
-  const handleRemoveAppearanceSpec = (index) => {
-    const newSpecs = [...formData.appearanceSpecifications]
-    newSpecs.splice(index, 1)
-    setFormData({ ...formData, appearanceSpecifications: newSpecs })
-  }
-
-  // اضافه کردن مشخصات فنی جدید
-  const handleAddTechnicalSpec = () => {
-    setFormData({
-      ...formData,
-      technicalSpecifications: [
-        ...formData.technicalSpecifications,
-        { key: '', value: '', note: '' },
-      ],
-    })
-  }
-
-  // حذف مشخصات فنی اضافه‌شده
-  const handleRemoveTechnicalSpec = (index) => {
-    const newSpecs = [...formData.technicalSpecifications]
-    newSpecs.splice(index, 1)
-    setFormData({ ...formData, technicalSpecifications: newSpecs })
+  const onSubmit = async (data) => {
+    const res = await createVehicle(data)
+    if (res.success) {
+      reset()
+      router.push('/admin/vehicles')
+    }
   }
 
   return (
-    <div className={styles.container}>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <label className={styles.label}>
+    <div className={styles.formWrapper}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+        <label className={styles.formLabel}>
           مدل:
-          <input
-            type="text"
-            value={formData.model}
-            onChange={(e) => setFormData({ ...formData, model: e.target.value })}
-            className={styles.input}
-          />
+          <input type="text" {...register('model')} className={styles.formInput} />
+          {errors.model && <p className={styles.formError}>{errors.model.message}</p>}
         </label>
-        <label className={styles.label}>
+        <label className={styles.formLabel}>
           نام:
-          <input
-            type="text"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className={styles.input}
-          />
+          <input type="text" {...register('name')} className={styles.formInput} />
+          {errors.name && <p className={styles.formError}>{errors.name.message}</p>}
         </label>
-        <label className={styles.label}>
+        <label className={styles.formLabel}>
           تصویر:
-          <input
-            type="text"
-            value={formData.image}
-            onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-            className={styles.input}
-          />
+          <input type="text" {...register('image')} className={styles.formInput} />
+          {errors.image && <p className={styles.formError}>{errors.image.message}</p>}
         </label>
-        <label className={styles.label}>
+        <label className={styles.formLabel}>
           وضعیت:
-          <select
-            value={formData.status}
-            onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-            className={styles.select}
-          >
+          <select {...register('status')} className={styles.formSelect}>
             <option value="AVAILABLE">موجود</option>
             <option value="UNAVAILABLE">ناموجود</option>
           </select>
         </label>
+
         <h3 className={styles.subtitle}>مشخصات ظاهری</h3>
-        {formData.appearanceSpecifications.map((spec, index) => (
-          <div key={index} className={styles.specification}>
-            <label className={styles.label}>
+        {appearanceFields.map((spec, index) => (
+          <div key={spec.id} className={styles.specification}>
+            <label className={styles.formLabel}>
               عنوان:
               <input
                 type="text"
-                value={spec.title}
-                onChange={(e) => {
-                  const newSpecs = [...formData.appearanceSpecifications]
-                  newSpecs[index].title = e.target.value
-                  setFormData({ ...formData, appearanceSpecifications: newSpecs })
-                }}
-                className={styles.input}
+                {...register(`appearanceSpecifications.${index}.title`)}
+                className={styles.formInput}
               />
+              {errors.appearanceSpecifications?.[index]?.title && (
+                <p className={styles.formError}>
+                  {errors.appearanceSpecifications[index].title.message}
+                </p>
+              )}
             </label>
-            <label className={styles.label}>
+            <label className={styles.formLabel}>
               قابل انتخاب بودن:
               <input
                 type="checkbox"
-                checked={spec.isSelectable}
-                onChange={(e) => {
-                  const newSpecs = [...formData.appearanceSpecifications]
-                  newSpecs[index].isSelectable = e.target.checked
-                  setFormData({ ...formData, appearanceSpecifications: newSpecs })
-                }}
+                {...register(`appearanceSpecifications.${index}.isSelectable`)}
                 className={styles.checkbox}
               />
             </label>
-            <label className={styles.label}>
-              مقادیر:
-              {spec.options.map((option, optIndex) => (
-                <div key={optIndex} className={styles.optionContainer}>
-                  <input
-                    type="text"
-                    value={option}
-                    onChange={(e) => {
-                      const newSpecs = [...formData.appearanceSpecifications]
-                      newSpecs[index].options[optIndex] = e.target.value
-                      setFormData({ ...formData, appearanceSpecifications: newSpecs })
-                    }}
-                    className={styles.input}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const newSpecs = [...formData.appearanceSpecifications]
-                      newSpecs[index].options.splice(optIndex, 1)
-                      setFormData({ ...formData, appearanceSpecifications: newSpecs })
-                    }}
-                    className={styles.removeButton}
-                  >
-                    حذف
-                  </button>
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={() => {
-                  const newSpecs = [...formData.appearanceSpecifications]
-                  newSpecs[index].options.push('')
-                  setFormData({ ...formData, appearanceSpecifications: newSpecs })
-                }}
-                className={styles.addButton}
-              >
-                افزودن مقدار
-              </button>
-            </label>
+            {spec.options.map((option, optIndex) => (
+              <div key={optIndex} className={styles.optionContainer}>
+                <input
+                  type="text"
+                  {...register(`appearanceSpecifications.${index}.options.${optIndex}`)}
+                  className={styles.formInput}
+                />
+              </div>
+            ))}
             <button
               type="button"
-              onClick={() => handleRemoveAppearanceSpec(index)}
-              className={styles.removeButton}
+              onClick={() => appendAppearance({ title: '', options: [], isSelectable: true })}
+              className={styles.formButton}
+            >
+              افزودن مقدار
+            </button>
+            <button
+              type="button"
+              onClick={() => removeAppearance(index)}
+              className={styles.formButton}
             >
               حذف مشخصه
             </button>
           </div>
         ))}
-        <button type="button" onClick={handleAddAppearanceSpec} className={styles.addButton}>
-          افزودن مشخصات ظاهری
-        </button>
+
         <h3 className={styles.subtitle}>مشخصات فنی</h3>
-        {formData.technicalSpecifications.map((spec, index) => (
-          <div key={index} className={styles.specification}>
-            <label className={styles.label}>
+        {technicalFields.map((spec, index) => (
+          <div key={spec.id} className={styles.specification}>
+            <label className={styles.formLabel}>
               ویژگی:
               <input
                 type="text"
-                value={spec.key}
-                onChange={(e) => {
-                  const newSpecs = [...formData.technicalSpecifications]
-                  newSpecs[index].key = e.target.value
-                  setFormData({ ...formData, technicalSpecifications: newSpecs })
-                }}
-                className={styles.input}
+                {...register(`technicalSpecifications.${index}.key`)}
+                className={styles.formInput}
               />
+              {errors.technicalSpecifications?.[index]?.key && (
+                <p className={styles.formError}>
+                  {errors.technicalSpecifications[index].key.message}
+                </p>
+              )}
             </label>
-            <label className={styles.label}>
+            <label className={styles.formLabel}>
               مقدار:
               <input
                 type="text"
-                value={spec.value}
-                onChange={(e) => {
-                  const newSpecs = [...formData.technicalSpecifications]
-                  newSpecs[index].value = e.target.value
-                  setFormData({ ...formData, technicalSpecifications: newSpecs })
-                }}
-                className={styles.input}
+                {...register(`technicalSpecifications.${index}.value`)}
+                className={styles.formInput}
               />
             </label>
-            <label className={styles.label}>
+            <label className={styles.formLabel}>
               یادداشت:
               <input
                 type="text"
-                value={spec.note}
-                onChange={(e) => {
-                  const newSpecs = [...formData.technicalSpecifications]
-                  newSpecs[index].note = e.target.value
-                  setFormData({ ...formData, technicalSpecifications: newSpecs })
-                }}
-                className={styles.input}
+                {...register(`technicalSpecifications.${index}.note`)}
+                className={styles.formInput}
               />
             </label>
             <button
               type="button"
-              onClick={() => handleRemoveTechnicalSpec(index)}
-              className={styles.removeButton}
+              onClick={() => removeTechnical(index)}
+              className={styles.formButton}
             >
               حذف مشخصه
             </button>
           </div>
         ))}
-        <button type="button" onClick={handleAddTechnicalSpec} className={styles.addButton}>
+        <button
+          type="button"
+          onClick={() => appendTechnical({ key: '', value: '', note: '' })}
+          className={styles.formButton}
+        >
           افزودن مشخصات فنی
         </button>
-        <button type="submit" disabled={isPending} className={styles.submitButton}>
+
+        <button type="submit" className={styles.formButton}>
           ایجاد خودرو
         </button>
       </form>
