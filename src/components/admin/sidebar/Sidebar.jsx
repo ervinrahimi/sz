@@ -27,6 +27,9 @@ export default function Sidebar({ admin }) {
           <Link href="/admin/users" className={`${styles.menuItem} ${pathname === '/admin/users' ? styles.active : ''}`}>مدیریت کاربران</Link>
         </li>
         <li>
+          <Link href="/admin/menu" className={`${styles.menuItem} ${pathname === '/admin/menu' ? styles.active : ''}`}>مدیریت منو ها</Link>
+        </li>
+        <li>
           <Link href="/admin/orders" className={`${styles.menuItem} ${pathname === '/admin/orders' ? styles.active : ''}`}>مدیریت سفارش‌ها</Link>
         </li>
         <li>

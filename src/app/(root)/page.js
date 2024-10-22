@@ -6,13 +6,16 @@ import { MainSlider } from '@/components/ui/Slider/Slider'
 import ProductsBox from '@/components/ui/Products/ProductsBox'
 import { WideLightPoster } from '@/components/ui/Posters/Posters'
 import MiniSlider from '@/components/ui/Slider/MiniSlider'
+import { getMenuItems } from '@/actions/admin/menu'
 
-export default function Home() {
+export default async function Home() {
+  const menuItems = await getMenuItems()
+
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <HeaderSticky />
-        <Header />
+        <HeaderSticky menuItems={menuItems}/>
+        <Header menuItems={menuItems}/>
 
         <MainSlider />
         <ProductsBox title={false} />

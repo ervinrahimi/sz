@@ -112,3 +112,10 @@ export const vehicleSchema = z.object({
     })
   ),
 })
+
+export const menuItemSchema = z.object({
+  title: z.string().min(1, 'عنوان منو الزامی است.'),
+  link: z.string().optional(),
+  order: z.number().int().nonnegative('ترتیب نمایش باید عددی مثبت باشد.'),
+  parentMenuID: z.string().nullable()
+})

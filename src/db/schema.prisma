@@ -414,3 +414,17 @@ model Authenticator {
 
   @@unique([userId, credentialID])
 }
+
+model MenuItem {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  title         String   // عنوان منو
+  link          String?  // لینک منو (اختیاری)
+  isActive      Boolean  @default(true)   // فعال یا غیرفعال بودن منو
+  order         Int      // ترتیب نمایش منو
+  parentMenuID  String?  @db.ObjectId  // آی‌دی منوی والد (اگر زیر منو است)
+  subMenuIDs    String[] @db.ObjectId  // لیست آی‌دی‌های زیرمنوها
+  createdAt     DateTime @default(now())  // تاریخ ایجاد
+  updatedAt     DateTime @updatedAt       // تاریخ به‌روزرسانی
+
+  @@index([parentMenuID])  // ایندکس برای جستجوی سریع بر اساس والد
+}

@@ -18,7 +18,7 @@ import Link from 'next/link'
 import toast from 'react-hot-toast'
 import { ROUTES } from '@/constants/routes'
 
-export default function Header({ product }) {
+export default function Header({ product, menuItems }) {
   const [showContent, setShowContent] = useState(true)
   const [isOpen, setIsOpen] = useState(false)
 
@@ -47,6 +47,18 @@ export default function Header({ product }) {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
+
+  const renderSubMenus = (subMenus) => {
+    return (
+      <ul className={styles.subMenu}>
+        {subMenus.map((subMenu) => (
+          <li key={subMenu.id} className={isActive(subMenu.link) ? styles.active : ''}>
+            <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
+          </li>
+        ))}
+      </ul>
+    )
+  }
 
   const router = useRouter()
   const pathname = usePathname()
@@ -112,29 +124,23 @@ export default function Header({ product }) {
           <div className={styles.rightSideMenu}>
             <SoltanZadeLogoSVG onClick={handleClick} className={styles.logo} />
             <ul>
-              <li className={isActive('/') ? styles.active : ''}>
-                سلطان زاده
-                <MenuArrowIcon className={isActive('/') ? styles.active : 'menuArrowIcon'} />
-              </li>
-              <li className={isActive('/shop') ? styles.active : ''}>
-                محصولات خودرویی{' '}
-                <MenuArrowIcon className={isActive('/shop') ? styles.active : 'menuArrowIcon'} />
-              </li>
-              <li className={isActive('/shop') ? styles.active : ''}>
-                قطعات یدکی{' '}
-                <MenuArrowIcon className={isActive('/shop') ? styles.active : 'menuArrowIcon'} />
-              </li>
-              <li className={isActive('/representatives') ? styles.active : ''}>
-                نمایندگان و کارشناسان{' '}
-                <MenuArrowIcon className={isActive('/') ? styles.active : 'representatives'} />
-              </li>
-              <li className={isActive('/after-sales') ? styles.active : ''}>
-                همراهی بعد از فروش{' '}
-                <MenuArrowIcon className={isActive('/') ? styles.active : 'after-sales'} />
-              </li>
-              <li className={isActive('/news') ? styles.active : ''}>اخبار</li>
-              {/* <li className={isActive('/download-center') ? styles.active : ''}>دانلود سنتر</li> */}
-              {/* <li className={isActive('/magazine') ? styles.active : ''}>فصل‌نامه</li> */}
+              {menuItems.map((menu) => (
+                <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
+                  <Link href={menu.link || '#'}>
+                    {menu.title}
+                  </Link>
+                  {menu.subMenus.length > 0 && <MenuArrowIcon className={isActive(menu.link) ? styles.active : 'menuArrowIcon'} />} 
+                  {menu.subMenus && menu.subMenus.length > 0 && (
+                    <ul className={styles.subMenu}>
+                      {menu.subMenus.map((subMenu) => (
+                        <li key={subMenu.id} className={isActive(subMenu.link) ? styles.active : ''}>
+                          <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
           <div className={styles.leftSideMenu}>

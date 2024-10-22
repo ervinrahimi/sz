@@ -386,3 +386,31 @@
   color: #fff;
   font-size: 18px;
 }
+
+/* استایل برای زیرمنو */
+.subMenu {
+  list-style: none;
+  padding-left: 20px;
+  display: none !important; /* زیرمنوها مخفی هستند */
+}
+
+.headerMenu ul li:hover > .subMenu {
+  background-color: rgba(0, 0, 0, 0.479);
+  padding: 10px 15px;
+  margin-right: -20px;
+  border-radius: 15px;
+  position: absolute;
+  margin-top: 100px;
+  display: flex !important; /* نمایش زیرمنوها هنگام هاور */
+  align-items: center;
+  flex-direction: column;
+}
+
+.subMenu li {
+  padding: 5px 0;
+  color: rgba(255, 255, 255, 0.7); /* رنگ زیرمنوها */
+}
+
+.subMenu li:hover {
+  color: #cbe3eb; /* رنگ زیرمنوها هنگام هاور */
+}

@@ -4,9 +4,14 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import styles from './Sidebar.module.css'
 import { signOut } from 'next-auth/react'
+import toast from 'react-hot-toast'
 
 export default function Sidebar({ user }) {
   const pathname = usePathname()
+
+  const handleToast = () => {
+    toast('این امکان به زودی در درسترس قرار میگیرد!')
+  }
 
   return (
     <nav className={styles.sidebar}>
@@ -29,6 +34,9 @@ export default function Sidebar({ user }) {
         </li>
         <li>
           <Link href="/Dashboard/Payments" className={`${styles.menuItem} ${pathname.startsWith('/Dashboard/Payments')  ? styles.active : ''}`}>مدیریت پرداخت ها</Link>
+        </li>
+        <li>
+          <Link onClick={handleToast} href="#" className={`${styles.menuItem} ${pathname.startsWith('#')  ? styles.active : ''}`}>اگهی فروش (بزودی)</Link>
         </li>
         <li>
           <Link href="/Dashboard/Notifications" className={`${styles.menuItem} ${pathname.startsWith('/Dashboard/Notifications')  ? styles.active : ''}`}>اطلاعیه و پیام ها</Link>
