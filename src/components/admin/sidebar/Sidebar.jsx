@@ -22,37 +22,37 @@ export default function Sidebar({ admin }) {
       </div>
       <ul className={styles.menu}>
         <li>
-          <Link href="/admin" className={`${styles.menuItem} ${pathname === '/admin' ? styles.active : ''}`}>داشبورد</Link>
+          <Link href="/admin" className={`${styles.menuItem} ${pathname === '/admin' ? styles.active : ''}`}><Image src="/icons/admin/1.png" alt="Picture of the menu" width={25} height={25}/>داشبورد </Link>
+        </li>
+        <li> 
+          <Link href="/admin/users" className={`${styles.menuItem} ${pathname === '/admin/users' ? styles.active : ''}`}><Image src="/icons/admin/2.png" alt="Picture of the menu" width={25} height={25}/>مدیریت کاربران</Link>
         </li>
         <li>
-          <Link href="/admin/users" className={`${styles.menuItem} ${pathname === '/admin/users' ? styles.active : ''}`}>مدیریت کاربران</Link>
+          <Link href="/admin/menu" className={`${styles.menuItem} ${pathname === '/admin/menu' ? styles.active : ''}`}><Image src="/icons/admin/3.png" alt="Picture of the menu" width={25} height={25}/>مدیریت منو ها</Link>
         </li>
         <li>
-          <Link href="/admin/menu" className={`${styles.menuItem} ${pathname === '/admin/menu' ? styles.active : ''}`}>مدیریت منو ها</Link>
+          <Link href="/admin/orders" className={`${styles.menuItem} ${pathname === '/admin/orders' ? styles.active : ''}`}><Image src="/icons/admin/4.png" alt="Picture of the menu" width={25} height={25}/>مدیریت سفارش‌ها</Link>
         </li>
         <li>
-          <Link href="/admin/orders" className={`${styles.menuItem} ${pathname === '/admin/orders' ? styles.active : ''}`}>مدیریت سفارش‌ها</Link>
+          <Link href="/admin/vehicles" className={`${styles.menuItem} ${pathname === '/admin/vehicles' ? styles.active : ''}`}><Image src="/icons/admin/5.png" alt="Picture of the menu" width={25} height={25}/>مدیریت خودروها</Link>
         </li>
         <li>
-          <Link href="/admin/vehicles" className={`${styles.menuItem} ${pathname === '/admin/vehicles' ? styles.active : ''}`}>مدیریت خودروها</Link>
+          <Link href="/admin/sales-conditions" className={`${styles.menuItem} ${pathname === '/admin/sales-conditions' ? styles.active : ''}`}><Image src="/icons/admin/6.png" alt="Picture of the menu" width={25} height={25}/>مدیریت شرایط فروش</Link>
         </li>
         <li>
-          <Link href="/admin/sales-conditions" className={`${styles.menuItem} ${pathname === '/admin/sales-conditions' ? styles.active : ''}`}>مدیریت شرایط فروش</Link>
+          <Link href="/admin/payments" className={`${styles.menuItem} ${pathname === '/admin/payments' ? styles.active : ''}`}><Image src="/icons/admin/7.png" alt="Picture of the menu" width={25} height={25}/>مدیریت پرداخت‌ها</Link>
         </li>
         <li>
-          <Link href="/admin/payments" className={`${styles.menuItem} ${pathname === '/admin/payments' ? styles.active : ''}`}>مدیریت پرداخت‌ها</Link>
+          <Link href="/admin/documents" className={`${styles.menuItem} ${pathname === '/admin/documents' ? styles.active : ''}`}><Image src="/icons/admin/8.png" alt="Picture of the menu" width={25} height={25}/>مدیریت اسناد و مدارک</Link>
         </li>
         <li>
-          <Link href="/admin/documents" className={`${styles.menuItem} ${pathname === '/admin/documents' ? styles.active : ''}`}>مدیریت اسناد و مدارک</Link>
+          <Link href="/admin/notifications" className={`${styles.menuItem} ${pathname === '/admin/notifications' ? styles.active : ''}`}><Image src="/icons/admin/9.png" alt="Picture of the menu" width={25} height={25}/>مدیریت پیام‌ها</Link>
         </li>
         <li>
-          <Link href="/admin/notifications" className={`${styles.menuItem} ${pathname === '/admin/notifications' ? styles.active : ''}`}>مدیریت نوتیفیکیشن‌ها و پیام‌ها</Link>
+          <Link href="/admin/slides" className={`${styles.menuItem} ${pathname === '/admin/slides' ? styles.active : ''}`}><Image src="/icons/admin/10.png" alt="Picture of the menu" width={25} height={25}/>مدیریت اسلاید ها </Link>
         </li>
         <li>
-          <Link href="/admin/slides" className={`${styles.menuItem} ${pathname === '/admin/slides' ? styles.active : ''}`}>مدیریت اسلاید ها </Link>
-        </li>
-        <li>
-          <span className={`${styles.menuItem}`} onClick={signOut}>خروج از حساب</span>
+          <span className={`${styles.menuItem}`} onClick={signOut}><Image src="/icons/admin/11.png" alt="Picture of the menu" width={25} height={25}/>خروج از حساب</span>
         </li>
       </ul>
     </nav>

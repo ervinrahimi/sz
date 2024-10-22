@@ -1,23 +1,26 @@
 /* src/components/admin/sidebar/Sidebar.module.css */
 
 .sidebar {
-  width: 250px;
+  border-left: 2px solid rgba(0, 0, 0, 0.1);
+  width: 280px;
   background-color: #f7f8fa;
   padding: 20px;
   height: 100vh;
   position: relative;
+  overflow-x: scroll;
+  direction: ltr;
+}
+
+.sidebar > * {
+  direction: rtl;
 }
 
 .profile {
   display: flex;
   align-items: center;
   margin-bottom: 30px;
-}
-
-.profileImage {
-  border-radius: 100%;
-  width: 50px;
-  height: 50px;
+  border-bottom: 2px solid hsla(0, 0%, 0%, 0.1);
+  padding-bottom: 20px;
 }
 
 .profileImage {
@@ -27,9 +30,9 @@
 }
 
 .profileDetails {
-  border-right: 3px solid #000000;
-  margin-right: 5px;
-  padding-right: 5px;
+  border-right: 2px solid #0000004d;
+  margin-right: 10px;
+  padding-right: 10px;
 }
 
 .profileDetails h2 {
@@ -49,24 +52,45 @@
 }
 
 .menuItem {
+  font-variation-settings: 'wdth' 100, 'wght' 630, 'DOTS' 0;
+  letter-spacing: -0.5px;
+  width: 100%;
+  display: flex;
+  position: relative;
+  align-items: center;
   cursor: pointer;
   margin-bottom: 10px;
-  display: block;
-  padding: 10px;
+  padding: 15px 15px;
   font-size: 16px;
   color: #333;
   text-decoration: none;
-  border-radius: 10px;
+  border-radius: 12px;
   transition: background-color 0.3s ease;
 }
+
+.menuItem img{
+  filter: contrast(2);
+  margin-left: 8px;
+  transform: scale(0.85);
+}
+
 
 .menuItem:hover:not(.active) {
   background-color: #ececec;
 }
 
 .active {
-  background-color: #2a3138; /* رنگ زمینه برای لینک فعال */
-  color: #fff; /* رنگ متن برای لینک فعال */
+  width: 100%;
+  display: flex;
+  position: relative;
+  background-color: #212b34; /* رنگ زمینه برای لینک فعال */
+  color: rgb(242, 242, 242); /* رنگ متن برای لینک فعال */
+}
+
+.active img{
+  filter: brightness(0) contrast(2) invert(1) ;
+  margin-left: 8px;
+  transform: scale(0.85);
 }
 
 @media (max-width: 600px) {

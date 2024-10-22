@@ -12,6 +12,5 @@
 .content {
   flex-grow: 1;
   padding: 20px;
-  margin-right: 250px; /* به دلیل ثابت بودن سایدبار */
   background-color: #f1f3f6;
 }

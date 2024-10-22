@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import styles from './Sidebar.module.css'
 import { signOut } from 'next-auth/react'
 import toast from 'react-hot-toast'
+import Image from 'next/image'
 
 export default function Sidebar({ user }) {
   const pathname = usePathname()
@@ -24,28 +25,28 @@ export default function Sidebar({ user }) {
       </div>
       <ul className={styles.menu}>
         <li>
-          <Link href="/Dashboard" className={`${styles.menuItem} ${pathname === '/Dashboard' ? styles.active : ''}`}>داشبورد</Link>
+          <Link href="/Dashboard" className={`${styles.menuItem} ${pathname === '/Dashboard' ? styles.active : ''}`}><Image src="/icons/dashboard/1.png" alt="Picture of the menu" width={25} height={25}/>داشبورد</Link>
         </li>
         <li>
-          <Link href="/Dashboard/Personal-Information" className={`${styles.menuItem} ${pathname.startsWith('/Dashboard/Personal-Information')  ? styles.active : ''}`}>اطلاعات شخصی</Link>
+          <Link href="/Dashboard/Personal-Information" className={`${styles.menuItem} ${pathname.startsWith('/Dashboard/Personal-Information')  ? styles.active : ''}`}><Image src="/icons/dashboard/2.png" alt="Picture of the menu" width={25} height={25}/>اطلاعات شخصی</Link>
         </li>
         <li>
-          <Link href="/Dashboard/Change-Password" className={`${styles.menuItem} ${pathname.startsWith('/Dashboard/Change-Password')  ? styles.active : ''}`}>تغییر رمز عبور</Link>
+          <Link href="/Dashboard/Change-Password" className={`${styles.menuItem} ${pathname.startsWith('/Dashboard/Change-Password')  ? styles.active : ''}`}><Image src="/icons/dashboard/3.png" alt="Picture of the menu" width={25} height={25}/>تغییر رمز عبور</Link>
         </li>
         <li>
-          <Link href="/Dashboard/Payments" className={`${styles.menuItem} ${pathname.startsWith('/Dashboard/Payments')  ? styles.active : ''}`}>مدیریت پرداخت ها</Link>
+          <Link href="/Dashboard/Payments" className={`${styles.menuItem} ${pathname.startsWith('/Dashboard/Payments')  ? styles.active : ''}`}><Image src="/icons/dashboard/4.png" alt="Picture of the menu" width={25} height={25}/>مدیریت پرداخت ها</Link>
         </li>
         <li>
-          <Link onClick={handleToast} href="#" className={`${styles.menuItem} ${pathname.startsWith('#')  ? styles.active : ''}`}>اگهی فروش (بزودی)</Link>
+          <Link onClick={handleToast} href="#" className={`${styles.menuItem} ${pathname.startsWith('#')  ? styles.active : ''}`}><Image src="/icons/dashboard/5.png" alt="Picture of the menu" width={25} height={25}/>اگهی فروش (بزودی)</Link>
         </li>
         <li>
-          <Link href="/Dashboard/Notifications" className={`${styles.menuItem} ${pathname.startsWith('/Dashboard/Notifications')  ? styles.active : ''}`}>اطلاعیه و پیام ها</Link>
+          <Link href="/Dashboard/Notifications" className={`${styles.menuItem} ${pathname.startsWith('/Dashboard/Notifications')  ? styles.active : ''}`}><Image src="/icons/dashboard/6.png" alt="Picture of the menu" width={25} height={25}/>اطلاعیه و پیام ها</Link>
         </li>
         <li>
-          <Link href="/" className={`${styles.menuItem} ${pathname === '/' ? styles.active : ''}`}>بازگشت به صفحه اصلی</Link>
+          <Link href="/" className={`${styles.menuItem} ${pathname === '/' ? styles.active : ''}`}><Image src="/icons/dashboard/7.png" alt="Picture of the menu" width={25} height={25}/>بازگشت به صفحه اصلی</Link>
         </li>
         <li>
-          <span className={`${styles.menuItem}`} onClick={signOut}>خروج از حساب</span>
+          <span className={`${styles.menuItem}`} onClick={signOut}><Image src="/icons/dashboard/8.png" alt="Picture of the menu" width={25} height={25}/>خروج از حساب</span>
         </li>
       </ul>
     </nav>
