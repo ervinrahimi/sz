@@ -18,7 +18,7 @@
 
 .footerHeader {
   font-family: var(--font-kahroba), sans-serif;
-  font-variation-settings: 'wdth' 40, 'wght' 600, 'CNTR' 40;
+  font-variation-settings: 'wdth' 100, 'wght' 600, 'CNTR' 40;
 }
 
 .footerHeader:hover {
