@@ -1,0 +1,15 @@
+/* استایل‌های فرم اسلاید */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form label {
+  margin-bottom: 1rem;
+}
+
+.preview {
+  width: 200px;
+  height: auto;
+  margin-bottom: 1rem;
+}

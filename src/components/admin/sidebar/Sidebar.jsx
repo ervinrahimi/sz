@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import styles from './Sidebar.module.css'
 import { signOut } from 'next-auth/react'
+import Image from 'next/image'
 
 export default function Sidebar({ admin }) {
   const pathname = usePathname()
@@ -13,7 +14,7 @@ export default function Sidebar({ admin }) {
   return (
     <nav className={styles.sidebar}>
       <div className={styles.profile}>
-        <img src="/profile-image.png" alt="Profile" className={styles.profileImage} />
+        <Image src="/profile-image.png" alt="Profile" height={100} width={100} className={styles.profileImage} />
         <div className={styles.profileDetails}>
           <h2>{admin?.name || 'ادمین'} {admin?.family}</h2>
           <p>{admin?.email}</p>
@@ -46,6 +47,9 @@ export default function Sidebar({ admin }) {
         </li>
         <li>
           <Link href="/admin/notifications" className={`${styles.menuItem} ${pathname === '/admin/notifications' ? styles.active : ''}`}>مدیریت نوتیفیکیشن‌ها و پیام‌ها</Link>
+        </li>
+        <li>
+          <Link href="/admin/slides" className={`${styles.menuItem} ${pathname === '/admin/slides' ? styles.active : ''}`}>مدیریت اسلاید ها </Link>
         </li>
         <li>
           <span className={`${styles.menuItem}`} onClick={signOut}>خروج از حساب</span>
