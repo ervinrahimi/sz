@@ -428,3 +428,14 @@ model MenuItem {
 
   @@index([parentMenuID])  // ایندکس برای جستجوی سریع بر اساس والد
 }
+
+// For Slider Management
+model Slide {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  title          String
+  imageUrl       String  // علامت سوال به معنای اختیاری بودن فیلد است
+  order          Int
+  typeAnimation  String[] // آرایه‌ای از رشته‌ها برای متون انیمیشن تایپ
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
