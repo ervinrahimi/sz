@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import styles from './Sidebar.module.css'
 import { signOut } from 'next-auth/react'
 import toast from 'react-hot-toast'
+import Image from 'next/image'
 
 export default function Sidebar({ user }) {
   const pathname = usePathname()
@@ -16,7 +17,7 @@ export default function Sidebar({ user }) {
   return (
     <nav className={styles.sidebar}>
       <div className={styles.profile}>
-        <img src="/profile-image.png" alt="Profile" className={styles.profileImage} />
+        <Image src="/profile-image.png" alt="Profile" className={styles.profileImage} width={100} height={100}/>
         <div className={styles.profileDetails}>
           <h2>{user?.name || 'کاربر'} {user?.family}</h2>
           <p>{user?.email}</p>
