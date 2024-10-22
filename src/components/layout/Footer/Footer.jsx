@@ -1,42 +1,17 @@
-// src/components/layout/Footer/Footer.jsx
-import styles from './Footer.module.css'
+// src/components/Footer.jsx
+import Link from 'next/link'
+import styles from './footer.module.css'
 
 export default function Footer() {
   return (
-    <footer className={styles.footer}>
-      <div className={styles.footerContainer}>
-        <div className={styles.footerLogo}>
-          <h2>SZ</h2>
-        </div>
-        <div className={styles.footerLinks}>
-          <div>
-            <h3>محصولات</h3>
+    <>
+      <footer className={styles.footer}>
+        <div className={styles.footerTop}>
+          <div className={styles.footerSection}>
+            <h3 className={styles.footerHeader}>دسترسی سریع</h3>
             <ul>
               <li>
-                <a href="#">T5</a>
-              </li>
-              <li>
-                <a href="#">B511</a>
-              </li>
-              <li>
-                <a href="#">SX5</a>
-              </li>
-              <li>
-                <a href="#">SUBA M4</a>
-              </li>
-              <li>
-                <a href="#">MG GT</a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3>دسترسی سریع</h3>
-            <ul>
-              <li>
-                <a href="#">خانه</a>
-              </li>
-              <li>
-                <a href="#">محصولات</a>
+                <a href="#">صفحه اصلی</a>
               </li>
               <li>
                 <a href="#">درباره ما</a>
@@ -44,32 +19,74 @@ export default function Footer() {
               <li>
                 <a href="#">تماس با ما</a>
               </li>
+            </ul>
+          </div>
+          <div className={styles.footerSection}>
+            <h3 className={styles.footerHeader}>ارتباط با ما</h3>
+            <ul>
               <li>
-                <a href="#">نماد های الکترونیکی</a>
+                <a href="#">شماره تماس : 999999</a>
+              </li>
+              <li>
+                <a href="#" className={styles.highlight}>
+                  آدرس : خیابان مهرداد، جنب ممد، کوچه شهید امید عرفانی
+                </a>
+              </li>
+              <li>
+                <a href="#">ایمیل : Info@Soltanzade.com</a>
               </li>
             </ul>
           </div>
+          <div className={styles.footerSection}>
+            <h3 className={styles.footerHeader}>نماد های الکترونیکی</h3>
+            <ul>
+              <li>
+                <a href="#">اینماد</a>
+              </li>
+              <li>
+                <a href="#">ساماندهی</a>
+              </li>
+              <li>
+                <a href="#">زرین پال</a>
+              </li>
+              <li>
+                <a href="#">پیپال</a>
+              </li>
+            </ul>
+          </div>
+          <div className={styles.footerSection}>
+            <h3 className={styles.footerHeader}>خبر نامه</h3>
+            <p className={styles.newsletter}>
+              برای اطلاع از اخبار های سایت گروه خودرو سلطان زاده از طریق فرم زیر از خبر ها مطلع شوید
+            </p>
+            <div className={styles.newsletter}>
+              <input type="email" placeholder="ایمیل خود را وارد کنید" />
+              <button>اشتراک</button>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className={styles.footerBottom}>
-        <p>Soltan Zadeh Inc. © 2024</p>
-        {/* <ul className={styles.footerLegal}>
-          <li>
-            <a href="#">Terms</a>
-          </li>
-          <li>
-            <a href="#">Privacy</a>
-          </li>
-        </ul> */}
-        <div className={styles.footerSocial}>
-          <a href="#" className={styles.socialIcon}>
-            Instagram
-          </a>
-          <a href="#" className={styles.socialIcon}>
-            Whatsapp
-          </a>
+
+        <div className={styles.footerBottom}>
+          <p>
+            <a href="#">حریم خصوصی</a> · <a href="#">خط مشی و شرایط سایت</a>
+          </p>
+          <div className={styles.socialLinks}>
+            <Link href="#">تلگرام</Link> ·<Link href="#">اینستاگرام</Link> ·
+            <Link href="#">واتساپ</Link> ·<Link href="#">یوتیوب</Link>
+          </div>
         </div>
+      </footer>
+
+      <div className={styles.ctaSection}>
+        <p>تمامی حقوق این سایت متعلق به گروه خودرو سلطان زاده میباشد.</p>
+        {/* <button>Upgrade my plan</button> */}
       </div>
-    </footer>
+
+      {/* <div>
+        <p className={styles.copyright}>
+          تمامی حقوق این سایت متعلق به گروه خودرو سلطان زاده میباشد.
+        </p>
+      </div> */}
+    </>
   )
 }

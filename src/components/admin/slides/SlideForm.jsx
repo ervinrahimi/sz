@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { createSlide, updateSlide } from '@/actions/admin/slides'
 import { useRouter } from 'next/navigation'
 import styles from './SlideForm.module.css'
+import Image from 'next/image'
 
 export default function SlideForm({ slide }) {
   const isEdit = !!slide
@@ -76,7 +77,7 @@ export default function SlideForm({ slide }) {
         تصویر پس‌زمینه:
         <input type="file" accept="image/*" onChange={handleImageChange} required={!isEdit} />
       </label>
-      {imagePreview && <img src={imagePreview} alt="پیش‌نمایش تصویر" className={styles.preview} />}
+      {imagePreview && <Image src={imagePreview} alt="پیش‌نمایش تصویر" className={styles.preview} width={100} height={100}/>}
       <label>
         متون برای TypeAnimation (هر خط یک متن جدید):
         <textarea

@@ -7,6 +7,7 @@ import Link from 'next/link'
 import styles from './SlidesList.module.css'
 import { deleteSlide, reorderSlides } from '@/actions/admin/slides'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 export default function SlidesList({ slides }) {
   const [isDeleting, setIsDeleting] = useState(false)
@@ -43,7 +44,7 @@ export default function SlidesList({ slides }) {
               <td>{slide.order}</td>
               <td>{slide.title}</td>
               <td>
-                <img src={slide.imageUrl} alt={slide.title} className={styles.thumbnail} />
+                <Image src={slide.imageUrl} alt={slide.title} className={styles.thumbnail} width={100} height={100} />
               </td>
               <td>
                 <Link href={`/admin/slides/${slide.id}/edit`}>ویرایش</Link> |{' '}

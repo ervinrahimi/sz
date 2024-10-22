@@ -32,7 +32,7 @@ const MiniSlider = ({ images, titles, subtitles, dates, videos, links }) => {
                   src={`/posters/${images?.img1}`}
                   width={1000}
                   height={1000}
-                  alt={null}
+                  alt=''
                 />
               )}
               {/* <Image src="/slider/1.jpg" width={700} height={700} alt="mini-slider" /> */}
@@ -60,7 +60,7 @@ const MiniSlider = ({ images, titles, subtitles, dates, videos, links }) => {
                     src={`/posters/${images?.img2}`}
                     width={1000}
                     height={1000}
-                    alt={null}
+                    alt=''
                   />
                 )}
 
