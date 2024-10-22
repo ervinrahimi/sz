@@ -7,6 +7,7 @@ import ProductsBox from '@/components/ui/Products/ProductsBox'
 import { WideLightPoster } from '@/components/ui/Posters/Posters'
 import MiniSlider from '@/components/ui/Slider/MiniSlider'
 import { getMenuItems } from '@/actions/admin/menu'
+import Footer from '@/components/layout/Footer/Footer'
 
 export default async function Home() {
   const menuItems = await getMenuItems()
@@ -48,6 +49,7 @@ export default async function Home() {
         />
 
         <ProductsBox title={'قطعات یدکی'} subTitle={'آخرین محصولات فروشگاه'} />
+        <Footer />
       </div>
     </div>
   )
