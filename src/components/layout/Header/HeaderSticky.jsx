@@ -75,6 +75,11 @@ export default function HeaderSticky({ menuItems }) {
     toast('در حال حاضر نمیتوانید این عملیات را انجام دهید')
   }
 
+  const handleLogin = () => {
+    router.push('/Dashboard'), { scroll: false }
+  }
+
+
   const isActive = (path) => {
     return pathname === path
   }
@@ -147,7 +152,7 @@ export default function HeaderSticky({ menuItems }) {
                 <MenuCartIcon />
               </button>
 
-              <button className={styles.menuButton} onClick={handleShopClick}>
+              <button className={styles.menuButton} onClick={handleLogin}>
                 <MenuProfileIcon />
               </button>
               <button className={styles.menuButton} onClick={handleShopClick}>

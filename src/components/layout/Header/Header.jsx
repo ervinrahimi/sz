@@ -152,7 +152,7 @@ export default function Header({ product, menuItems }) {
               <MenuCartIcon />
             </button>
 
-            <button className={styles.menuButton} onClick={handleShopClick}>
+            <button className={styles.menuButton} onClick={handleLogin}>
               <MenuProfileIcon />
             </button>
 
