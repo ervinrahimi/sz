@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { updateMenuItem, deleteMenuItem } from '@/actions/admin/menu'
-import styles from '@/styles/form.module.css' // استایل‌ها از فایل form.module.css
+import styles from '@/components/admin/users/UsersTable.module.css' // استایل‌ها از فایل UsersTable.module.css
 
 export default function MenuTable({ menuItems }) {
   const [editingItemId, setEditingItemId] = useState(null)
@@ -33,8 +33,8 @@ export default function MenuTable({ menuItems }) {
     return (
       <>
         {subMenus.map((subMenu) => (
-          <tr key={subMenu.id} className={styles.tableRow}>
-            <td>
+          <div key={subMenu.id} className={styles.row}>
+            <div className={styles.cell}>
               {editingItemId === subMenu.id ? (
                 <input
                   type="text"
@@ -45,8 +45,8 @@ export default function MenuTable({ menuItems }) {
               ) : (
                 `-- ${subMenu.title}`
               )}
-            </td>
-            <td>
+            </div>
+            <div className={styles.cell}>
               {editingItemId === subMenu.id ? (
                 <input
                   type="text"
@@ -57,8 +57,8 @@ export default function MenuTable({ menuItems }) {
               ) : (
                 subMenu.link
               )}
-            </td>
-            <td>
+            </div>
+            <div className={styles.cell}>
               {editingItemId === subMenu.id ? (
                 <input
                   type="number"
@@ -69,38 +69,42 @@ export default function MenuTable({ menuItems }) {
               ) : (
                 subMenu.order
               )}
-            </td>
-            <td>{subMenu.isActive ? 'فعال' : 'غیرفعال'}</td>
-            <td>
+            </div>
+            <div className={styles.cell}>{subMenu.isActive ? 'فعال' : 'غیرفعال'}</div>
+            <div className={styles.cell}>
               {editingItemId === subMenu.id ? (
-                <button onClick={() => saveChanges(subMenu.id)} className={styles.formButton}>ذخیره</button>
+                <button onClick={() => saveChanges(subMenu.id)} className={styles.button}>
+                  ذخیره
+                </button>
               ) : (
-                <button onClick={() => startEditing(subMenu)} className={styles.formButton}>ویرایش</button>
+                <button onClick={() => startEditing(subMenu)} className={styles.button}>
+                  ویرایش
+                </button>
               )}
-              <button onClick={() => removeItem(subMenu.id)} className={styles.formButton}>حذف</button>
-            </td>
-          </tr>
+              <button onClick={() => removeItem(subMenu.id)} className={styles.button}>
+                حذف
+              </button>
+            </div>
+          </div>
         ))}
       </>
     )
   }
 
   return (
-    <table className={styles.table}>
-      <thead>
-        <tr>
-          <th>عنوان</th>
-          <th>لینک</th>
-          <th>ترتیب</th>
-          <th>فعال</th>
-          <th>عملیات</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div className={styles.container}>
+      <div className={styles.headerRow}>
+        <div className={styles.headerCell}>عنوان</div>
+        <div className={styles.headerCell}>لینک</div>
+        <div className={styles.headerCell}>ترتیب</div>
+        <div className={styles.headerCell}>فعال</div>
+        <div className={styles.headerCell}>عملیات</div>
+      </div>
+      <div className={styles.body}>
         {menuItems.map((item) => (
           <React.Fragment key={item.id}>
-            <tr className={styles.tableRow}>
-              <td>
+            <div className={styles.row}>
+              <div className={styles.cell}>
                 {editingItemId === item.id ? (
                   <input
                     type="text"
@@ -111,8 +115,8 @@ export default function MenuTable({ menuItems }) {
                 ) : (
                   item.title
                 )}
-              </td>
-              <td>
+              </div>
+              <div className={styles.cell}>
                 {editingItemId === item.id ? (
                   <input
                     type="text"
@@ -123,8 +127,8 @@ export default function MenuTable({ menuItems }) {
                 ) : (
                   item.link
                 )}
-              </td>
-              <td>
+              </div>
+              <div className={styles.cell}>
                 {editingItemId === item.id ? (
                   <input
                     type="number"
@@ -135,22 +139,28 @@ export default function MenuTable({ menuItems }) {
                 ) : (
                   item.order
                 )}
-              </td>
-              <td>{item.isActive ? 'فعال' : 'غیرفعال'}</td>
-              <td>
+              </div>
+              <div className={styles.cell}>{item.isActive ? 'فعال' : 'غیرفعال'}</div>
+              <div className={styles.cell}>
                 {editingItemId === item.id ? (
-                  <button onClick={() => saveChanges(item.id)} className={styles.formButton}>ذخیره</button>
+                  <button onClick={() => saveChanges(item.id)} className={styles.button}>
+                    ذخیره
+                  </button>
                 ) : (
-                  <button onClick={() => startEditing(item)} className={styles.formButton}>ویرایش</button>
+                  <button onClick={() => startEditing(item)} className={styles.button}>
+                    ویرایش
+                  </button>
                 )}
-                <button onClick={() => removeItem(item.id)} className={styles.formButton}>حذف</button>
-              </td>
-            </tr>
+                <button onClick={() => removeItem(item.id)} className={styles.button}>
+                  حذف
+                </button>
+              </div>
+            </div>
 
             {renderSubMenus(item.subMenus)}
           </React.Fragment>
         ))}
-      </tbody>
-    </table>
+      </div>
+    </div>
   )
 }

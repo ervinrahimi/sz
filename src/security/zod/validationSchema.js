@@ -1,6 +1,5 @@
 import { z } from 'zod'
 
-
 // For Personal Information Form
 export const personalInfoSchema = z.object({
   name: z.string().min(1, 'نام الزامی است.'),
@@ -117,5 +116,14 @@ export const menuItemSchema = z.object({
   title: z.string().min(1, 'عنوان منو الزامی است.'),
   link: z.string().optional(),
   order: z.number().int().nonnegative('ترتیب نمایش باید عددی مثبت باشد.'),
-  parentMenuID: z.string().nullable()
+  parentMenuID: z.string().nullable(),
+})
+
+export const slideSchema = z.object({
+  title: z.string().min(1, 'عنوان اسلاید الزامی است').max(100, 'حداکثر 100 کاراکتر مجاز است'),
+  typeAnimationTexts: z
+    .string()
+    .min(1, 'حداقل یک متن برای انیمیشن الزامی است')
+    .max(500, 'حداکثر 500 کاراکتر مجاز است'),
+  imageFile: z.any().optional(), // ولیدیشن برای تصویر اختیاری است
 })
