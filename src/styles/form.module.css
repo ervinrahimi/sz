@@ -5,22 +5,30 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: #f9f9f9;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
 }
+
+.formWrapper > h2 {
+  font-size: 18px;
+}
+
 
 .formContainer {
   width: 100%;
   padding: 24px;
-  background-color: #f9f9f9;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
+.formContainer > label {
+  font-size: 15px;
+  font-variation-settings: 'wdth' 98, 'wght' 500, 'DOTS' 1;
+}
+
 .formInput {
+  margin-top: 8px;
   width: 100%;
   padding: 12px;
   border: 1px solid #ddd;
@@ -31,7 +39,7 @@
 }
 
 .formInput:focus {
-  border-color: #007bff;
+  border-color: #1c7d7f;
 }
 
 .formSelect {
@@ -108,7 +116,7 @@
 .formButton {
   margin-top: 10px;
   width: 100%;
-  background-color: #007bff;
+  background-color: #1c7d7f;
   color: white;
   padding: 12px;
   border: none;
@@ -119,7 +127,7 @@
 }
 
 .formButton:hover {
-  background-color: #0056b3;
+  background-color: #208d8f;
 }
 
 .details {

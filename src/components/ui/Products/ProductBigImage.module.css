@@ -1,0 +1,35 @@
+.container {
+  position: relative;
+  width: 100%;
+  height: 1000px;
+  background: rgba(11, 14, 33, 0.8);
+  display: block;
+  z-index: -2;
+}
+
+.container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  filter: blur(3px);
+}
+
+.container span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: rgba(11, 14, 33, 0.8);
+}
+
+@media (max-width: 650px) {
+  .container  {
+    height: 700px;
+  }
+}

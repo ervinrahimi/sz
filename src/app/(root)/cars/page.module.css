@@ -327,4 +327,8 @@
     height: 300px;
     margin-top: -15px;
   }
+
+  .carContainer {
+    top: -250px;
+  }
 }

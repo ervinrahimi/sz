@@ -5,6 +5,7 @@ import { MainSlider } from '@/components/ui/Slider/Slider'
 import ProductsBox from '@/components/ui/Products/ProductsBox'
 import { TypeAnimation } from 'react-type-animation'
 import toast from 'react-hot-toast'
+import ProductBigImage from '@/components/ui/Products/ProductBigImage'
 
 export default function ProductPage() {
   const handleToast = () => {
@@ -13,7 +14,8 @@ export default function ProductPage() {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <MainSlider product />
+        {/* <MainSlider product /> */}
+        <ProductBigImage address={'/cars/mg-gt/1.jpg'} />
         <div className={styles.infoContainer}>
           <span className={styles.leftLine} />
           <span className={styles.rightLine} />

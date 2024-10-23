@@ -6,6 +6,7 @@ import ProductsBox from '@/components/ui/Products/ProductsBox'
 import { TypeAnimation } from 'react-type-animation'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
+import ProductBigImage from '@/components/ui/Products/ProductBigImage'
 export default function ProductPage() {
   const router = useRouter()
   const handleToast = () => {
@@ -22,7 +23,8 @@ export default function ProductPage() {
       <div className={styles.container}>
         {/* <HeaderSticky />
         <Header product /> */}
-        <MainSlider product />
+        {/* <MainSlider product /> */}
+        <ProductBigImage address={'/cars/t5/1.jpg'} />
         <div className={styles.infoContainer}>
           <span className={styles.leftLine} />
           <span className={styles.rightLine} />
