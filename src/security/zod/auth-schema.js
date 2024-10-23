@@ -1,15 +1,23 @@
 import { z } from 'zod'
 
-export const resgisterSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-})
+export const registerSchema = z.object({
+  firstName: z.string().min(1, "نام الزامی است"),
+  lastName: z.string().min(1, "نام خانوادگی الزامی است"),
+  email: z.string().email("ایمیل معتبر نیست"),
+  password: z.string().min(8, "رمز عبور باید حداقل ۸ کاراکتر باشد"),
+  terms: z.boolean().refine((val) => val === true, {
+    message: "پذیرفتن قوانین و شرایط الزامی است",
+  }),
+});
 
 export const loginSchema = z.object({
-  email: z.optional(z.string().email()),
-  password: z.optional(z.string()),
-  code: z.optional(z.string()),
-})
+  email: z.string().email("ایمیل معتبر نیست").optional(),
+  password: z.string().optional(),
+  code: z.string().optional(),
+}).refine((data) => (data.email && data.password) || data.code, {
+  message: "لطفاً یا ایمیل و رمز عبور را وارد کنید یا کد دو مرحله‌ای را وارد کنید",
+  path: ["email", "password", "code"],  // مسیر خطاها
+});
 
 export const forgotPasswordSchema = z.object({
   email: z.string().email(),

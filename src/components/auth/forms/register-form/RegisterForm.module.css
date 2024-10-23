@@ -1,0 +1,84 @@
+.registerForm {
+  background-color: #1a1a2e;
+  padding: 40px;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: auto;
+  color: white;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  background-color: #2b2b4a;
+  color: white;
+}
+
+.nameInputs {
+  display: flex;
+  gap: 10px;
+}
+
+.button {
+  width: 100%;
+  padding: 10px;
+  background-color: #6d6af1;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.checkbox label {
+  color: #aaa;
+  margin-left: 5px;
+}
+
+.divider {
+  text-align: center;
+  margin: 20px 0;
+  color: #aaa;
+}
+
+.socialButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.socialButton {
+  background-color: #333;
+  padding: 10px;
+  width: 48%;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+}
