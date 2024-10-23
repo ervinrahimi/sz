@@ -2,6 +2,7 @@
 import { auth } from '@/security/auth'
 import styles from './page.module.css'
 import Link from 'next/link'
+import Notifications from '@/components/dashboard/Notifications/Notifications'
 
 export default async function Dashboard() {
   const session = await auth()
@@ -17,6 +18,7 @@ export default async function Dashboard() {
         </div>
         <div className={styles.balanceBox}>
           <h2>محتوای داشبورد</h2>
+          <Notifications />
         </div>
       </div>
     </div>
