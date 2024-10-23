@@ -68,7 +68,7 @@ export default function Footer() {
             <a href="#">حریم خصوصی</a> · <a href="#">خط مشی و شرایط سایت</a>
           </p>
           <div className={styles.socialLinks}>
-            <Link href="#">تلگرام</Link> ·<Link href="#">اینستاگرام</Link> ·
+            <Link href="#">تلگرام</Link> ·<Link href="https://www.instagram.com/fardakhodro/">اینستاگرام</Link> ·
             <Link href="#">واتساپ</Link> ·<Link href="#">یوتیوب</Link>
           </div>
         </div>
