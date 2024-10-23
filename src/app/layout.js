@@ -4,6 +4,9 @@ import { auth } from '@/security/auth'
 import toast, { Toaster } from 'react-hot-toast'
 import '@/styles/globals.css'
 import GlobalLoading from '@/components/ui/Loading/GlobalLoading'
+import { getMenuItems } from '@/actions/admin/menu'
+import HeaderSticky from '@/components/layout/Header/HeaderSticky'
+import Header from '@/components/layout/Header/Header'
 
 export const metadata = {
   title: 'گروه خودرویی سلطان زاده',
@@ -11,6 +14,8 @@ export const metadata = {
 }
 
 export default async function RootLayout({ children }) {
+  const menuItems = await getMenuItems()
+
   const session = await auth()
 
   // // بررسی نقش کاربر
@@ -29,6 +34,8 @@ export default async function RootLayout({ children }) {
               className: 'toaster',
             }}
           />
+          <HeaderSticky menuItems={menuItems} />
+          <Header menuItems={menuItems} />
           {children}
         </body>
       </html>

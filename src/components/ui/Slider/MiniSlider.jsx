@@ -96,7 +96,7 @@ const MiniSlider = ({ images, titles, subtitles, dates, videos, links }) => {
   return (
     <div className={styles.slider}>
       <div className={styles.slidesContainer} ref={slidesContainerRef}>
-        {slides.map((slide) => (
+        {slides && slides.map((slide) => (
           <div key={slide.id} className={styles.slide}>
             {slide.content}
           </div>

@@ -70,7 +70,7 @@ export const MainSlider = () => {
         className={styles.slidesContainer}
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
-        {slides.map((slide) => (
+        {slides && slides.map((slide) => (
           <div key={slide.id} className={styles.slide}>
             <Image className={styles.bgSample} src={slide.imageUrl} fill alt={slide.title} />
             <span className={styles.blackBox} />

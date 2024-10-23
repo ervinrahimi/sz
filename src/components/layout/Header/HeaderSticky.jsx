@@ -10,7 +10,8 @@ import {
   MenuPhoneIcon,
   MenuProfileIcon,
   MenuSearchIcon,
-  MenuIcon
+  MenuIcon,
+  MenuWhatsappIcon
 } from '@/assets/svgs/Icons/Icons'
 import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
@@ -119,7 +120,7 @@ export default function HeaderSticky({ menuItems }) {
             <div className={styles.rightSideMenu}>
               <SoltanZadeLogoSVG onClick={handleClick} className={styles.logo} />
               <ul>
-                {menuItems.map((menu) => (
+                {menuItems && menuItems.map((menu) => (
                     <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
                       <Link href={menu.link || '#'}>
                         {menu.title}
@@ -127,7 +128,7 @@ export default function HeaderSticky({ menuItems }) {
                       {menu.subMenus.length > 0 && <MenuArrowIcon className={isActive(menu.link) ? styles.active : 'menuArrowIcon'} />} 
                       {menu.subMenus && menu.subMenus.length > 0 && (
                         <ul className={styles.subMenu}>
-                          {menu.subMenus.map((subMenu) => (
+                          {menu.subMenus && menu.subMenus.map((subMenu) => (
                             <li key={subMenu.id} className={isActive(subMenu.link) ? styles.active : ''}>
                               <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
                             </li>
@@ -139,9 +140,9 @@ export default function HeaderSticky({ menuItems }) {
                 </ul>
             </div>
             <div className={styles.leftSideMenu}>
-              <button className={styles.menuButton} onClick={handleShopClick}>
+              {/* <button className={styles.menuButton} onClick={handleShopClick}>
                 <MenuSearchIcon />
-              </button>
+              </button> */}
               <button className={styles.menuButton} onClick={handleShopClick}>
                 <MenuCartIcon />
               </button>
@@ -149,12 +150,15 @@ export default function HeaderSticky({ menuItems }) {
               <button className={styles.menuButton} onClick={handleShopClick}>
                 <MenuProfileIcon />
               </button>
+              <button className={styles.menuButton} onClick={handleShopClick}>
+                <MenuWhatsappIcon />
+              </button>
               {!showContent ? (
-                <Link href={'https://www.google.com/'} className={styles.menuLinkButton}>
+                <Link href={'tel:09035434627'} className={styles.menuLinkButton}>
                   <MenuPhoneIcon className={styles.phoneIcon} />
                 </Link>
               ) : (
-                <Link href={'https://www.google.com/'} className={styles.menuLinkButton}>
+                <Link href={'tel:09035434627'} className={styles.menuLinkButton}>
                   مشاوره
                   <MenuPhoneIcon className={styles.phoneIcon} />
                 </Link>

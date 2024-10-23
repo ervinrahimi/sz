@@ -1,8 +1,6 @@
 'use client'
 import Image from 'next/image'
 import styles from '../page.module.css'
-import Header from '@/components/layout/Header/Header'
-import HeaderSticky from '@/components/layout/Header/HeaderSticky'
 import { MainSlider } from '@/components/ui/Slider/Slider'
 import ProductsBox from '@/components/ui/Products/ProductsBox'
 import { TypeAnimation } from 'react-type-animation'
@@ -22,8 +20,8 @@ export default function ProductPage() {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <HeaderSticky />
-        <Header product />
+        {/* <HeaderSticky />
+        <Header product /> */}
         <MainSlider product />
         <div className={styles.infoContainer}>
           <span className={styles.leftLine} />
@@ -108,7 +106,7 @@ export default function ProductPage() {
             <div className={styles.informationGrid}>
               <li className={styles.subMargin}>
                 <span>
-                  تست<div className={styles.subText}>تست</div>
+                  تست<div className={styles.subText}>جواب</div>
                 </span>
                 <Image src={'/dots.png'} width={700} height={700} alt="dots" />
                 <span>تست</span>

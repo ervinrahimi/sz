@@ -1,8 +1,6 @@
 'use client'
 import Image from 'next/image'
 import styles from '../page.module.css'
-import Header from '@/components/layout/Header/Header'
-import HeaderSticky from '@/components/layout/Header/HeaderSticky'
 import { MainSlider } from '@/components/ui/Slider/Slider'
 import ProductsBox from '@/components/ui/Products/ProductsBox'
 import { TypeAnimation } from 'react-type-animation'
@@ -23,8 +21,6 @@ export default function ProductPage() {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <HeaderSticky />
-        <Header product />
         <MainSlider product />
         <div className={styles.infoContainer}>
           <span className={styles.leftLine} />
