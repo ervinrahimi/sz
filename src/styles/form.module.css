@@ -130,6 +130,10 @@
   background-color: #208d8f;
 }
 
+.formLtr {
+  direction: ltr;
+}
+
 .details {
   width: 100%;
 }

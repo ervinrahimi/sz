@@ -7,9 +7,11 @@ import { useEffect, useState } from 'react'
 import { menuItemSchema } from '@/security/zod/validationSchema'
 import { addMenuItem, getMenuItems } from '@/actions/admin/menu'
 import styles from '@/styles/form.module.css'
+import { useRouter } from 'next/navigation'
 
 export default function MenuForm() {
   const [menuOptions, setMenuOptions] = useState([])
+  const router = useRouter()
 
   const {
     register,
@@ -35,9 +37,13 @@ export default function MenuForm() {
   }, [])
 
   const onSubmit = async (data) => {
+    data.order = menuOptions.length
+    if (data.link && !data.link.startsWith('/')){
+      data.link = `/${data.link}`
+    }
     await addMenuItem(data)
     reset() // ریست فرم
-    window.location.reload() // رفرش صفحه
+    return router.push('/admin/menu') // رفرش صفحه
   }
 
   return (
@@ -57,18 +63,9 @@ export default function MenuForm() {
         <input
           type="text"
           {...register('link')}
-          className={styles.formInput}
+          className={`${styles.formInput} ${styles.formLtr}`}
         />
-      </label>
-      
-      <label className={styles.formLabel}>
-        ترتیب نمایش:
-        <input
-          type="number"
-          {...register('order', { valueAsNumber: true })}
-          className={styles.formInput}
-        />
-        {errors.order && <p className={styles.formError}>{errors.order.message}</p>}
+        {errors.link && <p className={styles.formError}>{errors.link.message}</p>}
       </label>
 
       <label className={styles.formLabel}>
@@ -77,12 +74,12 @@ export default function MenuForm() {
           {...register('parentMenuID')}
           className={styles.formSelect}
         >
-          <option value="">بدون والد (منوی اصلی)</option>
-          {menuOptions.map((menu) => (
+          <option value="">به زودی...</option>
+          {/* {menuOptions.map((menu) => (
             <option key={menu.id} value={menu.id}>
               {menu.title}
             </option>
-          ))}
+          ))} */}
         </select>
       </label>
 

@@ -92,30 +92,14 @@ export default function HeaderSticky({ menuItems }) {
           ×
         </button>
         <ul>
-          <li>
-            <Link href={'#'}>سلطان زاده</Link>
-          </li>
-          <li>
-            <Link href={'#'}>محصولات خودرویی</Link>
-          </li>
-          <li>
-            <Link href={'#'}>قطعات یدکی</Link>
-          </li>
-          <li>
-            <Link href={'#'}>نمایندگان و کارشناسان</Link>
-          </li>
-          <li>
-            <Link href={'#'}>همراهی بعد از فروش</Link>
-          </li>
-          <li>
-            <Link href={'#'}>اخبار</Link>
-          </li>
-          {/* <li>
-            <Link href={'#'}>دانلود سنتر</Link>
-          </li> */}
-          {/* <li>
-            <Link href={'#'}>فصل‌نامه</Link>
-          </li> */}
+          {menuItems &&
+              menuItems.map((menu) => 
+                menu.isActive && (
+                  <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
+                    <Link href={menu.link || '#'}>{menu.title}</Link>
+                  </li>
+                )
+            )}
         </ul>
       </div>
 
@@ -125,7 +109,7 @@ export default function HeaderSticky({ menuItems }) {
             <div className={styles.rightSideMenu}>
               <SoltanZadeLogoSVG onClick={handleClick} className={styles.logo} />
               <ul>
-                {menuItems && menuItems.map((menu) => (
+                {menuItems && menuItems.map((menu) => menu.isActive && (
                     <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
                       <Link href={menu.link || '#'}>
                         {menu.title}

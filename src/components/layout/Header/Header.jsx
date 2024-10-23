@@ -52,11 +52,12 @@ export default function Header({ product, menuItems }) {
   const renderSubMenus = (subMenus) => {
     return (
       <ul className={styles.subMenu}>
-        {subMenus && subMenus.map((subMenu) => (
-          <li key={subMenu.id} className={isActive(subMenu.link) ? styles.active : ''}>
-            <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
-          </li>
-        ))}
+        {subMenus &&
+          subMenus.map((subMenu) => (
+            <li key={subMenu.id} className={isActive(subMenu.link) ? styles.active : ''}>
+              <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
+            </li>
+          ))}
       </ul>
     )
   }
@@ -87,30 +88,14 @@ export default function Header({ product, menuItems }) {
           ×
         </button>
         <ul>
-          <li>
-            <Link href={'#'}>سلطان زاده</Link>
-          </li>
-          <li>
-            <Link href={'#'}>محصولات خودرویی</Link>
-          </li>
-          <li>
-            <Link href={'#'}>قطعات یدکی</Link>
-          </li>
-          <li>
-            <Link href={'#'}>نمایندگان و کارشناسان</Link>
-          </li>
-          <li>
-            <Link href={'#'}>همراهی بعد از فروش</Link>
-          </li>
-          <li>
-            <Link href={'#'}>اخبار</Link>
-          </li>
-          {/* <li>
-            <Link href={'#'}>دانلود سنتر</Link>
-          </li> */}
-          {/* <li>
-            <Link href={'#'}>فصل‌نامه</Link>
-          </li> */}
+          {menuItems &&
+            menuItems.map((menu) => 
+              menu.isActive && (
+                <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
+                  <Link href={menu.link || '#'}>{menu.title}</Link>
+                </li>
+              )
+          )}
         </ul>
       </div>
 
@@ -125,23 +110,31 @@ export default function Header({ product, menuItems }) {
           <div className={styles.rightSideMenu}>
             <SoltanZadeLogoSVG onClick={handleClick} className={styles.logo} />
             <ul>
-              {menuItems && menuItems.map((menu) => (
-                <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
-                  <Link href={menu.link || '#'}>
-                    {menu.title}
-                  </Link>
-                  {menu.subMenus.length > 0 && <MenuArrowIcon className={isActive(menu.link) ? styles.active : 'menuArrowIcon'} />} 
-                  {menu.subMenus && menu.subMenus.length > 0 && (
-                    <ul className={styles.subMenu}>
-                      {menu.subMenus.map((subMenu) => (
-                        <li key={subMenu.id} className={isActive(subMenu.link) ? styles.active : ''}>
-                          <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
+              {menuItems &&
+                menuItems.map((menu) => 
+                  menu.isActive && (
+                    <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
+                      <Link href={menu.link || '#'}>{menu.title}</Link>
+                      {menu.subMenus.length > 0 && (
+                        <MenuArrowIcon
+                          className={isActive(menu.link) ? styles.active : 'menuArrowIcon'}
+                        />
+                      )}
+                      {menu.subMenus && menu.subMenus.length > 0 && (
+                        <ul className={styles.subMenu}>
+                          {menu.subMenus.map((subMenu) => (
+                            <li
+                              key={subMenu.id}
+                              className={isActive(subMenu.link) ? styles.active : ''}
+                            >
+                              <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </li>
+                  )
+                )}
             </ul>
           </div>
           <div className={styles.leftSideMenu}>

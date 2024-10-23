@@ -2,11 +2,13 @@
 
 import React, { useState } from 'react'
 import { updateMenuItem, deleteMenuItem } from '@/actions/admin/menu'
-import styles from '@/components/admin/menu/MenuTable.module.css' // استایل‌ها از فایل UsersTable.module.css
+import styles from '@/components/admin/menu/MenuTable.module.css'
+import { useRouter } from 'next/navigation'
 
 export default function MenuTable({ menuItems }) {
   const [editingItemId, setEditingItemId] = useState(null)
   const [formData, setFormData] = useState({})
+  const router = useRouter()
 
   const startEditing = (item) => {
     setEditingItemId(item.id)
@@ -18,15 +20,39 @@ export default function MenuTable({ menuItems }) {
     })
   }
 
+  const moveUp = async (item) => {
+    if (item.order > 0) {
+      item.order -= 1
+      const oldItem = menuItems[item.order]
+      await updateMenuItem(item.id, item)
+      oldItem.order += 1
+      await updateMenuItem(oldItem.id, oldItem)
+
+      router.refresh()
+    }
+  }
+
+  const moveDown = async (item) => {
+    if (item.order + 1 < menuItems.length) {
+      item.order += 1
+      const oldItem = menuItems[item.order]
+      await updateMenuItem(item.id, item)
+      oldItem.order -= 1
+      await updateMenuItem(oldItem.id, oldItem)
+
+      router.refresh()
+    }
+  }
+
   const saveChanges = async (id) => {
     await updateMenuItem(id, formData)
     setEditingItemId(null)
-    window.location.reload()
+    router.refresh()
   }
 
   const removeItem = async (id) => {
     await deleteMenuItem(id)
-    window.location.reload()
+    router.refresh()
   }
 
   const renderSubMenus = (subMenus) => {
@@ -70,7 +96,18 @@ export default function MenuTable({ menuItems }) {
                 subMenu.order
               )}
             </div>
-            <div className={styles.cell}>{subMenu.isActive ? 'فعال' : 'غیرفعال'}</div>
+            <div className={styles.cell}>
+              {editingItemId === subMenu.id ? (
+                <input
+                  type="checkbox"
+                  checked={formData.isActive}
+                  onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
+                  className={styles.formInput}
+                />
+              ) : (
+                subMenu.isActive ? 'فعال' : 'غیرفعال'
+              )}
+            </div>
             <div className={styles.cell}>
               {editingItemId === subMenu.id ? (
                 <button onClick={() => saveChanges(subMenu.id)} className={styles.button}>
@@ -116,7 +153,7 @@ export default function MenuTable({ menuItems }) {
                   item.title
                 )}
               </div>
-              <div className={styles.cell}>
+              <div className={`${styles.cell} ${styles.ltr}`}>
                 {editingItemId === item.id ? (
                   <input
                     type="text"
@@ -129,18 +166,25 @@ export default function MenuTable({ menuItems }) {
                 )}
               </div>
               <div className={styles.cell}>
+                <button onClick={() => moveUp(item)} className={styles.button}>
+                  △
+                </button>
+                <button onClick={() => moveDown(item)} className={styles.button}>
+                  ▽
+                </button>
+              </div>
+              <div className={styles.cell}>
                 {editingItemId === item.id ? (
                   <input
-                    type="number"
-                    value={formData.order}
-                    onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) })}
+                    type="checkbox"
+                    checked={formData.isActive}
+                    onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
                     className={styles.formInput}
                   />
                 ) : (
-                  item.order
+                  item.isActive ? 'فعال' : 'غیرفعال'
                 )}
               </div>
-              <div className={styles.cell}>{item.isActive ? 'فعال' : 'غیرفعال'}</div>
               <div className={styles.cell}>
                 {editingItemId === item.id ? (
                   <button onClick={() => saveChanges(item.id)} className={styles.button}>

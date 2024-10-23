@@ -49,10 +49,16 @@ export async function deleteMenuItem(id) {
     where: { id },
   })
 
+  if (!menuItem) {
+    throw new Error('Menu item not found')
+  }
+
+  const { parentMenuID, order } = menuItem
+
   // حذف آیتم از فهرست زیرمنوهای والد، اگر زیرمنو است
-  if (menuItem.parentMenuID) {
+  if (parentMenuID) {
     await prisma.menuItem.update({
-      where: { id: menuItem.parentMenuID },
+      where: { id: parentMenuID },
       data: {
         subMenuIDs: {
           set: menuItem.subMenuIDs.filter(subId => subId !== id),
@@ -61,8 +67,24 @@ export async function deleteMenuItem(id) {
     })
   }
 
+  // حذف آیتم از منو
   await prisma.menuItem.delete({
     where: { id },
+  })
+
+  // به‌روزرسانی order برای آیتم‌هایی که order آن‌ها بیشتر از آیتم حذف‌شده است
+  await prisma.menuItem.updateMany({
+    where: {
+      parentMenuID,
+      order: {
+        gt: order,
+      },
+    },
+    data: {
+      order: {
+        decrement: 1, // کاهش order به اندازه 1
+      },
+    },
   })
 }
 

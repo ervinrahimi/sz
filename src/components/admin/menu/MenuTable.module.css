@@ -55,6 +55,24 @@
   gap: 10px;
 }
 
+.formInput {
+  margin-top: 8px;
+  padding: 5px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.formInput:focus {
+  border-color: #007bff;
+}
+
+.ltr {
+  direction: ltr;
+}
+
 .button {
   background-color: #007bff;
   color: #ffffff;
@@ -66,7 +84,7 @@
 }
 
 .button:hover {
-  background-color: #0056b3;
+  background-color: #007bff;
 }
 
 @media (max-width: 768px) {
