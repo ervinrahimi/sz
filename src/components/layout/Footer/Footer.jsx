@@ -29,7 +29,7 @@ export default function Footer() {
               </li>
               <li>
                 <a href="#" className={styles.highlight}>
-                  آدرس : خیابان مهرداد، جنب ممد، کوچه شهید امید عرفانی
+                  آدرس : ...
                 </a>
               </li>
               <li>
@@ -48,9 +48,6 @@ export default function Footer() {
               </li>
               <li>
                 <a href="#">زرین پال</a>
-              </li>
-              <li>
-                <a href="#">پیپال</a>
               </li>
             </ul>
           </div>
