@@ -1,5 +1,3 @@
-// src/app/admin/users/create/page.jsx
-
 'use client'
 
 import { useForm } from 'react-hook-form'
@@ -23,8 +21,11 @@ export default function UserCreate() {
   })
 
   const onSubmit = async (data) => {
+    // حذف confirmPassword از داده‌ها
+    const { confirmPassword, ...userData } = data
+
     try {
-      await createUser(data)
+      await createUser(userData)
       toast.success('کاربر با موفقیت ایجاد شد.')
       reset() // ریست کردن فرم بعد از موفقیت
       router.push('/admin/users') // ریدایرکت به صفحه کاربران
@@ -50,7 +51,7 @@ export default function UserCreate() {
 
         <label className={styles.formLabel}>
           کد ملی:
-          <input type="number" {...register('nationalCode')} className={styles.formInput} />
+          <input type="text" {...register('nationalCode')} className={styles.formInput} />
           {errors.nationalCode && <p className={styles.formError}>{errors.nationalCode.message}</p>}
         </label>
 
@@ -70,6 +71,14 @@ export default function UserCreate() {
           رمز عبور:
           <input type="password" {...register('password')} className={styles.formInput} />
           {errors.password && <p className={styles.formError}>{errors.password.message}</p>}
+        </label>
+
+        <label className={styles.formLabel}>
+          تایید رمز عبور:
+          <input type="password" {...register('confirmPassword')} className={styles.formInput} />
+          {errors.confirmPassword && (
+            <p className={styles.formError}>{errors.confirmPassword.message}</p>
+          )}
         </label>
 
         <label className={styles.formLabel}>

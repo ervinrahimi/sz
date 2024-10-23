@@ -7,7 +7,7 @@ import styles from './NotificationDetails.module.css'
 export default function NotificationDetails({ notification }) {
   return (
     <div className={styles.notificationDetails}>
-      <p>کد نوتیفیکیشن: {notification.id}</p>
+      <p>کد پیام: {notification.id}</p>
       <p>
         کاربر: {notification.user.name} {notification.user.family}
       </p>

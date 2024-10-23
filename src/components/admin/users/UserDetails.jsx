@@ -1,16 +1,17 @@
-// src/components/admin/users/UserDetails.jsx
 'use client'
 
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { userSchema } from '@/security/zod/validationSchema'
-import { updateUser } from '@/actions/admin/user'
+import { updateUser, deleteUser } from '@/actions/admin/user' // اضافه کردن deleteUser
 import styles from '@/styles/form.module.css'
+import { useRouter } from 'next/navigation'
 
 export default function UserDetails({ user }) {
   const [editing, setEditing] = useState(false)
   const [message, setMessage] = useState('')
+  const router = useRouter() // استفاده از useRouter برای هدایت پس از حذف
 
   const {
     register,
@@ -37,6 +38,18 @@ export default function UserDetails({ user }) {
       setEditing(false)
     } catch (error) {
       setMessage('خطایی رخ داده است.')
+    }
+  }
+
+  const handleDelete = async () => {
+    if (confirm('آیا مطمئن هستید که می‌خواهید این کاربر را حذف کنید؟')) {
+      try {
+        await deleteUser(user.id) // فراخوانی سرور اکشن برای حذف کاربر
+        setMessage('کاربر با موفقیت حذف شد.')
+        router.push('/admin/users') // ریدایرکت به صفحه کاربران پس از حذف
+      } catch (error) {
+        setMessage('حذف کاربر ناموفق بود.')
+      }
     }
   }
 
@@ -85,11 +98,18 @@ export default function UserDetails({ user }) {
         <div className={styles.details}>
           <p>نام: {user.name}</p>
           <p>نام خانوادگی: {user.family}</p>
+          <p>کد ملی: {user.nationalCode}</p> {/* نمایش کد ملی */}
           <p>ایمیل: {user.email}</p>
           <p>شماره تماس: {user.phone}</p>
           <p>نقش: {user.role === 1 ? 'ادمین' : 'کاربر'}</p>
           <button onClick={() => setEditing(true)} className={styles.formButton}>
             ویرایش اطلاعات
+          </button>
+          <button
+            onClick={handleDelete}
+            className={`${styles.formButton} ${styles.formButtonDelete}`}
+          >
+            حذف کاربر {/* دکمه حذف */}
           </button>
         </div>
       )}

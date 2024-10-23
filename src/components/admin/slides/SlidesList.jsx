@@ -5,7 +5,7 @@ import Link from 'next/link'
 import styles from './SlidesList.module.css'
 import { reorderSlides } from '@/actions/admin/slides'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
+import { deleteSlide } from '@/actions/admin/slides'
 
 export default function SlidesList({ slides }) {
   const [slideList, setSlideList] = useState(slides)
@@ -45,9 +45,17 @@ export default function SlidesList({ slides }) {
     router.refresh()
   }
 
-  const handleDelete = (id) => {
-    // تابع حذف
+  const handleDelete = async (id) => {
+    try {
+      await deleteSlide(id)  // حذف اسلاید از سرور
+      const updatedList = slideList.filter((slide) => slide.id !== id)
+      setSlideList(updatedList)  // به‌روزرسانی لیست پس از حذف
+      router.refresh()  // به‌روزرسانی صفحه
+    } catch (error) {
+      console.error('خطا در حذف اسلاید:', error)
+    }
   }
+  
 
   return (
     <div className={styles.container}>

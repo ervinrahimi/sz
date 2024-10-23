@@ -11,6 +11,7 @@ import { useState } from 'react'
 export default function SendNotificationForm() {
   const [searchResults, setSearchResults] = useState([]) // نتایج جستجو
   const [searchQuery, setSearchQuery] = useState('') // رشته جستجو
+  const [selectedUserId, setSelectedUserId] = useState('') // کاربر انتخاب شده
   const [successMessage, setSuccessMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
 
@@ -19,7 +20,7 @@ export default function SendNotificationForm() {
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting },
-    reset
+    reset,
   } = useForm({
     resolver: zodResolver(sendNotificationSchema),
     defaultValues: {
@@ -27,7 +28,7 @@ export default function SendNotificationForm() {
       userName: '',
       title: '',
       message: '',
-    }
+    },
   })
 
   // هندل کردن جستجوی نام کاربر
@@ -41,12 +42,17 @@ export default function SendNotificationForm() {
     }
   }
 
-  // انتخاب کاربر از لیست جستجو و قرار دادن نام در فیلد ورودی
-  const handleSelectUser = (user) => {
-    setValue('userId', user.id)
-    setValue('userName', `${user.name} ${user.family}`)
-    setSearchResults([])
-    setSearchQuery('') // خالی کردن فیلد جستجو پس از انتخاب
+  // انتخاب کاربر از لیست کشویی
+  const handleSelectUser = (e) => {
+    const userId = e.target.value
+    const selectedUser = searchResults.find((user) => user.id === userId)
+    if (selectedUser) {
+      setSelectedUserId(userId)
+      setValue('userId', selectedUser.id)
+      setValue('userName', `${selectedUser.name} ${selectedUser.family}`)
+      setSearchResults([]) // پاک کردن نتایج بعد از انتخاب کاربر
+      setSearchQuery('') // خالی کردن فیلد جستجو پس از انتخاب
+    }
   }
 
   const onSubmit = async (formData) => {
@@ -64,7 +70,7 @@ export default function SendNotificationForm() {
 
   return (
     <div className={styles.formWrapper}>
-      <h2 className={styles.title}>ارسال نوتیفیکیشن جدید</h2>
+      <h2 className={styles.title}>ارسال پیام جدید</h2>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
         <label className={styles.formLabel}>
           جستجوی کاربر:
@@ -76,15 +82,21 @@ export default function SendNotificationForm() {
             className={styles.formInput}
           />
         </label>
+
         {searchResults.length > 0 && (
-          <ul className={styles.searchResults}>
-            {searchResults.map((user) => (
-              <li key={user.id} onClick={() => handleSelectUser(user)} className={styles.searchResultItem}>
-                {user.name} {user.family} - {user.email}
-              </li>
-            ))}
-          </ul>
+          <label className={styles.formLabel}>
+            انتخاب کاربر:
+            <select value={selectedUserId} onChange={handleSelectUser} className={styles.formInput}>
+              <option value="">انتخاب کاربر</option>
+              {searchResults.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.name} {user.family} - {user.email}
+                </option>
+              ))}
+            </select>
+          </label>
         )}
+
         <label className={styles.formLabel}>
           کاربر انتخاب شده:
           <input
@@ -96,23 +108,19 @@ export default function SendNotificationForm() {
           />
           {errors.userId && <p className={styles.formError}>{errors.userId.message}</p>}
         </label>
+
         <label className={styles.formLabel}>
           عنوان پیام:
-          <input
-            type="text"
-            {...register('title')}
-            className={styles.formInput}
-          />
+          <input type="text" {...register('title')} className={styles.formInput} />
           {errors.title && <p className={styles.formError}>{errors.title.message}</p>}
         </label>
+
         <label className={styles.formLabel}>
           متن پیام:
-          <textarea
-            {...register('message')}
-            className={styles.formInput}
-          />
+          <textarea {...register('message')} className={styles.formInput} />
           {errors.message && <p className={styles.formError}>{errors.message.message}</p>}
         </label>
+
         <button type="submit" className={styles.formButton} disabled={isSubmitting}>
           {isSubmitting ? 'در حال ارسال...' : 'ارسال نوتیفیکیشن'}
         </button>
