@@ -7,7 +7,7 @@ export default async function LoginPage() {
     <div className={styles.page}>
       <div className={styles.container}>
         {/* <Providers /> */}
-        <LoginForm className={styles.form} />
+        <LoginForm />
       </div>
     </div>
   )

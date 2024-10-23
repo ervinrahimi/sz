@@ -16,15 +16,15 @@ export const resetPassword = async (values, token) => {
 
   const existingToken = await validateToken(token, 'pass_')
 
-  if (!existingToken) return { error: 'Invalid token!' }
+  if (!existingToken) return { error: 'توکن اشتباه است!' }
 
   const hasExpired = await hasExpiredToken(existingToken)
 
-  if (hasExpired) return { error: 'Token has expired!' }
+  if (hasExpired) return { error: 'توکن منقضی شده!' }
 
   const existingUser = await prisma.user.findUnique({ where: { email: existingToken.identifier } })
 
-  if (!existingUser) return { error: 'Email does not exist!' }
+  if (!existingUser) return { error: 'ایمیل پیدا نشد!' }
 
   await prisma.user.update({
     where: { id: existingUser.id },
@@ -33,5 +33,5 @@ export const resetPassword = async (values, token) => {
 
   await deleteToken(existingToken)
 
-  return { success: 'Password updated!' }
+  return { success: 'رمز عبور شما با موفقیت آبدیت شد!' }
 }

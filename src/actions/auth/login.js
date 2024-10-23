@@ -24,30 +24,30 @@ export const login = async (values, callbackUrl) => {
   const existingUser = await prisma.user.findUnique({ where: { email } })
 
   if (!existingUser || !existingUser.email || !existingUser.password) {
-    return { error: 'Email or password is incorrect!' }
+    return { error: 'ایمیل یا پسورد اشتباه است!' }
   }
 
   const passwordsMatch = await bcrypt.compare(password, existingUser.password)
 
-  if (!passwordsMatch) return { error: 'Email or password is incorrect' }
+  if (!passwordsMatch) return { error: 'ایمیل یا پسورد اشتباه است!' }
 
   if (!existingUser.emailVerified) {
     const verificationToken = await generateVerifyEmailToken(existingUser.email)
 
     await sendEmailVerifyEmail(verificationToken.identifier, verificationToken.token)
 
-    return { success: 'Confirmation email sent!' }
+    return { success: 'ایمیلی حاوی کد تایید برای شما ارسال شد!' }
   }
 
   if (existingUser.isTwoFactorEnabled && existingUser.email) {
     if (code) {
       const twoFactorToken = await validateToken('2fa_' + code, '2fa_')
 
-      if (!twoFactorToken) return { error: 'Invalid code!' }
+      if (!twoFactorToken) return { error: 'کد اشتباه است!' }
 
       const hasExpired = await hasExpiredToken(twoFactorToken)
 
-      if (hasExpired) return { error: 'Code expired!' }
+      if (hasExpired) return { error: 'کد منقضی شده!' }
 
       await deleteToken(twoFactorToken)
 

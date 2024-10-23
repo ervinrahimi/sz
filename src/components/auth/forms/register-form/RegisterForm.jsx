@@ -2,7 +2,7 @@
 
 import { FormError, FormSuccess } from '@/components/forms/message/Message'
 import { register as registerUser } from '@/actions/auth/register'
-import { resgisterSchema } from '@/security/zod/auth-schema'
+import { registerSchema } from '@/security/zod/auth-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
@@ -13,7 +13,7 @@ export default function RegisterForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm({ resolver: zodResolver(resgisterSchema) })
+  } = useForm({ resolver: zodResolver(registerSchema) })
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 
@@ -48,12 +48,11 @@ export default function RegisterForm() {
           className={styles.input}
         />
       </div>
-      {errors.firstName && <p className={styles.error}>{errors.firstName.message}</p>}
-      {errors.lastName && <p className={styles.error}>{errors.lastName.message}</p>}
+      {(errors.firstName || errors.lastName) && (<p className={styles.error}>{errors.firstName?.message} {errors.firstName && '/'} {errors?.lastName.message}</p>)}
 
       <input
         disabled={isSubmitting}
-        type="email"
+        type="text"
         placeholder="ایمیل"
         {...register('email')}
         className={styles.input}
@@ -62,7 +61,7 @@ export default function RegisterForm() {
 
       <input
         disabled={isSubmitting}
-        type="password"
+        type="text"
         placeholder="رمز عبور (حداقل ۸ کاراکتر)"
         {...register('password')}
         className={styles.input}
@@ -71,6 +70,11 @@ export default function RegisterForm() {
 
       <FormError message={error} className={styles.error} />
       <FormSuccess message={success} className={styles.success} />
+
+      <div className={styles.checkbox}>
+        <input type="checkbox" {...register('terms')} />
+        <label>قوانین و شرایط را می‌پذیرم <a href="#">مطالعه</a></label>
+      </div>
 
       <button type="submit" disabled={isSubmitting} className={styles.button}>
         ثبت نام

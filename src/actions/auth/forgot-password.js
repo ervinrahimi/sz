@@ -19,5 +19,5 @@ export const forgotPassword = async (values) => {
   
   await sendEmailResetPassword(passwordResetToken.identifier, passwordResetToken.token)
 
-  return { success: 'Reset password email sent!' }
+  return { success: 'ایمیل برای فراموشی رمز عبور ارسال شد!' }
 }

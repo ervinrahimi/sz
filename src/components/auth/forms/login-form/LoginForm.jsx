@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import styles from './LoginForm.module.css'
 
-export default function LoginForm({ className }) {
+export default function LoginForm() {
   const {
     register,
     handleSubmit,
@@ -50,8 +50,8 @@ export default function LoginForm({ className }) {
   }
 
   return (
-    <form className={`${className} ${styles.loginForm}`} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className={styles.title}>ایجاد حساب کاربری</h1>
+    <form className={styles.loginForm} onSubmit={handleSubmit(onSubmit)}>
+      <h1 className={styles.title}>ورود به حساب کاربری</h1>
       {!showTwoFactor && (
         <>
           <input
@@ -86,20 +86,20 @@ export default function LoginForm({ className }) {
         </>
       )}
 
-      <FormError message={error || urlError} className={styles.error} />
-      <FormSuccess message={success} className={styles.success} />
+      <FormError message={error || urlError}/>
+      <FormSuccess message={success} />
 
       <button type="submit" disabled={isSubmitting} className={styles.button}>
         ورود به حساب
       </button>
       <p className={styles.subtitle}>
-        حساب ندارید ؟{' '}
+        حساب ندارید؟{' '}
         <a href="/auth/register" className={styles.link}>
           ثبت نام
         </a>
       </p>
       <p className={styles.subtitle}>
-        رمز خود را فراموش کردید ؟{' '}
+        رمز خود را فراموش کردید؟{' '}
         <a href="/auth/forgot-password" className={styles.link}>
           فراموش رمز عبور
         </a>

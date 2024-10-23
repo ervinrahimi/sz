@@ -6,8 +6,9 @@ import { resetPassword } from '@/actions/auth/reset-password'
 import { AUTH_ROUTES } from '@/constants/routes/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form' 
+import { useForm } from 'react-hook-form'
 import { useState } from 'react'
+import styles from './ResetPasswordForm.module.css'
 
 export default function ResetPasswordForm({ token }) {
   const {
@@ -30,14 +31,25 @@ export default function ResetPasswordForm({ token }) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="password" placeholder="Password" {...register('password')} />
-      {errors.password && <p>{errors.password.message}</p>}
-      <input type="password" placeholder="Confirm password" {...register('confirmPassword')} />
-      {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.resetPasswordForm}>
+      <h1 className={styles.title}>لطفا رمز عبور جدید را وارد کنید</h1>
+      <input
+        type="password"
+        placeholder="رمز عبور"
+        {...register('password')}
+        className={styles.input}
+      />
+      {errors.password && <p className={styles.error}>{errors.password.message}</p>}
+      <input
+        type="password"
+        placeholder="تکرار رمز عبور"
+        {...register('confirmPassword')}
+        className={styles.input}
+      />
+      {errors.confirmPassword && <p className={styles.error}>{errors.confirmPassword.message}</p>}
       <FormError message={error} />
-      <button type="submit" disabled={isSubmitting}>
-        Reset password
+      <button type="submit" disabled={isSubmitting} className={styles.button}>
+        تغییر رمز عبور
       </button>
     </form>
   )

@@ -1,13 +1,13 @@
 'use server'
 
-import { resgisterSchema } from '@/security/zod/auth-schema'
+import { registerSchema } from '@/security/zod/auth-schema'
 import { generateVerifyEmailToken } from '@/security/token'
 import { sendEmailVerifyEmail } from '@/emails/send-email'
 import prisma from '@/db/client'
 import bcrypt from 'bcryptjs'
 
 export const register = async (values) => {
-  const validatedFields = resgisterSchema.safeParse(values)
+  const validatedFields = registerSchema.safeParse(values)
 
   if (!validatedFields.success) return { error: 'Invalid fields!' }
 
@@ -15,7 +15,7 @@ export const register = async (values) => {
 
   const existingUser = await prisma.user.findUnique({ where: { email } })
 
-  if (existingUser) return { error: 'User already exists!' }
+  if (existingUser) return { error: 'کاربری با این ایمیل وجود دارد!' }
 
   await prisma.user.create({
     data: {
@@ -28,5 +28,5 @@ export const register = async (values) => {
 
   await sendEmailVerifyEmail(verificationToken.identifier, verificationToken.token)
 
-  return { success: 'Confirmation email sent!' }
+  return { success: 'ایمیل جهت تایید برای شما ارسال شد.' }
 }
