@@ -1,0 +1,123 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  border-radius: 8px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  text-align: center;
+}
+
+.table th {
+  background-color: #2a3138;
+  color: #ffffff;
+}
+
+.table td {
+  background-color: #f9f9f9;
+}
+
+.table tr:hover td {
+  background-color: #e6e6e6;
+}
+
+.thumbnail {
+  border-radius: 8px;
+}
+
+.createButton {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.createButton:hover {
+  background-color: #0056b3;
+}
+
+.button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 5px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+/* ریسپانسیو برای موبایل و تبلت */
+@media (max-width: 768px) {
+  .table,
+  .table thead,
+  .table tbody,
+  .table th,
+  .table td,
+  .table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .table thead {
+    display: none; /* حذف هدر جدول در موبایل */
+  }
+
+  .table tr {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #f9f9f9;
+  }
+
+  .table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-weight: bold;
+    text-align: left;
+    white-space: nowrap;
+    color: #2a3138;
+  }
+
+  .button {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .thumbnail {
+    margin-bottom: 10px;
+    width: 100%;
+    height: auto;
+  }
+}

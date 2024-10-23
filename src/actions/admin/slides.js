@@ -48,12 +48,10 @@ export async function deleteSlide(id) {
 
 // تغییر ترتیب اسلایدها
 export async function reorderSlides(newOrder) {
-  for (const [index, id] of newOrder.entries()) {
+  for (const { id, order } of newOrder) {
     await prisma.slide.update({
       where: { id },
-      data: {
-        order: index + 1,
-      },
+      data: { order },
     })
   }
   revalidatePath('/admin/slides')

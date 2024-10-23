@@ -1,55 +1,64 @@
-// src/components/admin/slides/SlideForm.jsx
-
 'use client'
 
-import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { slideSchema } from '@/security/zod/validationSchema'
 import { createSlide, updateSlide } from '@/actions/admin/slides'
 import { useRouter } from 'next/navigation'
-import styles from './SlideForm.module.css'
 import Image from 'next/image'
+import styles from '@/styles/form.module.css'
+import { useState } from 'react'
 
 export default function SlideForm({ slide }) {
   const isEdit = !!slide
-  const [title, setTitle] = useState(slide ? slide.title : '')
-  const [imageFile, setImageFile] = useState(null)
   const [imagePreview, setImagePreview] = useState(slide ? slide.imageUrl : '')
-  const [typeAnimationTexts, setTypeAnimationTexts] = useState(
-    slide ? slide.typeAnimation.join('\n') : ''
-  ) // اضافه کردن متون انیمیشن
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  // تعریف فرم با react-hook-form و zod
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm({
+    resolver: zodResolver(slideSchema),
+    defaultValues: {
+      title: slide ? slide.title : '',
+      typeAnimationTexts: slide ? slide.typeAnimation.join('\n') : '',
+    },
+  })
+
+  const onSubmit = async (data) => {
     setIsSubmitting(true)
 
     let imageUrl = slide ? slide.imageUrl : ''
 
     // آپلود تصویر
-    if (imageFile) {
+    if (data.imageFile && data.imageFile.length > 0) {
       const formData = new FormData()
-      formData.append('file', imageFile)
+      formData.append('file', data.imageFile[0])
 
       const res = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       })
 
-      const data = await res.json()
-      imageUrl = data.url
+      const uploadData = await res.json()
+      imageUrl = uploadData.url
     }
 
-    const data = {
-      title,
+    const submitData = {
+      title: data.title,
       imageUrl,
-      typeAnimation: typeAnimationTexts.split('\n'), // تبدیل رشته به آرایه
+      typeAnimation: data.typeAnimationTexts.split('\n'), // تبدیل رشته به آرایه
     }
 
     try {
       if (isEdit) {
-        await updateSlide({ ...data, id: slide.id })
+        await updateSlide({ ...submitData, id: slide.id })
       } else {
-        await createSlide(data)
+        await createSlide(submitData)
       }
       router.push('/admin/slides')
     } catch (error) {
@@ -62,32 +71,51 @@ export default function SlideForm({ slide }) {
   const handleImageChange = (e) => {
     const file = e.target.files[0]
     if (file) {
-      setImageFile(file)
+      setValue('imageFile', e.target.files) // استفاده از setValue برای بروزرسانی تصویر
       setImagePreview(URL.createObjectURL(file))
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
-      <label>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+      <label className={styles.formInput}>
         عنوان اسلاید:
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
+        <input className={styles.formInput} type="text" {...register('title')} required />
+        {errors.title && <p className={styles.formError}>{errors.title.message}</p>}
       </label>
-      <label>
+      <label className={styles.formInput}>
         تصویر پس‌زمینه:
-        <input type="file" accept="image/*" onChange={handleImageChange} required={!isEdit} />
+        <input
+          className={styles.formFile}
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          {...register('imageFile')}
+          required={!isEdit}
+        />
       </label>
-      {imagePreview && <Image src={imagePreview} alt="پیش‌نمایش تصویر" className={styles.preview} width={100} height={100}/>}
-      <label>
+      {imagePreview && (
+        <Image
+          src={imagePreview}
+          alt="پیش‌نمایش تصویر"
+          className={styles.preview}
+          width={100}
+          height={100}
+        />
+      )}
+      <label className={styles.formInput}>
         متون برای TypeAnimation (هر خط یک متن جدید):
         <textarea
-          value={typeAnimationTexts}
-          onChange={(e) => setTypeAnimationTexts(e.target.value)}
+          className={styles.formInput}
+          {...register('typeAnimationTexts')}
           placeholder="متن خود را بنویسید..."
           rows={4}
         />
+        {errors.typeAnimationTexts && (
+          <p className={styles.formError}>{errors.typeAnimationTexts.message}</p>
+        )}
       </label>
-      <button type="submit" disabled={isSubmitting}>
+      <button className={styles.formButton} type="submit" disabled={isSubmitting}>
         {isEdit ? 'ویرایش اسلاید' : 'ساختن اسلاید'}
       </button>
     </form>
