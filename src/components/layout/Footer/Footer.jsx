@@ -29,7 +29,7 @@ export default function Footer() {
               </li>
               <li>
                 <a href="#" className={styles.highlight}>
-                  آدرس : ...
+                  آدرس : رسالت شمالی، روبروی داروخانه رسالت، برج ساعت
                 </a>
               </li>
               <li>
