@@ -10,8 +10,10 @@
 }
 
 .title {
+  color: rgb(44, 44, 44);
   font-variation-settings: 'wdth' 98, 'wght' 700, 'DOTS' 1;
-  font-size: 25px;
+  letter-spacing: -0.5px;
+  font-size: 18px;
 }
 
 .buttons {
@@ -45,6 +47,10 @@
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.balanceBox > h2{
+  font-size: 16px;
 }
 
 @media (max-width: 768px) {
