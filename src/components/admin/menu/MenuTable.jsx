@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { updateMenuItem, deleteMenuItem } from '@/actions/admin/menu'
-import styles from '@/components/admin/users/UsersTable.module.css' // استایل‌ها از فایل UsersTable.module.css
+import styles from '@/components/admin/menu/MenuTable.module.css' // استایل‌ها از فایل UsersTable.module.css
 
 export default function MenuTable({ menuItems }) {
   const [editingItemId, setEditingItemId] = useState(null)

@@ -28,7 +28,7 @@ export default async function AdminLayout({ children }) {
       </div>
       {/* سایدبار دسکتاپ */}
       <div className={'desktopSidebar'}>
-        <Sidebar user={session.user} />
+        <Sidebar admin={session.user} />
       </div>
       <div className={'content'}>{children}</div>
     </div>
