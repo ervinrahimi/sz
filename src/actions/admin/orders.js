@@ -1,6 +1,6 @@
 'use server'
 
-import { prisma } from '@/db/client'
+import prisma from '@/db/client'
 
 export async function updateOrderStatus(orderId, newStatus) {
   try {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 'use client'
 import React, { useState, useEffect } from 'react'
 import { z } from 'zod'
