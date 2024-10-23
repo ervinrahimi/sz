@@ -52,6 +52,9 @@ export default function Sidebar({ admin }) {
           <Link href="/admin/slides" className={`${styles.menuItem} ${pathname === '/admin/slides' ? styles.active : ''}`}><Image src="/icons/admin/10.png" alt="Picture of the menu" width={25} height={25}/>مدیریت اسلاید ها </Link>
         </li>
         <li>
+          <Link href="/admin/carboxes" className={`${styles.menuItem} ${pathname === '/admin/carboxes' ? styles.active : ''}`}><Image src="/icons/admin/10.png" alt="Picture of the menu" width={25} height={25}/>مدیریت کارت باکس ها </Link>
+        </li>
+        <li>
           <span className={`${styles.menuItem}`} onClick={signOut}><Image src="/icons/admin/11.png" alt="Picture of the menu" width={25} height={25}/>خروج از حساب</span>
         </li>
       </ul>
