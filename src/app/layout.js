@@ -3,6 +3,7 @@ import { yekanBakh, kahroba, cairo } from '@/fonts/fonts'
 import { auth } from '@/security/auth'
 import toast, { Toaster } from 'react-hot-toast'
 import '@/styles/globals.css'
+import GlobalLoading from '@/components/ui/Loading/GlobalLoading'
 
 export const metadata = {
   title: 'گروه خودرویی سلطان زاده',
@@ -21,6 +22,7 @@ export default async function RootLayout({ children }) {
     <SessionProvider session={session}>
       <html lang="en">
         <body className={`${kahroba.variable} ${yekanBakh.variable} ${yekanBakh.cairo}`}>
+          <GlobalLoading />
           <Toaster
             position="bottom-right"
             toastOptions={{

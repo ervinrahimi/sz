@@ -1,0 +1,59 @@
+/* استایل‌های مربوط به کامپوننت لودینگ */
+.loadingContainer {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(2, 15, 36);
+  z-index: 1000;
+}
+
+.loadingContainer img {
+  filter: invert(1);
+  animation: img 0.75s linear normal;
+  margin-bottom: -55px;
+}
+
+.container {
+  position: absolute;
+  width: max-content;
+  height: max-content;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+}
+
+.spinner {
+  border: 2px solid rgba(255, 255, 255, 0.418);
+  border-left-color: #ffffff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes img {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
