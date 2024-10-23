@@ -1,5 +1,6 @@
 // src/app/admin/layout.jsx
 
+import HamburgerSidebar from '@/components/admin/sidebar/HamburgerSidebar'
 import Sidebar from '@/components/admin/sidebar/Sidebar'
 import { ROUTES } from '@/constants/routes'
 import { auth } from '@/security/auth'
@@ -21,7 +22,14 @@ export default async function AdminLayout({ children }) {
   
   return (
     <div className={'layout'}>
-      <Sidebar admin={session.user} />
+      {/* سایدبار موبایل */}
+      <div className={'mobileSidebar'}>
+        <HamburgerSidebar user={session.user} />
+      </div>
+      {/* سایدبار دسکتاپ */}
+      <div className={'desktopSidebar'}>
+        <Sidebar user={session.user} />
+      </div>
       <div className={'content'}>{children}</div>
     </div>
   )

@@ -11,6 +11,31 @@
 
 .content {
   flex-grow: 1;
-  padding: 20px;
   background-color: #f1f3f6;
+}
+
+.desktopSidebar {
+  display: block;
+}
+
+.mobileSidebar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktopSidebar {
+    display: none;
+  }
+
+  .mobileSidebar {
+    display: block;
+  }
+
+  .layout {
+    flex-direction: column;
+  }
+  
+  .content {
+    flex-grow: 1;
+  }
 }

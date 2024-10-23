@@ -3,27 +3,28 @@
 .header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
   align-items: center;
+  padding: 20px;
+  background-color: #f7f8fa;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 }
 
 .title {
   font-variation-settings: 'wdth' 98, 'wght' 700, 'DOTS' 1;
+  font-size: 25px;
 }
 
 .buttons {
-  margin-left: 20px;
   display: flex;
-  flex-direction: row;
   gap: 10px;
 }
 
 .button {
   font-variation-settings: 'wdth' 98, 'wght' 600, 'DOTS' 1;
-  background-color: rgb(88, 184, 88);
+  background-color: #212b34;
   color: #fff;
   border-radius: 10px;
-  padding: 5px 20px;
+  padding: 10px 25px;
 
 }
 
@@ -39,15 +40,34 @@
 }
 
 .balanceBox {
+  margin: 20px;
+  padding: 20px 15px;
   background-color: #fff;
   border-radius: 8px;
-  padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
 }
 
-.balanceAmount {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
+@media (max-width: 768px) {
+  .header {
+    margin: 20px;
+    border-radius: 10px;
+    border-bottom: none;
+  }
+  
+  .title {
+    font-variation-settings: 'wdth' 98, 'wght' 700, 'DOTS' 1;
+    font-size: 24px;
+  }
+
+  .balanceBox {
+    margin: 0px 20px 20px 20px;
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 550px) {
+  .header {
+    flex-direction: column;
+    gap: 20px;
+  }
 }

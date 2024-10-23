@@ -12,7 +12,7 @@ export default async function Dashboard() {
       <div className={styles.header}>
         <h1 className={styles.title}>مدیریت پرداخت ها</h1>
         <div className={styles.buttons}>
-          <Link href={'/Dashboard/Payments/Orders'} className={styles.button}>سوابق خرید و سفارشات</Link>
+          <Link href={'/Dashboard/Payments/Orders'} className={styles.button}>سوابق خرید</Link>
           <Link href={'/Dashboard/Payments/Installment-Management'} className={styles.button}>مدیریت اقساط</Link>
         </div>
       </div>

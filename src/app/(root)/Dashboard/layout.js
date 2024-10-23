@@ -5,6 +5,7 @@ import { ROUTES } from '@/constants/routes'
 import { auth } from '@/security/auth'
 import { redirect } from 'next/navigation'
 import '@/styles/dashboard.css'
+import HamburgerSidebar from '@/components/dashboard/Sidebar/HamburgerSidebar'
 
 export const metadata = {
   title: 'پنل کاربری',
@@ -21,7 +22,14 @@ export default async function AdminLayout({ children }) {
 
   return (
     <div className={'layout'}>
-      <Sidebar user={session.user}/>
+      {/* سایدبار موبایل */}
+      <div className={'mobileSidebar'}>
+        <HamburgerSidebar user={session.user} />
+      </div>
+      {/* سایدبار دسکتاپ */}
+      <div className={'desktopSidebar'}>
+        <Sidebar user={session.user} />
+      </div>
       <div className={'content'}>{children}</div>
     </div>
   )
