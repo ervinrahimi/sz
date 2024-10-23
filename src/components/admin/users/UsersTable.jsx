@@ -1,18 +1,26 @@
-// src/components/admin/users/UsersTable.jsx
-
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation' // اضافه کردن useRouter
+import { useEffect } from 'react'
 import styles from './UsersTable.module.css'
 
 export default function UsersTable({ users }) {
+  const router = useRouter()
+
+  // اضافه کردن useEffect برای رفرش صفحه پس از ریدایرکت
+  useEffect(() => {
+    // اینجا می‌توانید شرطی اضافه کنید که فقط در مواقع خاص رفرش انجام شود
+    router.refresh() // رفرش صفحه
+  }, [router])
+
   const truncateText = (text, length) => {
     if (!text) return
     if (text.length > length) {
-      return text.slice(0, length) + '...';
+      return text.slice(0, length) + '...'
     }
-    return text;
-  };
+    return text
+  }
 
   return (
     <div className={styles.container}>
@@ -31,17 +39,11 @@ export default function UsersTable({ users }) {
             <div className={styles.cell}>{truncateText(user.name, 10)}</div>
             <div className={styles.cell}>{truncateText(user.family, 10)}</div>
             <div className={styles.cell}>{user.nationalCode}</div>
-            <div className={`${styles.cell} ${styles.email}`}>
-              {truncateText(user.email, 15)}
-            </div>
-            <div className={`${styles.cell} ${styles.phone}`}>
-              {truncateText(user.phone, 15)}
-            </div>
+            <div className={`${styles.cell} ${styles.email}`}>{truncateText(user.email, 15)}</div>
+            <div className={`${styles.cell} ${styles.phone}`}>{truncateText(user.phone, 15)}</div>
+            <div className={styles.cell}>{user.role === 1 ? 'ادمین' : 'کاربر'}</div>
             <div className={styles.cell}>
-              {user.role === 1 ? 'ادمین' : 'کاربر'}
-            </div>
-            <div className={styles.cell}>
-              <Link href={`/admin/users/${user.id}`}>
+              <Link href={`/admin/users/${user.id}`} onClick={() => router.refresh()}>
                 <button className={styles.button}>مشاهده</button>
               </Link>
             </div>
@@ -49,5 +51,5 @@ export default function UsersTable({ users }) {
         ))}
       </div>
     </div>
-  );
+  )
 }
