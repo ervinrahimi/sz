@@ -67,15 +67,7 @@
 }
 
 @media (max-width: 768px) {
-  .headerRow,
-  .row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-  }
-
-  .headerCell,
-  .cell {
-    text-align: left;
+  .container {
+    min-width: 900px;
   }
 }
