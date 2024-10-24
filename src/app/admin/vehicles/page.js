@@ -1,5 +1,6 @@
 // src/app/admin/vehicles/page.jsx
 
+import prisma from '@/db/client'
 import Link from 'next/link'
 import styles from '../page.module.css'
 import VehiclesTable from '@/components/admin/vehicles/VehiclesTable'
