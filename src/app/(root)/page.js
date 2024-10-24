@@ -48,7 +48,6 @@ export default async function Home() {
         />
 
         <ProductsBox title={'قطعات یدکی'} subTitle={'آخرین محصولات فروشگاه'} />
-        <Footer />
       </div>
     </div>
   )
