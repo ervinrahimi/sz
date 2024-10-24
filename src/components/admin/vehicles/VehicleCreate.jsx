@@ -6,15 +6,19 @@ import { vehicleSchema } from '@/security/zod/validationSchema' // فایل Zod 
 import { createVehicle } from '@/actions/admin/vehicles'
 import { useRouter } from 'next/navigation'
 import styles from '@/styles/form.module.css'
+import { useState } from 'react'
+import Image from 'next/image'
 
 export default function VehicleCreate() {
   const router = useRouter()
+  const [imagePreview, setImagePreview] = useState('')
 
   // استفاده از useForm با resolver zod
   const {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
     reset,
   } = useForm({
@@ -49,10 +53,34 @@ export default function VehicleCreate() {
   })
 
   const onSubmit = async (data) => {
+    if (data.imageFile && data.imageFile.length > 0) {
+      const formData = new FormData()
+      formData.append('file', data.imageFile[0])
+
+      const res = await fetch('/api/upload/car', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const uploadData = await res.json()
+      data.imageFile = uploadData.url
+    }
+
     const res = await createVehicle(data)
+
     if (res.success) {
       reset()
       router.push('/admin/vehicles')
+    } else {
+      alert('مشکلی در ایجاد خودرو پیش آمد!')
+    }
+  }
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setValue('imageFile', e.target.files)
+      setImagePreview(URL.createObjectURL(file))
     }
   }
 
@@ -69,11 +97,39 @@ export default function VehicleCreate() {
           <input type="text" {...register('name')} className={styles.formInput} />
           {errors.name && <p className={styles.formError}>{errors.name.message}</p>}
         </label>
-        <label className={styles.formLabel}>
-          تصویر:
-          <input type="text" {...register('image')} className={styles.formInput} />
-          {errors.image && <p className={styles.formError}>{errors.image.message}</p>}
+
+        <label className={styles.formInput}>
+          تصویر خودرو:
+          <input
+            className={styles.formFile}
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
+          {errors.imageFile && <p className={styles.formError}>{errors.imageFile.message}</p>}
         </label>
+
+        {imagePreview && (
+          <div>
+            <Image
+              src={imagePreview}
+              alt="پیش‌نمایش تصویر"
+              className={styles.preview}
+              width={100}
+              height={100}
+            />
+            <button
+              type="button"
+              onClick={() => {
+                setImagePreview('')
+                setValue('imageFile', '')
+              }}
+            >
+              حذف تصویر
+            </button>
+          </div>
+        )}
+
         <label className={styles.formLabel}>
           وضعیت:
           <select {...register('status')} className={styles.formSelect}>

@@ -94,7 +94,6 @@ export default function SlideForm({ slide }) {
           type="file"
           accept="image/*"
           onChange={handleImageChange}
-          {...register('imageFile')}
         />
         {errors.imageFile && <p className={styles.formError}>{errors.imageFile.message}</p>}
       </label>

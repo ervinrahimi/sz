@@ -2,16 +2,17 @@
 
 'use server'
 
+import { FormSuccess } from '@/components/forms/message/Message'
 import prisma from '@/db/client'
 
 // ایجاد خودرو جدید
 export async function createVehicle(data) {
-  const { model, name, image, status, appearanceSpecifications, technicalSpecifications } = data
+  const { model, name, imageFile, status, appearanceSpecifications, technicalSpecifications } = data
   const newVehicle = await prisma.car.create({
     data: {
       model,
       name,
-      image,
+      image: imageFile,
       status,
       appearanceSpecifications: {
         create: appearanceSpecifications.map((spec) => ({
@@ -29,7 +30,7 @@ export async function createVehicle(data) {
       }
     }
   })
-  return newVehicle
+  return {success: true, data: newVehicle}
 }
 
 // ویرایش خودرو
