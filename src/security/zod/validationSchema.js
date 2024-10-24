@@ -64,21 +64,24 @@ export const salesConditionSchema = z.object({
 })
 
 // For Create User Form
-export const userCreateSchema = z.object({
-  name: z.string().min(1, 'نام الزامی است.'),
-  family: z.string().min(1, 'نام خانوادگی الزامی است.'),
-  nationalCode: z
-    .string()
-    .min(10, 'کد ملی باید حداقل ۱۰ رقم باشد.')
-    .max(10, 'کد ملی نباید بیشتر از ۱۰ رقم باشد.'),
-  email: z.string().email('ایمیل معتبر نیست.'),
-  phone: z
-    .string()
-    .regex(/^(\+98|0)?9\d{9}$/, 'شماره تلفن معتبر نیست.')
-    .optional(),
-  password: z.string().min(8, 'رمز عبور باید حداقل ۸ کاراکتر باشد.'),
-  role: z.enum(['0', '1'], 'نقش معتبر نیست.'),
-})
+export const userCreateSchema = z
+  .object({
+    name: z.string().min(1, 'نام الزامی است.'),
+    family: z.string().min(1, 'نام خانوادگی الزامی است.'),
+    nationalCode: z.string().length(10, 'کد ملی باید دقیقاً ۱۰ رقم باشد.'),
+    email: z.string().email('ایمیل معتبر نیست.'),
+    phone: z
+      .string()
+      .regex(/^(\+98|0)?9\d{9}$/, 'شماره تلفن معتبر نیست.')
+      .optional(),
+    password: z.string().min(8, 'رمز عبور باید حداقل ۸ کاراکتر باشد.'),
+    confirmPassword: z.string().min(8, 'تایید رمز عبور باید حداقل ۸ کاراکتر باشد.'),
+    role: z.enum(['0', '1'], 'نقش معتبر نیست.'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ['confirmPassword'],
+    message: 'رمز عبور و تایید آن باید یکسان باشند.',
+  })
 
 // For Update User Form
 export const userSchema = z.object({
@@ -124,5 +127,10 @@ export const slideSchema = z.object({
     .string()
     .min(1, 'حداقل یک متن برای انیمیشن الزامی است')
     .max(500, 'حداکثر 500 کاراکتر مجاز است'),
-  imageFile: z.any().optional(), // ولیدیشن برای تصویر اختیاری است
+  imageFile: z
+    .any()
+    .refine((files) => files?.length === 0 || (files && files[0]?.type?.startsWith('image/')), {
+      message: 'لطفاً یک فایل تصویر معتبر انتخاب کنید.',
+    })
+    .optional(),
 })

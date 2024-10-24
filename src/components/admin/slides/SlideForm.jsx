@@ -6,16 +6,16 @@ import { slideSchema } from '@/security/zod/validationSchema'
 import { createSlide, updateSlide } from '@/actions/admin/slides'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import styles from '@/styles/form.module.css'
-import { useState } from 'react'
 
 export default function SlideForm({ slide }) {
   const isEdit = !!slide
   const [imagePreview, setImagePreview] = useState(slide ? slide.imageUrl : '')
+  const [removeImage, setRemoveImage] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
 
-  // تعریف فرم با react-hook-form و zod
   const {
     register,
     handleSubmit,
@@ -34,8 +34,11 @@ export default function SlideForm({ slide }) {
 
     let imageUrl = slide ? slide.imageUrl : ''
 
-    // آپلود تصویر
-    if (data.imageFile && data.imageFile.length > 0) {
+    if (removeImage) {
+      imageUrl = ''
+    }
+
+    if (!removeImage && data.imageFile && data.imageFile.length > 0) {
       const formData = new FormData()
       formData.append('file', data.imageFile[0])
 
@@ -51,7 +54,7 @@ export default function SlideForm({ slide }) {
     const submitData = {
       title: data.title,
       imageUrl,
-      typeAnimation: data.typeAnimationTexts.split('\n'), // تبدیل رشته به آرایه
+      typeAnimation: data.typeAnimationTexts.split('\n'),
     }
 
     try {
@@ -71,7 +74,7 @@ export default function SlideForm({ slide }) {
   const handleImageChange = (e) => {
     const file = e.target.files[0]
     if (file) {
-      setValue('imageFile', e.target.files) // استفاده از setValue برای بروزرسانی تصویر
+      setValue('imageFile', e.target.files)
       setImagePreview(URL.createObjectURL(file))
     }
   }
@@ -80,9 +83,10 @@ export default function SlideForm({ slide }) {
     <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
       <label className={styles.formInput}>
         عنوان اسلاید:
-        <input className={styles.formInput} type="text" {...register('title')} required />
+        <input className={styles.formInput} type="text" {...register('title')} />
         {errors.title && <p className={styles.formError}>{errors.title.message}</p>}
       </label>
+
       <label className={styles.formInput}>
         تصویر پس‌زمینه:
         <input
@@ -91,18 +95,25 @@ export default function SlideForm({ slide }) {
           accept="image/*"
           onChange={handleImageChange}
           {...register('imageFile')}
-          required={!isEdit}
         />
+        {errors.imageFile && <p className={styles.formError}>{errors.imageFile.message}</p>}
       </label>
-      {imagePreview && (
-        <Image
-          src={imagePreview}
-          alt="پیش‌نمایش تصویر"
-          className={styles.preview}
-          width={100}
-          height={100}
-        />
+
+      {imagePreview && !removeImage && (
+        <div>
+          <Image
+            src={imagePreview}
+            alt="پیش‌نمایش تصویر"
+            className={styles.preview}
+            width={100}
+            height={100}
+          />
+          <button type="button" onClick={() => setRemoveImage(true)}>
+            حذف تصویر
+          </button>
+        </div>
       )}
+
       <label className={styles.formInput}>
         متون برای TypeAnimation (هر خط یک متن جدید):
         <textarea
@@ -115,6 +126,7 @@ export default function SlideForm({ slide }) {
           <p className={styles.formError}>{errors.typeAnimationTexts.message}</p>
         )}
       </label>
+
       <button className={styles.formButton} type="submit" disabled={isSubmitting}>
         {isEdit ? 'ویرایش اسلاید' : 'ساختن اسلاید'}
       </button>

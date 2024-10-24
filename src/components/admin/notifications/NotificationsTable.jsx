@@ -9,7 +9,7 @@ export default function NotificationsTable({ notifications }) {
   return (
     <div className={styles.container}>
       <div className={styles.headerRow}>
-        <div className={styles.headerCell}>کد نوتیفیکیشن</div>
+        <div className={styles.headerCell}>کد پیام</div>
         <div className={styles.headerCell}>کاربر</div>
         <div className={styles.headerCell}>عنوان پیام</div>
         <div className={styles.headerCell}>تاریخ ارسال</div>
