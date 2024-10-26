@@ -53,6 +53,11 @@ export default function RegisterForm() {
       <FormError message={error} className={styles.error} />
       <FormSuccess message={success} className={styles.success} />
 
+      <div className={styles.checkbox}>
+        <input type="checkbox" {...register('terms')} />
+        <label>قوانین و شرایط را می‌پذیرم <a href="#">مطالعه</a></label>
+      </div>
+
       <button type="submit" disabled={isSubmitting} className={styles.button}>
         ثبت نام
       </button>
