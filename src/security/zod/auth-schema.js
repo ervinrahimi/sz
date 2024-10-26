@@ -1,13 +1,8 @@
 import { z } from 'zod'
 
 export const registerSchema = z.object({
-  firstName: z.string().min(1, "نام الزامی است"),
-  lastName: z.string().min(1, "نام خانوادگی الزامی است"),
   email: z.string().email("ایمیل معتبر نیست"),
   password: z.string().min(8, "رمز عبور باید حداقل ۸ کاراکتر باشد"),
-  terms: z.boolean().refine((val) => val === true, {
-    message: "پذیرفتن قوانین و شرایط الزامی است",
-  }),
 });
 
 export const loginSchema = z.object({

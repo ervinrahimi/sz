@@ -32,24 +32,6 @@ export default function RegisterForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.registerForm}>
       <h1 className={styles.title}>ایجاد حساب کاربری</h1>
-      <div className={styles.nameInputs}>
-        <input
-          disabled={isSubmitting}
-          type="text"
-          placeholder="نام"
-          {...register('firstName')}
-          className={styles.input}
-        />
-        <input
-          disabled={isSubmitting}
-          type="text"
-          placeholder="نام خانوادگی"
-          {...register('lastName')}
-          className={styles.input}
-        />
-      </div>
-      {(errors.firstName || errors.lastName) && (<p className={styles.error}>{errors.firstName?.message} {errors.firstName && '/'} {errors?.lastName.message}</p>)}
-
       <input
         disabled={isSubmitting}
         type="text"
@@ -70,11 +52,6 @@ export default function RegisterForm() {
 
       <FormError message={error} className={styles.error} />
       <FormSuccess message={success} className={styles.success} />
-
-      <div className={styles.checkbox}>
-        <input type="checkbox" {...register('terms')} />
-        <label>قوانین و شرایط را می‌پذیرم <a href="#">مطالعه</a></label>
-      </div>
 
       <button type="submit" disabled={isSubmitting} className={styles.button}>
         ثبت نام
