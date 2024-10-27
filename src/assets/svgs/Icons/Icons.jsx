@@ -389,3 +389,48 @@ export const ShoppingTick = ({ className }) => {
     </svg>
   )
 }
+
+export const FirstShoppingLevel = ({ className }) => {
+  return (
+    <svg
+      className={className}
+      width="185"
+      height="71"
+      viewBox="0 0 185 71"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M0 35.5L26 0H184.5V71H26L0 35.5Z" fill="#052400" />
+    </svg>
+  )
+}
+
+export const NextShoppingLevel = ({ className }) => {
+  return (
+    <svg
+      className={className}
+      width="185"
+      height="71"
+      viewBox="0 0 185 71"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M0 35.5L26 0H185L159 35.5L185 71H26L0 35.5Z" fill="#48AF36" />
+    </svg>
+  )
+}
+
+export const LastShoppingLevel = ({ className }) => {
+  return (
+    <svg
+      className={className}
+      width="185"
+      height="71"
+      viewBox="0 0 185 71"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M0 71V0H185L159 35.5L185 71H0Z" fill="#48AF36" />
+    </svg>
+  )
+}

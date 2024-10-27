@@ -219,3 +219,15 @@
     display: block;
   }
 }
+
+/* Media Queries برای ریسپانسیو کردن */
+@media (min-width: 500px) {
+  .container {
+    width: 100%;
+    display: block;
+  }
+
+  .roads {
+    flex-wrap: nowrap;
+  }
+}
