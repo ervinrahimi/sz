@@ -2,18 +2,18 @@
 
 import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { vehicleSchema } from '@/security/zod/validationSchema' // فایل Zod مربوط به ولیدیشن خودرو
+import { vehicleSchema } from '@/security/zod/validationSchema'
 import { createVehicle } from '@/actions/admin/vehicles'
 import { useRouter } from 'next/navigation'
 import styles from '@/styles/form.module.css'
 import { useState } from 'react'
 import Image from 'next/image'
+import { toast } from 'react-hot-toast'
 
 export default function VehicleCreate() {
   const router = useRouter()
   const [imagePreview, setImagePreview] = useState('')
 
-  // استفاده از useForm با resolver zod
   const {
     register,
     handleSubmit,
@@ -26,14 +26,13 @@ export default function VehicleCreate() {
     defaultValues: {
       model: '',
       name: '',
-      image: '',
+      imageFile: '', // تغییر داده شده به `imageFile`
       status: 'AVAILABLE',
       appearanceSpecifications: [{ title: '', options: [], isSelectable: true }],
       technicalSpecifications: [{ key: '', value: '', note: '' }],
     },
   })
 
-  // مدیریت فیلدهای داینامیک با useFieldArray
   const {
     fields: appearanceFields,
     append: appendAppearance,
@@ -52,6 +51,7 @@ export default function VehicleCreate() {
     name: 'technicalSpecifications',
   })
 
+  // استفاده از toast با تنظیم duration برای ماندگاری بیشتر در صفحه
   const onSubmit = async (data) => {
     if (data.imageFile && data.imageFile.length > 0) {
       const formData = new FormData()
@@ -70,9 +70,10 @@ export default function VehicleCreate() {
 
     if (res.success) {
       reset()
+      toast.success('خودرو شما با موفقیت اضافه شد!', { duration: 5000 }) // تنظیم مدت زمان به ۵ ثانیه
       router.push('/admin/vehicles')
     } else {
-      alert('مشکلی در ایجاد خودرو پیش آمد!')
+      toast.error('مشکلی در ایجاد خودرو پیش آمد!', { duration: 5000 }) // تنظیم مدت زمان به ۵ ثانیه
     }
   }
 
@@ -106,6 +107,7 @@ export default function VehicleCreate() {
             accept="image/*"
             onChange={handleImageChange}
           />
+          {/* نمایش خطای تصویر در صورت وجود */}
           {errors.imageFile && <p className={styles.formError}>{errors.imageFile.message}</p>}
         </label>
 
@@ -162,31 +164,26 @@ export default function VehicleCreate() {
                 className={styles.checkbox}
               />
             </label>
-            {spec.options.map((option, optIndex) => (
-              <div key={optIndex} className={styles.optionContainer}>
-                <input
-                  type="text"
-                  {...register(`appearanceSpecifications.${index}.options.${optIndex}`)}
-                  className={styles.formInput}
-                />
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={() => appendAppearance({ title: '', options: [], isSelectable: true })}
-              className={styles.formButton}
-            >
-              افزودن مقدار
-            </button>
-            <button
-              type="button"
-              onClick={() => removeAppearance(index)}
-              className={styles.formButton}
-            >
-              حذف مشخصه
-            </button>
+
+            {index > 0 && (
+              <button
+                type="button"
+                onClick={() => removeAppearance(index)}
+                className={styles.formButton}
+              >
+                حذف مشخصه
+              </button>
+            )}
           </div>
         ))}
+
+        <button
+          type="button"
+          onClick={() => appendAppearance({ title: '', options: [], isSelectable: true })}
+          className={styles.formButton}
+        >
+          افزودن مشخصات ظاهری
+        </button>
 
         <h3 className={styles.subtitle}>مشخصات فنی</h3>
         {technicalFields.map((spec, index) => (
@@ -225,15 +222,19 @@ export default function VehicleCreate() {
                 className={styles.formInput}
               />
             </label>
-            <button
-              type="button"
-              onClick={() => removeTechnical(index)}
-              className={styles.formButton}
-            >
-              حذف مشخصه
-            </button>
+
+            {index > 0 && (
+              <button
+                type="button"
+                onClick={() => removeTechnical(index)}
+                className={styles.formButton}
+              >
+                حذف مشخصه
+              </button>
+            )}
           </div>
         ))}
+
         <button
           type="button"
           onClick={() => appendTechnical({ key: '', value: '', note: '' })}

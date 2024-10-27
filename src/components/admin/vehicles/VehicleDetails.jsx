@@ -1,4 +1,3 @@
-// src/components/admin/vehicles/VehicleDetails.jsx
 'use client'
 
 import { useForm, useFieldArray } from 'react-hook-form'
@@ -7,24 +6,35 @@ import { vehicleSchema } from '@/security/zod/validationSchema'
 import styles from '@/styles/form.module.css'
 import { updateVehicle } from '@/actions/admin/vehicles'
 import { useState } from 'react'
+import Image from 'next/image'
+import { toast } from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
 
 export default function VehicleDetails({ vehicle }) {
-  const [message, setMessage] = useState('')
+  const router = useRouter()
+  const [imagePreview, setImagePreview] = useState(vehicle.image || '')
 
   const {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
     reset,
   } = useForm({
     resolver: zodResolver(vehicleSchema),
     defaultValues: {
+      id: vehicle.id || '', // اضافه کردن id
       model: vehicle.model || '',
       name: vehicle.name || '',
+      imageFile: vehicle.image || '',
       status: vehicle.status || 'AVAILABLE',
-      appearanceSpecifications: vehicle.appearanceSpecifications || [],
-      technicalSpecifications: vehicle.technicalSpecifications || [],
+      appearanceSpecifications: vehicle.appearanceSpecifications || [
+        { title: '', options: [], isSelectable: true },
+      ],
+      technicalSpecifications: vehicle.technicalSpecifications || [
+        { key: '', value: '', note: '' },
+      ],
     },
   })
 
@@ -47,19 +57,58 @@ export default function VehicleDetails({ vehicle }) {
   })
 
   const onSubmit = async (data) => {
-    const res = await updateVehicle(data)
-    if (res.success) {
-      reset(data)
-      setMessage('اطلاعات با موفقیت به‌روزرسانی شد.')
-    } else {
-      setMessage(res.message || 'خطا در به‌روزرسانی اطلاعات.')
+    try {
+      if (data.imageFile && data.imageFile.length > 0) {
+        const formData = new FormData()
+        formData.append('file', data.imageFile[0])
+
+        const res = await fetch('/api/upload/car', {
+          method: 'POST',
+          body: formData,
+        })
+
+        const uploadData = await res.json()
+        data.image = uploadData.url // تغییر به image
+      } else {
+        data.image = vehicle.image // تنظیم تصویر اولیه
+      }
+
+      data.id = vehicle.id // ارسال id به updateVehicle
+
+      const res = await updateVehicle(data)
+
+      if (res.success) {
+        reset(data)
+        toast.success('اطلاعات با موفقیت به‌روزرسانی شد.', { duration: 5000 })
+      } else {
+        toast.error(res.message || 'خطا در به‌روزرسانی اطلاعات.', { duration: 5000 })
+      }
+    } catch (error) {
+      console.error('خطا در هنگام به‌روزرسانی اطلاعات:', error)
+      toast.error('مشکلی در به‌روزرسانی اطلاعات به وجود آمده است.', { duration: 5000 })
     }
+  }
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setValue('imageFile', e.target.files)
+      setImagePreview(URL.createObjectURL(file))
+    }
+  }
+
+  const handleCancel = () => {
+    reset()
+    router.back()
   }
 
   return (
     <div className={styles.formWrapper}>
       <h2 className={styles.title}>جزئیات خودرو</h2>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+        {/* فیلد مخفی id */}
+        <input type="hidden" {...register('id')} />
+
         <label className={styles.formLabel}>
           مدل:
           <input type="text" {...register('model')} className={styles.formInput} />
@@ -70,6 +119,41 @@ export default function VehicleDetails({ vehicle }) {
           <input type="text" {...register('name')} className={styles.formInput} />
           {errors.name && <p className={styles.formError}>{errors.name.message}</p>}
         </label>
+
+        <label className={styles.formInput}>
+          تصویر خودرو:
+          <input
+            className={styles.formFile}
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
+          {!imagePreview && errors.imageFile && (
+            <p className={styles.formError}>{errors.imageFile.message}</p>
+          )}
+        </label>
+
+        {imagePreview && (
+          <div>
+            <Image
+              src={imagePreview}
+              alt="پیش‌نمایش تصویر"
+              className={styles.preview}
+              width={100}
+              height={100}
+            />
+            <button
+              type="button"
+              onClick={() => {
+                setImagePreview('')
+                setValue('imageFile', '')
+              }}
+            >
+              حذف تصویر
+            </button>
+          </div>
+        )}
+
         <label className={styles.formLabel}>
           وضعیت:
           <select {...register('status')} className={styles.formSelect}>
@@ -79,7 +163,6 @@ export default function VehicleDetails({ vehicle }) {
           {errors.status && <p className={styles.formError}>{errors.status.message}</p>}
         </label>
 
-        {/* ویرایش مشخصات ظاهری */}
         <h3 className={styles.subtitle}>مشخصات ظاهری</h3>
         {appearanceFields.map((spec, index) => (
           <div key={spec.id} className={styles.specification}>
@@ -105,34 +188,25 @@ export default function VehicleDetails({ vehicle }) {
               />
             </label>
 
-            {/* گزینه‌ها */}
-            {spec.options.map((option, optIndex) => (
-              <div key={optIndex} className={styles.optionContainer}>
-                <input
-                  type="text"
-                  {...register(`appearanceSpecifications.${index}.options.${optIndex}`)}
-                  className={styles.formInput}
-                />
-                <button
-                  type="button"
-                  onClick={() => {
-                    removeAppearance(index)
-                  }}
-                  className={styles.removeButton}
-                >
-                  حذف
-                </button>
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={() => appendAppearance({ title: '', options: [], isSelectable: true })}
-              className={styles.addButton}
-            >
-              افزودن مقدار
-            </button>
+            {index > 0 && (
+              <button
+                type="button"
+                onClick={() => removeAppearance(index)}
+                className={styles.removeButton}
+              >
+                حذف مشخصه
+              </button>
+            )}
           </div>
         ))}
+
+        <button
+          type="button"
+          onClick={() => appendAppearance({ title: '', options: [], isSelectable: true })}
+          className={styles.addButton}
+        >
+          افزودن مقدار
+        </button>
 
         <h3 className={styles.subtitle}>مشخصات فنی</h3>
         {technicalFields.map((spec, index) => (
@@ -171,15 +245,19 @@ export default function VehicleDetails({ vehicle }) {
                 className={styles.formInput}
               />
             </label>
-            <button
-              type="button"
-              onClick={() => removeTechnical(index)}
-              className={styles.removeButton}
-            >
-              حذف مشخصه
-            </button>
+
+            {index > 0 && (
+              <button
+                type="button"
+                onClick={() => removeTechnical(index)}
+                className={styles.removeButton}
+              >
+                حذف مشخصه
+              </button>
+            )}
           </div>
         ))}
+
         <button
           type="button"
           onClick={() => appendTechnical({ key: '', value: '', note: '' })}
@@ -192,12 +270,11 @@ export default function VehicleDetails({ vehicle }) {
           <button type="submit" className={styles.formButton}>
             ذخیره
           </button>
-          <button type="button" className={styles.cancelButton} onClick={() => setEditing(false)}>
+          <button type="button" className={styles.cancelButton} onClick={handleCancel}>
             لغو
           </button>
         </div>
       </form>
-      {message && <p className={styles.formMessage}>{message}</p>}
     </div>
   )
 }
