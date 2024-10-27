@@ -4,14 +4,19 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTransition, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createSalesCondition, addAuthorizedUser } from '@/actions/admin/sales-conditions'
-import { newSalesConditionSchema } from '@/security/zod/validationSchema'
+import { createSalesCondition } from '@/actions/admin/sales-conditions'
+import { newSalesConditionSchema, salesConditionUserSchema } from '@/security/zod/validationSchema'
 import styles from '@/styles/form.module.css'
+import DatePicker from 'react-multi-date-picker'
+import persian from 'react-date-object/calendars/persian'
+import persian_fa from 'react-date-object/locales/persian_fa'
+import toast, { Toaster } from 'react-hot-toast'
 
 export default function NewSalesConditionForm({ cars }) {
-  const [users, setUsers] = useState([]) // ذخیره کاربران مجاز
+  const [users, setUsers] = useState([])
   const [newUser, setNewUser] = useState({ nationalCode: '', name: '', family: '' })
-  const [message, setMessage] = useState('')
+  const [userErrors, setUserErrors] = useState({})
+  const [deliveryDate, setDeliveryDate] = useState(null)
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
 
@@ -20,7 +25,6 @@ export default function NewSalesConditionForm({ cars }) {
     handleSubmit,
     formState: { errors },
     setValue,
-    reset,
     watch,
   } = useForm({
     resolver: zodResolver(newSalesConditionSchema),
@@ -40,179 +44,211 @@ export default function NewSalesConditionForm({ cars }) {
       deliveryDate: '',
       participationProfit: '',
       isLocked: false,
+      users: [],
     },
   })
 
-  // استفاده از watch برای دریافت مقدار isLocked
   const isLocked = watch('isLocked')
 
+  const handleDateChange = (date) => {
+    setDeliveryDate(date)
+    const isoDate = date ? date.toDate().toISOString().split('T')[0] : ''
+    setValue('deliveryDate', isoDate)
+  }
+
   const handleAddUser = () => {
-    if (newUser.nationalCode) {
-      setUsers([...users, newUser])
-      setNewUser({ nationalCode: '', name: '', family: '' })
+    const userValidation = salesConditionUserSchema.safeParse(newUser)
+    if (!userValidation.success) {
+      const errorMessages = userValidation.error.errors.reduce((acc, error) => {
+        acc[error.path[0]] = error.message
+        return acc
+      }, {})
+      setUserErrors(errorMessages)
+      return
     }
+
+    const updatedUsers = [...users, newUser]
+    setUsers(updatedUsers)
+    setNewUser({ nationalCode: '', name: '', family: '' })
+    setUserErrors({})
+    setValue('users', updatedUsers)
   }
 
   const handleRemoveUser = (index) => {
     const updatedUsers = users.filter((_, i) => i !== index)
     setUsers(updatedUsers)
+    setValue('users', updatedUsers)
   }
 
   const onSubmit = async (formData) => {
     startTransition(async () => {
-      const createdCondition = await createSalesCondition(formData)
-
-      for (const user of users) {
-        await addAuthorizedUser(createdCondition.id, user)
-      }
-
+      await createSalesCondition(formData)
+      toast.success('شرایط فروش شما ایجاد شد!', { duration: 5000 })
       router.push('/admin/sales-conditions')
     })
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
-      <label>خودرو:</label>
-      <select {...register('carId')} className={styles.formSelect}>
-        {cars.map((car) => (
-          <option key={car.id} value={car.id}>
-            {car.name}
-          </option>
-        ))}
-      </select>
-      {errors.carId && <p className={styles.formError}>{errors.carId.message}</p>}
+    <>
+      <Toaster />
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+        <label>خودرو:</label>
+        <select {...register('carId')} className={styles.formSelect}>
+          {cars.map((car) => (
+            <option key={car.id} value={car.id}>
+              {car.name}
+            </option>
+          ))}
+        </select>
+        {errors.carId && <p className={styles.formError}>{errors.carId.message}</p>}
 
-      <label>نام شرایط:</label>
-      <input type="text" {...register('name')} className={styles.formInput} />
-      {errors.name && <p className={styles.formError}>{errors.name.message}</p>}
+        <label>نام شرایط:</label>
+        <input type="text" {...register('name')} className={styles.formInput} />
+        {errors.name && <p className={styles.formError}>{errors.name.message}</p>}
 
-      <label>نوع شرایط:</label>
-      <select {...register('conditionType')} className={styles.formSelect}>
-        <option value="GENERAL">عمومی</option>
-        <option value="SPECIAL">خاص</option>
-        <option value="ORGANIZATIONAL">سازمانی</option>
-      </select>
-      {errors.conditionType && <p className={styles.formError}>{errors.conditionType.message}</p>}
+        <label>نوع شرایط:</label>
+        <select {...register('conditionType')} className={styles.formSelect}>
+          <option value="GENERAL">عمومی</option>
+          <option value="SPECIAL">خاص</option>
+          <option value="ORGANIZATIONAL">سازمانی</option>
+        </select>
+        {errors.conditionType && <p className={styles.formError}>{errors.conditionType.message}</p>}
 
-      <label>روش فروش:</label>
-      <select {...register('salesMethod')} className={styles.formSelect}>
-        <option value="CASH">نقدی</option>
-        <option value="INSTALLMENT">اقساطی</option>
-        <option value="PREPAYMENT">علی‌الحساب</option>
-      </select>
-      {errors.salesMethod && <p className={styles.formError}>{errors.salesMethod.message}</p>}
+        <label>روش فروش:</label>
+        <select {...register('salesMethod')} className={styles.formSelect}>
+          <option value="CASH">نقدی</option>
+          <option value="INSTALLMENT">اقساطی</option>
+          <option value="PREPAYMENT">علی‌الحساب</option>
+        </select>
+        {errors.salesMethod && <p className={styles.formError}>{errors.salesMethod.message}</p>}
 
-      <label>نوع پرداخت:</label>
-      <select {...register('paymentType')} className={styles.formSelect}>
-        <option value="CASH">نقدی</option>
-        <option value="INSTALLMENT">اقساط</option>
-        <option value="PREPAYMENT">علی‌الحساب</option>
-      </select>
-      {errors.paymentType && <p className={styles.formError}>{errors.paymentType.message}</p>}
+        <label>نوع پرداخت:</label>
+        <select {...register('paymentType')} className={styles.formSelect}>
+          <option value="CASH">نقدی</option>
+          <option value="INSTALLMENT">اقساط</option>
+          <option value="PREPAYMENT">علی‌الحساب</option>
+        </select>
+        {errors.paymentType && <p className={styles.formError}>{errors.paymentType.message}</p>}
 
-      <label>قیمت:</label>
-      <input type="number" {...register('price')} className={styles.formInput} />
-      {errors.price && <p className={styles.formError}>{errors.price.message}</p>}
+        <label>قیمت:</label>
+        <input type="number" {...register('price')} className={styles.formInput} />
+        {errors.price && <p className={styles.formError}>{errors.price.message}</p>}
 
-      <label>قیمت نهایی:</label>
-      <input type="number" {...register('finalPrice')} className={styles.formInput} />
-      {errors.finalPrice && <p className={styles.formError}>{errors.finalPrice.message}</p>}
+        <label>قیمت نهایی:</label>
+        <input type="number" {...register('finalPrice')} className={styles.formInput} />
+        {errors.finalPrice && <p className={styles.formError}>{errors.finalPrice.message}</p>}
 
-      <label>پرداخت زمان ثبت‌نام:</label>
-      <input type="number" {...register('registrationPayment')} className={styles.formInput} />
-      {errors.registrationPayment && (
-        <p className={styles.formError}>{errors.registrationPayment.message}</p>
-      )}
+        <label>پرداخت زمان ثبت‌نام:</label>
+        <input type="number" {...register('registrationPayment')} className={styles.formInput} />
+        {errors.registrationPayment && (
+          <p className={styles.formError}>{errors.registrationPayment.message}</p>
+        )}
 
-      <label>پرداخت یک ماهه:</label>
-      <input type="number" {...register('oneMonthPayment')} className={styles.formInput} />
-      {errors.oneMonthPayment && (
-        <p className={styles.formError}>{errors.oneMonthPayment.message}</p>
-      )}
+        <label>پرداخت یک ماهه:</label>
+        <input type="number" {...register('oneMonthPayment')} className={styles.formInput} />
+        {errors.oneMonthPayment && (
+          <p className={styles.formError}>{errors.oneMonthPayment.message}</p>
+        )}
 
-      <label>تعداد اقساط:</label>
-      <input type="number" {...register('totalInstallments')} className={styles.formInput} />
-      {errors.totalInstallments && (
-        <p className={styles.formError}>{errors.totalInstallments.message}</p>
-      )}
+        <label>تعداد اقساط:</label>
+        <input type="number" {...register('totalInstallments')} className={styles.formInput} />
+        {errors.totalInstallments && (
+          <p className={styles.formError}>{errors.totalInstallments.message}</p>
+        )}
 
-      <label>مبلغ اقساط ماهیانه:</label>
-      <input type="number" {...register('monthlyInstallment')} className={styles.formInput} />
-      {errors.monthlyInstallment && (
-        <p className={styles.formError}>{errors.monthlyInstallment.message}</p>
-      )}
+        <label>مبلغ اقساط ماهیانه:</label>
+        <input type="number" {...register('monthlyInstallment')} className={styles.formInput} />
+        {errors.monthlyInstallment && (
+          <p className={styles.formError}>{errors.monthlyInstallment.message}</p>
+        )}
 
-      <label>مانده زمان تحویل:</label>
-      <input type="number" {...register('remainingAtDelivery')} className={styles.formInput} />
-      {errors.remainingAtDelivery && (
-        <p className={styles.formError}>{errors.remainingAtDelivery.message}</p>
-      )}
+        <label>مانده زمان تحویل:</label>
+        <input type="number" {...register('remainingAtDelivery')} className={styles.formInput} />
+        {errors.remainingAtDelivery && (
+          <p className={styles.formError}>{errors.remainingAtDelivery.message}</p>
+        )}
 
-      <label>تاریخ تحویل:</label>
-      <input type="date" {...register('deliveryDate')} className={styles.formInput} />
-      {errors.deliveryDate && <p className={styles.formError}>{errors.deliveryDate.message}</p>}
+        <label>تاریخ تحویل:</label>
+        <DatePicker
+          value={deliveryDate}
+          onChange={handleDateChange} // تابع تغییر تاریخ
+          calendar={persian}
+          locale={persian_fa}
+          calendarPosition="bottom-right"
+          className={styles.formInput}
+        />
+        {errors.deliveryDate && <p className={styles.formError}>{errors.deliveryDate.message}</p>}
 
-      <label>سود مشارکت:</label>
-      <input type="number" {...register('participationProfit')} className={styles.formInput} />
-      {errors.participationProfit && (
-        <p className={styles.formError}>{errors.participationProfit.message}</p>
-      )}
+        <label>سود مشارکت:</label>
+        <input type="number" {...register('participationProfit')} className={styles.formInput} />
+        {errors.participationProfit && (
+          <p className={styles.formError}>{errors.participationProfit.message}</p>
+        )}
 
-      <label>قفل کردن شرایط فروش:</label>
-      <input type="checkbox" {...register('isLocked')} className={styles.formCheckbox} />
+        <label>قفل کردن شرایط فروش:</label>
+        <input type="checkbox" {...register('isLocked')} className={styles.formCheckbox} />
 
-      {/* بخش مدیریت کاربران مجاز */}
-      {isLocked && (
-        <div className={styles.userManagement}>
-          <h3>افزودن کاربران مجاز</h3>
-          <div>
-            <label>کد ملی:</label>
-            <input
-              type="text"
-              value={newUser.nationalCode}
-              className={styles.formInput}
-              onChange={(e) => setNewUser({ ...newUser, nationalCode: e.target.value })}
-            />
+        {/* بخش مدیریت کاربران مجاز */}
+        {isLocked && (
+          <div className={styles.userManagement}>
+            <h3>افزودن کاربران مجاز</h3>
+            <div>
+              <label>کد ملی:</label>
+              <input
+                type="text"
+                value={newUser.nationalCode}
+                className={styles.formInput}
+                onChange={(e) => setNewUser({ ...newUser, nationalCode: e.target.value })}
+              />
+              {userErrors.nationalCode && (
+                <p className={styles.formError}>{userErrors.nationalCode}</p>
+              )}
 
-            <label>نام:</label>
-            <input
-              type="text"
-              value={newUser.name}
-              className={styles.formInput}
-              onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-            />
+              <label>نام:</label>
+              <input
+                type="text"
+                value={newUser.name}
+                className={styles.formInput}
+                onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+              />
+              {userErrors.name && <p className={styles.formError}>{userErrors.name}</p>}
 
-            <label>نام خانوادگی:</label>
-            <input
-              type="text"
-              value={newUser.family}
-              className={styles.formInput}
-              onChange={(e) => setNewUser({ ...newUser, family: e.target.value })}
-            />
+              <label>نام خانوادگی:</label>
+              <input
+                type="text"
+                value={newUser.family}
+                className={styles.formInput}
+                onChange={(e) => setNewUser({ ...newUser, family: e.target.value })}
+              />
+              {userErrors.family && <p className={styles.formError}>{userErrors.family}</p>}
 
-            <button type="button" onClick={handleAddUser} className={styles.formButton}>
-              افزودن کاربر
-            </button>
+              <button type="button" onClick={handleAddUser} className={styles.formButton}>
+                افزودن کاربر
+              </button>
+            </div>
+
+            <h4>لیست کاربران مجاز</h4>
+            <ul>
+              {users.map((user, index) => (
+                <li key={index}>
+                  {user.name} {user.family} - {user.nationalCode}
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveUser(index)}
+                    className={styles.formButton}
+                  >
+                    حذف
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
+        )}
 
-          {/* نمایش لیست کاربران مجاز */}
-          <h4>لیست کاربران مجاز</h4>
-          <ul>
-            {users.map((user, index) => (
-              <li key={index}>
-                {user.name} {user.family} - {user.nationalCode}
-                <button type="button" onClick={() => handleRemoveUser(index)}  className={styles.formButton}>
-                  حذف
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      <button type="submit" disabled={isPending} className={styles.formButton}>
-        ایجاد شرایط فروش
-      </button>
-    </form>
+        <button type="submit" disabled={isPending} className={styles.formButton}>
+          ایجاد شرایط فروش
+        </button>
+      </form>
+    </>
   )
 }
