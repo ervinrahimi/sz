@@ -60,5 +60,6 @@ export async function updateVehicle(data) {
       }
     }
   })
-  return updatedVehicle
+  
+  return {success: true, data: updatedVehicle}
 }

@@ -4,11 +4,11 @@ import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { vehicleSchema } from '@/security/zod/validationSchema'
 import styles from '@/styles/form.module.css'
-import { updateVehicle } from '@/actions/admin/vehicles'
 import { useState } from 'react'
 import Image from 'next/image'
 import { toast } from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
+import { updateVehicle } from '@/actions/admin/vehicles'
 
 export default function VehicleDetails({ vehicle }) {
   const router = useRouter()
@@ -24,18 +24,18 @@ export default function VehicleDetails({ vehicle }) {
   } = useForm({
     resolver: zodResolver(vehicleSchema),
     defaultValues: {
-      id: vehicle.id || '', // اضافه کردن id
+      id: vehicle.id || '',
       model: vehicle.model || '',
       name: vehicle.name || '',
-      imageFile: vehicle.image || '',
       status: vehicle.status || 'AVAILABLE',
       appearanceSpecifications: vehicle.appearanceSpecifications || [
-        { title: '', options: [], isSelectable: true },
+        { title: '', options: [''], isSelectable: true },
       ],
       technicalSpecifications: vehicle.technicalSpecifications || [
         { key: '', value: '', note: '' },
       ],
-    },
+    },    
+    mode: 'onChange', // اضافه کردن این خط برای بهبود عملکرد
   })
 
   const {
@@ -55,37 +55,34 @@ export default function VehicleDetails({ vehicle }) {
     control,
     name: 'technicalSpecifications',
   })
-
+  
   const onSubmit = async (data) => {
-    try {
-      if (data.imageFile && data.imageFile.length > 0) {
-        const formData = new FormData()
-        formData.append('file', data.imageFile[0])
+    if (imagePreview !== vehicle.image && data.imageFile && data.imageFile.length > 0) {
+      const formData = new FormData()
+      formData.append('file', data.imageFile[0])
 
-        const res = await fetch('/api/upload/car', {
-          method: 'POST',
-          body: formData,
-        })
+      const res = await fetch('/api/upload/car', {
+        method: 'POST',
+        body: formData,
+      })
 
-        const uploadData = await res.json()
-        data.image = uploadData.url // تغییر به image
-      } else {
-        data.image = vehicle.image // تنظیم تصویر اولیه
-      }
+      const uploadData = await res.json()
+      data.imageFile = null
+      data.image = uploadData.url // تغییر به image
+    } else {
+      data.image = vehicle.image // تنظیم تصویر اولیه
+    }
 
-      data.id = vehicle.id // ارسال id به updateVehicle
+    data.id = vehicle.id // ارسال id به updateVehicle
 
-      const res = await updateVehicle(data)
+    const res = await updateVehicle(data)
 
-      if (res.success) {
-        reset(data)
-        toast.success('اطلاعات با موفقیت به‌روزرسانی شد.', { duration: 5000 })
-      } else {
-        toast.error(res.message || 'خطا در به‌روزرسانی اطلاعات.', { duration: 5000 })
-      }
-    } catch (error) {
-      console.error('خطا در هنگام به‌روزرسانی اطلاعات:', error)
-      toast.error('مشکلی در به‌روزرسانی اطلاعات به وجود آمده است.', { duration: 5000 })
+    if (res.success) {
+      reset(data)
+      toast.success('اطلاعات با موفقیت به‌روزرسانی شد.', { duration: 5000 })
+      return router.push('/admin/vehicles/')
+    } else {
+      toast.error(res.message || 'خطا در به‌روزرسانی اطلاعات.', { duration: 5000 })
     }
   }
 
@@ -104,11 +101,7 @@ export default function VehicleDetails({ vehicle }) {
 
   return (
     <div className={styles.formWrapper}>
-      <h2 className={styles.title}>جزئیات خودرو</h2>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
-        {/* فیلد مخفی id */}
-        <input type="hidden" {...register('id')} />
-
         <label className={styles.formLabel}>
           مدل:
           <input type="text" {...register('model')} className={styles.formInput} />
@@ -128,9 +121,8 @@ export default function VehicleDetails({ vehicle }) {
             accept="image/*"
             onChange={handleImageChange}
           />
-          {!imagePreview && errors.imageFile && (
-            <p className={styles.formError}>{errors.imageFile.message}</p>
-          )}
+          {/* نمایش خطای تصویر در صورت وجود */}
+          {errors.imageFile && <p className={styles.formError}>{errors.imageFile.message}</p>}
         </label>
 
         {imagePreview && (
@@ -160,7 +152,6 @@ export default function VehicleDetails({ vehicle }) {
             <option value="AVAILABLE">موجود</option>
             <option value="UNAVAILABLE">ناموجود</option>
           </select>
-          {errors.status && <p className={styles.formError}>{errors.status.message}</p>}
         </label>
 
         <h3 className={styles.subtitle}>مشخصات ظاهری</h3>
@@ -184,7 +175,7 @@ export default function VehicleDetails({ vehicle }) {
               <input
                 type="checkbox"
                 {...register(`appearanceSpecifications.${index}.isSelectable`)}
-                className={styles.formCheckbox}
+                className={styles.checkbox}
               />
             </label>
 
@@ -192,7 +183,7 @@ export default function VehicleDetails({ vehicle }) {
               <button
                 type="button"
                 onClick={() => removeAppearance(index)}
-                className={styles.removeButton}
+                className={styles.formButton}
               >
                 حذف مشخصه
               </button>
@@ -203,9 +194,9 @@ export default function VehicleDetails({ vehicle }) {
         <button
           type="button"
           onClick={() => appendAppearance({ title: '', options: [], isSelectable: true })}
-          className={styles.addButton}
+          className={styles.formButton}
         >
-          افزودن مقدار
+          افزودن مشخصات ظاهری
         </button>
 
         <h3 className={styles.subtitle}>مشخصات فنی</h3>
@@ -250,7 +241,7 @@ export default function VehicleDetails({ vehicle }) {
               <button
                 type="button"
                 onClick={() => removeTechnical(index)}
-                className={styles.removeButton}
+                className={styles.formButton}
               >
                 حذف مشخصه
               </button>
@@ -261,7 +252,7 @@ export default function VehicleDetails({ vehicle }) {
         <button
           type="button"
           onClick={() => appendTechnical({ key: '', value: '', note: '' })}
-          className={styles.addButton}
+          className={styles.formButton}
         >
           افزودن مشخصات فنی
         </button>
