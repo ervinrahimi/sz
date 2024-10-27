@@ -27,8 +27,18 @@ export const sendNotificationSchema = z.object({
   message: z.string().min(1, 'متن پیام الزامی است.'),
 })
 
+export const salesConditionUserSchema = z.object({
+  nationalCode: z
+    .string()
+    .length(10, 'کد ملی باید ۱۰ رقم باشد.')
+    .regex(/^\d+$/, 'کد ملی باید فقط شامل اعداد باشد.'),
+  name: z.string().min(1, 'نام الزامی است.'),
+  family: z.string().min(1, 'نام خانوادگی الزامی است.'),
+})
+
 // For New Sales Conditions Form
 export const newSalesConditionSchema = z.object({
+  // فیلدهای اصلی فرم
   carId: z.string().min(1, 'انتخاب خودرو الزامی است.'),
   name: z.string().min(1, 'نام شرایط الزامی است.'),
   conditionType: z.enum(['GENERAL', 'SPECIAL', 'ORGANIZATIONAL']),
@@ -37,13 +47,28 @@ export const newSalesConditionSchema = z.object({
   price: z.string().nonempty('قیمت الزامی است.'),
   finalPrice: z.string().nonempty('قیمت نهایی الزامی است.'),
   registrationPayment: z.string().nonempty('پرداخت زمان ثبت‌نام الزامی است.'),
-  oneMonthPayment: z.string().optional(),
-  totalInstallments: z.string().optional(),
-  monthlyInstallment: z.string().optional(),
-  remainingAtDelivery: z.string().optional(),
+  oneMonthPayment: z.string().min(1, 'پرداخت یک ماهه الزامی است'),
+  totalInstallments: z.string().min(1, 'تعداد اقساط الزامی است'),
+  monthlyInstallment: z.string().min(1, 'مبلغ اقساط ماهیانه الزامی است'),
+  remainingAtDelivery: z.string().min(1, 'مانده زمان تحویل الزامی است'),
   deliveryDate: z.string().nonempty('تاریخ تحویل الزامی است.'),
-  participationProfit: z.string().optional(),
+  participationProfit: z.string().min(1, 'سود مشارکت الزامی است'),
   isLocked: z.boolean(),
+
+  // تعریف فیلدهای کاربران مجاز به صورت آرایه
+  users: z
+    .array(
+      z.object({
+        nationalCode: z
+          .string()
+          .min(10, 'کد ملی باید ۱۰ رقم باشد.')
+          .max(10, 'کد ملی باید ۱۰ رقم باشد.')
+          .regex(/^\d+$/, 'کد ملی باید فقط شامل اعداد باشد.'),
+        name: z.string().min(1, 'نام الزامی است.'),
+        family: z.string().min(1, 'نام خانوادگی الزامی است.'),
+      })
+    )
+    .optional(),
 })
 
 // For Sales Conditions Form

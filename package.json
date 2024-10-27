@@ -21,6 +21,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
     "react-hot-toast": "^2.4.1",
+    "react-multi-date-picker": "^4.5.2",
     "react-type-animation": "^3.2.0",
     "resend": "^4.0.0",
     "uuid": "^10.0.0",
