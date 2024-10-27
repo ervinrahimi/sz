@@ -11,8 +11,8 @@ export default async function RootLayout({ children }) {
 
   return (
     <>
-      <HeaderSticky menuItems={menuItems} />
-      <Header menuItems={menuItems} />
+      <HeaderSticky menuItems={menuItems} user={session?.user} />
+      <Header menuItems={menuItems} user={session?.user} />
       {children}
       <Footer />
     </>

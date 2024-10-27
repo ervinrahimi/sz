@@ -1,0 +1,40 @@
+.page * {
+  font-family: var(--font-yekanbakh);
+}
+
+.page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background-image: url(../../../public/slider/5.jpg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 0px;
+}
+
+.page::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: ' ';
+  background: rgba(33, 33, 55, 0.6);
+  z-index: 0;
+  backdrop-filter: blur(15px);
+}
+
+.container {
+  position: absolute;
+  width: 400px;
+  max-width: 400px;
+  height: max-content;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  backdrop-filter: blur(20px);
+  z-index: 1;
+  direction: rtl;
+}

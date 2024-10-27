@@ -10,7 +10,6 @@ import {
   MenuIcon,
   MenuPhoneIcon,
   MenuProfileIcon,
-  MenuSearchIcon,
   MenuWhatsappIcon,
 } from '@/assets/svgs/Icons/Icons'
 import { useRouter } from 'next/navigation'
@@ -19,7 +18,7 @@ import Link from 'next/link'
 import toast from 'react-hot-toast'
 import { ROUTES } from '@/constants/routes'
 
-export default function Header({ product, menuItems }) {
+export default function Header({ product, menuItems, user}) {
   const [showContent, setShowContent] = useState(true)
   const [isOpen, setIsOpen] = useState(false)
 
@@ -70,7 +69,14 @@ export default function Header({ product, menuItems }) {
   }
 
   const handleLogin = () => {
-    router.push('/Dashboard'), { scroll: false }
+    if (user) {
+      if (user.role > 0) {
+        router.push('/admin'), { scroll: false }
+      }
+      router.push('/Dashboard'), { scroll: false }
+    } else {
+      router.push(ROUTES.AUTH.MAIN), { scroll: false }
+    }
   }
 
   const handleShopClick = () => {

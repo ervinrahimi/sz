@@ -9,7 +9,6 @@ import {
   MenuCartIcon,
   MenuPhoneIcon,
   MenuProfileIcon,
-  MenuSearchIcon,
   MenuIcon,
   MenuWhatsappIcon
 } from '@/assets/svgs/Icons/Icons'
@@ -76,7 +75,14 @@ export default function HeaderSticky({ menuItems }) {
   }
 
   const handleLogin = () => {
-    router.push('/Dashboard'), { scroll: false }
+    if (user) {
+      if (user.role > 0) {
+        router.push('/admin'), { scroll: false }
+      }
+      router.push('/Dashboard'), { scroll: false }
+    } else {
+      router.push(ROUTES.AUTH.MAIN), { scroll: false }
+    }
   }
 
 
