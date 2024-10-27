@@ -106,7 +106,7 @@ export default function ProductPage() {
           <div className={styles.line} />
 
           <div className={styles.information}>
-            <h3 className={styles.h3Margin}>مشخصات ظاهری</h3>
+            <h3 className={styles.h3Margin}>مشخصات تکمیلی</h3>
             <div className={styles.informationGrid}>
               <li className={styles.subMargin}>
                 <span>

@@ -103,11 +103,11 @@ export default function ProductPage() {
           <div className={styles.line} />
 
           <div className={styles.information}>
-            <h3 className={styles.h3Margin}>مشخصات ظاهری</h3>
+            <h3 className={styles.h3Margin}>مشکلات تکمیلی</h3>
             <div className={styles.informationGrid}>
               <li className={styles.subMargin}>
                 <span>
-                  رنگ<div className={styles.subText}>تست</div>
+                  رنگ
                 </span>
                 <Image src={'/dots.png'} width={700} height={700} alt="dots" />
                 <span>تست</span>
