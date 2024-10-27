@@ -9,23 +9,9 @@ import { SliderLeftArrow, SliderRightArrow } from '@/assets/svgs/Icons/Icons'
 import Image from 'next/image'
 import { getSlides } from '@/actions/admin/slides' // استفاده از سرور اکشن
 
-export const MainSlider = () => {
-  const [slides, setSlides] = useState([])
+export const MainSlider = ({slides}) => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
-
-  useEffect(() => {
-    // دریافت اسلایدها از سرور اکشن
-    const fetchSlides = async () => {
-      try {
-        const slidesData = await getSlides()
-        setSlides(slidesData)
-      } catch (error) {
-        console.error('خطا در دریافت اسلایدها:', error)
-      }
-    }
-    fetchSlides()
-  }, [])
 
   // تابع حرکت به اسلاید بعدی یا قبلی
   const goToSlide = (index) => {
@@ -60,7 +46,6 @@ export const MainSlider = () => {
     return () => clearTimeout(timer)
   }, [currentSlide])
 
-  // نمایش ندادن اسلایدر در صورت نداشتن اسلاید
   if (slides.length === 0) return <div className={styles.noSlides}>اسلایدی موجود نیست</div>
 
   return (

@@ -71,11 +71,11 @@ export default function Header({ product, menuItems, user}) {
   const handleLogin = () => {
     if (user) {
       if (user.role > 0) {
-        router.push('/admin'), { scroll: false }
+        return router.push('/admin'), { scroll: false }
       }
-      router.push('/Dashboard'), { scroll: false }
+      return router.push('/Dashboard'), { scroll: false }
     } else {
-      router.push(ROUTES.AUTH.MAIN), { scroll: false }
+      return router.push(ROUTES.AUTH.MAIN), { scroll: false }
     }
   }
 

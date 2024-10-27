@@ -25,7 +25,7 @@ export default async function RootLayout({ children }) {
     <SessionProvider session={session}>
       <html lang="en">
         <body className={`${kahroba.variable} ${yekanBakh.variable} ${yekanBakh.cairo}`}>
-          <GlobalLoading />
+          {/* <GlobalLoading /> */}
           <Toaster
             position="bottom-right"
             toastOptions={{

@@ -1,5 +1,3 @@
-// src/components/common/GlobalLoading.jsx
-
 'use client'
 
 import React, { useEffect, useState } from 'react'

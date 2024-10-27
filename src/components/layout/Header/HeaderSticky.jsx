@@ -16,8 +16,9 @@ import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
+import { ROUTES } from '@/constants/routes'
 
-export default function HeaderSticky({ menuItems }) {
+export default function HeaderSticky({ menuItems, user }) {
   const [showContent, setShowContent] = useState(true)
   const [isOpen, setIsOpen] = useState(false)
 
@@ -77,11 +78,11 @@ export default function HeaderSticky({ menuItems }) {
   const handleLogin = () => {
     if (user) {
       if (user.role > 0) {
-        router.push('/admin'), { scroll: false }
+        return router.push('/admin'), { scroll: false }
       }
-      router.push('/Dashboard'), { scroll: false }
+      return router.push('/Dashboard'), { scroll: false }
     } else {
-      router.push(ROUTES.AUTH.MAIN), { scroll: false }
+      return router.push(ROUTES.AUTH.MAIN), { scroll: false }
     }
   }
 

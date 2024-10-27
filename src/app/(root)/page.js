@@ -1,23 +1,19 @@
-import Image from 'next/image'
-import styles from './page.module.css'
-import Header from '@/components/layout/Header/Header'
-import HeaderSticky from '@/components/layout/Header/HeaderSticky'
-import { MainSlider } from '@/components/ui/Slider/Slider'
 import ProductsBox from '@/components/ui/Products/ProductsBox'
-import { WideLightPoster } from '@/components/ui/Posters/Posters'
 import MiniSlider from '@/components/ui/Slider/MiniSlider'
-import { getMenuItems } from '@/actions/admin/menu'
-import Footer from '@/components/layout/Footer/Footer'
+import styles from './page.module.css'
+import { WideLightPoster } from '@/components/ui/Posters/Posters'
+import { MainSlider } from '@/components/ui/Slider/Slider'
+import { getSlides } from '@/actions/admin/slides'
 
 export default async function Home() {
-  
+  const slidesData = await getSlides()
 
   return (
     <div className={styles.page}>
       <div className={styles.container}>
+        
+        <MainSlider slides={slidesData} />
 
-
-        <MainSlider />
         <ProductsBox title={false} />
 
         <WideLightPoster />

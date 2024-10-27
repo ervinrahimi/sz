@@ -15,9 +15,15 @@ export default function PersonalInformation({ user }) {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm({
     resolver: zodResolver(personalInfoSchema),
+    defaultValues: {
+      name: user.name || '',
+      family: user.family || '',
+      email: user.email || '',
+      phone: user.phone || '',
+    },
   })
 
   const onSubmit = async (data) => {
@@ -36,41 +42,27 @@ export default function PersonalInformation({ user }) {
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
         <label className={styles.formLabel}>
           نام:
-          <input
-            type="text"
-            {...register('name')}
-            className={styles.formInput}
-          />
+          <input type="text" {...register('name')} className={styles.formInput} />
           {errors.name && <p className={styles.formError}>{errors.name.message}</p>}
         </label>
         <label className={styles.formLabel}>
           نام خانوادگی:
-          <input
-            type="text"
-            {...register('family')}
-            className={styles.formInput}
-          />
+          <input type="text" {...register('family')} className={styles.formInput} />
           {errors.family && <p className={styles.formError}>{errors.family.message}</p>}
         </label>
         <label className={styles.formLabel}>
           ایمیل:
-          <input
-            type="email"
-            {...register('email')}
-            className={styles.formInput}
-          />
+          <input type="email" {...register('email')} className={styles.formInput} />
           {errors.email && <p className={styles.formError}>{errors.email.message}</p>}
         </label>
         <label className={styles.formLabel}>
           شماره تلفن:
-          <input
-            type="text"
-            {...register('phone')}
-            className={styles.formInput}
-          />
+          <input type="text" {...register('phone')} className={styles.formInput} />
           {errors.phone && <p className={styles.formError}>{errors.phone.message}</p>}
         </label>
-        <button type="submit" className={styles.formButton}>ذخیره تغییرات</button>
+        <button type="submit" className={styles.formButton}>
+          ذخیره تغییرات
+        </button>
       </form>
       {message && <p className={styles.formMessage}>{message}</p>}
     </div>
