@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import styles from './SlidesList.module.css'
-import { reorderSlides } from '@/actions/admin/slides'
+import { reorderSlides, deleteSlide } from '@/actions/admin/slides'
 import { useRouter } from 'next/navigation'
-import { deleteSlide } from '@/actions/admin/slides'
+import { toast } from 'react-hot-toast'
 
 export default function SlidesList({ slides }) {
   const [slideList, setSlideList] = useState(slides)
@@ -46,16 +46,20 @@ export default function SlidesList({ slides }) {
   }
 
   const handleDelete = async (id) => {
+    const confirmDelete = window.confirm('آیا مطمئن هستید که می‌خواهید این اسلاید را حذف کنید؟')
+    if (!confirmDelete) return
+
     try {
-      await deleteSlide(id)  // حذف اسلاید از سرور
+      await deleteSlide(id) // حذف اسلاید از سرور
       const updatedList = slideList.filter((slide) => slide.id !== id)
-      setSlideList(updatedList)  // به‌روزرسانی لیست پس از حذف
-      router.refresh()  // به‌روزرسانی صفحه
+      setSlideList(updatedList) // به‌روزرسانی لیست پس از حذف
+      router.refresh() // به‌روزرسانی صفحه
+      toast.success('اسلاید شما با موفقیت حذف شد', { duration: 5000 })
     } catch (error) {
+      toast.error('خطا در حذف اسلاید', { duration: 5000 })
       console.error('خطا در حذف اسلاید:', error)
     }
   }
-  
 
   return (
     <div className={styles.container}>

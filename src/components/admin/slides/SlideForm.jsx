@@ -7,6 +7,7 @@ import { createSlide, updateSlide } from '@/actions/admin/slides'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { toast } from 'react-hot-toast'
 import styles from '@/styles/form.module.css'
 
 export default function SlideForm({ slide }) {
@@ -60,12 +61,14 @@ export default function SlideForm({ slide }) {
     try {
       if (isEdit) {
         await updateSlide({ ...submitData, id: slide.id })
+        toast.success('اسلاید با موفقیت ویرایش شد', { duration: 5000 })
       } else {
         await createSlide(submitData)
+        toast.success('اسلاید جدید با موفقیت ساخته شد', { duration: 5000 })
       }
       router.push('/admin/slides')
     } catch (error) {
-      alert(error.message)
+      toast.error('خطایی رخ داد: ' + error.message, { duration: 5000 })
     } finally {
       setIsSubmitting(false)
     }
@@ -74,6 +77,7 @@ export default function SlideForm({ slide }) {
   const handleImageChange = (e) => {
     const file = e.target.files[0]
     if (file) {
+      setRemoveImage(false)
       setValue('imageFile', e.target.files)
       setImagePreview(URL.createObjectURL(file))
     }
