@@ -1,11 +1,93 @@
 import { z } from 'zod'
 
-// For Personal Information Form
 export const personalInfoSchema = z.object({
   name: z.string().min(1, 'نام الزامی است.'),
   family: z.string().min(1, 'نام خانوادگی الزامی است.'),
   email: z.string().email('ایمیل معتبر نیست.'),
-  phone: z.string().regex(/^(\+98|0)?9\d{9}$/, 'شماره تلفن معتبر نیست.'),
+
+  phone: z
+    .string()
+    .length(11, 'شماره تلفن باید ۱۱ رقم باشد.')
+    .regex(/^(\+98|0)?9\d{9}$/, 'شماره تلفن معتبر نیست.'),
+
+  phone2: z
+    .string()
+    .length(11, 'شماره تلفن دوم باید ۱۱ رقم باشد.')
+    .regex(/^(\+98|0)?9\d{9}$/, 'شماره تلفن دوم معتبر نیست.')
+    .optional(),
+
+  landlinePhone: z
+    .string()
+    .min(8, 'شماره تلفن ثابت باید حداقل ۸ رقم باشد.')
+    .max(11, 'شماره تلفن ثابت باید حداکثر ۱۱ رقم باشد.')
+    .regex(/^\d{8,11}$/, 'شماره تلفن ثابت معتبر نیست.')
+    .optional(),
+
+  username: z.string().min(4, 'نام کاربری باید حداقل ۴ کاراکتر باشد.'),
+
+  nationalCode: z
+    .string()
+    .length(10, 'کد ملی باید ۱۰ رقم باشد.')
+    .regex(/^\d{10}$/, 'کد ملی معتبر نیست.'),
+
+  fatherName: z.string().min(1, 'نام پدر الزامی است.'),
+
+  idNumber: z.string().min(1, 'شماره شناسنامه الزامی است.'),
+
+  gender: z.enum(['MALE', 'FEMALE'], 'جنسیت نامعتبر است.'),
+  occupation: z.enum(
+    ['EMPLOYED', 'RETIRED', 'HOMEMAKER', 'UNEMPLOYED', 'STUDENT', 'ABROAD'],
+    'شغل نامعتبر است.'
+  ),
+  educationLevel: z.enum(
+    [
+      'ILLITERATE',
+      'ELEMENTARY',
+      'MIDDLE_SCHOOL',
+      'HIGH_SCHOOL',
+      'ASSOCIATE',
+      'BACHELOR',
+      'MASTER',
+      'DOCTORATE',
+    ],
+    'سطح تحصیلات نامعتبر است.'
+  ),
+  // آدرس‌ها: HOME و WORK به صورت اختیاری
+  // addresses: z
+  //   .object({
+  //     HOME: z
+  //       .object({
+  //         province: z.string().optional(),
+  //         city: z.string().optional(),
+  //         district: z.string().optional(),
+  //         addressLine: z.string().optional(),
+  //         buildingNo: z.string().optional(),
+  //         floor: z.string().optional(),
+  //         unit: z.string().optional(),
+  //         postalCode: z
+  //           .string()
+  //           .regex(/^\d{10}$/, 'کد پستی باید ۱۰ رقم باشد.')
+  //           .optional(),
+  //       })
+  //       .optional(),
+
+  //     WORK: z
+  //       .object({
+  //         province: z.string().optional(),
+  //         city: z.string().optional(),
+  //         district: z.string().optional(),
+  //         addressLine: z.string().optional(),
+  //         buildingNo: z.string().optional(),
+  //         floor: z.string().optional(),
+  //         unit: z.string().optional(),
+  //         postalCode: z
+  //           .string()
+  //           .regex(/^\d{10}$/, 'کد پستی باید ۱۰ رقم باشد.')
+  //           .optional(),
+  //       })
+  //       .optional(),
+  //   })
+  //   .optional(),
 })
 
 // For Change Password Form

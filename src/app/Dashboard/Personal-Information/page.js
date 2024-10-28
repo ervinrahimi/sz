@@ -2,9 +2,15 @@
 import { auth } from '@/security/auth'
 import styles from '../page.module.css'
 import PersonalInformation from '@/components/dashboard/PersonalInformation/PersonalInformation'
+import prisma from '@/db/client'
 
 export default async function Dashboard() {
   const session = await auth()
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session.user.id
+    },
+  })
 
   return (
     <div className={styles.container}>
@@ -16,7 +22,7 @@ export default async function Dashboard() {
             </div> */}
         </div>
         <div className={styles.balanceBox}>
-          <PersonalInformation user={session.user} />
+          <PersonalInformation user={user} />
         </div>
       </div>
     </div>
