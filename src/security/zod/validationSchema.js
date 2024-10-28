@@ -71,23 +71,38 @@ export const newSalesConditionSchema = z.object({
     .optional(),
 })
 
-// For Sales Conditions Form
 export const salesConditionSchema = z.object({
+  id: z.string().nonempty('شناسه شرایط الزامی است.'),
+  carId: z.string().nonempty('شناسه خودرو الزامی است.'),
   name: z.string().min(1, 'نام شرایط الزامی است.'),
-  conditionType: z.enum(['GENERAL', 'SPECIAL', 'ORGANIZATIONAL'], 'نوع شرایط الزامی است.'),
-  salesMethod: z.enum(['CASH', 'INSTALLMENT', 'PREPAYMENT'], 'روش فروش الزامی است.'),
-  paymentType: z.enum(['CASH', 'INSTALLMENT', 'PREPAYMENT'], 'نوع پرداخت الزامی است.'),
-  price: z.string().min(1, 'قیمت الزامی است.'),
-  registrationPayment: z.string().optional(),
-  oneMonthPayment: z.string().optional(),
-  totalInstallments: z.string().optional(),
-  monthlyInstallment: z.string().optional(),
-  remainingAtDelivery: z.string().optional(),
-  finalPrice: z.string().min(1, 'قیمت نهایی الزامی است.'),
+  conditionType: z.enum(['GENERAL', 'SPECIAL', 'ORGANIZATIONAL'], 'نوع شرایط نامعتبر است.'),
+  salesMethod: z.enum(['CASH', 'INSTALLMENT', 'PREPAYMENT'], 'روش فروش نامعتبر است.'),
+  paymentType: z.enum(['CASH', 'INSTALLMENT', 'PREPAYMENT'], 'نوع پرداخت نامعتبر است.'),
+  price: z.string().min(1, 'قیمت الزامی است.').transform((val) => parseFloat(val)),
+  registrationPayment: z.string().optional().transform((val) => (val ? parseFloat(val) : null)),
+  oneMonthPayment: z.string().optional().transform((val) => (val ? parseFloat(val) : null)),
+  totalInstallments: z.string().optional().transform((val) => (val ? parseInt(val) : null)),
+  monthlyInstallment: z.string().optional().transform((val) => (val ? parseFloat(val) : null)),
+  remainingAtDelivery: z.string().optional().transform((val) => (val ? parseFloat(val) : null)),
+  finalPrice: z.string().min(1, 'قیمت نهایی الزامی است.').transform((val) => parseFloat(val)),
   deliveryDate: z.string().optional(),
-  participationProfit: z.string().optional(),
-})
+  participationProfit: z.string().optional().transform((val) => (val ? parseFloat(val) : null)),
+  isLocked: z.boolean(),
 
+  // اعتبارسنجی کاربران مجاز به صورت آرایه‌ای از شیء
+  authorizedUsers: z
+    .array(
+      z.object({
+        nationalCode: z
+          .string()
+          .length(10, 'کد ملی باید ۱۰ رقم باشد.')
+          .regex(/^\d+$/, 'کد ملی باید فقط شامل اعداد باشد.'),
+        name: z.string().min(1, 'نام الزامی است.'),
+        family: z.string().min(1, 'نام خانوادگی الزامی است.'),
+      })
+    )
+    .optional(),
+})
 // For Create User Form
 export const userCreateSchema = z
   .object({

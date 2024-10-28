@@ -2,8 +2,8 @@
 
 'use client'
 
-import Link from 'next/link'
 import styles from './SalesConditionsTable.module.css'
+import Link from 'next/link'
 
 export default function SalesConditionsTable({ salesConditions }) {
   return (

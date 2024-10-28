@@ -1,21 +1,18 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
+import { newSalesConditionSchema } from '@/security/zod/validationSchema'
+import { createSalesCondition } from '@/actions/admin/sales-conditions'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTransition, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createSalesCondition } from '@/actions/admin/sales-conditions'
-import { newSalesConditionSchema, salesConditionUserSchema } from '@/security/zod/validationSchema'
-import styles from '@/styles/form.module.css'
-import DatePicker from 'react-multi-date-picker'
-import persian from 'react-date-object/calendars/persian'
+import { useForm } from 'react-hook-form'
 import persian_fa from 'react-date-object/locales/persian_fa'
-import toast, { Toaster } from 'react-hot-toast'
+import persian from 'react-date-object/calendars/persian'
+import DatePicker from 'react-multi-date-picker'
+import styles from '@/styles/form.module.css'
+import toast from 'react-hot-toast'
 
 export default function NewSalesConditionForm({ cars }) {
-  const [users, setUsers] = useState([])
-  const [newUser, setNewUser] = useState({ nationalCode: '', name: '', family: '' })
-  const [userErrors, setUserErrors] = useState({})
   const [deliveryDate, setDeliveryDate] = useState(null)
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
@@ -25,7 +22,6 @@ export default function NewSalesConditionForm({ cars }) {
     handleSubmit,
     formState: { errors },
     setValue,
-    watch,
   } = useForm({
     resolver: zodResolver(newSalesConditionSchema),
     defaultValues: {
@@ -48,36 +44,10 @@ export default function NewSalesConditionForm({ cars }) {
     },
   })
 
-  const isLocked = watch('isLocked')
-
   const handleDateChange = (date) => {
     setDeliveryDate(date)
     const isoDate = date ? date.toDate().toISOString().split('T')[0] : ''
     setValue('deliveryDate', isoDate)
-  }
-
-  const handleAddUser = () => {
-    const userValidation = salesConditionUserSchema.safeParse(newUser)
-    if (!userValidation.success) {
-      const errorMessages = userValidation.error.errors.reduce((acc, error) => {
-        acc[error.path[0]] = error.message
-        return acc
-      }, {})
-      setUserErrors(errorMessages)
-      return
-    }
-
-    const updatedUsers = [...users, newUser]
-    setUsers(updatedUsers)
-    setNewUser({ nationalCode: '', name: '', family: '' })
-    setUserErrors({})
-    setValue('users', updatedUsers)
-  }
-
-  const handleRemoveUser = (index) => {
-    const updatedUsers = users.filter((_, i) => i !== index)
-    setUsers(updatedUsers)
-    setValue('users', updatedUsers)
   }
 
   const onSubmit = async (formData) => {
@@ -90,7 +60,6 @@ export default function NewSalesConditionForm({ cars }) {
 
   return (
     <>
-      <Toaster />
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
         <label>خودرو:</label>
         <select {...register('carId')} className={styles.formSelect}>
@@ -187,63 +156,6 @@ export default function NewSalesConditionForm({ cars }) {
 
         <label>قفل کردن شرایط فروش:</label>
         <input type="checkbox" {...register('isLocked')} className={styles.formCheckbox} />
-
-        {/* بخش مدیریت کاربران مجاز */}
-        {isLocked && (
-          <div className={styles.userManagement}>
-            <h3>افزودن کاربران مجاز</h3>
-            <div>
-              <label>کد ملی:</label>
-              <input
-                type="text"
-                value={newUser.nationalCode}
-                className={styles.formInput}
-                onChange={(e) => setNewUser({ ...newUser, nationalCode: e.target.value })}
-              />
-              {userErrors.nationalCode && (
-                <p className={styles.formError}>{userErrors.nationalCode}</p>
-              )}
-
-              <label>نام:</label>
-              <input
-                type="text"
-                value={newUser.name}
-                className={styles.formInput}
-                onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-              />
-              {userErrors.name && <p className={styles.formError}>{userErrors.name}</p>}
-
-              <label>نام خانوادگی:</label>
-              <input
-                type="text"
-                value={newUser.family}
-                className={styles.formInput}
-                onChange={(e) => setNewUser({ ...newUser, family: e.target.value })}
-              />
-              {userErrors.family && <p className={styles.formError}>{userErrors.family}</p>}
-
-              <button type="button" onClick={handleAddUser} className={styles.formButton}>
-                افزودن کاربر
-              </button>
-            </div>
-
-            <h4>لیست کاربران مجاز</h4>
-            <ul>
-              {users.map((user, index) => (
-                <li key={index}>
-                  {user.name} {user.family} - {user.nationalCode}
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveUser(index)}
-                    className={styles.formButton}
-                  >
-                    حذف
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
 
         <button type="submit" disabled={isPending} className={styles.formButton}>
           ایجاد شرایط فروش

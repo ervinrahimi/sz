@@ -1,23 +1,16 @@
 // src/components/admin/SalesConditionEditForm.jsx
 'use client'
 
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useState, useTransition } from 'react'
-import {
-  updateSalesCondition,
-  addAuthorizedUser,
-  removeAuthorizedUser,
-} from '@/actions/admin/sales-conditions'
-import toast from 'react-hot-toast'
+import { updateSalesCondition } from '@/actions/admin/sales-conditions'
 import { salesConditionSchema } from '@/security/zod/validationSchema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
 import styles from '@/styles/form.module.css'
+import toast from 'react-hot-toast'
 
 export default function SalesConditionEditForm({ salesCondition }) {
-  const [authorizedUsers, setAuthorizedUsers] = useState(salesCondition.authorizedUsers || []) // کاربران مجاز
-  const [newUser, setNewUser] = useState({ nationalCode: '', name: '', family: '' }) // کاربر جدید
-  const [isPending, startTransition] = useTransition()
-  const [message, setMessage] = useState('')
+  const router = useRouter()
 
   const {
     register,
@@ -62,40 +55,18 @@ export default function SalesConditionEditForm({ salesCondition }) {
       participationProfit: data.participationProfit ? parseFloat(data.participationProfit) : null,
     }
 
-    startTransition(() => {
-      updateSalesCondition(updatedFormData)
-    })
-  }
+    const res = await updateSalesCondition(updatedFormData)
 
-  // افزودن کاربر جدید به لیست
-  const handleAddUser = async (e) => {
-    e.preventDefault()
-
-    // بررسی وجود کاربر با کد ملی تکراری
-    if (
-      newUser.nationalCode &&
-      !authorizedUsers.some((user) => user.nationalCode === newUser.nationalCode)
-    ) {
-      const updatedUsers = [...authorizedUsers, newUser]
-      setAuthorizedUsers(updatedUsers)
-
-      // افزودن کاربر به سرور
-      await addAuthorizedUser(salesCondition.id, newUser)
-      setNewUser({ nationalCode: '', name: '', family: '' }) // پاک کردن فیلدهای کاربر جدید
+    if (res.success) {
+      toast.success('اطلاعات با موفقیت به‌روزرسانی شد.', { duration: 5000 })
+      router.refresh()
     } else {
-      toast('کاربری با این کد ملی قبلاً اضافه شده است.')
+      toast.error(res.message || 'خطا در به‌روزرسانی اطلاعات.', { duration: 5000 })
     }
   }
 
-  // حذف کاربر از لیست
-  const handleRemoveUser = async (index) => {
-    const userToRemove = authorizedUsers[index]
-
-    // حذف کاربر از سرور
-    await removeAuthorizedUser(userToRemove.id)
-
-    const updatedUsers = authorizedUsers.filter((_, i) => i !== index)
-    setAuthorizedUsers(updatedUsers)
+  const handleCancel = () => {
+    router.push('/admin/sales-conditions/')
   }
 
   return (
@@ -136,54 +107,63 @@ export default function SalesConditionEditForm({ salesCondition }) {
         <input type="text" {...register('price')} className={styles.formInput} />
         {errors.price && <p className={styles.formError}>{errors.price.message}</p>}
 
-        {/* بقیه فیلدها به همین شکل */}
-        {/* اضافه کردن فیلد های دیگر همراه با ولیدیشن در همین ساختار انجام می شود */}
+        <label className={styles.formLabel}>پرداخت زمان ثبت‌نام:</label>
+        <input type="text" {...register('registrationPayment')} className={styles.formInput} />
+        {errors.registrationPayment && (
+          <p className={styles.formError}>{errors.registrationPayment.message}</p>
+        )}
 
-        <button type="submit" disabled={isPending} className={styles.formButton}>
+        <label className={styles.formLabel}>پرداخت یک ماهه:</label>
+        <input type="text" {...register('oneMonthPayment')} className={styles.formInput} />
+        {errors.oneMonthPayment && (
+          <p className={styles.formError}>{errors.oneMonthPayment.message}</p>
+        )}
+
+        <label className={styles.formLabel}>تعداد اقساط:</label>
+        <input type="text" {...register('totalInstallments')} className={styles.formInput} />
+        {errors.totalInstallments && (
+          <p className={styles.formError}>{errors.totalInstallments.message}</p>
+        )}
+
+        <label className={styles.formLabel}>مبلغ اقساط ماهیانه:</label>
+        <input type="text" {...register('monthlyInstallment')} className={styles.formInput} />
+        {errors.monthlyInstallment && (
+          <p className={styles.formError}>{errors.monthlyInstallment.message}</p>
+        )}
+
+        <label className={styles.formLabel}>مانده زمان تحویل:</label>
+        <input type="text" {...register('remainingAtDelivery')} className={styles.formInput} />
+        {errors.remainingAtDelivery && (
+          <p className={styles.formError}>{errors.remainingAtDelivery.message}</p>
+        )}
+
+        <label className={styles.formLabel}>قیمت نهایی:</label>
+        <input type="text" {...register('finalPrice')} className={styles.formInput} />
+        {errors.finalPrice && <p className={styles.formError}>{errors.finalPrice.message}</p>}
+
+        <label className={styles.formLabel}>تاریخ تحویل:</label>
+        <input type="date" {...register('deliveryDate')} className={styles.formInput} />
+        {errors.deliveryDate && <p className={styles.formError}>{errors.deliveryDate.message}</p>}
+
+        <label className={styles.formLabel}>سود مشارکت:</label>
+        <input type="text" {...register('participationProfit')} className={styles.formInput} />
+        {errors.participationProfit && (
+          <p className={styles.formError}>{errors.participationProfit.message}</p>
+        )}
+
+        <label className={styles.formLabel}>قفل کردن شرایط فروش:</label>
+        <input type="checkbox" {...register('isLocked')} className={styles.formCheckbox} />
+        <span>
+          نکته مهم: در صورت قفل کردن شرایط فروش از قسمت مدیریت کاربران مجاز کاربر های مجاز به
+          استفاده از این شرایط را وارد کنید!
+        </span>
+        <button type="submit" className={styles.formButton}>
           ویرایش شرایط فروش
         </button>
+        <button type="button" className={styles.formButton} onClick={handleCancel}>
+          لغو
+        </button>
       </form>
-
-      {/* مدیریت کاربران مجاز */}
-      {salesCondition.isLocked && (
-        <div className={styles.authorizedUsers}>
-          <h3>افزودن کاربران مجاز</h3>
-          <form onSubmit={handleAddUser}>
-            <label className={styles.formLabel}>کد ملی:</label>
-            <input
-              type="text"
-              value={newUser.nationalCode}
-              onChange={(e) => setNewUser({ ...newUser, nationalCode: e.target.value })}
-              className={styles.formInput}
-            />
-            {errors.nationalCode && (
-              <p className={styles.formError}>{errors.nationalCode.message}</p>
-            )}
-
-            <label className={styles.formLabel}>نام:</label>
-            <input
-              type="text"
-              value={newUser.name}
-              onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-              className={styles.formInput}
-            />
-            {errors.name && <p className={styles.formError}>{errors.name.message}</p>}
-
-            <label className={styles.formLabel}>نام خانوادگی:</label>
-            <input
-              type="text"
-              value={newUser.family}
-              onChange={(e) => setNewUser({ ...newUser, family: e.target.value })}
-              className={styles.formInput}
-            />
-            {errors.family && <p className={styles.formError}>{errors.family.message}</p>}
-
-            <button type="submit" className={styles.formButton}>
-              افزودن کاربر
-            </button>
-          </form>
-        </div>
-      )}
     </>
   )
 }

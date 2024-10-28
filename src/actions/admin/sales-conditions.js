@@ -45,10 +45,10 @@ export async function createSalesCondition(data) {
   })
 }
 
-// اکشن برای ویرایش شرایط فروش
 export async function updateSalesCondition(data) {
   const {
     id,
+    carId,
     name,
     conditionType,
     salesMethod,
@@ -65,9 +65,10 @@ export async function updateSalesCondition(data) {
     isLocked,
   } = data
 
-  return await prisma.salesCondition.update({
+  const updatedCondition = await prisma.salesCondition.update({
     where: { id },
     data: {
+      carId,
       name,
       conditionType,
       salesMethod,
@@ -79,11 +80,12 @@ export async function updateSalesCondition(data) {
       monthlyInstallment,
       remainingAtDelivery,
       finalPrice,
-      deliveryDate,
+      deliveryDate: deliveryDate ? new Date(deliveryDate) : null,
       participationProfit,
       isLocked,
     },
   })
+  return { success: true, data: updatedCondition }
 }
 
 // اکشن برای افزودن کاربران مجاز به یک شرایط فروش
