@@ -117,6 +117,7 @@ model Car {
 enum CarStatus {
   AVAILABLE // موجود
   UNAVAILABLE // ناموجود
+  DEACTIVATED // غیرفعال
 }
 
 // مدل مشخصات ظاهری

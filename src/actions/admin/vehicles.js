@@ -63,3 +63,17 @@ export async function updateVehicle(data) {
   
   return {success: true, data: updatedVehicle}
 }
+
+export async function toggleCarStatus(carId) {
+  const car = await prisma.car.findUnique({
+    where: { id: carId },
+  })
+
+  if (car) {
+    const newStatus = car.status === 'AVAILABLE' ? 'DEACTIVATED' : 'AVAILABLE'
+    await prisma.car.update({
+      where: { id: carId },
+      data: { status: newStatus },
+    })
+  }
+}
