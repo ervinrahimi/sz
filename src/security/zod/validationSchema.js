@@ -244,8 +244,6 @@ export const salesConditionSchema = z.object({
     .optional(),
 
   deliveryDate: z.string().optional(),
-  isLocked: z.boolean(),
-
   authorizedUsers: z
     .array(
       z.object({
