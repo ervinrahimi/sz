@@ -148,16 +148,17 @@ model SalesCondition {
   name                String // نام شرایط فروش (مثلاً شرایط عمومی 1)
   conditionType       ConditionType // نوع شرایط فروش (عمومی، خاص، سازمانی)
   salesMethod         SalesMethod // روش فروش (نقدی، اقساطی، علی‌الحساب)
+  contractPriceType   ContractPriceType // نوع قیمت در قرارداد (علی‌الحساب، قطعی)
   paymentType         PaymentType // نوع پرداخت (نقدی، اقساط، علی‌الحساب)
-  price               Float // قیمت خودرو
-  registrationPayment Float? // پرداخت زمان ثبت‌نام
-  oneMonthPayment     Float? // پرداخت یک ماهه
-  totalInstallments   Int? // تعداد اقساط
-  monthlyInstallment  Float? // مبلغ اقساط ماهیانه
-  remainingAtDelivery Float? // مانده زمان تحویل
-  finalPrice          Float // قیمت نهایی
+  price               BigInt // قیمت خودرو
+  registrationPayment BigInt? // پرداخت زمان ثبت‌نام
+  oneMonthPayment     BigInt? // پرداخت یک ماهه
+  totalInstallments   Int? // تعداد اقساط (اینجا نوع Int مناسب است)
+  monthlyInstallment  BigInt? // مبلغ اقساط ماهیانه
+  remainingAtDelivery BigInt? // مانده زمان تحویل
+  finalPrice          BigInt // قیمت نهایی
   deliveryDate        DateTime? // موعد تحویل
-  participationProfit Float? // سود مشارکت
+  participationProfit BigInt? // سود مشارکت
   isLocked            Boolean          @default(false) // نیاز به مجوز
   authorizedUsers     AuthorizedUser[] // کاربران مجاز
   orders              Order[] // سفارش‌ها
@@ -176,7 +177,12 @@ enum ConditionType {
 enum SalesMethod {
   CASH // نقدی
   INSTALLMENT // اقساطی
+}
+
+// نوع قیمت در قرارداد
+enum ContractPriceType {
   PREPAYMENT // علی‌الحساب
+  FIXED // قطعی
 }
 
 // نوع پرداخت

@@ -1,22 +1,47 @@
-// src/components/admin/SalesConditionEditForm.jsx
 'use client'
 
-import { updateSalesCondition } from '@/actions/admin/sales-conditions'
+import { updateSalesCondition, updateIsLocked } from '@/actions/admin/sales-conditions'
 import { salesConditionSchema } from '@/security/zod/validationSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+import persian_fa from 'react-date-object/locales/persian_fa'
+import persian from 'react-date-object/calendars/persian'
+import DatePicker from 'react-multi-date-picker'
 import styles from '@/styles/form.module.css'
 import toast from 'react-hot-toast'
 
 export default function SalesConditionEditForm({ salesCondition }) {
+  const [deliveryDate, setDeliveryDate] = useState(
+    salesCondition.deliveryDate ? new Date(salesCondition.deliveryDate) : null
+  )
+  const [isLocked, setIsLocked] = useState(salesCondition.isLocked)
   const router = useRouter()
+
+  const handleCheckboxChange = async () => {
+    try {
+      // تغییر مقدار isLocked و ارسال درخواست به سرور
+      const newIsLocked = !isLocked
+
+      const res = await updateIsLocked(salesCondition.id, newIsLocked)
+      if (res.success) {
+        toast.success('وضعیت قفل شرایط فروش به‌روزرسانی شد.', { duration: 5000 })
+        setIsLocked(newIsLocked)
+        router.refresh()
+      } else {
+        throw new Error(res.message || 'خطا در به‌روزرسانی وضعیت قفل کردن.')
+      }
+    } catch (error) {
+      toast.error(error.message, { duration: 5000 })
+    }
+  }
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    setValue,
   } = useForm({
     resolver: zodResolver(salesConditionSchema),
     defaultValues: {
@@ -25,48 +50,34 @@ export default function SalesConditionEditForm({ salesCondition }) {
       name: salesCondition.name,
       conditionType: salesCondition.conditionType,
       salesMethod: salesCondition.salesMethod,
+      contractPriceType: salesCondition.contractPriceType,
       paymentType: salesCondition.paymentType,
       price: salesCondition.price.toString(),
+      finalPrice: salesCondition.finalPrice.toString(),
       registrationPayment: salesCondition.registrationPayment?.toString() || '',
       oneMonthPayment: salesCondition.oneMonthPayment?.toString() || '',
       totalInstallments: salesCondition.totalInstallments?.toString() || '',
       monthlyInstallment: salesCondition.monthlyInstallment?.toString() || '',
       remainingAtDelivery: salesCondition.remainingAtDelivery?.toString() || '',
-      finalPrice: salesCondition.finalPrice.toString(),
-      deliveryDate: salesCondition.deliveryDate
-        ? new Date(salesCondition.deliveryDate).toISOString().split('T')[0]
-        : '',
       participationProfit: salesCondition.participationProfit?.toString() || '',
-      isLocked: salesCondition.isLocked,
     },
   })
 
+  const handleDateChange = (date) => {
+    setDeliveryDate(date)
+    const isoDate = date ? date.toDate().toISOString().split('T')[0] : ''
+    setValue('deliveryDate', isoDate)
+  }
+
   const onSubmit = async (data) => {
-    const updatedFormData = {
-      ...data,
-      price: parseFloat(data.price),
-      registrationPayment: data.registrationPayment ? parseFloat(data.registrationPayment) : null,
-      oneMonthPayment: data.oneMonthPayment ? parseFloat(data.oneMonthPayment) : null,
-      totalInstallments: data.totalInstallments ? parseInt(data.totalInstallments) : null,
-      monthlyInstallment: data.monthlyInstallment ? parseFloat(data.monthlyInstallment) : null,
-      remainingAtDelivery: data.remainingAtDelivery ? parseFloat(data.remainingAtDelivery) : null,
-      finalPrice: parseFloat(data.finalPrice),
-      deliveryDate: data.deliveryDate ? new Date(data.deliveryDate) : null,
-      participationProfit: data.participationProfit ? parseFloat(data.participationProfit) : null,
-    }
-
-    const res = await updateSalesCondition(updatedFormData)
-
+    const res = await updateSalesCondition(data)
     if (res.success) {
       toast.success('اطلاعات با موفقیت به‌روزرسانی شد.', { duration: 5000 })
+      router.push('/admin/sales-conditions/')
       router.refresh()
     } else {
       toast.error(res.message || 'خطا در به‌روزرسانی اطلاعات.', { duration: 5000 })
     }
-  }
-
-  const handleCancel = () => {
-    router.push('/admin/sales-conditions/')
   }
 
   return (
@@ -91,9 +102,15 @@ export default function SalesConditionEditForm({ salesCondition }) {
         <select {...register('salesMethod')} className={styles.formSelect}>
           <option value="CASH">نقدی</option>
           <option value="INSTALLMENT">اقساطی</option>
-          <option value="PREPAYMENT">علی‌الحساب</option>
         </select>
         {errors.salesMethod && <p className={styles.formError}>{errors.salesMethod.message}</p>}
+
+        <label className={styles.formLabel}>نوع قیمت در قرارداد:</label>
+        <select {...register('contractPriceType')} className={styles.formSelect}>
+          <option value="PREPAYMENT">علی‌الحساب</option>
+          <option value="FIXED">قطعی</option>
+        </select>
+        {errors.contractPriceType && <p className={styles.formError}>{errors.contractPriceType.message}</p>}
 
         <label className={styles.formLabel}>نوع پرداخت:</label>
         <select {...register('paymentType')} className={styles.formSelect}>
@@ -142,7 +159,14 @@ export default function SalesConditionEditForm({ salesCondition }) {
         {errors.finalPrice && <p className={styles.formError}>{errors.finalPrice.message}</p>}
 
         <label className={styles.formLabel}>تاریخ تحویل:</label>
-        <input type="date" {...register('deliveryDate')} className={styles.formInput} />
+        <DatePicker
+          value={deliveryDate}
+          onChange={handleDateChange}
+          calendar={persian}
+          locale={persian_fa}
+          calendarPosition="bottom-right"
+          className={styles.formInput}
+        />
         {errors.deliveryDate && <p className={styles.formError}>{errors.deliveryDate.message}</p>}
 
         <label className={styles.formLabel}>سود مشارکت:</label>
@@ -152,7 +176,12 @@ export default function SalesConditionEditForm({ salesCondition }) {
         )}
 
         <label className={styles.formLabel}>قفل کردن شرایط فروش:</label>
-        <input type="checkbox" {...register('isLocked')} className={styles.formCheckbox} />
+        <input
+          type="checkbox"
+          checked={isLocked}
+          onChange={handleCheckboxChange} // مدیریت جداگانه‌ی تغییرات
+          className={styles.formCheckbox}
+        />
         <span>
           نکته مهم: در صورت قفل کردن شرایط فروش از قسمت مدیریت کاربران مجاز کاربر های مجاز به
           استفاده از این شرایط را وارد کنید!
@@ -160,7 +189,7 @@ export default function SalesConditionEditForm({ salesCondition }) {
         <button type="submit" className={styles.formButton}>
           ویرایش شرایط فروش
         </button>
-        <button type="button" className={styles.formButton} onClick={handleCancel}>
+        <button type="button" className={styles.formButton}>
           لغو
         </button>
       </form>

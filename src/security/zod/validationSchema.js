@@ -110,33 +110,75 @@ export const salesConditionUserSchema = z.object({
   family: z.string().min(1, 'نام خانوادگی الزامی است.'),
 })
 
-// For New Sales Conditions Form
+// Define BigInt range constants
+const MAX_BIGINT = BigInt("9223372036854775807") // Max value for BigInt in MongoDB
+const MIN_BIGINT = BigInt("-9223372036854775808")
+
+// Validation for New Sales Conditions Form
 export const newSalesConditionSchema = z.object({
-  // فیلدهای اصلی فرم
   carId: z.string().min(1, 'انتخاب خودرو الزامی است.'),
   name: z.string().min(1, 'نام شرایط الزامی است.'),
   conditionType: z.enum(['GENERAL', 'SPECIAL', 'ORGANIZATIONAL']),
-  salesMethod: z.enum(['CASH', 'INSTALLMENT', 'PREPAYMENT']),
+  salesMethod: z.enum(['CASH', 'INSTALLMENT']),
+  contractPriceType: z.enum(['PREPAYMENT', 'FIXED']),
   paymentType: z.enum(['CASH', 'INSTALLMENT', 'PREPAYMENT']),
-  price: z.string().nonempty('قیمت الزامی است.'),
-  finalPrice: z.string().nonempty('قیمت نهایی الزامی است.'),
-  registrationPayment: z.string().nonempty('پرداخت زمان ثبت‌نام الزامی است.'),
-  oneMonthPayment: z.string().min(1, 'پرداخت یک ماهه الزامی است'),
-  totalInstallments: z.string().min(1, 'تعداد اقساط الزامی است'),
-  monthlyInstallment: z.string().min(1, 'مبلغ اقساط ماهیانه الزامی است'),
-  remainingAtDelivery: z.string().min(1, 'مانده زمان تحویل الزامی است'),
-  deliveryDate: z.string().nonempty('تاریخ تحویل الزامی است.'),
-  participationProfit: z.string().min(1, 'سود مشارکت الزامی است'),
+
+  price: z
+    .string()
+    .regex(/^\d+$/, 'قیمت باید فقط شامل اعداد باشد.')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار قیمت معتبر نیست.'),
+
+  finalPrice: z
+    .string()
+    .regex(/^\d+$/, 'قیمت نهایی باید فقط شامل اعداد باشد.')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار قیمت نهایی معتبر نیست.'),
+
+  registrationPayment: z
+    .string()
+    .regex(/^\d+$/, 'پرداخت زمان ثبت‌نام باید فقط شامل اعداد باشد.')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار پرداخت زمان ثبت‌نام معتبر نیست.')
+    .optional(),
+
+  oneMonthPayment: z
+    .string()
+    .regex(/^\d+$/, 'پرداخت یک ماهه باید فقط شامل اعداد باشد.')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار پرداخت یک ماهه معتبر نیست.')
+    .optional(),
+
+  monthlyInstallment: z
+    .string()
+    .regex(/^\d+$/, 'مبلغ اقساط ماهیانه باید فقط شامل اعداد باشد.')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار مبلغ اقساط ماهیانه معتبر نیست.')
+    .optional(),
+
+  remainingAtDelivery: z
+    .string()
+    .regex(/^\d+$/, 'مانده زمان تحویل باید فقط شامل اعداد باشد.')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار مانده زمان تحویل معتبر نیست.')
+    .optional(),
+
+  participationProfit: z
+    .string()
+    .regex(/^\d+$/, 'سود مشارکت باید فقط شامل اعداد باشد.')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار سود مشارکت معتبر نیست.')
+    .optional(),
+
+  deliveryDate: z.string().optional(),
   isLocked: z.boolean(),
 
-  // تعریف فیلدهای کاربران مجاز به صورت آرایه
   users: z
     .array(
       z.object({
         nationalCode: z
           .string()
-          .min(10, 'کد ملی باید ۱۰ رقم باشد.')
-          .max(10, 'کد ملی باید ۱۰ رقم باشد.')
+          .length(10, 'کد ملی باید ۱۰ رقم باشد.')
           .regex(/^\d+$/, 'کد ملی باید فقط شامل اعداد باشد.'),
         name: z.string().min(1, 'نام الزامی است.'),
         family: z.string().min(1, 'نام خانوادگی الزامی است.'),
@@ -149,21 +191,61 @@ export const salesConditionSchema = z.object({
   id: z.string().nonempty('شناسه شرایط الزامی است.'),
   carId: z.string().nonempty('شناسه خودرو الزامی است.'),
   name: z.string().min(1, 'نام شرایط الزامی است.'),
-  conditionType: z.enum(['GENERAL', 'SPECIAL', 'ORGANIZATIONAL'], 'نوع شرایط نامعتبر است.'),
-  salesMethod: z.enum(['CASH', 'INSTALLMENT', 'PREPAYMENT'], 'روش فروش نامعتبر است.'),
-  paymentType: z.enum(['CASH', 'INSTALLMENT', 'PREPAYMENT'], 'نوع پرداخت نامعتبر است.'),
-  price: z.string().min(1, 'قیمت الزامی است.').transform((val) => parseFloat(val)),
-  registrationPayment: z.string().optional().transform((val) => (val ? parseFloat(val) : null)),
-  oneMonthPayment: z.string().optional().transform((val) => (val ? parseFloat(val) : null)),
-  totalInstallments: z.string().optional().transform((val) => (val ? parseInt(val) : null)),
-  monthlyInstallment: z.string().optional().transform((val) => (val ? parseFloat(val) : null)),
-  remainingAtDelivery: z.string().optional().transform((val) => (val ? parseFloat(val) : null)),
-  finalPrice: z.string().min(1, 'قیمت نهایی الزامی است.').transform((val) => parseFloat(val)),
+  conditionType: z.enum(['GENERAL', 'SPECIAL', 'ORGANIZATIONAL']),
+  salesMethod: z.enum(['CASH', 'INSTALLMENT']),
+  contractPriceType: z.enum(['PREPAYMENT', 'FIXED']),
+  paymentType: z.enum(['CASH', 'INSTALLMENT', 'PREPAYMENT']),
+
+  price: z
+    .string()
+    .regex(/^\d+$/, 'قیمت باید فقط شامل اعداد باشد.')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار قیمت معتبر نیست.'),
+
+  finalPrice: z
+    .string()
+    .regex(/^\d+$/, 'قیمت نهایی باید فقط شامل اعداد باشد.')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار قیمت نهایی معتبر نیست.'),
+
+  registrationPayment: z
+    .string()
+    .regex(/^\d+$/, 'پرداخت زمان ثبت‌نام باید فقط شامل اعداد باشد.')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار پرداخت زمان ثبت‌نام معتبر نیست.')
+    .optional(),
+
+  oneMonthPayment: z
+    .string()
+    .regex(/^\d+$/, 'پرداخت یک ماهه باید فقط شامل اعداد باشد.')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار پرداخت یک ماهه معتبر نیست.')
+    .optional(),
+
+  monthlyInstallment: z
+    .string()
+    .regex(/^\d+$/, 'مبلغ اقساط ماهیانه باید فقط شامل اعداد باشد.')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار مبلغ اقساط ماهیانه معتبر نیست.')
+    .optional(),
+
+  remainingAtDelivery: z
+    .string()
+    .regex(/^\d+$/, 'مانده زمان تحویل باید فقط شامل اعداد باشد.')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار مانده زمان تحویل معتبر نیست.')
+    .optional(),
+
+  participationProfit: z
+    .string()
+    .regex(/^\d+$/, 'سود مشارکت باید فقط شامل اعداد باشد.')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار سود مشارکت معتبر نیست.')
+    .optional(),
+
   deliveryDate: z.string().optional(),
-  participationProfit: z.string().optional().transform((val) => (val ? parseFloat(val) : null)),
   isLocked: z.boolean(),
 
-  // اعتبارسنجی کاربران مجاز به صورت آرایه‌ای از شیء
   authorizedUsers: z
     .array(
       z.object({
@@ -177,6 +259,8 @@ export const salesConditionSchema = z.object({
     )
     .optional(),
 })
+
+
 // For Create User Form
 export const userCreateSchema = z
   .object({

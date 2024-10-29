@@ -29,6 +29,7 @@ export default function NewSalesConditionForm({ cars }) {
       name: '',
       conditionType: 'GENERAL',
       salesMethod: 'CASH',
+      contractPriceType: 'PREPAYMENT',
       paymentType: 'CASH',
       price: '',
       finalPrice: '',
@@ -57,7 +58,7 @@ export default function NewSalesConditionForm({ cars }) {
       router.push('/admin/sales-conditions')
     })
   }
-
+  
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
@@ -87,9 +88,15 @@ export default function NewSalesConditionForm({ cars }) {
         <select {...register('salesMethod')} className={styles.formSelect}>
           <option value="CASH">نقدی</option>
           <option value="INSTALLMENT">اقساطی</option>
-          <option value="PREPAYMENT">علی‌الحساب</option>
         </select>
         {errors.salesMethod && <p className={styles.formError}>{errors.salesMethod.message}</p>}
+
+        <label>نوع قیمت در قرارداد:</label>
+        <select {...register('contractPriceType')} className={styles.formSelect}>
+          <option value="PREPAYMENT">علی‌الحساب</option>
+          <option value="FIXED">قطعی</option>
+        </select>
+        {errors.contractPriceType && <p className={styles.formError}>{errors.contractPriceType.message}</p>}
 
         <label>نوع پرداخت:</label>
         <select {...register('paymentType')} className={styles.formSelect}>

@@ -11,6 +11,7 @@ export async function createSalesCondition(data) {
     name,
     conditionType,
     salesMethod,
+    contractPriceType, // نوع قیمت در قرارداد
     paymentType,
     price,
     finalPrice,
@@ -30,9 +31,10 @@ export async function createSalesCondition(data) {
       name,
       conditionType,
       salesMethod,
+      contractPriceType, // اضافه کردن به دیتابیس
       paymentType,
       price: parseFloat(price),
-      finalPrice: parseFloat(finalPrice), // ذخیره قیمت نهایی
+      finalPrice: parseFloat(finalPrice),
       registrationPayment: registrationPayment ? parseFloat(registrationPayment) : null,
       oneMonthPayment: oneMonthPayment ? parseFloat(oneMonthPayment) : null,
       totalInstallments: totalInstallments ? parseInt(totalInstallments) : null,
@@ -52,6 +54,7 @@ export async function updateSalesCondition(data) {
     name,
     conditionType,
     salesMethod,
+    contractPriceType, // نوع قیمت در قرارداد
     paymentType,
     price,
     registrationPayment,
@@ -72,6 +75,7 @@ export async function updateSalesCondition(data) {
       name,
       conditionType,
       salesMethod,
+      contractPriceType,
       paymentType,
       price,
       registrationPayment,
@@ -100,6 +104,19 @@ export async function addAuthorizedUser(salesConditionId, user) {
       family,
     },
   })
+}
+
+// اکشن جدید برای به‌روزرسانی مقدار isLocked
+export async function updateIsLocked(id, isLocked) {
+  try {
+    const updatedCondition = await prisma.salesCondition.update({
+      where: { id },
+      data: { isLocked },
+    })
+    return { success: true, data: updatedCondition }
+  } catch (error) {
+    return { success: false, message: 'خطا در به‌روزرسانی وضعیت قفل کردن.' }
+  }
 }
 
 // سرور اکشن برای حذف کاربر از لیست دارای مجوز
