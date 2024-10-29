@@ -6,13 +6,16 @@ import { useState } from 'react'
 
 import styles from './DocumentDetails.module.css'
 import { updateDocumentStatus } from '@/actions/admin/documents'
+import { useRouter } from 'next/navigation'
 
 export default function DocumentDetails({ document }) {
   const [status, setStatus] = useState(document.status)
+  const router = useRouter()
 
   const handleStatusChange = async (newStatus) => {
     await updateDocumentStatus(document.id, newStatus)
     setStatus(newStatus)
+    router.refresh()
   }
 
   return (

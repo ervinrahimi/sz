@@ -73,7 +73,12 @@ export default function SalesConditionEditForm({ salesCondition }) {
     <>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
         <label className={styles.formLabel}>خودرو:</label>
-        <input type="text" value={`${salesCondition.car.name}`} disabled className={styles.formInput} />
+        <input
+          type="text"
+          value={`${salesCondition.car.name}`}
+          disabled
+          className={styles.formInput}
+        />
 
         <label className={styles.formLabel}>نام شرایط:</label>
         <input type="text" {...register('name')} className={styles.formInput} />

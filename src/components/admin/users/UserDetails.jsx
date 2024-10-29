@@ -47,6 +47,7 @@ export default function UserDetails({ user }) {
         await deleteUser(user.id) // فراخوانی سرور اکشن برای حذف کاربر
         setMessage('کاربر با موفقیت حذف شد.')
         router.push('/admin/users') // ریدایرکت به صفحه کاربران پس از حذف
+        router.refresh()
       } catch (error) {
         setMessage('حذف کاربر ناموفق بود.')
       }

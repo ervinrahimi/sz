@@ -4,15 +4,18 @@
 import { useEffect, useState } from 'react'
 import styles from './PurchaseHistory.module.css'
 import { getUserOrders } from '@/actions/dashboard/getUserOrders'
+import { useRouter } from 'next/navigation'
 
 export default function PurchaseHistory() {
   const [orders, setOrders] = useState([])
+  const router = useRouter()
 
   useEffect(() => {
     async function fetchOrders() {
       const res = await getUserOrders()
       if (res.success) {
         setOrders(res.orders)
+        router.refresh()
       }
     }
     fetchOrders()

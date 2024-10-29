@@ -3,12 +3,14 @@
 import { useState } from 'react'
 import { updateOrderStatus, addAdminNote } from '@/actions/admin/orders'
 import styles from './OrderDetails.module.css'
+import { useRouter } from 'next/navigation'
 
 export default function OrderDetails({ order }) {
   const [status, setStatus] = useState(order.status)
   const [note, setNote] = useState('')
   const [isPending, setIsPending] = useState(false)
   const [message, setMessage] = useState('')
+  const router = useRouter()
 
   // تابع تغییر وضعیت سفارش
   const handleStatusChange = async (newStatus) => {
@@ -17,6 +19,7 @@ export default function OrderDetails({ order }) {
     setStatus(newStatus)
     setIsPending(false)
     setMessage(result.message)
+    router.refresh()
   }
 
   // تابع اضافه کردن یادداشت توسط کارشناس
@@ -27,6 +30,7 @@ export default function OrderDetails({ order }) {
     setNote('')
     setIsPending(false)
     setMessage(result.message)
+    router.refresh()
   }
 
   return (

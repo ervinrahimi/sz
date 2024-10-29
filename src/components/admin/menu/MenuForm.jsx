@@ -43,7 +43,8 @@ export default function MenuForm() {
     }
     await addMenuItem(data)
     reset() // ریست فرم
-    return router.push('/admin/menu') // رفرش صفحه
+    router.push('/admin/menu') // رفرش صفحه
+    return router.refresh()
   }
 
   return (

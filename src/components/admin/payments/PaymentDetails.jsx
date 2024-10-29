@@ -5,13 +5,16 @@
 import { useState } from 'react'
 import styles from './PaymentDetails.module.css'
 import { updatePaymentStatus } from '@/actions/admin/payments'
+import { useRouter } from 'next/navigation'
 
 export default function PaymentDetails({ payment }) {
   const [status, setStatus] = useState(payment.status)
+  const router = useRouter()
 
   const handleStatusChange = async (newStatus) => {
     await updatePaymentStatus(payment.id, newStatus)
     setStatus(newStatus)
+    router.refresh()
   }
 
   return (

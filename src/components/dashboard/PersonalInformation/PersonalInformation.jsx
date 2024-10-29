@@ -6,11 +6,13 @@ import { personalInfoSchema } from '@/security/zod/validationSchema'
 import styles from '@/styles/form.module.css'
 import { updatePersonalInfo } from '@/actions/dashboard/updatePersonalInfo'
 import { toast } from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
 
 export default function PersonalInformation({ user }) {
   // پیدا کردن آدرس‌ها بر اساس نوع
   const homeAddress = user.addresses?.find((address) => address.type === 'HOME') || {}
   const workAddress = user.addresses?.find((address) => address.type === 'WORK') || {}
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -68,6 +70,7 @@ export default function PersonalInformation({ user }) {
       if (res.success) {
         reset(data)
         toast.success('اطلاعات با موفقیت به‌روزرسانی شد.', { duration: 5000 })
+        router.refresh()
       } else {
         toast.error(res.message || 'خطا در به‌روزرسانی اطلاعات.', { duration: 5000 })
       }

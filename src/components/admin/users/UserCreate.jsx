@@ -29,6 +29,7 @@ export default function UserCreate() {
       toast.success('کاربر با موفقیت ایجاد شد.')
       reset() // ریست کردن فرم بعد از موفقیت
       router.push('/admin/users') // ریدایرکت به صفحه کاربران
+      router.refresh()
     } catch (error) {
       toast.error(error.message || 'خطایی رخ داده است!')
     }

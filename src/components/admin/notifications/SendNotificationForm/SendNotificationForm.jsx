@@ -7,6 +7,7 @@ import { sendNotificationSchema } from '@/security/zod/validationSchema'
 import { sendNotification, searchUsersByName } from '@/actions/admin/notifications'
 import styles from '@/styles/form.module.css'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function SendNotificationForm() {
   const [searchResults, setSearchResults] = useState([]) // نتایج جستجو
@@ -14,6 +15,7 @@ export default function SendNotificationForm() {
   const [selectedUserId, setSelectedUserId] = useState('') // کاربر انتخاب شده
   const [successMessage, setSuccessMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const router = useRouter()
 
   const {
     register,
@@ -63,6 +65,7 @@ export default function SendNotificationForm() {
       await sendNotification(formData)
       setSuccessMessage('نوتیفیکیشن با موفقیت ارسال شد.')
       reset()
+      router.refresh()
     } catch (error) {
       setErrorMessage('خطا در ارسال نوتیفیکیشن. لطفاً مجدداً تلاش کنید.')
     }

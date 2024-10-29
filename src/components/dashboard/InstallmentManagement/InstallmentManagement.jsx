@@ -3,9 +3,11 @@
 import { useEffect, useState } from 'react'
 import styles from './InstallmentManagement.module.css'
 import { getInstallments, uploadReceipt } from '@/actions/dashboard/getInstallments'
+import { useRouter } from 'next/navigation'
 
 export default function InstallmentManagement() {
   const [installments, setInstallments] = useState([])
+  const router = useRouter()
 
   useEffect(() => {
     async function fetchInstallments() {
@@ -21,6 +23,7 @@ export default function InstallmentManagement() {
     const res = await uploadReceipt(installmentId, file)
     if (res.success) {
       alert('رسید با موفقیت آپلود شد.')
+      router.refresh()
     } else {
       alert(res.message)
     }
