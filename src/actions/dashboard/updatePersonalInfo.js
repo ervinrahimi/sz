@@ -5,6 +5,11 @@ import prisma from '@/db/client'
 import fs from 'fs'
 import path from 'path'
 
+// تابعی برای حذف فیلدهای null از آبجکت
+function removeNullFields(obj) {
+  return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== null))
+}
+
 export async function updatePersonalInfo(data) {
   const session = await auth()
   const user = session?.user
@@ -13,24 +18,49 @@ export async function updatePersonalInfo(data) {
     return { success: false, message: 'کاربر وارد نشده است.' }
   }
 
-  console.log(data)
-
   try {
     let imagePath = user.image
 
     // ذخیره تصویر در صورت آپلود شدن
-    if (data.image) {
-      const fileName = `${user.id}_${Date.now()}_${data.image.name}`
+    if (data.image && data.image instanceof File) {
+      const imageFile = data.image
+      const fileName = `${user.id}_${Date.now()}_${imageFile.name}`
       imagePath = path.join('/uploads', fileName)
-      fs.writeFileSync(imagePath, data.image.buffer)
+      fs.writeFileSync(imagePath, Buffer.from(await imageFile.arrayBuffer()))
     }
 
-    // بررسی و استفاده از شیء خالی به عنوان مقدار پیش‌فرض برای addresses
-    const addresses = data.addresses || {}
-    const homeAddressData = addresses.HOME || {}
-    const workAddressData = addresses.WORK || {}
+    // تنظیم داده‌های آدرس HOME و WORK و حذف فیلدهای null
+    const homeAddressData = data.addresses?.HOME
+      ? removeNullFields({
+          type: 'HOME',
+          province: data.addresses.HOME.province || null,
+          city: data.addresses.HOME.city || null,
+          district: data.addresses.HOME.district || null,
+          addressLine: data.addresses.HOME.addressLine || null,
+          buildingNo: data.addresses.HOME.buildingNo || null,
+          floor: data.addresses.HOME.floor || null,
+          unit: data.addresses.HOME.unit || null,
+          postalCode: data.addresses.HOME.postalCode || null,
+          user: { connect: { id: user.id } },
+        })
+      : null
 
-    // به‌روزرسانی داده‌ها در دیتابیس
+    const workAddressData = data.addresses?.WORK
+      ? removeNullFields({
+          type: 'WORK',
+          province: data.addresses.WORK.province || null,
+          city: data.addresses.WORK.city || null,
+          district: data.addresses.WORK.district || null,
+          addressLine: data.addresses.WORK.addressLine || null,
+          buildingNo: data.addresses.WORK.buildingNo || null,
+          floor: data.addresses.WORK.floor || null,
+          unit: data.addresses.WORK.unit || null,
+          postalCode: data.addresses.WORK.postalCode || null,
+          user: { connect: { id: user.id } },
+        })
+      : null
+
+    // به‌روزرسانی داده‌های کاربر در دیتابیس
     await prisma.user.update({
       where: { id: user.id },
       data: {
@@ -48,14 +78,45 @@ export async function updatePersonalInfo(data) {
         occupation: data.occupation,
         educationLevel: data.educationLevel,
         image: imagePath,
-        addresses: {
-          updateMany: [
-            { where: { type: 'HOME' }, data: homeAddressData },
-            { where: { type: 'WORK' }, data: workAddressData },
-          ],
-        },
       },
     })
+
+    // به‌روزرسانی یا ایجاد آدرس HOME
+    if (homeAddressData) {
+      const existingHomeAddress = await prisma.address.findFirst({
+        where: { userId: user.id, type: 'HOME' },
+      })
+
+      if (existingHomeAddress) {
+        await prisma.address.update({
+          where: { id: existingHomeAddress.id },
+          data: homeAddressData,
+        })
+      } else {
+        await prisma.address.create({
+          data: homeAddressData,
+        })
+      }
+    }
+
+    // به‌روزرسانی یا ایجاد آدرس WORK
+    if (workAddressData) {
+      const existingWorkAddress = await prisma.address.findFirst({
+        where: { userId: user.id, type: 'WORK' },
+      })
+
+      if (existingWorkAddress) {
+        await prisma.address.update({
+          where: { id: existingWorkAddress.id },
+          data: workAddressData,
+        })
+      } else {
+        await prisma.address.create({
+          data: workAddressData,
+        })
+      }
+    }
+
     return { success: true }
   } catch (error) {
     console.error(error)

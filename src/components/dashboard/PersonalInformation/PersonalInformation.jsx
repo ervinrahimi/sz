@@ -57,11 +57,9 @@ export default function PersonalInformation({ user }) {
   })
 
   const onSubmit = async (data) => {
-    console.log(data)
-    // ساخت شیء داده‌های کاربر با تمامی فیلدها
     const userData = {
       ...data,
-      image: data.image && Array.isArray(data.image) && data.image[0] ? data.image[0] : null,
+      image: data.image && data.image.length > 0 ? data.image[0] : null,
     }
 
     const res = await updatePersonalInfo(userData)
@@ -76,11 +74,7 @@ export default function PersonalInformation({ user }) {
   return (
     <div className={styles.formWrapper}>
       <h2 className={styles.title}>اطلاعات شخصی</h2>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className={styles.formContainer}
-        encType="multipart/form-data"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
         <label className={styles.formLabel}>
           نام:
           <input type="text" {...register('name')} className={styles.formInput} />
@@ -90,11 +84,6 @@ export default function PersonalInformation({ user }) {
           نام خانوادگی:
           <input type="text" {...register('family')} className={styles.formInput} />
           {errors.family && <p className={styles.formError}>{errors.family.message}</p>}
-        </label>
-        <label className={styles.formLabel}>
-          نام کاربری:
-          <input type="text" {...register('username')} className={styles.formInput} />
-          {errors.family && <p className={styles.formError}>{errors.username.message}</p>}
         </label>
         <label className={styles.formLabel}>
           ایمیل:
@@ -133,15 +122,11 @@ export default function PersonalInformation({ user }) {
           <input type="text" {...register('idNumber')} className={styles.formInput} />
           {errors.idNumber && <p className={styles.formError}>{errors.idNumber.message}</p>}
         </label>
-
-        {/* فیلد تصویر */}
         <label className={styles.formLabel}>
-          تصویر:
-          <input type="file" {...register('image')} className={styles.formInput} />
-          {errors.image && <p className={styles.formError}>{errors.image.message}</p>}
+          نام کاربری:
+          <input type="text" {...register('username')} className={styles.formInput} />
+          {errors.username && <p className={styles.formError}>{errors.username.message}</p>}
         </label>
-
-        {/* فیلد جنسیت، شغل و سطح تحصیلات */}
         <label className={styles.formLabel}>
           جنسیت:
           <select {...register('gender')} className={styles.formInput}>
@@ -174,7 +159,6 @@ export default function PersonalInformation({ user }) {
           </select>
         </label>
 
-        {/* فیلدهای آدرس */}
         <h3 className={styles.subTitle}>آدرس‌ها</h3>
         {['HOME', 'WORK'].map((addressType) => (
           <div key={addressType} className={styles.addressSection}>
@@ -242,6 +226,11 @@ export default function PersonalInformation({ user }) {
                 {...register(`addresses.${addressType}.postalCode`)}
                 className={styles.formInput}
               />
+              {errors.addresses?.[addressType]?.postalCode && (
+                <p className={styles.formError}>
+                  {errors.addresses[addressType].postalCode.message}
+                </p>
+              )}
             </label>
           </div>
         ))}
