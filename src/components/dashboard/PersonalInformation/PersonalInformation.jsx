@@ -8,6 +8,9 @@ import { updatePersonalInfo } from '@/actions/dashboard/updatePersonalInfo'
 import { toast } from 'react-hot-toast'
 
 export default function PersonalInformation({ user }) {
+  // پیدا کردن آدرس‌ها بر اساس نوع
+  const homeAddress = user.addresses?.find((address) => address.type === 'HOME') || {}
+  const workAddress = user.addresses?.find((address) => address.type === 'WORK') || {}
   const {
     register,
     handleSubmit,
@@ -31,24 +34,24 @@ export default function PersonalInformation({ user }) {
       educationLevel: user.educationLevel || 'ILLITERATE',
       addresses: {
         HOME: {
-          province: user.addresses?.HOME?.province || '',
-          city: user.addresses?.HOME?.city || '',
-          district: user.addresses?.HOME?.district || '',
-          addressLine: user.addresses?.HOME?.addressLine || '',
-          buildingNo: user.addresses?.HOME?.buildingNo || '',
-          floor: user.addresses?.HOME?.floor || '',
-          unit: user.addresses?.HOME?.unit || '',
-          postalCode: user.addresses?.HOME?.postalCode || '',
+          province: homeAddress.province || '',
+          city: homeAddress.city || '',
+          district: homeAddress.district || '',
+          addressLine: homeAddress.addressLine || '',
+          buildingNo: homeAddress.buildingNo || '',
+          floor: homeAddress.floor || '',
+          unit: homeAddress.unit || '',
+          postalCode: homeAddress.postalCode || '',
         },
         WORK: {
-          province: user.addresses?.WORK?.province || '',
-          city: user.addresses?.WORK?.city || '',
-          district: user.addresses?.WORK?.district || '',
-          addressLine: user.addresses?.WORK?.addressLine || '',
-          buildingNo: user.addresses?.WORK?.buildingNo || '',
-          floor: user.addresses?.WORK?.floor || '',
-          unit: user.addresses?.WORK?.unit || '',
-          postalCode: user.addresses?.WORK?.postalCode || '',
+          province: workAddress.province || '',
+          city: workAddress.city || '',
+          district: workAddress.district || '',
+          addressLine: workAddress.addressLine || '',
+          buildingNo: workAddress.buildingNo || '',
+          floor: workAddress.floor || '',
+          unit: workAddress.unit || '',
+          postalCode: workAddress.postalCode || '',
         },
       },
     },
@@ -78,6 +81,7 @@ export default function PersonalInformation({ user }) {
       <toast />
       <h2 className={styles.title}>اطلاعات شخصی</h2>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+        {/* فیلدهای اطلاعات کاربری */}
         <label className={styles.formLabel}>
           نام:
           <input type="text" {...register('name')} className={styles.formInput} />
@@ -172,6 +176,9 @@ export default function PersonalInformation({ user }) {
                 type="text"
                 {...register(`addresses.${addressType}.province`)}
                 className={styles.formInput}
+                defaultValue={
+                  addressType === 'HOME' ? homeAddress.province || '' : workAddress.province || ''
+                }
               />
             </label>
             <label className={styles.formLabel}>
@@ -180,6 +187,9 @@ export default function PersonalInformation({ user }) {
                 type="text"
                 {...register(`addresses.${addressType}.city`)}
                 className={styles.formInput}
+                defaultValue={
+                  addressType === 'HOME' ? homeAddress.city || '' : workAddress.city || ''
+                }
               />
             </label>
             <label className={styles.formLabel}>
@@ -188,6 +198,9 @@ export default function PersonalInformation({ user }) {
                 type="text"
                 {...register(`addresses.${addressType}.district`)}
                 className={styles.formInput}
+                defaultValue={
+                  addressType === 'HOME' ? homeAddress.district || '' : workAddress.district || ''
+                }
               />
             </label>
             <label className={styles.formLabel}>
@@ -196,6 +209,11 @@ export default function PersonalInformation({ user }) {
                 type="text"
                 {...register(`addresses.${addressType}.addressLine`)}
                 className={styles.formInput}
+                defaultValue={
+                  addressType === 'HOME'
+                    ? homeAddress.addressLine || ''
+                    : workAddress.addressLine || ''
+                }
               />
             </label>
             <label className={styles.formLabel}>
@@ -204,6 +222,11 @@ export default function PersonalInformation({ user }) {
                 type="text"
                 {...register(`addresses.${addressType}.buildingNo`)}
                 className={styles.formInput}
+                defaultValue={
+                  addressType === 'HOME'
+                    ? homeAddress.buildingNo || ''
+                    : workAddress.buildingNo || ''
+                }
               />
             </label>
             <label className={styles.formLabel}>
@@ -212,6 +235,9 @@ export default function PersonalInformation({ user }) {
                 type="text"
                 {...register(`addresses.${addressType}.floor`)}
                 className={styles.formInput}
+                defaultValue={
+                  addressType === 'HOME' ? homeAddress.floor || '' : workAddress.floor || ''
+                }
               />
             </label>
             <label className={styles.formLabel}>
@@ -220,6 +246,9 @@ export default function PersonalInformation({ user }) {
                 type="text"
                 {...register(`addresses.${addressType}.unit`)}
                 className={styles.formInput}
+                defaultValue={
+                  addressType === 'HOME' ? homeAddress.unit || '' : workAddress.unit || ''
+                }
               />
             </label>
             <label className={styles.formLabel}>
@@ -228,6 +257,11 @@ export default function PersonalInformation({ user }) {
                 type="text"
                 {...register(`addresses.${addressType}.postalCode`)}
                 className={styles.formInput}
+                defaultValue={
+                  addressType === 'HOME'
+                    ? homeAddress.postalCode || ''
+                    : workAddress.postalCode || ''
+                }
               />
               {errors.addresses?.[addressType]?.postalCode && (
                 <p className={styles.formError}>
