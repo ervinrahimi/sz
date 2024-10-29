@@ -80,10 +80,10 @@ model Address {
   user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String      @db.ObjectId
   type        AddressType // نوع آدرس (منزل یا محل کار)
-  province    String // نام استان
-  city        String // نام شهر
+  province    String? // نام استان
+  city        String? // نام شهر
   district    String? // منطقه شهری
-  addressLine String // آدرس پستی
+  addressLine String? // آدرس پستی
   buildingNo  String? // پلاک
   floor       String? // طبقه
   unit        String? // واحد
