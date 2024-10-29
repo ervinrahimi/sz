@@ -5,11 +5,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { personalInfoSchema } from '@/security/zod/validationSchema'
 import styles from '@/styles/form.module.css'
 import { updatePersonalInfo } from '@/actions/dashboard/updatePersonalInfo'
-import { useState } from 'react'
+import { toast } from 'react-hot-toast'
 
 export default function PersonalInformation({ user }) {
-  const [message, setMessage] = useState('')
-
   const {
     register,
     handleSubmit,
@@ -62,17 +60,22 @@ export default function PersonalInformation({ user }) {
       image: data.image && data.image.length > 0 ? data.image[0] : null,
     }
 
-    const res = await updatePersonalInfo(userData)
-    if (res.success) {
-      reset(data)
-      setMessage('اطلاعات با موفقیت به‌روزرسانی شد.')
-    } else {
-      setMessage(res.message || 'خطا در به‌روزرسانی اطلاعات.')
+    try {
+      const res = await updatePersonalInfo(userData)
+      if (res.success) {
+        reset(data)
+        toast.success('اطلاعات با موفقیت به‌روزرسانی شد.', { duration: 5000 })
+      } else {
+        toast.error(res.message || 'خطا در به‌روزرسانی اطلاعات.', { duration: 5000 })
+      }
+    } catch (error) {
+      toast.error('خطایی در سرور رخ داده است.', { duration: 5000 })
     }
   }
 
   return (
     <div className={styles.formWrapper}>
+      <toast />
       <h2 className={styles.title}>اطلاعات شخصی</h2>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
         <label className={styles.formLabel}>
@@ -239,7 +242,6 @@ export default function PersonalInformation({ user }) {
           ذخیره تغییرات
         </button>
       </form>
-      {message && <p className={styles.formMessage}>{message}</p>}
     </div>
   )
 }
