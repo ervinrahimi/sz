@@ -5,6 +5,7 @@
 import { useState } from 'react'
 import styles from './SalesConditionDetails.module.css'
 import { updateSalesCondition } from '@/actions/admin/sales-conditions'
+import { useRouter } from 'next/navigation'
 
 export default function SalesConditionDetails({ salesCondition }) {
   const [editing, setEditing] = useState(false)
@@ -25,11 +26,13 @@ export default function SalesConditionDetails({ salesCondition }) {
     participationProfit: salesCondition.participationProfit || 0,
     isLocked: salesCondition.isLocked || false,
   })
+  const router = useRouter()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     await updateSalesCondition(formData)
     setEditing(false)
+    router.refresh()
   }
 
   return (

@@ -72,6 +72,7 @@ export default function VehicleCreate() {
       reset()
       toast.success('خودرو شما با موفقیت اضافه شد!', { duration: 5000 }) // تنظیم مدت زمان به ۵ ثانیه
       router.push('/admin/vehicles')
+      router.refresh()
     } else {
       toast.error('مشکلی در ایجاد خودرو پیش آمد!', { duration: 5000 }) // تنظیم مدت زمان به ۵ ثانیه
     }

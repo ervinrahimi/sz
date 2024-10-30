@@ -67,6 +67,7 @@ export default function SlideForm({ slide }) {
         toast.success('اسلاید جدید با موفقیت ساخته شد', { duration: 5000 })
       }
       router.push('/admin/slides')
+      router.refresh()
     } catch (error) {
       toast.error('خطایی رخ داد: ' + error.message, { duration: 5000 })
     } finally {

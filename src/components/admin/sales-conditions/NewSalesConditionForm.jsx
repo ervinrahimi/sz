@@ -56,6 +56,7 @@ export default function NewSalesConditionForm({ cars }) {
       await createSalesCondition(formData)
       toast.success('شرایط فروش شما ایجاد شد!', { duration: 5000 })
       router.push('/admin/sales-conditions')
+      router.refresh()
     })
   }
   

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import styles from './Notifications.module.css'
 import { getNotifications } from '@/actions/dashboard/getNotifications'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 // تابع تبدیل تاریخ میلادی به تاریخ شمسی (محاسبات دستی)
 const convertToShamsi = (miladiDate) => {
@@ -18,12 +19,14 @@ const convertToShamsi = (miladiDate) => {
 
 export default function Notifications() {
   const [notifications, setNotifications] = useState([])
+  const router = useRouter()
 
   useEffect(() => {
     async function fetchNotifications() {
       const res = await getNotifications()
       if (res.success) {
         setNotifications(res.notifications)
+        router.refresh()
       }
     }
     fetchNotifications()

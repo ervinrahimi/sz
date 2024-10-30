@@ -8,7 +8,10 @@ export default async function Dashboard() {
   const session = await auth()
   const user = await prisma.user.findUnique({
     where: {
-      id: session.user.id
+      id: session.user.id,
+    },
+    include: {
+      addresses: true,
     },
   })
 

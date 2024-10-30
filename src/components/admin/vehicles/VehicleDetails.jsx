@@ -34,7 +34,7 @@ export default function VehicleDetails({ vehicle }) {
       technicalSpecifications: vehicle.technicalSpecifications || [
         { key: '', value: '', note: '' },
       ],
-    },    
+    },
     mode: 'onChange', // اضافه کردن این خط برای بهبود عملکرد
   })
 
@@ -55,7 +55,7 @@ export default function VehicleDetails({ vehicle }) {
     control,
     name: 'technicalSpecifications',
   })
-  
+
   const onSubmit = async (data) => {
     if (imagePreview !== vehicle.image && data.imageFile && data.imageFile.length > 0) {
       const formData = new FormData()
@@ -80,7 +80,8 @@ export default function VehicleDetails({ vehicle }) {
     if (res.success) {
       reset(data)
       toast.success('اطلاعات با موفقیت به‌روزرسانی شد.', { duration: 5000 })
-      return router.push('/admin/vehicles/')
+      router.push('/admin/vehicles/')
+      return router.refresh()
     } else {
       toast.error(res.message || 'خطا در به‌روزرسانی اطلاعات.', { duration: 5000 })
     }
