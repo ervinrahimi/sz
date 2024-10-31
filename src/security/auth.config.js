@@ -2,6 +2,7 @@ import { loginSchema } from './zod/auth-schema.js'
 import Credentials from 'next-auth/providers/credentials'
 import Google from 'next-auth/providers/google'
 import bcrypt from 'bcryptjs'
+import prisma from '@/db/client.js'
 
 const authConfig = {
   providers: [
