@@ -43,7 +43,7 @@ export default async function Home() {
           links={{ l1: '/b511', l2: '/suba-m4' }}
         />
 
-        <ProductsBox title={'قطعات. یدکی'} subTitle={'آخرین محصولات فروشگاه'} />
+        <ProductsBox title={'قطعات -> یدکی'} subTitle={'آخرین محصولات فروشگاه'} />
       </div>
     </div>
   )
