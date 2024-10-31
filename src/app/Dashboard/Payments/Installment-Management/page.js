@@ -12,11 +12,6 @@ export default async function Dashboard() {
       <div className={styles.mainContent}>
         <div className={styles.header}>
           <h1 className={styles.title}>سوابق خرید و سفارشات</h1>
-          <div className={styles.buttons}>
-            <Link href={'/Dashboard/Payments/Orders'} className={styles.button}>
-              سوابق خرید و سفارشات
-            </Link>
-          </div>
         </div>
         <div className={styles.balanceBox}>
           <InstallmentManagement />
