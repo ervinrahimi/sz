@@ -96,6 +96,5 @@ export const {
   adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt' },
   ...authConfig,
-  trustedHosts: ["soltanzade.com", "www.soltanzade.com"],
-  NEXTAUTH_URL: process.env.BASE_URL || "https://soltanzade.com",
+  trustHost: true
 })
