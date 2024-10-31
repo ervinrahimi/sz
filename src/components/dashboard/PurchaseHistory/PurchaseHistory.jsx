@@ -19,7 +19,7 @@ export default function PurchaseHistory() {
       }
     }
     fetchOrders()
-  }, [])
+  }, [router])
 
   return (
     <div className={styles.purchaseHistory}>

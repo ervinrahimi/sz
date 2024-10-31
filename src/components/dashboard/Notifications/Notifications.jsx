@@ -30,7 +30,7 @@ export default function Notifications() {
       }
     }
     fetchNotifications()
-  }, [])
+  }, [router])
 
   return (
     <div className={styles.notifications}>
