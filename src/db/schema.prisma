@@ -103,6 +103,7 @@ model Car {
   id                       String                    @id @default(auto()) @map("_id") @db.ObjectId
   model                    String // مدل خودرو (مثلاً M4، T5)
   name                     String // نام خودرو
+  isActive                 Boolean                   @default(true)
   image                    String? // تصویر خودرو
   status                   CarStatus? // وضعیت خودرو (موجود/ناموجود)
   appearanceSpecifications AppearanceSpecification[] // مشخصات ظاهری
@@ -111,6 +112,7 @@ model Car {
   orders                   Order[] // سفارش‌ها
   createdAt                DateTime                  @default(now()) // تاریخ ایجاد
   updatedAt                DateTime                  @updatedAt // تاریخ به‌روزرسانی
+  CardBox                  CardBox[]
 }
 
 // وضعیت خودرو
@@ -142,9 +144,9 @@ model TechnicalSpecification {
 
 // مدل شرایط فروش
 model SalesCondition {
-  id                  String           @id @default(auto()) @map("_id") @db.ObjectId
-  car                 Car              @relation(fields: [carId], references: [id], onDelete: Cascade)
-  carId               String           @db.ObjectId
+  id                  String            @id @default(auto()) @map("_id") @db.ObjectId
+  car                 Car               @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId               String            @db.ObjectId
   name                String // نام شرایط فروش (مثلاً شرایط عمومی 1)
   conditionType       ConditionType // نوع شرایط فروش (عمومی، خاص، سازمانی)
   salesMethod         SalesMethod // روش فروش (نقدی، اقساطی، علی‌الحساب)
@@ -159,11 +161,11 @@ model SalesCondition {
   finalPrice          BigInt // قیمت نهایی
   deliveryDate        DateTime? // موعد تحویل
   participationProfit BigInt? // سود مشارکت
-  isLocked            Boolean          @default(false) // نیاز به مجوز
+  isLocked            Boolean           @default(false) // نیاز به مجوز
   authorizedUsers     AuthorizedUser[] // کاربران مجاز
   orders              Order[] // سفارش‌ها
-  createdAt           DateTime         @default(now()) // تاریخ ایجاد
-  updatedAt           DateTime         @updatedAt // تاریخ به‌روزرسانی
+  createdAt           DateTime          @default(now()) // تاریخ ایجاد
+  updatedAt           DateTime          @updatedAt // تاریخ به‌روزرسانی
 }
 
 // نوع شرایط فروش
@@ -423,26 +425,50 @@ model Authenticator {
 }
 
 model MenuItem {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  title         String   // عنوان منو
-  link          String?  // لینک منو (اختیاری)
-  isActive      Boolean  @default(true)   // فعال یا غیرفعال بودن منو
-  order         Int      // ترتیب نمایش منو
-  parentMenuID  String?  @db.ObjectId  // آی‌دی منوی والد (اگر زیر منو است)
-  subMenuIDs    String[] @db.ObjectId  // لیست آی‌دی‌های زیرمنوها
-  createdAt     DateTime @default(now())  // تاریخ ایجاد
-  updatedAt     DateTime @updatedAt       // تاریخ به‌روزرسانی
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  title        String // عنوان منو
+  link         String? // لینک منو (اختیاری)
+  isActive     Boolean  @default(true) // فعال یا غیرفعال بودن منو
+  order        Int // ترتیب نمایش منو
+  parentMenuID String?  @db.ObjectId // آی‌دی منوی والد (اگر زیر منو است)
+  subMenuIDs   String[] @db.ObjectId // لیست آی‌دی‌های زیرمنوها
+  createdAt    DateTime @default(now()) // تاریخ ایجاد
+  updatedAt    DateTime @updatedAt // تاریخ به‌روزرسانی
 
-  @@index([parentMenuID])  // ایندکس برای جستجوی سریع بر اساس والد
+  @@index([parentMenuID]) // ایندکس برای جستجوی سریع بر اساس والد
 }
 
 // For Slider Management
 model Slide {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  title          String
-  imageUrl       String  // علامت سوال به معنای اختیاری بودن فیلد است
-  order          Int
-  typeAnimation  String[] // آرایه‌ای از رشته‌ها برای متون انیمیشن تایپ
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  imageUrl      String // علامت سوال به معنای اختیاری بودن فیلد است
+  order         Int
+  typeAnimation String[] // آرایه‌ای از رشته‌ها برای متون انیمیشن تایپ
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// مدل بخش‌های کارت باکس
+model CardBoxSection {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String // نام بخش
+  subtitle  String? // زیرعنوان بخش
+  cardBoxes CardBox[] // کارت باکس‌های مرتبط
+  createdAt DateTime  @default(now()) // تاریخ ایجاد
+  updatedAt DateTime  @updatedAt // تاریخ به‌روزرسانی
+}
+
+// مدل کارت باکس
+model CardBox {
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  title       String // عنوان کارت باکس
+  subtitle    String? // عنوان صفت خودرو
+  description String // توضیحات خودرو
+  car         Car            @relation(fields: [carId], references: [id])
+  carId       String         @db.ObjectId
+  section     CardBoxSection @relation(fields: [sectionId], references: [id])
+  sectionId   String         @db.ObjectId
+  createdAt   DateTime       @default(now()) // تاریخ ایجاد
+  updatedAt   DateTime       @updatedAt // تاریخ به‌روزرسانی
 }
