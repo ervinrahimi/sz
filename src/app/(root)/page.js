@@ -1,20 +1,33 @@
+// src/app/page.jsx
+
 import ProductsBox from '@/components/ui/Products/ProductsBox'
 import MiniSlider from '@/components/ui/Slider/MiniSlider'
 import styles from './page.module.css'
 import { WideLightPoster } from '@/components/ui/Posters/Posters'
 import { MainSlider } from '@/components/ui/Slider/Slider'
-import { getSlides } from '@/actions/admin/slides'
+import prisma from '@/db/client'
 
 export default async function Home() {
-  const slidesData = await getSlides()
+  // دریافت اسلایدها
+  const slidesData = await prisma.slide.findMany({
+    orderBy: { order: 'asc' },
+  })
+
+  // دریافت بخش‌های کارت باکس به همراه کارت باکس‌ها و خودروها
+  const cardBoxSections = await prisma.cardBoxSection.findMany({
+    include: {
+      cardBoxes: {
+        include: {
+          car: true,
+        },
+      },
+    },
+  })
 
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        
         <MainSlider slides={slidesData} />
-
-        <ProductsBox title={false} />
 
         <WideLightPoster />
 
@@ -27,7 +40,14 @@ export default async function Home() {
           links={{ l1: '/t5', l2: '/sx5' }}
         />
 
-        <ProductsBox title={'محصولات محبوب'} subTitle={'آخرین محصولات فروشگاه'} />
+        {cardBoxSections.map((section) => (
+          <ProductsBox
+            key={section.id}
+            title={section.name}
+            subTitle={section.subtitle}
+            cardBoxes={section.cardBoxes}
+          />
+        ))}
 
         <MiniSlider
           images={{ img1: 'b511-sharayet.jpg', img2: 'suba-sharayet.jpg' }}
@@ -42,8 +62,6 @@ export default async function Home() {
           videos={false}
           links={{ l1: '/b511', l2: '/suba-m4' }}
         />
-
-        <ProductsBox title={'قطعات یدکی'} subTitle={'آخرین محصولات فروشگاه'} />
       </div>
     </div>
   )
