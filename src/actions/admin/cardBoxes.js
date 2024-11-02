@@ -2,18 +2,9 @@
 
 'use server'
 
-import { prisma } from '@/db/client'
+import prisma from '@/db/client'
+import { cardBoxSchema } from '@/security/zod/validationSchema'
 import { revalidatePath } from 'next/cache'
-import * as z from 'zod'
-
-// اسکیما برای اعتبارسنجی فرم‌ها با استفاده از zod
-export const cardBoxSchema = z.object({
-  title: z.string().nonempty('عنوان کارت باکس الزامی است'),
-  subtitle: z.string().optional(),
-  description: z.string().nonempty('توضیحات الزامی است'),
-  carId: z.string().nonempty('انتخاب خودرو الزامی است'),
-  sectionId: z.string().nonempty('انتخاب بخش الزامی است'),
-})
 
 // ایجاد کارت باکس جدید
 export async function createCardBox(formData) {

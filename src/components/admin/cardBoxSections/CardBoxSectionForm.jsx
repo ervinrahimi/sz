@@ -4,8 +4,8 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { cardBoxSectionSchema } from '@/actions/admin/cardBoxSections'
 import { createCardBoxSection, updateCardBoxSection } from '@/actions/admin/cardBoxSections'
+import { cardBoxSectionSchema } from '@/security/zod/validationSchema'
 import { useRouter } from 'next/navigation'
 import styles from './CardBoxSectionForm.module.css'
 import { useEffect } from 'react'

@@ -1,5 +1,5 @@
 // src/app/admin/card-boxes/create/page.jsx
-
+import styles from '../../page.module.css'
 import CardBoxFormWrapper from '@/components/admin/cardBoxes/CardBoxFormWrapper'
 
 export default function CreateCardBoxPage() {

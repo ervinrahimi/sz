@@ -338,3 +338,16 @@ export const slideSchema = z.object({
     })
     .optional(),
 })
+
+export const cardBoxSchema = z.object({
+  title: z.string().nonempty('عنوان کارت باکس الزامی است'),
+  subtitle: z.string().optional(),
+  description: z.string().nonempty('توضیحات الزامی است'),
+  carId: z.string().nonempty('انتخاب خودرو الزامی است'),
+  sectionId: z.string().nonempty('انتخاب بخش الزامی است'),
+})
+
+export const cardBoxSectionSchema = z.object({
+  name: z.string().nonempty('نام بخش الزامی است'),
+  subtitle: z.string().optional(),
+})
