@@ -28,7 +28,7 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
         <p>{subTitle}</p>
       </div>
       <div className={styles.container}>
-        {cardBoxes.map((box) => (
+        {cardBoxes && cardBoxes.map((box) => (
           <div key={box.id} className={styles.box}>
             <div className={styles.colorContainer}>
               {/* اینجا می‌توانید رنگ‌های موجود را نمایش دهید */}

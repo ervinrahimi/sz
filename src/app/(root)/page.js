@@ -40,7 +40,7 @@ export default async function Home() {
           links={{ l1: '/t5', l2: '/sx5' }}
         />
 
-        {cardBoxSections.map((section) => (
+        {cardBoxSections && cardBoxSections.map((section) => (
           <ProductsBox
             key={section.id}
             title={section.name}
