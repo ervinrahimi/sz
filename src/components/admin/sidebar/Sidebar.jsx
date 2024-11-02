@@ -145,8 +145,7 @@ export default function Sidebar({ admin }) {
         {/* اضافه کردن توست به مدیریت کارت باکس ها */}
         <li>
           <Link
-            href="#"
-            onClick={handleToast}
+            href="/admin/card-boxes/"
             className={`${styles.menuItem} ${pathname === '/admin/carboxes' ? styles.active : ''}`}
           >
             <Image src="/icons/admin/12.png" alt="Picture of the menu" width={25} height={25} />
