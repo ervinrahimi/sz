@@ -1,7 +1,18 @@
 // src/app/admin/page.jsx
 import styles from '../page.module.css'
+import CardBoxesList from '@/components/admin/cardBoxes/CardBoxesList'
 
-export default function CarboxesPage() {
+export default async function CardBoxesPage() {
+  const cardBoxes = await prisma.cardBox.findMany({
+    include: {
+      car: true,
+      section: true,
+    },
+    orderBy: {
+      updatedAt: 'desc',
+    },
+  })
+
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>
@@ -13,6 +24,7 @@ export default function CarboxesPage() {
         </div>
         <div className={styles.balanceBox}>
           <h2>محتوای کارت باکس</h2>
+          <CardBoxesList cardBoxes={cardBoxes} />
         </div>
       </div>
     </div>
