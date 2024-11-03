@@ -25,12 +25,21 @@ export default function HamburgerSidebar({ user }) {
     <div className={styles.hamburgerContainer}>
       {/* آیکون همبرگر */}
       <div className={styles.hamburgerIcon}>
-          <Image onClick={toggleSidebar} src="/icons/sidebar/menu.png" alt="Picture of the menu" width={45} height={45} />
-          <SoltanZadeLogoSVG className={styles.logo} />
+        <Image
+          onClick={toggleSidebar}
+          src="/icons/sidebar/menu.png"
+          alt="Picture of the menu"
+          width={45}
+          height={45}
+        />
+        <SoltanZadeLogoSVG className={styles.logo} />
       </div>
 
       {/* سایدبار */}
-      <div onClick={toggleSidebar} className={`${styles.sidebarClose} ${isOpen ? styles.open : ''}`}></div>
+      <div
+        onClick={toggleSidebar}
+        className={`${styles.sidebarClose} ${isOpen ? styles.open : ''}`}
+      ></div>
       <div className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
         <div className={styles.profile}>
           <Image
@@ -49,40 +58,144 @@ export default function HamburgerSidebar({ user }) {
         </div>
         <ul className={styles.menu}>
           <li>
-            <Link onClick={toggleSidebar} href="/admin" className={`${styles.menuItem} ${pathname === '/admin' ? styles.active : ''}`}><Image src="/icons/admin/1.png" alt="Picture of the menu" width={25} height={25}/>داشبورد </Link>
-          </li>
-          <li> 
-            <Link onClick={toggleSidebar} href="/admin/users" className={`${styles.menuItem} ${pathname === '/admin/users' ? styles.active : ''}`}><Image src="/icons/admin/2.png" alt="Picture of the menu" width={25} height={25}/>مدیریت کاربران</Link>
-          </li>
-          <li>
-            <Link onClick={toggleSidebar} href="/admin/menu" className={`${styles.menuItem} ${pathname === '/admin/menu' ? styles.active : ''}`}><Image src="/icons/admin/3.png" alt="Picture of the menu" width={25} height={25}/>مدیریت منو ها</Link>
-          </li>
-          <li>
-            <Link onClick={toggleSidebar} href="/admin/orders" className={`${styles.menuItem} ${pathname === '/admin/orders' ? styles.active : ''}`}><Image src="/icons/admin/4.png" alt="Picture of the menu" width={25} height={25}/>مدیریت سفارش‌ها</Link>
+            <Link
+              onClick={toggleSidebar}
+              href="/admin"
+              className={`${styles.menuItem} ${pathname === '/admin' ? styles.active : ''}`}
+            >
+              <Image src="/icons/admin/1.png" alt="Picture of the menu" width={25} height={25} />
+              داشبورد{' '}
+            </Link>
           </li>
           <li>
-            <Link onClick={toggleSidebar} href="/admin/vehicles" className={`${styles.menuItem} ${pathname === '/admin/vehicles' ? styles.active : ''}`}><Image src="/icons/admin/5.png" alt="Picture of the menu" width={25} height={25}/>مدیریت خودروها</Link>
+            <Link
+              onClick={toggleSidebar}
+              href="/admin/users"
+              className={`${styles.menuItem} ${pathname === '/admin/users' ? styles.active : ''}`}
+            >
+              <Image src="/icons/admin/2.png" alt="Picture of the menu" width={25} height={25} />
+              مدیریت کاربران
+            </Link>
           </li>
           <li>
-            <Link onClick={toggleSidebar} href="/admin/sales-conditions" className={`${styles.menuItem} ${pathname === '/admin/sales-conditions' ? styles.active : ''}`}><Image src="/icons/admin/6.png" alt="Picture of the menu" width={25} height={25}/>مدیریت شرایط فروش</Link>
+            <Link
+              onClick={toggleSidebar}
+              href="/admin/menu"
+              className={`${styles.menuItem} ${pathname === '/admin/menu' ? styles.active : ''}`}
+            >
+              <Image src="/icons/admin/3.png" alt="Picture of the menu" width={25} height={25} />
+              مدیریت منو ها
+            </Link>
           </li>
           <li>
-            <Link onClick={toggleSidebar} href="/admin/payments" className={`${styles.menuItem} ${pathname === '/admin/payments' ? styles.active : ''}`}><Image src="/icons/admin/7.png" alt="Picture of the menu" width={25} height={25}/>مدیریت پرداخت‌ها</Link>
+            <Link
+              onClick={toggleSidebar}
+              href="/admin/orders"
+              className={`${styles.menuItem} ${pathname === '/admin/orders' ? styles.active : ''}`}
+            >
+              <Image src="/icons/admin/4.png" alt="Picture of the menu" width={25} height={25} />
+              مدیریت سفارش‌ها
+            </Link>
           </li>
           <li>
-            <Link onClick={toggleSidebar} href="/admin/documents" className={`${styles.menuItem} ${pathname === '/admin/documents' ? styles.active : ''}`}><Image src="/icons/admin/8.png" alt="Picture of the menu" width={25} height={25}/>مدیریت اسناد و مدارک</Link>
+            <Link
+              onClick={toggleSidebar}
+              href="/admin/vehicles"
+              className={`${styles.menuItem} ${
+                pathname === '/admin/vehicles' ? styles.active : ''
+              }`}
+            >
+              <Image src="/icons/admin/5.png" alt="Picture of the menu" width={25} height={25} />
+              مدیریت خودروها
+            </Link>
           </li>
           <li>
-            <Link onClick={toggleSidebar} href="/admin/notifications" className={`${styles.menuItem} ${pathname === '/admin/notifications' ? styles.active : ''}`}><Image src="/icons/admin/9.png" alt="Picture of the menu" width={25} height={25}/>مدیریت پیام‌ها</Link>
+            <Link
+              onClick={toggleSidebar}
+              href="/admin/sales-conditions"
+              className={`${styles.menuItem} ${
+                pathname === '/admin/sales-conditions' ? styles.active : ''
+              }`}
+            >
+              <Image src="/icons/admin/6.png" alt="Picture of the menu" width={25} height={25} />
+              مدیریت شرایط فروش
+            </Link>
           </li>
           <li>
-            <Link onClick={toggleSidebar} href="/admin/slides" className={`${styles.menuItem} ${pathname === '/admin/slides' ? styles.active : ''}`}><Image src="/icons/admin/10.png" alt="Picture of the menu" width={25} height={25}/>مدیریت اسلاید ها </Link>
+            <Link
+              onClick={toggleSidebar}
+              href="/admin/payments"
+              className={`${styles.menuItem} ${
+                pathname === '/admin/payments' ? styles.active : ''
+              }`}
+            >
+              <Image src="/icons/admin/7.png" alt="Picture of the menu" width={25} height={25} />
+              مدیریت پرداخت‌ها
+            </Link>
           </li>
           <li>
-            <Link onClick={toggleSidebar} href="/admin/carboxes" className={`${styles.menuItem} ${pathname === '/admin/carboxes' ? styles.active : ''}`}><Image src="/icons/admin/12.png" alt="Picture of the menu" width={25} height={25}/>مدیریت کارت باکس ها </Link>
+            <Link
+              onClick={toggleSidebar}
+              href="/admin/documents"
+              className={`${styles.menuItem} ${
+                pathname === '/admin/documents' ? styles.active : ''
+              }`}
+            >
+              <Image src="/icons/admin/8.png" alt="Picture of the menu" width={25} height={25} />
+              مدیریت اسناد و مدارک
+            </Link>
           </li>
           <li>
-            <span className={`${styles.menuItem}`} onClick={signOut}><Image src="/icons/admin/11.png" alt="Picture of the menu" width={25} height={25}/>خروج از حساب</span>
+            <Link
+              onClick={toggleSidebar}
+              href="/admin/notifications"
+              className={`${styles.menuItem} ${
+                pathname === '/admin/notifications' ? styles.active : ''
+              }`}
+            >
+              <Image src="/icons/admin/9.png" alt="Picture of the menu" width={25} height={25} />
+              مدیریت پیام‌ها
+            </Link>
+          </li>
+          <li>
+            <Link
+              onClick={toggleSidebar}
+              href="/admin/slides"
+              className={`${styles.menuItem} ${pathname === '/admin/slides' ? styles.active : ''}`}
+            >
+              <Image src="/icons/admin/10.png" alt="Picture of the menu" width={25} height={25} />
+              مدیریت اسلاید ها{' '}
+            </Link>
+          </li>
+          <li>
+            <Link
+              onClick={toggleSidebar}
+              href="/admin/card-boxes"
+              className={`${styles.menuItem} ${
+                pathname === '/admin/card-boxes' ? styles.active : ''
+              }`}
+            >
+              <Image src="/icons/admin/12.png" alt="Picture of the menu" width={25} height={25} />
+              مدیریت کارت باکس ها{' '}
+            </Link>
+          </li>
+          <li>
+            <Link
+              onClick={toggleSidebar}
+              href="/admin/card-box-sections"
+              className={`${styles.menuItem} ${
+                pathname === '/admin/card-box-sections' ? styles.active : ''
+              }`}
+            >
+              <Image src="/icons/admin/12.png" alt="Picture of the menu" width={25} height={25} />
+              مدیریت بخش کارت باکس ها{' '}
+            </Link>
+          </li>
+          <li>
+            <span className={`${styles.menuItem}`} onClick={signOut}>
+              <Image src="/icons/admin/11.png" alt="Picture of the menu" width={25} height={25} />
+              خروج از حساب
+            </span>
           </li>
         </ul>
       </div>

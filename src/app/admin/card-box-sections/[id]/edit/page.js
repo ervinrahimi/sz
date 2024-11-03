@@ -1,5 +1,6 @@
 // src/app/admin/card-box-sections/[id]/edit/page.jsx
 
+import styles from '../../page.module.css'
 import prisma from '@/db/client'
 import CardBoxSectionForm from '@/components/admin/cardBoxSections/CardBoxSectionForm'
 
@@ -13,9 +14,16 @@ export default async function EditCardBoxSectionPage({ params }) {
   }
 
   return (
-    <div>
-      <h1>ویرایش بخش</h1>
-      <CardBoxSectionForm section={section} />
+    <div className={styles.container}>
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>مدیریت بخش کارت باکس ها</h1>
+        </div>
+        <div className={styles.balanceBox}>
+          <h1>ویرایش بخش</h1>
+          <CardBoxSectionForm section={section} />
+        </div>
+      </div>
     </div>
   )
 }

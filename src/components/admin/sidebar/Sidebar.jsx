@@ -146,10 +146,19 @@ export default function Sidebar({ admin }) {
         <li>
           <Link
             href="/admin/card-boxes/"
-            className={`${styles.menuItem} ${pathname === '/admin/carboxes' ? styles.active : ''}`}
+            className={`${styles.menuItem} ${pathname === '/admin/card-boxes' ? styles.active : ''}`}
           >
             <Image src="/icons/admin/12.png" alt="Picture of the menu" width={25} height={25} />
             مدیریت کارت باکس ها{' '}
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/admin/card-box-sections"
+            className={`${styles.menuItem} ${pathname === '/admin/card-box-sections' ? styles.active : ''}`}
+          >
+            <Image src="/icons/admin/12.png" alt="Picture of the menu" width={25} height={25} />
+            مدیریت بخش کارت باکس ها{' '}
           </Link>
         </li>
         <li>
