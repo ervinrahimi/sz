@@ -5,22 +5,40 @@
 import Link from 'next/link'
 import styles from './CardBoxSectionsList.module.css'
 import { useState } from 'react'
-import { deleteCardBoxSection } from '@/actions/admin/cardBoxSections'
+import {
+  deleteCardBoxSection,
+  moveSectionUp,
+  moveSectionDown,
+} from '@/actions/admin/cardBoxSections'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 
 export default function CardBoxSectionsList({ sections }) {
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [isProcessing, setIsProcessing] = useState(false)
   const router = useRouter()
 
   const handleDelete = async (id) => {
     if (confirm('آیا از حذف این بخش مطمئن هستید؟')) {
-      setIsDeleting(true)
+      setIsProcessing(true)
       await deleteCardBoxSection(id)
-      setIsDeleting(false)
+      setIsProcessing(false)
       toast.success('بخش کارت باکس انتخابی شما با موفقیت حذف گردید', { duration: 5000 })
       router.refresh()
     }
+  }
+
+  const handleMoveUp = async (id) => {
+    setIsProcessing(true)
+    await moveSectionUp(id)
+    setIsProcessing(false)
+    router.refresh()
+  }
+
+  const handleMoveDown = async (id) => {
+    setIsProcessing(true)
+    await moveSectionDown(id)
+    setIsProcessing(false)
+    router.refresh()
   }
 
   return (
@@ -33,6 +51,7 @@ export default function CardBoxSectionsList({ sections }) {
           <tr>
             <th>نام بخش</th>
             <th>تاریخ بروزرسانی</th>
+            <th>ترتیب</th>
             <th>عملیات</th>
           </tr>
         </thead>
@@ -42,8 +61,16 @@ export default function CardBoxSectionsList({ sections }) {
               <td>{section.name}</td>
               <td>{new Date(section.updatedAt).toLocaleDateString('fa-IR')}</td>
               <td>
+                <button onClick={() => handleMoveUp(section.id)} disabled={isProcessing}>
+                  بالا
+                </button>
+                <button onClick={() => handleMoveDown(section.id)} disabled={isProcessing}>
+                  پایین
+                </button>
+              </td>
+              <td>
                 <Link href={`/admin/card-box-sections/${section.id}/edit`}>ویرایش</Link> |{' '}
-                <button onClick={() => handleDelete(section.id)} disabled={isDeleting}>
+                <button onClick={() => handleDelete(section.id)} disabled={isProcessing}>
                   حذف
                 </button>
               </td>

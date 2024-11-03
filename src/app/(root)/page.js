@@ -22,6 +22,7 @@ export default async function Home() {
         },
       },
     },
+    orderBy: { order: 'asc' }, // مرتب‌سازی بخش‌ها بر اساس فیلد order
   })
 
   return (
@@ -40,7 +41,7 @@ export default async function Home() {
           links={{ l1: '/t5', l2: '/sx5' }}
         />
 
-        {cardBoxSections && cardBoxSections.map((section) => (
+        {cardBoxSections.map((section) => (
           <ProductsBox
             key={section.id}
             title={section.name}

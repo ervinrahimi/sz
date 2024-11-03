@@ -457,6 +457,7 @@ model CardBoxSection {
   cardBoxes CardBox[] // کارت باکس‌های مرتبط
   createdAt DateTime  @default(now()) // تاریخ ایجاد
   updatedAt DateTime  @updatedAt // تاریخ به‌روزرسانی
+  order     Int // ترتیب بخش
 }
 
 // مدل کارت باکس

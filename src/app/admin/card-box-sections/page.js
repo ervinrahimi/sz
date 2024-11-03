@@ -5,10 +5,9 @@ import prisma from '@/db/client'
 import CardBoxSectionsList from '@/components/admin/cardBoxSections/CardBoxSectionsList'
 
 export default async function CardBoxSectionsPage() {
+  // دریافت بخش‌ها با ترتیب مشخص شده
   const sections = await prisma.cardBoxSection.findMany({
-    orderBy: {
-      updatedAt: 'desc',
-    },
+    orderBy: { order: 'asc' }, // مرتب‌سازی بر اساس order
   })
 
   return (
