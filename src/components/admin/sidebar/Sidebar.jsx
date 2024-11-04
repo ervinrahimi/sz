@@ -12,6 +12,7 @@ export default function Sidebar({ admin }) {
   const pathname = usePathname()
   const [toastCount, setToastCount] = useState(0)
   const [isToastLimited, setIsToastLimited] = useState(false)
+  const [isCartBoxSubmenuOpen, setCartBoxSubmenuOpen] = useState(false)
 
   // تابع برای نمایش Toast با محدودیت 5 بار
   const handleToast = () => {
@@ -142,24 +143,33 @@ export default function Sidebar({ admin }) {
             مدیریت اسلاید ها{' '}
           </Link>
         </li>
-        {/* اضافه کردن توست به مدیریت کارت باکس ها */}
         <li>
-          <Link
-            href="/admin/card-boxes/"
-            className={`${styles.menuItem} ${pathname === '/admin/card-boxes' ? styles.active : ''}`}
+          <div
+            onClick={() => setCartBoxSubmenuOpen(!isCartBoxSubmenuOpen)}
+            className={`${styles.menuItem} ${styles.submenuToggle}`}
           >
-            <Image src="/icons/admin/12.png" alt="Picture of the menu" width={25} height={25} />
-            مدیریت کارت باکس ها{' '}
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/admin/card-box-sections"
-            className={`${styles.menuItem} ${pathname === '/admin/card-box-sections' ? styles.active : ''}`}
-          >
-            <Image src="/icons/admin/12.png" alt="Picture of the menu" width={25} height={25} />
-            مدیریت بخش کارت باکس ها{' '}
-          </Link>
+            <Image src="/icons/admin/12.png" alt="Menu Icon" width={25} height={25} />
+            کارت باکس ها
+            <span className={styles.submenuIcon}>
+              {isCartBoxSubmenuOpen ? <Image src="/icons/dashboard/arrow-up.png" alt="Menu Icon" width={25} height={25} /> : <Image src="/icons/dashboard/arrow-down.png" alt="Menu Icon" width={25} height={25} />}
+            </span>
+          </div>
+          {isCartBoxSubmenuOpen && (
+            <ul className={styles.submenu}>
+              <li className={`${styles.submenuItem} ${pathname.startsWith('/admin/card-boxes') ? styles.activeSubmenu : ''}`}>
+                <Image src="/icons/dashboard/sunMenu-arrow-left.png" alt="Menu Icon" width={20} height={20} />
+                <Link href="/admin/card-boxes">
+                مدیریت کارت باکس ها{' '}
+                </Link>
+              </li>
+              <li onClick={handleToast} className={`${styles.submenuItem} ${pathname.startsWith('/admin/card-box-sections') ? styles.activeSubmenu : ''}`}>
+                <Image src="/icons/dashboard/sunMenu-arrow-left.png" alt="Menu Icon" width={20} height={20} />
+                <Link href="/admin/card-box-sections">
+                مدیریت بخش کارت باکس ها{' '}
+                </Link>
+              </li>
+            </ul>
+          )}
         </li>
         <li>
           <span className={`${styles.menuItem}`} onClick={signOut}>

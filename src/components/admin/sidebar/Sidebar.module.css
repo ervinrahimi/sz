@@ -93,6 +93,54 @@
   transform: scale(0.85);
 }
 
+.submenu {
+  list-style: none;
+  padding: 0;
+  margin: 10px 20px 0px 0px;
+}
+
+.submenuItem {
+  font-variation-settings: 'wdth' 100, 'wght' 630, 'DOTS' 0;
+  font-size: 14px;
+  color: #555;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  border-radius: 8px;
+  margin-bottom: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.submenuItem:hover:not(.activeSubmenu) {
+  background-color: #ececec;
+}
+
+.activeSubmenu {
+  background-color: #212b34;
+  color: rgb(242, 242, 242);
+}
+
+.activeSubmenu img{
+  filter: brightness(0) contrast(2) invert(1) ;
+  transform: scale(0.85);
+}
+
+
+.submenuToggle {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.submenuIcon {
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  margin-left: 5px;
+  transform: translateY(-50%);
+}
+
 @media (max-width: 600px) {
   .sidebar {
     width: 100px;
