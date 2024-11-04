@@ -162,7 +162,7 @@ export default function Sidebar({ admin }) {
                 مدیریت کارت باکس ها{' '}
                 </Link>
               </li>
-              <li onClick={handleToast} className={`${styles.submenuItem} ${pathname.startsWith('/admin/card-box-sections') ? styles.activeSubmenu : ''}`}>
+              <li className={`${styles.submenuItem} ${pathname.startsWith('/admin/card-box-sections') ? styles.activeSubmenu : ''}`}>
                 <Image src="/icons/dashboard/sunMenu-arrow-left.png" alt="Menu Icon" width={20} height={20} />
                 <Link href="/admin/card-box-sections">
                 مدیریت بخش کارت باکس ها{' '}
