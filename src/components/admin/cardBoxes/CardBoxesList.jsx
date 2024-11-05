@@ -24,37 +24,39 @@ export default function CardBoxesList({ cardBoxes }) {
   }
 
   return (
-    <div>
-      <Link href="/admin/card-boxes/create" className={styles.createButton}>
-        ساختن کارت باکس جدید
-      </Link>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>عنوان کارت باکس</th>
-            <th>بخش</th>
-            <th>خودرو</th>
-            <th>تاریخ بروزرسانی</th>
-            <th>عملیات</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cardBoxes.map((cardBox) => (
-            <tr key={cardBox.id}>
-              <td>{cardBox.title}</td>
-              <td>{cardBox.section.name}</td>
-              <td>{cardBox.car.name}</td>
-              <td>{new Date(cardBox.updatedAt).toLocaleDateString('fa-IR')}</td>
-              <td>
-                <Link href={`/admin/card-boxes/${cardBox.id}/edit`}>ویرایش</Link> |{' '}
-                <button onClick={() => handleDelete(cardBox.id)} disabled={isDeleting}>
-                  حذف
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className={styles.cardBoxList}>
+      {cardBoxes.map((cardBox) => (
+        <div key={cardBox.id} className={styles.cardBox}>
+          <div className={styles.cardBoxItem}>
+            <span className={styles.label}>عنوان کارت باکس:</span>
+            <span className={styles.value}>{cardBox.title}</span>
+          </div>
+          <div className={styles.cardBoxItem}>
+            <span className={styles.label}>بخش:</span>
+            <span className={styles.value}>{cardBox.section.name}</span>
+          </div>
+          <div className={styles.cardBoxItem}>
+            <span className={styles.label}>خودرو:</span>
+            <span className={styles.value}>{cardBox.car.name}</span>
+          </div>
+          <div className={styles.cardBoxItem}>
+            <span className={styles.label}>تاریخ بروزرسانی:</span>
+            <span className={styles.value}>{new Date(cardBox.updatedAt).toLocaleDateString('fa-IR')}</span>
+          </div>
+          <div className={styles.actions}>
+            <Link href={`/admin/card-boxes/${cardBox.id}/edit`}>
+              <button className={styles.editButton}>ویرایش</button>
+            </Link>
+            <button 
+              onClick={() => handleDelete(cardBox.id)} 
+              disabled={isDeleting} 
+              className={styles.deleteButton}
+            >
+              حذف
+            </button>
+          </div>
+        </div>
+      ))}
     </div>
   )
 }

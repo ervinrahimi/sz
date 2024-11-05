@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { createCardBoxSection, updateCardBoxSection } from '@/actions/admin/cardBoxSections'
 import { cardBoxSectionSchema } from '@/security/zod/validationSchema'
 import { useRouter } from 'next/navigation'
-import styles from './CardBoxSectionForm.module.css'
+import styles from '@/styles/form.module.css'
 import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 
@@ -47,23 +47,27 @@ export default function CardBoxSectionForm({ section }) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <label>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+      <label className={styles.formLabel}>
         نام بخش:
-        <input type="text" {...register('name')} />
-        {errors.name && <span className={styles.error}>{errors.name.message}</span>}
+        <input type="text" {...register('name')} className={styles.formInput} />
+        {errors.name && <span className={styles.formError}>{errors.name.message}</span>}
       </label>
 
-      <label>
+      <label className={styles.formLabel}>
         زیرعنوان:
-        <input type="text" {...register('subtitle')} />
-        {errors.subtitle && <span className={styles.error}>{errors.subtitle.message}</span>}
+        <input type="text" {...register('subtitle')} className={styles.formInput} />
+        {errors.subtitle && <span className={styles.formError}>{errors.subtitle.message}</span>}
       </label>
 
-      <button type="submit">{isEdit ? 'ویرایش' : 'ایجاد'}</button>
-      <button type="button" onClick={handleCancel}>
-        لغو
-      </button>
+      <div className={styles.buttonGroup}>
+        <button type="submit" className={styles.formButton}>
+          {isEdit ? 'ویرایش' : 'ایجاد'}
+        </button>
+        <button type="button" onClick={handleCancel} className={styles.formButton}>
+          لغو
+        </button>
+      </div>
     </form>
   )
 }

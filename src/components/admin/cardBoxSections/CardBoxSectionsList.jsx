@@ -42,42 +42,49 @@ export default function CardBoxSectionsList({ sections }) {
   }
 
   return (
-    <div>
-      <Link href="/admin/card-box-sections/create" className={styles.createButton}>
-        ساختن بخش جدید
-      </Link>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>نام بخش</th>
-            <th>تاریخ بروزرسانی</th>
-            <th>ترتیب</th>
-            <th>عملیات</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sections.map((section) => (
-            <tr key={section.id}>
-              <td>{section.name}</td>
-              <td>{new Date(section.updatedAt).toLocaleDateString('fa-IR')}</td>
-              <td>
-                <button onClick={() => handleMoveUp(section.id)} disabled={isProcessing}>
-                  بالا
-                </button>
-                <button onClick={() => handleMoveDown(section.id)} disabled={isProcessing}>
-                  پایین
-                </button>
-              </td>
-              <td>
-                <Link href={`/admin/card-box-sections/${section.id}/edit`}>ویرایش</Link> |{' '}
-                <button onClick={() => handleDelete(section.id)} disabled={isProcessing}>
-                  حذف
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className={styles.container}>
+      <div className={styles.headerRow}>
+        <div className={styles.headerCell}>نام بخش</div>
+        <div className={styles.headerCell}>تاریخ بروزرسانی</div>
+        <div className={styles.headerCell}>ترتیب</div>
+        <div className={styles.headerCell}>عملیات</div>
+      </div>
+      <div className={styles.body}>
+        {sections.map((section) => (
+          <div key={section.id} className={styles.row}>
+            <div className={styles.cell}>{section.name}</div>
+            <div className={styles.cell}>{new Date(section.updatedAt).toLocaleDateString('fa-IR')}</div>
+            <div className={styles.cell}>
+              <button
+                onClick={() => handleMoveUp(section.id)}
+                disabled={isProcessing}
+                className={styles.button}
+              >
+                بالا
+              </button>
+              <button
+                onClick={() => handleMoveDown(section.id)}
+                disabled={isProcessing}
+                className={styles.button}
+              >
+                پایین
+              </button>
+            </div>
+            <div className={styles.cell}>
+              <Link href={`/admin/card-box-sections/${section.id}/edit`} className={styles.link}>
+                ویرایش
+              </Link>
+              <button
+                onClick={() => handleDelete(section.id)}
+                disabled={isProcessing}
+                className={styles.buttonDelete}
+              >
+                حذف
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

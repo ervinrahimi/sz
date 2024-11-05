@@ -1,0 +1,85 @@
+/* src/components/admin/cardBoxes/CardBoxesList.module.css */
+
+.cardBoxList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cardBox {
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease;
+}
+
+.cardBox:hover {
+  background-color: #e6e6e6;
+}
+
+.cardBoxItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  font-weight: bold;
+  color: #2a3138;
+}
+
+.value {
+  color: #333;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: space-between;
+
+}
+
+.editButton, .deleteButton {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.editButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.editButton:hover {
+  background-color: #0056b3;
+}
+
+.deleteButton {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+}
+
+.deleteButton:hover {
+  background-color: #c9302c;
+}
+
+.deleteButton:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .cardBoxItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

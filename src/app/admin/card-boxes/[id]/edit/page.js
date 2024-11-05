@@ -2,6 +2,7 @@
 
 import prisma from '@/db/client'
 import CardBoxFormWrapper from '@/components/admin/cardBoxes/CardBoxFormWrapper'
+import styles from '../../../page.module.css'
 
 export default async function EditCardBoxPage({ params }) {
   const cardBox = await prisma.cardBox.findUnique({

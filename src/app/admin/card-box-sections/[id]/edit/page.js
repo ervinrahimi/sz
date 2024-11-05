@@ -17,10 +17,9 @@ export default async function EditCardBoxSectionPage({ params }) {
     <div className={styles.container}>
       <div className={styles.mainContent}>
         <div className={styles.header}>
-          <h1 className={styles.title}>مدیریت بخش کارت باکس ها</h1>
+          <h1 className={styles.title}>ویرایش بخش</h1>
         </div>
         <div className={styles.balanceBox}>
-          <h1>ویرایش بخش</h1>
           <CardBoxSectionForm section={section} />
         </div>
       </div>
