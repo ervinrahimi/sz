@@ -6,9 +6,18 @@ import prisma from '@/db/client'
 import { cardBoxSchema } from '@/security/zod/validationSchema'
 import { revalidatePath } from 'next/cache'
 
-// ایجاد کارت باکس جدید
+function formDataToObject(formData) {
+  const obj = {}
+  formData.forEach((value, key) => {
+    obj[key] = value
+  })
+  return obj
+}
+
 export async function createCardBox(formData) {
-  const data = cardBoxSchema.parse(formData)
+  const dataObject = typeof formData === 'object' ? formData : formDataToObject(formData)
+
+  const data = cardBoxSchema.parse(dataObject)
   await prisma.cardBox.create({
     data: {
       title: data.title,
@@ -16,14 +25,17 @@ export async function createCardBox(formData) {
       description: data.description,
       carId: data.carId,
       sectionId: data.sectionId,
+      viewLink: data.viewLink,
     },
   })
+
   revalidatePath('/admin/card-boxes')
 }
 
-// ویرایش کارت باکس
 export async function updateCardBox(id, formData) {
-  const data = cardBoxSchema.parse(formData)
+  const dataObject = typeof formData === 'object' ? formData : formDataToObject(formData)
+
+  const data = cardBoxSchema.parse(dataObject)
   await prisma.cardBox.update({
     where: { id },
     data: {
@@ -32,12 +44,13 @@ export async function updateCardBox(id, formData) {
       description: data.description,
       carId: data.carId,
       sectionId: data.sectionId,
+      viewLink: data.viewLink,
     },
   })
+
   revalidatePath('/admin/card-boxes')
 }
 
-// حذف کارت باکس
 export async function deleteCardBox(id) {
   await prisma.cardBox.delete({
     where: { id },
@@ -45,7 +58,6 @@ export async function deleteCardBox(id) {
   revalidatePath('/admin/card-boxes')
 }
 
-// سرور اکشن برای دریافت لیست خودروهای فعال
 export async function getActiveCars() {
   const cars = await prisma.car.findMany({
     where: { isActive: true },
@@ -54,7 +66,6 @@ export async function getActiveCars() {
   return cars
 }
 
-// سرور اکشن برای دریافت لیست بخش‌های کارت باکس
 export async function getCardBoxSections() {
   const sections = await prisma.cardBoxSection.findMany({
     select: { id: true, name: true },

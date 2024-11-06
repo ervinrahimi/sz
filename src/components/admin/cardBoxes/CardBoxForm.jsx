@@ -4,12 +4,11 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { createCardBox, updateCardBox } from '@/actions/admin/cardBoxes'
+import { cardBoxSchema, createCardBox, updateCardBox } from '@/actions/admin/cardBoxes'
 import { useRouter } from 'next/navigation'
-import styles from '@/styles/form.module.css'
+import styles from './CardBoxForm.module.css'
 import { useEffect } from 'react'
 import toast from 'react-hot-toast'
-import { cardBoxSchema } from '@/security/zod/validationSchema'
 
 export default function CardBoxForm({ cardBox, cars, sections }) {
   const isEdit = !!cardBox
@@ -31,6 +30,7 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
       setValue('description', cardBox.description)
       setValue('carId', cardBox.carId)
       setValue('sectionId', cardBox.sectionId)
+      setValue('viewLink', cardBox.viewLink) // مقداردهی لینک مشاهده در فرم ویرایش
     }
   }, [isEdit, cardBox, setValue])
 
@@ -50,28 +50,34 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
-      <label className={styles.formLabel}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <label>
         عنوان کارت باکس:
-        <input type="text" {...register('title')} className={styles.formInput} />
-        {errors.title && <span className={styles.formError}>{errors.title.message}</span>}
+        <input type="text" {...register('title')} />
+        {errors.title && <span className={styles.error}>{errors.title.message}</span>}
       </label>
 
-      <label className={styles.formLabel}>
+      <label>
         عنوان صفت خودرو:
-        <input type="text" {...register('subtitle')} className={styles.formInput} />
-        {errors.subtitle && <span className={styles.formError}>{errors.subtitle.message}</span>}
+        <input type="text" {...register('subtitle')} />
+        {errors.subtitle && <span className={styles.error}>{errors.subtitle.message}</span>}
       </label>
 
-      <label className={styles.formLabel}>
+      <label>
         توضیحات:
-        <textarea {...register('description')} className={styles.formInput} />
-        {errors.description && <span className={styles.formError}>{errors.description.message}</span>}
+        <textarea {...register('description')} />
+        {errors.description && <span className={styles.error}>{errors.description.message}</span>}
       </label>
 
-      <label className={styles.formLabel}>
+      <label>
+        لینک مشاهده:
+        <input type="text" {...register('viewLink')} placeholder="لینک صفحه محصول" />
+        {errors.viewLink && <span className={styles.error}>{errors.viewLink.message}</span>}
+      </label>
+
+      <label>
         انتخاب خودرو:
-        <select {...register('carId')} className={styles.formSelect}>
+        <select {...register('carId')}>
           <option value="">انتخاب کنید</option>
           {cars.map((car) => (
             <option key={car.id} value={car.id}>
@@ -79,12 +85,12 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
             </option>
           ))}
         </select>
-        {errors.carId && <span className={styles.formError}>{errors.carId.message}</span>}
+        {errors.carId && <span className={styles.error}>{errors.carId.message}</span>}
       </label>
 
-      <label className={styles.formLabel}>
+      <label>
         انتخاب بخش:
-        <select {...register('sectionId')} className={styles.formSelect}>
+        <select {...register('sectionId')}>
           <option value="">انتخاب کنید</option>
           {sections.map((section) => (
             <option key={section.id} value={section.id}>
@@ -92,13 +98,11 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
             </option>
           ))}
         </select>
-        {errors.sectionId && <span className={styles.formError}>{errors.sectionId.message}</span>}
+        {errors.sectionId && <span className={styles.error}>{errors.sectionId.message}</span>}
       </label>
 
-      <button type="submit" className={styles.formButton}>
-        {isEdit ? 'ویرایش' : 'ایجاد'}
-      </button>
-      <button type="button" onClick={handleCancel} className={styles.formButton}>
+      <button type="submit">{isEdit ? 'ویرایش' : 'ایجاد'}</button>
+      <button type="button" onClick={handleCancel}>
         لغو
       </button>
     </form>
