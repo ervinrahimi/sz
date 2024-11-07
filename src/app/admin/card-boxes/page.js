@@ -5,15 +5,18 @@ import CardBoxesList from '@/components/admin/cardBoxes/CardBoxesList'
 import Link from 'next/link'
 
 export default async function CardBoxesPage() {
-  const cardBoxes = await prisma.cardBox.findMany({
+  const sections = await prisma.cardBoxSection.findMany({
     include: {
-      car: true,
-      section: true,
+      cardBoxes: {
+        include: {
+          car: true, // باید به صورت include: { car: true } نوشته شود
+        },
+      },
     },
     orderBy: {
       updatedAt: 'desc',
     },
-  })
+  })  
 
   return (
     <div className={styles.container}>
@@ -27,7 +30,7 @@ export default async function CardBoxesPage() {
           </div>
         </div>
         <div className={styles.balanceBox}>
-          <CardBoxesList cardBoxes={cardBoxes} />
+          <CardBoxesList sections={sections} />
         </div>
       </div>
     </div>

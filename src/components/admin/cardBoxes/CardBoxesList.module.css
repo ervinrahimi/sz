@@ -6,6 +6,11 @@
   gap: 15px;
 }
 
+.cardBoxListItem {
+  display: flex;
+  gap: 15px;
+}
+
 .cardBox {
   padding: 15px;
   border: 1px solid #e0e0e0;

@@ -32,6 +32,15 @@ export default async function Home() {
 
         <WideLightPoster />
 
+        {cardBoxSections[0] && (
+          <ProductsBox
+          key={cardBoxSections[0].id}
+          title={cardBoxSections[0].name}
+          subTitle={cardBoxSections[0].subtitle}
+          cardBoxes={cardBoxSections[0].cardBoxes}
+          />
+        )}
+
         <MiniSlider
           images={{ img1: 't5-sharayet.jpg', img2: 'sx5-sharayet.jpg' }}
           titles={{ t1: 'شرایط فروش خودروی ', t1s: 'T5', t2: 'شرایط فروش خودروی ', t2s: 'SX5' }}
@@ -41,14 +50,14 @@ export default async function Home() {
           links={{ l1: '/t5', l2: '/sx5' }}
         />
 
-        {cardBoxSections.map((section) => (
+        {cardBoxSections[1] && (
           <ProductsBox
-            key={section.id}
-            title={section.name}
-            subTitle={section.subtitle}
-            cardBoxes={section.cardBoxes}
+            key={cardBoxSections[1].id}
+            title={cardBoxSections[1].name}
+            subTitle={cardBoxSections[1].subtitle}
+            cardBoxes={cardBoxSections[1].cardBoxes}
           />
-        ))}
+        )}
 
         <MiniSlider
           images={{ img1: 'b511-sharayet.jpg', img2: 'suba-sharayet.jpg' }}
@@ -63,6 +72,15 @@ export default async function Home() {
           videos={false}
           links={{ l1: '/b511', l2: '/suba-m4' }}
         />
+
+        {cardBoxSections[2] && (
+          <ProductsBox
+            key={cardBoxSections[2].id}
+            title={cardBoxSections[2].name}
+            subTitle={cardBoxSections[2].subtitle}
+            cardBoxes={cardBoxSections[2].cardBoxes}
+          />
+        )}
       </div>
     </div>
   )
