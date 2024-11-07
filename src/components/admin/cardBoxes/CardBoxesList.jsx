@@ -25,7 +25,7 @@ export default function CardBoxesList({ cardBoxes }) {
 
   return (
     <div className={styles.cardBoxList}>
-      {cardBoxes.map((cardBox) => (
+      {cardBoxes && cardBoxes.map((cardBox) => (
         <div key={cardBox.id} className={styles.cardBox}>
           <div className={styles.cardBoxItem}>
             <span className={styles.label}>عنوان کارت باکس:</span>

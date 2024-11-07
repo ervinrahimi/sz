@@ -30,7 +30,7 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
         <p>{subTitle}</p>
       </div>
       <div className={styles.container}>
-        {cardBoxes.map((box) => (
+        {cardBoxes && cardBoxes.map((box) => (
           <div key={box.id} className={styles.box}>
             <div className={styles.colorContainer}>
               <span className={styles.colors} />
@@ -39,7 +39,7 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
             </div>
             <Image
               className={styles.image}
-              src={box.car.imageUrl} // لینک عکس خودرو
+              src={box.car.image} // لینک عکس خودرو
               width={1000}
               height={1000}
               alt={'car-image'}

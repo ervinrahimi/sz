@@ -350,7 +350,7 @@ export const cardBoxSchema = z.object({
   description: z.string().nonempty('توضیحات الزامی است'),
   carId: z.string().nonempty('انتخاب خودرو الزامی است'),
   sectionId: z.string().nonempty('انتخاب بخش الزامی است'),
-  viewLink: z.string().url('لینک مشاهده باید یک URL معتبر باشد').optional(),
+  viewLink: z.string().optional(),
 })
 
 export const cardBoxSectionSchema = z.object({
