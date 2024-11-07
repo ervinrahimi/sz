@@ -32,7 +32,7 @@ export default async function SalesConditionEditPage({ params }) {
                 href={`/admin/sales-conditions/${salesCondition.id}/manage-user`}
                 className={styles.button}
               >
-                مدیریت کاربران مجاز
+                افزودن خریداران خاص
               </Link>
             </div>
           )}

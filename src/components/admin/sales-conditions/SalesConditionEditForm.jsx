@@ -180,7 +180,7 @@ export default function SalesConditionEditForm({ salesCondition }) {
           <p className={styles.formError}>{errors.participationProfit.message}</p>
         )}
 
-        <label className={styles.formLabel}>قفل کردن شرایط فروش:</label>
+        <label className={styles.formLabel}>اختصاص شرایط برای خریداران خاص:</label>
         <input
           type="checkbox"
           checked={isLocked}
