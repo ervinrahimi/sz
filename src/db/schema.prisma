@@ -464,12 +464,13 @@ model CardBoxSection {
 model CardBox {
   id          String         @id @default(auto()) @map("_id") @db.ObjectId
   title       String // عنوان کارت باکس
-  subtitle    String? // عنوان صفت خودرو
-  description String // توضیحات خودرو
-  car         Car            @relation(fields: [carId], references: [id])
+  subtitle    String? // زیرعنوان کارت باکس
+  description String // توضیحات
   carId       String         @db.ObjectId
-  section     CardBoxSection @relation(fields: [sectionId], references: [id])
   sectionId   String         @db.ObjectId
-  createdAt   DateTime       @default(now()) // تاریخ ایجاد
-  updatedAt   DateTime       @updatedAt // تاریخ به‌روزرسانی
+  viewLink    String? // لینک صفحه محصول برای مشاهده
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  car         Car            @relation(fields: [carId], references: [id], onDelete: Cascade)
+  section     CardBoxSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 }

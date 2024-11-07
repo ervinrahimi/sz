@@ -111,8 +111,8 @@ export const salesConditionUserSchema = z.object({
 })
 
 // Define BigInt range constants
-const MAX_BIGINT = BigInt("9223372036854775807") // Max value for BigInt in MongoDB
-const MIN_BIGINT = BigInt("-9223372036854775808")
+const MAX_BIGINT = BigInt('9223372036854775807') // Max value for BigInt in MongoDB
+const MIN_BIGINT = BigInt('-9223372036854775808')
 
 // Validation for New Sales Conditions Form
 export const newSalesConditionSchema = z.object({
@@ -139,7 +139,10 @@ export const newSalesConditionSchema = z.object({
     .string()
     .regex(/^\d+$/, 'پرداخت زمان ثبت‌نام باید فقط شامل اعداد باشد.')
     .transform((val) => BigInt(val))
-    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار پرداخت زمان ثبت‌نام معتبر نیست.')
+    .refine(
+      (val) => val <= MAX_BIGINT && val >= MIN_BIGINT,
+      'مقدار پرداخت زمان ثبت‌نام معتبر نیست.'
+    )
     .optional(),
 
   oneMonthPayment: z
@@ -212,7 +215,10 @@ export const salesConditionSchema = z.object({
     .string()
     .regex(/^\d+$/, 'پرداخت زمان ثبت‌نام باید فقط شامل اعداد باشد.')
     .transform((val) => BigInt(val))
-    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار پرداخت زمان ثبت‌نام معتبر نیست.')
+    .refine(
+      (val) => val <= MAX_BIGINT && val >= MIN_BIGINT,
+      'مقدار پرداخت زمان ثبت‌نام معتبر نیست.'
+    )
     .optional(),
 
   oneMonthPayment: z
@@ -257,7 +263,6 @@ export const salesConditionSchema = z.object({
     )
     .optional(),
 })
-
 
 // For Create User Form
 export const userCreateSchema = z
@@ -345,6 +350,7 @@ export const cardBoxSchema = z.object({
   description: z.string().nonempty('توضیحات الزامی است'),
   carId: z.string().nonempty('انتخاب خودرو الزامی است'),
   sectionId: z.string().nonempty('انتخاب بخش الزامی است'),
+  viewLink: z.string().url('لینک مشاهده باید یک URL معتبر باشد').optional(),
 })
 
 export const cardBoxSectionSchema = z.object({
