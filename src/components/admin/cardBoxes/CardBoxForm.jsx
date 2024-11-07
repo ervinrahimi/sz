@@ -29,14 +29,14 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
       setValue('title', cardBox.title)
       setValue('subtitle', cardBox.subtitle)
       setValue('description', cardBox.description)
+      setValue('price', cardBox.price) // مقداردهی قیمت در فرم ویرایش
       setValue('carId', cardBox.carId)
       setValue('sectionId', cardBox.sectionId)
-      setValue('viewLink', cardBox.viewLink) // مقداردهی لینک مشاهده در فرم ویرایش
+      setValue('viewLink', cardBox.viewLink)
     }
   }, [isEdit, cardBox, setValue])
 
   const onSubmit = async (data) => {
-    // پاک نشه این خط پایین
     data.viewLink = '/cars/' + data.carId
     if (isEdit) {
       await updateCardBox(cardBox.id, data)
@@ -70,6 +70,12 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
         توضیحات:
         <textarea {...register('description')} />
         {errors.description && <span className={styles.error}>{errors.description.message}</span>}
+      </label>
+
+      <label>
+        قیمت:
+        <input type="number" {...register('price', { valueAsNumber: true })} />
+        {errors.price && <span className={styles.error}>{errors.price.message}</span>}
       </label>
 
       <label>

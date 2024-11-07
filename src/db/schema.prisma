@@ -466,6 +466,7 @@ model CardBox {
   title       String // عنوان کارت باکس
   subtitle    String? // زیرعنوان کارت باکس
   description String // توضیحات
+  price       Int // قیمت
   carId       String         @db.ObjectId
   sectionId   String         @db.ObjectId
   viewLink    String? // لینک صفحه محصول برای مشاهده

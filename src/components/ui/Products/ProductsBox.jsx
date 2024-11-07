@@ -57,7 +57,7 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
             </div>
             <div className={styles.priceContainer}>
               <span className={styles.priceNum}>
-                {box.car.price}
+                {box.price}
                 <span>ت</span>
               </span>
             </div>
