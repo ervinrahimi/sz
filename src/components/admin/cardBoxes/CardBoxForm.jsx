@@ -36,6 +36,7 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
   }, [isEdit, cardBox, setValue])
 
   const onSubmit = async (data) => {
+    // پاک نشه این خط پایین
     data.viewLink = '/cars/' + data.carId
     if (isEdit) {
       await updateCardBox(cardBox.id, data)

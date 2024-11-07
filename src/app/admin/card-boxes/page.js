@@ -13,9 +13,7 @@ export default async function CardBoxesPage() {
         },
       },
     },
-    orderBy: {
-      updatedAt: 'desc',
-    },
+    orderBy: { order: 'asc' },
   })  
 
   return (
