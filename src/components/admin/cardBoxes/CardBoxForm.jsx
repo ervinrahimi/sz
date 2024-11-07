@@ -36,6 +36,7 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
   }, [isEdit, cardBox, setValue])
 
   const onSubmit = async (data) => {
+    data.viewLink = '/cars/' + data.carId
     if (isEdit) {
       await updateCardBox(cardBox.id, data)
       toast.success('کارت باکس شما با موفقیت ویرایش شد', { duration: 5000 })
