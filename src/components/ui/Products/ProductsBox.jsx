@@ -13,7 +13,7 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
 
   const handleViewClick = (link) => () => {
     if (link) {
-      router.push(link)
+      router.push()
     } else {
       toast.error('لینک مشاهده موجود نیست')
     }

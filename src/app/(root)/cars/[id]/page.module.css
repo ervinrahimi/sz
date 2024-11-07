@@ -194,7 +194,7 @@
   left: 0;
   top: 0;
   content: ' ';
-  background-image: url(../../../../public/grid.png);
+  background-image: url(../../../../../public/grid.png);
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
