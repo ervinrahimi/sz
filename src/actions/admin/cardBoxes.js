@@ -26,7 +26,7 @@ export async function createCardBox(formData) {
       price: data.price,
       carId: data.carId,
       sectionId: data.sectionId,
-      viewLink: data.viewLink,
+      viewLink: '/cars/' + data.carId, // تنظیم خودکار viewLink
     },
   })
 
@@ -46,7 +46,7 @@ export async function updateCardBox(id, formData) {
       price: data.price,
       carId: data.carId,
       sectionId: data.sectionId,
-      viewLink: data.viewLink,
+      viewLink: '/cars/' + data.carId, // تنظیم خودکار viewLink
     },
   })
 

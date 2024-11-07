@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { createCardBox, updateCardBox } from '@/actions/admin/cardBoxes'
 import { cardBoxSchema } from '@/security/zod/validationSchema'
 import { useRouter } from 'next/navigation'
-import styles from './CardBoxForm.module.css'
+import styles from '@/styles/form.module.css' // اضافه کردن استایل‌ها
 import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 
@@ -29,10 +29,9 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
       setValue('title', cardBox.title)
       setValue('subtitle', cardBox.subtitle)
       setValue('description', cardBox.description)
-      setValue('price', cardBox.price) // مقداردهی قیمت در فرم ویرایش
+      setValue('price', cardBox.price)
       setValue('carId', cardBox.carId)
       setValue('sectionId', cardBox.sectionId)
-      setValue('viewLink', cardBox.viewLink)
     }
   }, [isEdit, cardBox, setValue])
 
@@ -53,40 +52,40 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <label>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+      <label className={styles.formLabel}>
         عنوان کارت باکس:
-        <input type="text" {...register('title')} />
-        {errors.title && <span className={styles.error}>{errors.title.message}</span>}
+        <input type="text" {...register('title')} className={styles.formInput} />
+        {errors.title && <span className={styles.formError}>{errors.title.message}</span>}
       </label>
 
-      <label>
+      <label className={styles.formLabel}>
         عنوان صفت خودرو:
-        <input type="text" {...register('subtitle')} />
-        {errors.subtitle && <span className={styles.error}>{errors.subtitle.message}</span>}
+        <input type="text" {...register('subtitle')} className={styles.formInput} />
+        {errors.subtitle && <span className={styles.formError}>{errors.subtitle.message}</span>}
       </label>
 
-      <label>
+      <label className={styles.formLabel}>
         توضیحات:
-        <textarea {...register('description')} />
-        {errors.description && <span className={styles.error}>{errors.description.message}</span>}
+        <textarea {...register('description')} className={styles.formInput} />
+        {errors.description && (
+          <span className={styles.formError}>{errors.description.message}</span>
+        )}
       </label>
 
-      <label>
+      <label className={styles.formLabel}>
         قیمت:
-        <input type="number" {...register('price', { valueAsNumber: true })} />
-        {errors.price && <span className={styles.error}>{errors.price.message}</span>}
+        <input
+          type="number"
+          {...register('price', { valueAsNumber: true })}
+          className={styles.formInput}
+        />
+        {errors.price && <span className={styles.formError}>{errors.price.message}</span>}
       </label>
 
-      <label>
-        لینک مشاهده:
-        <input type="text" {...register('viewLink')} placeholder="لینک صفحه محصول" />
-        {errors.viewLink && <span className={styles.error}>{errors.viewLink.message}</span>}
-      </label>
-
-      <label>
+      <label className={styles.formLabel}>
         انتخاب خودرو:
-        <select {...register('carId')}>
+        <select {...register('carId')} className={styles.formInput}>
           <option value="">انتخاب کنید</option>
           {cars.map((car) => (
             <option key={car.id} value={car.id}>
@@ -94,12 +93,12 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
             </option>
           ))}
         </select>
-        {errors.carId && <span className={styles.error}>{errors.carId.message}</span>}
+        {errors.carId && <span className={styles.formError}>{errors.carId.message}</span>}
       </label>
 
-      <label>
+      <label className={styles.formLabel}>
         انتخاب بخش:
-        <select {...register('sectionId')}>
+        <select {...register('sectionId')} className={styles.formInput}>
           <option value="">انتخاب کنید</option>
           {sections.map((section) => (
             <option key={section.id} value={section.id}>
@@ -107,13 +106,17 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
             </option>
           ))}
         </select>
-        {errors.sectionId && <span className={styles.error}>{errors.sectionId.message}</span>}
+        {errors.sectionId && <span className={styles.formError}>{errors.sectionId.message}</span>}
       </label>
 
-      <button type="submit">{isEdit ? 'ویرایش' : 'ایجاد'}</button>
-      <button type="button" onClick={handleCancel}>
-        لغو
-      </button>
+      <div className={styles.buttonGroup}>
+        <button type="submit" className={styles.formButton}>
+          {isEdit ? 'ویرایش' : 'ایجاد'}
+        </button>
+        <button type="button" onClick={handleCancel} className={styles.formButton}>
+          لغو
+        </button>
+      </div>
     </form>
   )
 }
