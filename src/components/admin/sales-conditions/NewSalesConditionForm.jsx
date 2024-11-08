@@ -40,6 +40,7 @@ export default function NewSalesConditionForm({ cars }) {
       remainingAtDelivery: '',
       deliveryDate: '',
       participationProfit: '',
+      siteSalesCode: '',
       isLocked: false,
       users: [],
     },
@@ -76,7 +77,11 @@ export default function NewSalesConditionForm({ cars }) {
         <label>نام شرایط:</label>
         <input type="text" {...register('name')} className={styles.formInput} />
         {errors.name && <p className={styles.formError}>{errors.name.message}</p>}
-
+        
+        <label className={styles.formLabel}>کد فروش در سایت:</label>
+        <input type="text" {...register('siteSalesCode')} className={styles.formInput} />
+        {errors.siteSalesCode && <p className={styles.formError}>{errors.siteSalesCode.message}</p>}
+        
         <label>نوع شرایط:</label>
         <select {...register('conditionType')} className={styles.formSelect}>
           <option value="GENERAL">عمومی</option>

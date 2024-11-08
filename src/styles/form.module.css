@@ -152,3 +152,33 @@
     font-size: 14px;
   }
 }
+
+.formStatusButtonGroup {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.buttonStatus {
+  margin-top: 10px;
+  background-color: #c2c2c2;
+  color: rgb(65, 65, 65);
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.buttonStatusActive {
+  margin-top: 10px;
+  background-color: #1c7d7f;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}

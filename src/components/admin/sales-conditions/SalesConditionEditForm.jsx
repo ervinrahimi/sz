@@ -17,6 +17,7 @@ export default function SalesConditionEditForm({ salesCondition }) {
     salesCondition.deliveryDate ? new Date(salesCondition.deliveryDate) : null
   )
   const [isLocked, setIsLocked] = useState(salesCondition.isLocked)
+  const [status, setStatus] = useState(salesCondition.status)
   const router = useRouter()
 
   const handleCheckboxChange = async () => {
@@ -60,6 +61,8 @@ export default function SalesConditionEditForm({ salesCondition }) {
       monthlyInstallment: salesCondition.monthlyInstallment?.toString() || '',
       remainingAtDelivery: salesCondition.remainingAtDelivery?.toString() || '',
       participationProfit: salesCondition.participationProfit?.toString() || '',
+      siteSalesCode: salesCondition.siteSalesCode?.toString()  || '', // فیلد جدید
+      status: salesCondition.status || 'PENDING', // مقدار پیش‌فرض status
     },
   })
 
@@ -70,6 +73,7 @@ export default function SalesConditionEditForm({ salesCondition }) {
   }
 
   const onSubmit = async (data) => {
+    data.status = status // افزودن وضعیت انتخاب‌شده به داده‌های ارسالی
     const res = await updateSalesCondition(data)
     if (res.success) {
       toast.success('اطلاعات با موفقیت به‌روزرسانی شد.', { duration: 5000 })
@@ -78,7 +82,7 @@ export default function SalesConditionEditForm({ salesCondition }) {
     } else {
       toast.error(res.message || 'خطا در به‌روزرسانی اطلاعات.', { duration: 5000 })
     }
-  }
+  }  
 
   return (
     <>
@@ -94,6 +98,10 @@ export default function SalesConditionEditForm({ salesCondition }) {
         <label className={styles.formLabel}>نام شرایط:</label>
         <input type="text" {...register('name')} className={styles.formInput} />
         {errors.name && <p className={styles.formError}>{errors.name.message}</p>}
+
+        <label className={styles.formLabel}>کد فروش در سایت:</label>
+        <input type="text" {...register('siteSalesCode')} className={styles.formInput} />
+        {errors.siteSalesCode && <p className={styles.formError}>{errors.siteSalesCode.message}</p>}
 
         <label className={styles.formLabel}>نوع شرایط:</label>
         <select {...register('conditionType')} className={styles.formSelect}>
@@ -115,7 +123,9 @@ export default function SalesConditionEditForm({ salesCondition }) {
           <option value="PREPAYMENT">علی‌الحساب</option>
           <option value="FIXED">قطعی</option>
         </select>
-        {errors.contractPriceType && <p className={styles.formError}>{errors.contractPriceType.message}</p>}
+        {errors.contractPriceType && (
+          <p className={styles.formError}>{errors.contractPriceType.message}</p>
+        )}
 
         <label className={styles.formLabel}>نوع پرداخت:</label>
         <select {...register('paymentType')} className={styles.formSelect}>
@@ -179,6 +189,37 @@ export default function SalesConditionEditForm({ salesCondition }) {
         {errors.participationProfit && (
           <p className={styles.formError}>{errors.participationProfit.message}</p>
         )}
+
+        <label className={styles.formLabel}>وضعیت:</label>
+        <div className={styles.formStatusButtonGroup}>
+          <button
+            type="button"
+            className={`${styles.buttonStatus} ${
+              status === 'ACTIVE' ? styles.buttonStatusActive : ''
+            }`}
+            onClick={() => setStatus('ACTIVE')}
+          >
+            فعال
+          </button>
+          <button
+            type="button"
+            className={`${styles.buttonStatus} ${
+              status === 'INACTIVE' ? styles.buttonStatusActive : ''
+            }`}
+            onClick={() => setStatus('INACTIVE')}
+          >
+            غیرفعال
+          </button>
+          <button
+            type="button"
+            className={`${styles.buttonStatus} ${
+              status === 'PENDING' ? styles.buttonStatusActive : ''
+            }`}
+            onClick={() => setStatus('PENDING')}
+          >
+            در انتظار
+          </button>
+        </div>
 
         <label className={styles.formLabel}>اختصاص شرایط برای خریداران خاص:</label>
         <input

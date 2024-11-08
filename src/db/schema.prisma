@@ -144,9 +144,9 @@ model TechnicalSpecification {
 
 // مدل شرایط فروش
 model SalesCondition {
-  id                  String            @id @default(auto()) @map("_id") @db.ObjectId
-  car                 Car               @relation(fields: [carId], references: [id], onDelete: Cascade)
-  carId               String            @db.ObjectId
+  id                  String               @id @default(auto()) @map("_id") @db.ObjectId
+  car                 Car                  @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId               String               @db.ObjectId
   name                String // نام شرایط فروش (مثلاً شرایط عمومی 1)
   conditionType       ConditionType // نوع شرایط فروش (عمومی، خاص، سازمانی)
   salesMethod         SalesMethod // روش فروش (نقدی، اقساطی، علی‌الحساب)
@@ -155,17 +155,26 @@ model SalesCondition {
   price               BigInt // قیمت خودرو
   registrationPayment BigInt? // پرداخت زمان ثبت‌نام
   oneMonthPayment     BigInt? // پرداخت یک ماهه
-  totalInstallments   Int? // تعداد اقساط (اینجا نوع Int مناسب است)
+  totalInstallments   BigInt? // تعداد اقساط (اینجا نوع Int مناسب است)
   monthlyInstallment  BigInt? // مبلغ اقساط ماهیانه
   remainingAtDelivery BigInt? // مانده زمان تحویل
+  siteSalesCode       BigInt
   finalPrice          BigInt // قیمت نهایی
   deliveryDate        DateTime? // موعد تحویل
   participationProfit BigInt? // سود مشارکت
-  isLocked            Boolean           @default(false) // نیاز به مجوز
+  status              SalesConditionStatus @default(PENDING) // وضعیت شرایط فروش
+  isLocked            Boolean              @default(false) // نیاز به مجوز
   authorizedUsers     AuthorizedUser[] // کاربران مجاز
   orders              Order[] // سفارش‌ها
-  createdAt           DateTime          @default(now()) // تاریخ ایجاد
-  updatedAt           DateTime          @updatedAt // تاریخ به‌روزرسانی
+  createdAt           DateTime             @default(now()) // تاریخ ایجاد
+  updatedAt           DateTime             @updatedAt // تاریخ به‌روزرسانی
+}
+
+enum SalesConditionStatus {
+  ACTIVE // فعال
+  INACTIVE // غیرفعال
+  DELETED // حذف شده
+  PENDING
 }
 
 // نوع شرایط فروش
