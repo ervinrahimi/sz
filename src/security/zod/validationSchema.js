@@ -327,15 +327,7 @@ export const userSchema = z.object({
 export const vehicleSchema = z.object({
   model: z.string().min(1, 'مدل الزامی است.'),
   name: z.string().min(1, 'نام الزامی است.'),
-  imageFile: z
-    .any()
-    .refine(
-      (files) => !files || files.length === 0 || (files && files[0]?.type?.startsWith('image/')),
-      {
-        message: 'لطفاً یک فایل تصویر معتبر انتخاب کنید.',
-      }
-    )
-    .optional(),
+  // حذف شده: imageFiles و اعتبارسنجی مرتبط
   status: z.enum(['AVAILABLE', 'UNAVAILABLE']),
   appearanceSpecifications: z.array(
     z.object({

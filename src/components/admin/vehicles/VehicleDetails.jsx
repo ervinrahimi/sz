@@ -12,7 +12,8 @@ import { updateVehicle } from '@/actions/admin/vehicles'
 
 export default function VehicleDetails({ vehicle }) {
   const router = useRouter()
-  const [imagePreview, setImagePreview] = useState(vehicle.image || '')
+  const [imageFiles, setImageFiles] = useState([]) // آرایه فایل‌ها
+  const [imagePreviews, setImagePreviews] = useState(vehicle.image || []) // پیش‌نمایش‌های موجود
 
   const {
     register,
@@ -57,22 +58,47 @@ export default function VehicleDetails({ vehicle }) {
   })
 
   const onSubmit = async (data) => {
-    if (imagePreview !== vehicle.image && data.imageFile && data.imageFile.length > 0) {
+    // جمع‌آوری URLهای تصاویر جدید و تصاویر موجود در دیتابیس
+    const existingImageUrls = vehicle.image || []
+    const newImageUrls = []
+    const imagesToUpload = []
+
+    // بررسی و جمع‌آوری فایل‌های جدید برای آپلود
+    imageFiles.forEach((file, index) => {
+      if (typeof file === 'string') {
+        // اگر URL باشد، یعنی تصویر قبلی است و نیازی به آپلود مجدد ندارد
+        newImageUrls.push(file)
+      } else {
+        // اگر فایل جدید باشد، باید آپلود شود
+        imagesToUpload.push(file)
+      }
+    })
+
+    // آپلود تصاویر جدید فقط در صورتی که فایل‌های جدید وجود داشته باشند
+    if (imagesToUpload.length > 0) {
       const formData = new FormData()
-      formData.append('file', data.imageFile[0])
+      imagesToUpload.forEach((file) => formData.append('files', file))
 
-      const res = await fetch('/api/upload/car', {
-        method: 'POST',
-        body: formData,
-      })
-
+      const res = await fetch('/api/upload/car', { method: 'POST', body: formData })
       const uploadData = await res.json()
-      data.imageFile = null
-      data.image = uploadData.url // تغییر به image
-    } else {
-      data.image = vehicle.image // تنظیم تصویر اولیه
+
+      // اضافه کردن URLهای تصاویر آپلود شده به لیست
+      newImageUrls.push(...uploadData.urls)
     }
 
+    // پیدا کردن و حذف تصاویر از دیتابیس که دیگر در لیست وجود ندارند
+    const imagesToDelete = existingImageUrls.filter((url) => !newImageUrls.includes(url))
+    if (imagesToDelete.length > 0) {
+      // ارسال درخواست حذف به سرور برای پاک کردن تصاویر از دیتابیس
+      await fetch('/api/deleteImages', {
+        method: 'POST',
+        body: JSON.stringify({ urls: imagesToDelete }),
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    // تنظیم آرایه تصاویر نهایی
+    data.image = newImageUrls
     data.id = vehicle.id // ارسال id به updateVehicle
 
     const res = await updateVehicle(data)
@@ -87,12 +113,46 @@ export default function VehicleDetails({ vehicle }) {
     }
   }
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0]
-    if (file) {
-      setValue('imageFile', e.target.files)
-      setImagePreview(URL.createObjectURL(file))
+  const moveImageUp = (index) => {
+    if (index > 0) {
+      const newFiles = [...imageFiles]
+      const newPreviews = [...imagePreviews]
+
+      // جابه‌جایی آیتم‌ها
+      ;[newFiles[index - 1], newFiles[index]] = [newFiles[index], newFiles[index - 1]]
+      ;[newPreviews[index - 1], newPreviews[index]] = [newPreviews[index], newPreviews[index - 1]]
+
+      setImageFiles(newFiles)
+      setImagePreviews(newPreviews)
     }
+  }
+
+  const moveImageDown = (index) => {
+    if (index < imageFiles.length - 1) {
+      const newFiles = [...imageFiles]
+      const newPreviews = [...imagePreviews]
+
+      // جابه‌جایی آیتم‌ها
+      ;[newFiles[index + 1], newFiles[index]] = [newFiles[index], newFiles[index + 1]]
+      ;[newPreviews[index + 1], newPreviews[index]] = [newPreviews[index], newPreviews[index + 1]]
+
+      setImageFiles(newFiles)
+      setImagePreviews(newPreviews)
+    }
+  }
+
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files)
+    if (files.length) {
+      const newPreviews = files.map((file) => URL.createObjectURL(file))
+      setImageFiles((prevFiles) => [...prevFiles, ...files]) // افزودن فایل‌ها به آرایه
+      setImagePreviews((prevPreviews) => [...prevPreviews, ...newPreviews]) // افزودن پیش‌نمایش‌ها
+    }
+  }
+
+  const removeImage = (index) => {
+    setImageFiles((prevFiles) => prevFiles.filter((_, i) => i !== index))
+    setImagePreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index))
   }
 
   const handleCancel = () => {
@@ -126,26 +186,32 @@ export default function VehicleDetails({ vehicle }) {
           {errors.imageFile && <p className={styles.formError}>{errors.imageFile.message}</p>}
         </label>
 
-        {imagePreview && (
-          <div>
-            <Image
-              src={imagePreview}
-              alt="پیش‌نمایش تصویر"
-              className={styles.preview}
-              width={100}
-              height={100}
-            />
-            <button
-              type="button"
-              onClick={() => {
-                setImagePreview('')
-                setValue('imageFile', '')
-              }}
-            >
-              حذف تصویر
-            </button>
-          </div>
-        )}
+        <div className={styles.imagePreviewContainer}>
+          {imagePreviews.map((preview, index) => (
+            <div key={index} className={styles.imagePreviewWrapper}>
+              <Image
+                src={preview}
+                alt={`پیش‌نمایش تصویر ${index + 1}`}
+                className={styles.preview}
+                width={100}
+                height={100}
+              />
+              <button type="button" onClick={() => removeImage(index)}>
+                حذف تصویر
+              </button>
+              <button type="button" onClick={() => moveImageUp(index)} disabled={index === 0}>
+                بالا
+              </button>
+              <button
+                type="button"
+                onClick={() => moveImageDown(index)}
+                disabled={index === imagePreviews.length - 1}
+              >
+                پایین
+              </button>
+            </div>
+          ))}
+        </div>
 
         <label className={styles.formLabel}>
           وضعیت:
