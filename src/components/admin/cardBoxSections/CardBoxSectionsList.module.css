@@ -51,6 +51,12 @@
   color: #2a3138;
 }
 
+/* تغییر رنگ ردیف‌های غیرقابل نمایش */
+.hiddenRow {
+  background-color: #ffe6e6;
+  color: #d9534f;
+}
+
 .button {
   background-color: #007bff;
   color: #ffffff;

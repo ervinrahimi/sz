@@ -17,6 +17,9 @@ export default function CardBoxSectionsList({ sections }) {
   const [isProcessing, setIsProcessing] = useState(false)
   const router = useRouter()
 
+  // محدود کردن نمایش به سه بخش اول
+  const visibleSections = sections.slice(0, 3)
+
   const handleDelete = async (id) => {
     if (confirm('آیا از حذف این بخش مطمئن هستید؟')) {
       setIsProcessing(true)
@@ -50,10 +53,12 @@ export default function CardBoxSectionsList({ sections }) {
         <div className={styles.headerCell}>عملیات</div>
       </div>
       <div className={styles.body}>
-        {sections.map((section) => (
-          <div key={section.id} className={styles.row}>
+        {sections.map((section, index) => (
+          <div key={section.id} className={`${styles.row} ${index >= 3 ? styles.hiddenRow : ''}`}>
             <div className={styles.cell}>{section.name}</div>
-            <div className={styles.cell}>{new Date(section.updatedAt).toLocaleDateString('fa-IR')}</div>
+            <div className={styles.cell}>
+              {new Date(section.updatedAt).toLocaleDateString('fa-IR')}
+            </div>
             <div className={styles.cell}>
               <button
                 onClick={() => handleMoveUp(section.id)}
