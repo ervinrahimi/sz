@@ -94,12 +94,13 @@ export async function updateSalesCondition(data) {
 
 // اکشن برای افزودن کاربران مجاز به یک شرایط فروش
 export async function addAuthorizedUser(salesConditionId, user) {
-  const { nationalCode, name, family } = user
+  const { nationalCode, phone, name, family } = user
 
   return await prisma.authorizedUser.create({
     data: {
       salesConditionId,
       nationalCode,
+      phone,
       name,
       family,
     },

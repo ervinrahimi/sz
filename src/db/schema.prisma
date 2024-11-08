@@ -200,6 +200,7 @@ model AuthorizedUser {
   salesCondition   SalesCondition @relation(fields: [salesConditionId], references: [id], onDelete: Cascade)
   salesConditionId String         @db.ObjectId
   nationalCode     String // کد ملی
+  phone            String // شماره تلفن
   name             String? // نام
   family           String? // نام خانوادگی
 }
