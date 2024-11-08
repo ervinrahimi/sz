@@ -12,7 +12,6 @@ import * as z from 'zod'
 export async function createCardBoxSection(formData) {
   const data = cardBoxSectionSchema.parse(formData)
 
-  // پیدا کردن بالاترین مقدار order در بخش‌های موجود
   const maxOrderSection = await prisma.cardBoxSection.findFirst({
     orderBy: { order: 'desc' },
   })
@@ -22,7 +21,7 @@ export async function createCardBoxSection(formData) {
     data: {
       name: data.name,
       subtitle: data.subtitle,
-      order: newOrder, // تنظیم مقدار order برای بخش جدید
+      order: newOrder,
     },
   })
 
@@ -42,11 +41,33 @@ export async function updateCardBoxSection(id, formData) {
   revalidatePath('/admin/card-box-sections')
 }
 
-// حذف بخش
-export async function deleteCardBoxSection(id) {
+// حذف بخش با بررسی وجود کارت‌باکس‌های مرتبط
+export async function deleteCardBoxSection(id, confirmDelete = false) {
+  // ابتدا بررسی کنید که آیا در این بخش کارت‌باکسی وجود دارد یا خیر
+  const section = await prisma.cardBoxSection.findUnique({
+    where: { id },
+    include: { cardBoxes: true },
+  })
+
+  if (!section) throw new Error('بخش مورد نظر یافت نشد')
+
+  // اگر کارت‌باکس‌هایی وجود داشته باشند و تأیید حذف نشده باشد، خطا بدهید
+  if (section.cardBoxes.length > 0 && !confirmDelete) {
+    throw new Error('این بخش شامل کارت‌باکس‌هایی است و نیاز به تأیید حذف دارد.')
+  }
+
+  // اگر تأیید حذف دریافت شده است، ابتدا کارت‌باکس‌ها را حذف کنید
+  if (section.cardBoxes.length > 0 && confirmDelete) {
+    await prisma.cardBox.deleteMany({
+      where: { sectionId: id }, // تغییر `cardBoxSectionId` به `sectionId`
+    })
+  }
+
+  // حذف خود بخش
   await prisma.cardBoxSection.delete({
     where: { id },
   })
+
   revalidatePath('/admin/card-box-sections')
 }
 
@@ -61,7 +82,7 @@ export async function moveSectionUp(sectionId) {
     orderBy: { order: 'desc' },
   })
 
-  if (!higherSection) return // اگر بخش بالاتری نباشد، خروج کنید
+  if (!higherSection) return
 
   await prisma.$transaction([
     prisma.cardBoxSection.update({
@@ -74,7 +95,6 @@ export async function moveSectionUp(sectionId) {
     }),
   ])
 
-  // بازسازی صفحه پس از تغییر ترتیب
   revalidatePath('/admin/card-box-sections')
 }
 
@@ -89,7 +109,7 @@ export async function moveSectionDown(sectionId) {
     orderBy: { order: 'asc' },
   })
 
-  if (!lowerSection) return // اگر بخش پایینی نباشد، خروج کنید
+  if (!lowerSection) return
 
   await prisma.$transaction([
     prisma.cardBoxSection.update({
@@ -102,6 +122,5 @@ export async function moveSectionDown(sectionId) {
     }),
   ])
 
-  // بازسازی صفحه پس از تغییر ترتیب
   revalidatePath('/admin/card-box-sections')
 }

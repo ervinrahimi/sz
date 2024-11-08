@@ -9,7 +9,7 @@ import {
   deleteCardBoxSection,
   moveSectionUp,
   moveSectionDown,
-} from '@/actions/admin/cardBoxSections'
+} from '@/actions/admin/cardBoxSections' // فقط این توابع را وارد کنید
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 
@@ -17,17 +17,29 @@ export default function CardBoxSectionsList({ sections }) {
   const [isProcessing, setIsProcessing] = useState(false)
   const router = useRouter()
 
-  // محدود کردن نمایش به سه بخش اول
-  const visibleSections = sections.slice(0, 3)
-
   const handleDelete = async (id) => {
-    if (confirm('آیا از حذف این بخش مطمئن هستید؟')) {
-      setIsProcessing(true)
-      await deleteCardBoxSection(id)
-      setIsProcessing(false)
-      toast.success('بخش کارت باکس انتخابی شما با موفقیت حذف گردید', { duration: 5000 })
-      router.refresh()
+    setIsProcessing(true)
+
+    try {
+      // تلاش برای حذف بخش، ابتدا با تأیید false
+      await deleteCardBoxSection(id, false)
+      toast.success('بخش با موفقیت حذف گردید', { duration: 5000 })
+    } catch (error) {
+      if (
+        confirm(
+          'این بخش شامل کارت‌باکس‌هایی است. آیا مطمئن هستید که می‌خواهید این بخش و تمام کارت‌باکس‌های مرتبط را حذف کنید؟'
+        )
+      ) {
+        // اگر خطا به دلیل وجود کارت‌باکس‌ها بود و ادمین تأیید کرد، بخش و کارت‌باکس‌ها را حذف کنید
+        await deleteCardBoxSection(id, true)
+        toast.success('بخش و کارت‌باکس‌های مرتبط با موفقیت حذف شدند', { duration: 5000 })
+      } else {
+        toast.error('حذف لغو شد', { duration: 5000 })
+      }
     }
+
+    setIsProcessing(false)
+    router.refresh()
   }
 
   const handleMoveUp = async (id) => {
