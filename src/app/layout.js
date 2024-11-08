@@ -1,10 +1,9 @@
-import { SessionProvider } from 'next-auth/react'
-import { yekanBakh, kahroba, cairo } from '@/fonts/fonts'
-import { auth } from '@/security/auth'
-import { Toaster } from 'react-hot-toast'
-import '@/styles/globals.css'
-import GlobalLoading from '@/components/ui/Loading/GlobalLoading'
+import { yekanBakh, kahroba } from '@/fonts/fonts'
 import { getMenuItems } from '@/actions/admin/menu'
+import { SessionProvider } from 'next-auth/react'
+import { Toaster } from 'react-hot-toast'
+import { auth } from '@/security/auth'
+import '@/styles/globals.css'
 
 export const metadata = {
   title: 'گروه خودرویی سلطان زاده',
@@ -25,7 +24,6 @@ export default async function RootLayout({ children }) {
     <SessionProvider session={session}>
       <html lang="en">
         <body className={`${kahroba.variable} ${yekanBakh.variable} ${yekanBakh.cairo}`}>
-          {/* <GlobalLoading /> */}
           <Toaster
             position="bottom-right"
             toastOptions={{
