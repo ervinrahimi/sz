@@ -12,8 +12,8 @@ import { updateVehicle } from '@/actions/admin/vehicles'
 
 export default function VehicleDetails({ vehicle }) {
   const router = useRouter()
-  const [imageFiles, setImageFiles] = useState([]) // آرایه فایل‌ها
-  const [imagePreviews, setImagePreviews] = useState(vehicle.image || []) // پیش‌نمایش‌های موجود
+  const [imageFiles, setImageFiles] = useState(vehicle.image || []) // شامل تصاویر موجود
+  const [imagePreviews, setImagePreviews] = useState(vehicle.image || [])
 
   const {
     register,
@@ -58,23 +58,20 @@ export default function VehicleDetails({ vehicle }) {
   })
 
   const onSubmit = async (data) => {
-    // جمع‌آوری URLهای تصاویر جدید و تصاویر موجود در دیتابیس
-    const existingImageUrls = vehicle.image || []
     const newImageUrls = []
     const imagesToUpload = []
 
-    // بررسی و جمع‌آوری فایل‌های جدید برای آپلود
-    imageFiles.forEach((file, index) => {
-      if (typeof file === 'string') {
-        // اگر URL باشد، یعنی تصویر قبلی است و نیازی به آپلود مجدد ندارد
-        newImageUrls.push(file)
+    imageFiles.forEach((fileOrUrl) => {
+      if (typeof fileOrUrl === 'string') {
+        // تصویر موجود (URL)
+        newImageUrls.push(fileOrUrl)
       } else {
-        // اگر فایل جدید باشد، باید آپلود شود
-        imagesToUpload.push(file)
+        // تصویر جدید (File)
+        imagesToUpload.push(fileOrUrl)
       }
     })
 
-    // آپلود تصاویر جدید فقط در صورتی که فایل‌های جدید وجود داشته باشند
+    // آپلود تصاویر جدید در صورت وجود
     if (imagesToUpload.length > 0) {
       const formData = new FormData()
       imagesToUpload.forEach((file) => formData.append('files', file))
@@ -82,14 +79,15 @@ export default function VehicleDetails({ vehicle }) {
       const res = await fetch('/api/upload/car', { method: 'POST', body: formData })
       const uploadData = await res.json()
 
-      // اضافه کردن URLهای تصاویر آپلود شده به لیست
+      // اضافه کردن URLهای آپلود شده به newImageUrls
       newImageUrls.push(...uploadData.urls)
     }
 
-    // پیدا کردن و حذف تصاویر از دیتابیس که دیگر در لیست وجود ندارند
+    // پیدا کردن تصاویر برای حذف
+    const existingImageUrls = vehicle.image || []
     const imagesToDelete = existingImageUrls.filter((url) => !newImageUrls.includes(url))
+
     if (imagesToDelete.length > 0) {
-      // ارسال درخواست حذف به سرور برای پاک کردن تصاویر از دیتابیس
       await fetch('/api/deleteImages', {
         method: 'POST',
         body: JSON.stringify({ urls: imagesToDelete }),
@@ -97,9 +95,8 @@ export default function VehicleDetails({ vehicle }) {
       })
     }
 
-    // تنظیم آرایه تصاویر نهایی
     data.image = newImageUrls
-    data.id = vehicle.id // ارسال id به updateVehicle
+    data.id = vehicle.id
 
     const res = await updateVehicle(data)
 
@@ -115,29 +112,31 @@ export default function VehicleDetails({ vehicle }) {
 
   const moveImageUp = (index) => {
     if (index > 0) {
-      const newFiles = [...imageFiles]
-      const newPreviews = [...imagePreviews]
-
-      // جابه‌جایی آیتم‌ها
-      ;[newFiles[index - 1], newFiles[index]] = [newFiles[index], newFiles[index - 1]]
-      ;[newPreviews[index - 1], newPreviews[index]] = [newPreviews[index], newPreviews[index - 1]]
-
-      setImageFiles(newFiles)
-      setImagePreviews(newPreviews)
+      setImageFiles((prevFiles) => {
+        const newFiles = [...prevFiles]
+        ;[newFiles[index - 1], newFiles[index]] = [newFiles[index], newFiles[index - 1]]
+        return newFiles
+      })
+      setImagePreviews((prevPreviews) => {
+        const newPreviews = [...prevPreviews]
+        ;[newPreviews[index - 1], newPreviews[index]] = [newPreviews[index], newPreviews[index - 1]]
+        return newPreviews
+      })
     }
   }
 
   const moveImageDown = (index) => {
     if (index < imageFiles.length - 1) {
-      const newFiles = [...imageFiles]
-      const newPreviews = [...imagePreviews]
-
-      // جابه‌جایی آیتم‌ها
-      ;[newFiles[index + 1], newFiles[index]] = [newFiles[index], newFiles[index + 1]]
-      ;[newPreviews[index + 1], newPreviews[index]] = [newPreviews[index], newPreviews[index + 1]]
-
-      setImageFiles(newFiles)
-      setImagePreviews(newPreviews)
+      setImageFiles((prevFiles) => {
+        const newFiles = [...prevFiles]
+        ;[newFiles[index + 1], newFiles[index]] = [newFiles[index], newFiles[index + 1]]
+        return newFiles
+      })
+      setImagePreviews((prevPreviews) => {
+        const newPreviews = [...prevPreviews]
+        ;[newPreviews[index + 1], newPreviews[index]] = [newPreviews[index], newPreviews[index + 1]]
+        return newPreviews
+      })
     }
   }
 
@@ -145,8 +144,8 @@ export default function VehicleDetails({ vehicle }) {
     const files = Array.from(e.target.files)
     if (files.length) {
       const newPreviews = files.map((file) => URL.createObjectURL(file))
-      setImageFiles((prevFiles) => [...prevFiles, ...files]) // افزودن فایل‌ها به آرایه
-      setImagePreviews((prevPreviews) => [...prevPreviews, ...newPreviews]) // افزودن پیش‌نمایش‌ها
+      setImageFiles((prevFiles) => [...prevFiles, ...files])
+      setImagePreviews((prevPreviews) => [...prevPreviews, ...newPreviews])
     }
   }
 
@@ -180,6 +179,7 @@ export default function VehicleDetails({ vehicle }) {
             className={styles.formFile}
             type="file"
             accept="image/*"
+            multiple // اجازه آپلود چندین تصویر
             onChange={handleImageChange}
           />
           {/* نمایش خطای تصویر در صورت وجود */}
