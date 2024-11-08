@@ -21,6 +21,7 @@ export async function createSalesCondition(data) {
     monthlyInstallment,
     remainingAtDelivery,
     deliveryDate,
+    siteSalesCode,
     participationProfit,
     isLocked,
   } = data
@@ -34,6 +35,7 @@ export async function createSalesCondition(data) {
       contractPriceType, // اضافه کردن به دیتابیس
       paymentType,
       price: parseFloat(price),
+      siteSalesCode,
       finalPrice: parseFloat(finalPrice),
       registrationPayment: registrationPayment ? parseFloat(registrationPayment) : null,
       oneMonthPayment: oneMonthPayment ? parseFloat(oneMonthPayment) : null,
@@ -63,6 +65,8 @@ export async function updateSalesCondition(data) {
     monthlyInstallment,
     remainingAtDelivery,
     finalPrice,
+    status,
+    siteSalesCode,
     deliveryDate,
     participationProfit,
     isLocked,
@@ -77,12 +81,14 @@ export async function updateSalesCondition(data) {
       salesMethod,
       contractPriceType,
       paymentType,
+      siteSalesCode,
       price,
       registrationPayment,
       oneMonthPayment,
       totalInstallments,
       monthlyInstallment,
       remainingAtDelivery,
+      status,
       finalPrice,
       deliveryDate: deliveryDate ? new Date(deliveryDate) : null,
       participationProfit,
@@ -94,12 +100,13 @@ export async function updateSalesCondition(data) {
 
 // اکشن برای افزودن کاربران مجاز به یک شرایط فروش
 export async function addAuthorizedUser(salesConditionId, user) {
-  const { nationalCode, name, family } = user
+  const { nationalCode, phone, name, family } = user
 
   return await prisma.authorizedUser.create({
     data: {
       salesConditionId,
       nationalCode,
+      phone,
       name,
       family,
     },

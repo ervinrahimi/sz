@@ -123,6 +123,20 @@ export const newSalesConditionSchema = z.object({
   contractPriceType: z.enum(['PREPAYMENT', 'FIXED']),
   paymentType: z.enum(['CASH', 'INSTALLMENT', 'PREPAYMENT']),
 
+  siteSalesCode: z
+    .string()
+    .regex(/^\d+$/, 'کد فروش فقط شامل اعداد است!')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار کد فروش معتبر نیست.')
+    .optional(),
+
+  totalInstallments: z
+    .string()
+    .regex(/^\d+$/, 'مبلغ تعداد اقساط ماهیانه باید فقط شامل اعداد باشد.')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار مبلغ اقساط ماهیانه معتبر نیست.')
+    .optional(),
+
   price: z
     .string()
     .regex(/^\d+$/, 'قیمت باید فقط شامل اعداد باشد.')
@@ -198,6 +212,21 @@ export const salesConditionSchema = z.object({
   salesMethod: z.enum(['CASH', 'INSTALLMENT']),
   contractPriceType: z.enum(['PREPAYMENT', 'FIXED']),
   paymentType: z.enum(['CASH', 'INSTALLMENT', 'PREPAYMENT']),
+  status: z.enum(['ACTIVE', 'INACTIVE', 'PENDING']).default('PENDING'),
+
+  siteSalesCode: z
+    .string()
+    .regex(/^\d+$/, 'کد فروش فقط شامل اعداد است!')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار کد فروش معتبر نیست.')
+    .optional(),
+
+  totalInstallments: z
+    .string()
+    .regex(/^\d+$/, 'مبلغ تعداد اقساط ماهیانه باید فقط شامل اعداد باشد.')
+    .transform((val) => BigInt(val))
+    .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار مبلغ اقساط ماهیانه معتبر نیست.')
+    .optional(),
 
   price: z
     .string()
