@@ -104,7 +104,7 @@ model Car {
   model                    String // مدل خودرو (مثلاً M4، T5)
   name                     String // نام خودرو
   isActive                 Boolean                   @default(true)
-  image                    String? // تصویر خودرو
+  image                    String[] // تغییر داده شده به آرایه‌ای از تصاویر
   status                   CarStatus? // وضعیت خودرو (موجود/ناموجود)
   appearanceSpecifications AppearanceSpecification[] // مشخصات ظاهری
   technicalSpecifications  TechnicalSpecification[] // مشخصات فنی

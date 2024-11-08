@@ -12,7 +12,8 @@ import { toast } from 'react-hot-toast'
 
 export default function VehicleCreate() {
   const router = useRouter()
-  const [imagePreview, setImagePreview] = useState('')
+  const [imageFiles, setImageFiles] = useState([]) // مدیریت فایل‌ها به عنوان آرایه
+  const [imagePreviews, setImagePreviews] = useState([]) // پیش‌نمایش تصاویر
 
   const {
     register,
@@ -26,7 +27,7 @@ export default function VehicleCreate() {
     defaultValues: {
       model: '',
       name: '',
-      imageFile: '', // تغییر داده شده به `imageFile`
+      imageFiles: [], // تغییر داده شده به `imageFiles`
       status: 'AVAILABLE',
       appearanceSpecifications: [{ title: '', options: [], isSelectable: true }],
       technicalSpecifications: [{ key: '', value: '', note: '' }],
@@ -51,38 +52,73 @@ export default function VehicleCreate() {
     name: 'technicalSpecifications',
   })
 
-  // استفاده از toast با تنظیم duration برای ماندگاری بیشتر در صفحه
-  const onSubmit = async (data) => {
-    if (data.imageFile && data.imageFile.length > 0) {
-      const formData = new FormData()
-      formData.append('file', data.imageFile[0])
-
-      const res = await fetch('/api/upload/car', {
-        method: 'POST',
-        body: formData,
-      })
-
-      const uploadData = await res.json()
-      data.imageFile = uploadData.url
-    }
-
-    const res = await createVehicle(data)
-
-    if (res.success) {
-      reset()
-      toast.success('خودرو شما با موفقیت اضافه شد!', { duration: 5000 }) // تنظیم مدت زمان به ۵ ثانیه
-      router.push('/admin/vehicles')
-      router.refresh()
-    } else {
-      toast.error('مشکلی در ایجاد خودرو پیش آمد!', { duration: 5000 }) // تنظیم مدت زمان به ۵ ثانیه
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files)
+    if (files.length) {
+      const newPreviews = files.map((file) => URL.createObjectURL(file))
+      setImageFiles((prevFiles) => [...prevFiles, ...files]) // افزودن فایل‌ها به آرایه
+      setImagePreviews((prevPreviews) => [...prevPreviews, ...newPreviews]) // افزودن پیش‌نمایش‌ها به آرایه
     }
   }
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0]
-    if (file) {
-      setValue('imageFile', e.target.files)
-      setImagePreview(URL.createObjectURL(file))
+  const removeImage = (index) => {
+    setImageFiles((prevFiles) => prevFiles.filter((_, i) => i !== index))
+    setImagePreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index))
+  }
+
+  const moveImageUp = (index) => {
+    if (index > 0) {
+      const newFiles = [...imageFiles]
+      const newPreviews = [...imagePreviews]
+
+      // جابه‌جایی آیتم‌ها
+      ;[newFiles[index - 1], newFiles[index]] = [newFiles[index], newFiles[index - 1]]
+      ;[newPreviews[index - 1], newPreviews[index]] = [newPreviews[index], newPreviews[index - 1]]
+
+      setImageFiles(newFiles)
+      setImagePreviews(newPreviews)
+    }
+  }
+
+  const moveImageDown = (index) => {
+    if (index < imageFiles.length - 1) {
+      const newFiles = [...imageFiles]
+      const newPreviews = [...imagePreviews]
+
+      // جابه‌جایی آیتم‌ها
+      ;[newFiles[index + 1], newFiles[index]] = [newFiles[index], newFiles[index + 1]]
+      ;[newPreviews[index + 1], newPreviews[index]] = [newPreviews[index], newPreviews[index + 1]]
+
+      setImageFiles(newFiles)
+      setImagePreviews(newPreviews)
+    }
+  }
+
+  const onSubmit = async (data) => {
+    // اعتبارسنجی دستی برای بررسی اینکه حداقل یک تصویر وجود دارد
+    if (imageFiles.length === 0) {
+      toast.error('لطفاً حداقل یک تصویر انتخاب کنید!', { duration: 5000 })
+      return
+    }
+
+    const formData = new FormData()
+    imageFiles.forEach((file) => formData.append('files', file))
+
+    const res = await fetch('/api/upload/car', { method: 'POST', body: formData })
+    const uploadData = await res.json()
+
+    // اضافه کردن URLهای آپلود شده به داده‌های فرم
+    data.imageFiles = uploadData.urls
+
+    const response = await createVehicle(data)
+
+    if (response.success) {
+      reset()
+      toast.success('خودرو شما با موفقیت اضافه شد!', { duration: 5000 })
+      router.push('/admin/vehicles')
+      router.refresh()
+    } else {
+      toast.error('مشکلی در ایجاد خودرو پیش آمد!', { duration: 5000 })
     }
   }
 
@@ -106,32 +142,39 @@ export default function VehicleCreate() {
             className={styles.formFile}
             type="file"
             accept="image/*"
+            multiple // اجازه آپلود چندین تصویر
             onChange={handleImageChange}
           />
-          {/* نمایش خطای تصویر در صورت وجود */}
-          {errors.imageFile && <p className={styles.formError}>{errors.imageFile.message}</p>}
+          <p>نکته: تصویر اول به عنوان تصویر اصلی قرار می‌گیرد!</p>
+          {errors.imageFiles && <p className={styles.formError}>{errors.imageFiles.message}</p>}
         </label>
 
-        {imagePreview && (
-          <div>
-            <Image
-              src={imagePreview}
-              alt="پیش‌نمایش تصویر"
-              className={styles.preview}
-              width={100}
-              height={100}
-            />
-            <button
-              type="button"
-              onClick={() => {
-                setImagePreview('')
-                setValue('imageFile', '')
-              }}
-            >
-              حذف تصویر
-            </button>
-          </div>
-        )}
+        <div className={styles.imagePreviewContainer}>
+          {imagePreviews.map((preview, index) => (
+            <div key={index} className={styles.imagePreviewWrapper}>
+              <Image
+                src={preview}
+                alt={`پیش‌نمایش تصویر ${index + 1}`}
+                className={styles.preview}
+                width={100}
+                height={100}
+              />
+              <button type="button" onClick={() => removeImage(index)}>
+                حذف تصویر
+              </button>
+              <button type="button" onClick={() => moveImageUp(index)} disabled={index === 0}>
+                بالا
+              </button>
+              <button
+                type="button"
+                onClick={() => moveImageDown(index)}
+                disabled={index === imagePreviews.length - 1}
+              >
+                پایین
+              </button>
+            </div>
+          ))}
+        </div>
 
         <label className={styles.formLabel}>
           وضعیت:
