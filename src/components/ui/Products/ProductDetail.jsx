@@ -22,7 +22,7 @@ export default function ProductDetail({ car }) {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <ProductBigImage address={car?.image || '/default-car-image.webp'} />
+        <ProductBigImage address={car?.image[0] || '/default-car-image.webp'} />
 
         <div className={styles.infoContainer}>
           <span className={styles.leftLine} />
@@ -44,7 +44,7 @@ export default function ProductDetail({ car }) {
                 repeat={Infinity}
               />
             </h4>
-            <Image src={car?.image || '/cars/default.png'} width={1000} height={1000} alt="car" />
+            <Image src={car?.image[0] || '/cars/default.png'} width={1000} height={1000} alt="car" />
           </div>
 
           <div className={styles.information}>
