@@ -21,7 +21,7 @@ const GlobalLoading = () => {
 
   return (
     <div className={styles.loadingContainer}>
-      <div className={styles.container}>
+      <div className={styles.logoContainer}>
         <SoltanZadeLogoSVG className={styles.logo} />
       </div>
       <div className={styles.loader}>
