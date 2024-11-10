@@ -30,16 +30,16 @@ export default async function Home() {
       <div className={styles.container}>
         <MainSlider slides={slidesData} />
 
-        <WideLightPoster />
-
         {cardBoxSections[0] && (
           <ProductsBox
-          key={cardBoxSections[0].id}
-          title={cardBoxSections[0].name}
-          subTitle={cardBoxSections[0].subtitle}
-          cardBoxes={cardBoxSections[0].cardBoxes}
+            key={cardBoxSections[0].id}
+            title={cardBoxSections[0].name}
+            subTitle={cardBoxSections[0].subtitle}
+            cardBoxes={cardBoxSections[0].cardBoxes}
           />
         )}
+
+        <WideLightPoster />
 
         <MiniSlider
           images={{ img1: 't5-sharayet.jpg', img2: 'sx5-sharayet.jpg' }}
