@@ -182,6 +182,7 @@ export default function VehicleDetails({ vehicle }) {
             multiple // اجازه آپلود چندین تصویر
             onChange={handleImageChange}
           />
+          <p>نکته: تصویر اول به عنوان تصویر اصلی قرار می‌گیرد!</p>
           {/* نمایش خطای تصویر در صورت وجود */}
           {errors.imageFile && <p className={styles.formError}>{errors.imageFile.message}</p>}
         </label>
@@ -193,16 +194,16 @@ export default function VehicleDetails({ vehicle }) {
                 src={preview}
                 alt={`پیش‌نمایش تصویر ${index + 1}`}
                 className={styles.preview}
-                width={100}
-                height={100}
+                width={500}
+                height={500}
               />
-              <button type="button" onClick={() => removeImage(index)}>
+              <button className={styles.deleteButton} type="button" onClick={() => removeImage(index)}>
                 حذف تصویر
               </button>
-              <button type="button" onClick={() => moveImageUp(index)} disabled={index === 0}>
+              <button  className={styles.moveButton } type="button" onClick={() => moveImageUp(index)} disabled={index === 0}>
                 بالا
               </button>
-              <button
+              <button  className={styles.moveButton }
                 type="button"
                 onClick={() => moveImageDown(index)}
                 disabled={index === imagePreviews.length - 1}

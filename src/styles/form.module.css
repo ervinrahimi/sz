@@ -215,3 +215,83 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
+.imagePreviewContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.imagePreviewWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 100px;
+  min-height: 100px;
+  max-width: 100px;
+  max-height: 100px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.deleteButton,
+.moveButton {
+  background-color: rgba(255, 255, 255, 0.932);
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  width: 100%;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+
+.deleteButton:hover {
+  background-color: rgba(255, 0, 0, 0.8);
+  color: white;
+}
+
+.moveButton {
+  margin-top: 5px;
+  padding: 10px;
+  width: 100%;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.moveButton:hover {
+  background-color: #1c7d7f;
+  color: white;
+}
+
+.formFile input[type='file'] {
+  display: none;
+}
+
+.formFile label {
+  background-color: #1c7d7f;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.formFile label:hover {
+  background-color: #208d8f;
+}

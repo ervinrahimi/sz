@@ -159,14 +159,15 @@ export default function VehicleCreate() {
                 width={100}
                 height={100}
               />
-              <button type="button" onClick={() => removeImage(index)}>
+              <button type="button" className={styles.deleteButton}  onClick={() => removeImage(index)}>
                 حذف تصویر
               </button>
-              <button type="button" onClick={() => moveImageUp(index)} disabled={index === 0}>
+              <button type="button"  className={styles.moveButton } onClick={() => moveImageUp(index)} disabled={index === 0}>
                 بالا
               </button>
               <button
                 type="button"
+                className={styles.moveButton }
                 onClick={() => moveImageDown(index)}
                 disabled={index === imagePreviews.length - 1}
               >
