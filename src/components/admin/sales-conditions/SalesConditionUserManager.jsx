@@ -80,7 +80,7 @@ export default function SalesConditionUserManager({ salesConditionId, initialUse
     setIsLoading(true)
     setExcelErrors([])
     setHasErrors(false)
-
+  
     const file = data.excelFile[0]
     const reader = new FileReader()
     reader.onload = async (e) => {
@@ -89,20 +89,28 @@ export default function SalesConditionUserManager({ salesConditionId, initialUse
       const sheetName = workbook.SheetNames[0]
       const worksheet = workbook.Sheets[sheetName]
       const jsonData = XLSX.utils.sheet_to_json(worksheet)
-
+  
+      // حذف موارد تکراری در jsonData
+      const uniqueData = jsonData.reduce((acc, user) => {
+        const isDuplicate = acc.some(
+          (existingUser) =>
+            existingUser.nationalCode === user.nationalCode && existingUser.phone === user.phone
+        )
+        return isDuplicate ? acc : [...acc, user]
+      }, [])
+  
       const validationErrors = []
       const errorCounts = { nationalCode: 0, phone: 0, name: 0, family: 0 }
-
-      const parsedData = jsonData.map((user, index) => {
+  
+      const parsedData = uniqueData.map((user, index) => {
         const result = userSchema.safeParse(user)
         const isDuplicate = authorizedUsers.some(
           (existingUser) =>
             existingUser.nationalCode === user.nationalCode || existingUser.phone === user.phone
         )
-    
-        // Assign a temporary id for users without id (e.g., for new preview data)
-        const tempId = `temp-${Date.now()}-${Math.random()}`;
-    
+  
+        const tempId = `temp-${Date.now()}-${Math.random()}`
+  
         if (!result.success || isDuplicate) {
           const errorFields = []
           if (isDuplicate) {
@@ -117,17 +125,17 @@ export default function SalesConditionUserManager({ salesConditionId, initialUse
             })
           }
           validationErrors.push({
-            row: index + 2,
+            row: index + 1, // به روز کردن ردیف برای نمایش
             errors: errorFields,
           })
-          return { ...user, isValid: false, errorFields, id: tempId }
+          return { ...user, isValid: false, errorFields, id: tempId, rowIndex: index + 1 }
         }
-        return { ...user, isValid: true, id: tempId }
+        return { ...user, isValid: true, id: tempId, rowIndex: index + 1 }
       })
-
+  
       setPreviewData(parsedData)
       setHasErrors(validationErrors.length > 0)
-
+  
       if (validationErrors.length > 0) {
         const errorMessages = []
         if (errorCounts.nationalCode) errorMessages.push(`${errorCounts.nationalCode} کد ملی اشتباه وجود دارد`)
@@ -286,10 +294,10 @@ export default function SalesConditionUserManager({ salesConditionId, initialUse
                     <div className={styles.previewContainer}>
                       {previewData.map((user, index) => (
                         <div
-                          key={index}
+                          key={user.id}
                           className={`${styles.previewRow} ${!user.isValid ? styles.invalidRow : ''}`}
                         >
-                          <span>{user.name} {user.family} - {user.phone} - {user.nationalCode}</span>
+                          <span>{user.rowIndex}. {user.name} {user.family} - {user.phone} - {user.nationalCode}</span>
                           {!user.isValid && (
                             <p className={styles.errorDetails}>
                               در این قسمت {user.errorFields.join(' / ')} اشتباه هست
@@ -303,6 +311,8 @@ export default function SalesConditionUserManager({ salesConditionId, initialUse
                     </button>
                   </div>
                 )}
+
+
               </>
             )}
           </div>
