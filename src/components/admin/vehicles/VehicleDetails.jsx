@@ -193,19 +193,21 @@ export default function VehicleDetails({ vehicle }) {
                 src={preview}
                 alt={`پیش‌نمایش تصویر ${index + 1}`}
                 className={styles.preview}
-                width={100}
-                height={100}
+                width={1400}
+                height={1400}
+                quality={100}
               />
-              <button type="button" onClick={() => removeImage(index)}>
+              <button type="button" className={styles.formButton} onClick={() => removeImage(index)}>
                 حذف تصویر
               </button>
-              <button type="button" onClick={() => moveImageUp(index)} disabled={index === 0}>
+              <button type="button" className={styles.formButton} onClick={() => moveImageUp(index)} disabled={index === 0}>
                 بالا
               </button>
               <button
                 type="button"
                 onClick={() => moveImageDown(index)}
                 disabled={index === imagePreviews.length - 1}
+                className={styles.formButton}
               >
                 پایین
               </button>
@@ -328,7 +330,7 @@ export default function VehicleDetails({ vehicle }) {
           <button type="submit" className={styles.formButton}>
             ذخیره
           </button>
-          <button type="button" className={styles.cancelButton} onClick={handleCancel}>
+          <button type="button" className={styles.formButton} onClick={handleCancel}>
             لغو
           </button>
         </div>
