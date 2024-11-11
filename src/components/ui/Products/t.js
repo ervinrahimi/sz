@@ -250,7 +250,7 @@ export default async function ProductPage({ params }) {
               <button onClick={handleToast}>درخواستـ مشاوره</button>
             </div>
           </div>
-          <div className={${styles.line} ${styles.line2}} />
+          {/* <div className={${styles.line} ${styles.line2}} /> */}
         </div>
 
         <ProductsBox title={'محصولات محبوب'} subTitle={'آخرین محصولات فروشگاه'} />

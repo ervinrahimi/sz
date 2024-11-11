@@ -79,58 +79,59 @@ export default function ProductDetail({ car, cardBoxSections }) {
             </div>
           </div>
 
-          {car?.salesConditions.map((condition) => (
-            <>
-              <div className={styles.line} />
-              <div key={condition.id} className={styles.salesBox}>
-                <h5>{condition.name}</h5>
-                <h5>{condition.conditionType}</h5>
-              </div>
-              <div className={styles.information}>
-                <div className={styles.informationGrid}>
-                  <li>
-                    <span>قیمت</span>
-                    <Image src="/dots.png" width={700} height={700} alt="dots" />
-                    <span>{condition.price.toLocaleString()}</span>
-                  </li>
-                  <li>
-                    <span>پرداخت زمان ثبت نام</span>
-                    <Image src="/dots.png" width={700} height={700} alt="dots" />
-                    <span>{condition.registrationPayment?.toLocaleString() || '-'}</span>
-                  </li>
-                  <li>
-                    <span>پرداخت یکماهه</span>
-                    <Image src="/dots.png" width={700} height={700} alt="dots" />
-                    <span>{condition.oneMonthPayment?.toLocaleString() || '-'}</span>
-                  </li>
-                  <li>
-                    <span>مبلغ اقساط ماهیانه</span>
-                    <Image src="/dots.png" width={700} height={700} alt="dots" />
-                    <span>{condition.monthlyInstallment?.toLocaleString() || '-'}</span>
-                  </li>
-                  <li>
-                    <span>قیمت نهایی</span>
-                    <Image src="/dots.png" width={700} height={700} alt="dots" />
-                    <span>{condition.finalPrice.toLocaleString()}</span>
-                  </li>
-                  <li>
-                    <span>موعد تحویل</span>
-                    <Image src="/dots.png" width={700} height={700} alt="dots" />
-                    <span>{condition.deliveryDate?.toLocaleDateString() || '-'}</span>
-                  </li>
+          {car?.salesConditions
+            .filter((condition) => condition.status === 'ACTIVE') // فیلتر شرایط فروش فعال
+            .map((condition) => (
+              <div key={condition.id}>
+                <div className={styles.line} />
+                <div className={styles.salesBox}>
+                  <h5>{condition.name}</h5>
+                  <h5>{condition.conditionType}</h5>
                 </div>
-                <div className={styles.actionButton}>
-                  <button onClick={() => handleShopping(car.name)}>ثبت سفارش</button>
-                  <button onClick={handleToast}>درخواست مشاوره</button>
+                <div className={styles.information}>
+                  <div className={styles.informationGrid}>
+                    <li>
+                      <span>قیمت</span>
+                      <Image src="/dots.png" width={700} height={700} alt="dots" />
+                      <span>{condition.price.toLocaleString()}</span>
+                    </li>
+                    <li>
+                      <span>پرداخت زمان ثبت نام</span>
+                      <Image src="/dots.png" width={700} height={700} alt="dots" />
+                      <span>{condition.registrationPayment?.toLocaleString() || '-'}</span>
+                    </li>
+                    <li>
+                      <span>پرداخت یکماهه</span>
+                      <Image src="/dots.png" width={700} height={700} alt="dots" />
+                      <span>{condition.oneMonthPayment?.toLocaleString() || '-'}</span>
+                    </li>
+                    <li>
+                      <span>مبلغ اقساط ماهیانه</span>
+                      <Image src="/dots.png" width={700} height={700} alt="dots" />
+                      <span>{condition.monthlyInstallment?.toLocaleString() || '-'}</span>
+                    </li>
+                    <li>
+                      <span>قیمت نهایی</span>
+                      <Image src="/dots.png" width={700} height={700} alt="dots" />
+                      <span>{condition.finalPrice.toLocaleString()}</span>
+                    </li>
+                    <li>
+                      <span>موعد تحویل</span>
+                      <Image src="/dots.png" width={700} height={700} alt="dots" />
+                      <span>{condition.deliveryDate?.toLocaleDateString() || '-'}</span>
+                    </li>
+                  </div>
+                  <div className={styles.actionButton}>
+                    <button onClick={() => handleShopping(car.name)}>ثبت سفارش</button>
+                    <button onClick={handleToast}>درخواست مشاوره</button>
+                  </div>
                 </div>
               </div>
-            </>
-          ))}
+            ))}
 
           <div className={styles.line} />
         </div>
 
-        {/* نمایش cardBoxSections در ProductsBox */}
         {cardBoxSections[0] && (
           <ProductsBox
             key={cardBoxSections[0].id}
