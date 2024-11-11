@@ -1,3 +1,4 @@
+// components/ui/Products/ProductDetail.js
 'use client'
 
 import ProductBigImage from '@/components/ui/Products/ProductBigImage'
@@ -8,7 +9,7 @@ import Image from 'next/image'
 import { TypeAnimation } from 'react-type-animation'
 import { useRouter } from 'next/navigation'
 
-export default function ProductDetail({ car }) {
+export default function ProductDetail({ car, cardBoxSections }) {
   const router = useRouter()
 
   const handleToast = () => {
@@ -128,7 +129,16 @@ export default function ProductDetail({ car }) {
 
           <div className={styles.line} />
         </div>
-        <ProductsBox title={'محصولات محبوب'} subTitle={'آخرین محصولات فروشگاه'} />
+
+        {/* نمایش cardBoxSections در ProductsBox */}
+        {cardBoxSections[0] && (
+          <ProductsBox
+            key={cardBoxSections[0].id}
+            title={cardBoxSections[0].name}
+            subTitle={cardBoxSections[0].subtitle}
+            cardBoxes={cardBoxSections[0].cardBoxes}
+          />
+        )}
       </div>
     </div>
   )
