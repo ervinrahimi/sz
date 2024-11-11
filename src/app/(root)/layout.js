@@ -7,7 +7,6 @@ import { auth } from '@/security/auth'
 
 export default async function RootLayout({ children }) {
   const menuItems = await getMenuItems()
-
   const session = await auth()
 
   return (

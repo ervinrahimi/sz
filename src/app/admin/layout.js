@@ -3,8 +3,8 @@
 import HamburgerSidebar from '@/components/admin/sidebar/HamburgerSidebar'
 import Sidebar from '@/components/admin/sidebar/Sidebar'
 import { ROUTES } from '@/constants/routes'
-import { auth } from '@/security/auth'
 import { redirect } from 'next/navigation'
+import { auth } from '@/security/auth'
 import '@/styles/admin.css'
 
 export const metadata = {

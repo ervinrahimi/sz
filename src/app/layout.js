@@ -1,5 +1,4 @@
 import { yekanBakh, kahroba } from '@/fonts/fonts'
-import { getMenuItems } from '@/actions/admin/menu'
 import { SessionProvider } from 'next-auth/react'
 import { Toaster } from 'react-hot-toast'
 import { auth } from '@/security/auth'
@@ -11,14 +10,7 @@ export const metadata = {
 }
 
 export default async function RootLayout({ children }) {
-  const menuItems = await getMenuItems()
-
   const session = await auth()
-
-  // // بررسی نقش کاربر
-  // if (!session || session.user.role !== 1) {
-  //   return <div className={styles.unauthorized}>دسترسی غیرمجاز</div>
-  // }
 
   return (
     <SessionProvider session={session}>
