@@ -48,7 +48,7 @@ export default function ProductDetail({ car, cardBoxSections }) {
             <Image src={car?.image || '/cars/default.png'} width={1000} height={1000} alt="car" />
           </div>
 
-          <div className={styles.information}>
+          {/* <div className={styles.information}>
             <h3>مشخصات فنی</h3>
             <div className={styles.informationGrid}>
               {car?.technicalSpecifications.map((spec) => (
@@ -77,7 +77,7 @@ export default function ProductDetail({ car, cardBoxSections }) {
                 </li>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {car?.salesConditions.map((condition) => (
             <>
