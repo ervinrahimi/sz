@@ -4,16 +4,20 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { createCardBox, updateCardBox } from '@/actions/admin/cardBoxes'
+import { createCardBox, updateCardBox, deleteCatalogFile } from '@/actions/admin/cardBoxes'
 import { cardBoxSchema } from '@/security/zod/validationSchema'
 import { useRouter } from 'next/navigation'
-import styles from '@/styles/form.module.css' // اضافه کردن استایل‌ها
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
+import styles from '@/styles/form.module.css'
+import Image from 'next/image'
 
 export default function CardBoxForm({ cardBox, cars, sections }) {
   const isEdit = !!cardBox
   const router = useRouter()
+  const [catalogFile, setCatalogFile] = useState(null)
+  const [hasCatalog, setHasCatalog] = useState(!!cardBox?.catalogUrl)
+  const [previewUrl, setPreviewUrl] = useState(cardBox?.catalogUrl || null)
 
   const {
     register,
@@ -35,13 +39,40 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
     }
   }, [isEdit, cardBox, setValue])
 
+  const handleCatalogChange = (e) => {
+    const file = e.target.files[0]
+    setCatalogFile(file)
+    if (file && file.type.startsWith('image/')) {
+      setPreviewUrl(URL.createObjectURL(file)) // نمایش پیش‌نمایش برای تصاویر
+    } else {
+      setPreviewUrl(null) // عدم نمایش پیش‌نمایش برای فایل‌های غیرتصویری
+    }
+  }
+
+  const handleCatalogDelete = async () => {
+    try {
+      await deleteCatalogFile(cardBox.id)
+      setHasCatalog(false)
+      setPreviewUrl(null)
+      setCatalogFile(null)
+      toast.success('کاتالوگ با موفقیت حذف شد')
+    } catch (error) {
+      toast.error('حذف کاتالوگ با مشکل مواجه شد')
+    }
+  }
+
   const onSubmit = async (data) => {
-    data.viewLink = '/cars/' + data.carId
+    const formData = new FormData()
+    Object.keys(data).forEach((key) => formData.append(key, data[key]))
+    if (catalogFile) {
+      formData.append('catalogFile', catalogFile)
+    }
+
     if (isEdit) {
-      await updateCardBox(cardBox.id, data)
+      await updateCardBox(cardBox.id, formData)
       toast.success('کارت باکس شما با موفقیت ویرایش شد', { duration: 5000 })
     } else {
-      await createCardBox(data)
+      await createCardBox(formData)
       toast.success('کارت باکس شما با موفقیت ساخته شد', { duration: 5000 })
     }
     router.push('/admin/card-boxes')
@@ -108,6 +139,35 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
         </select>
         {errors.sectionId && <span className={styles.formError}>{errors.sectionId.message}</span>}
       </label>
+
+      <label className={styles.formLabel}>
+        آپلود کاتالوگ:
+        <input type="file" onChange={handleCatalogChange} accept="image/*,application/pdf" />
+      </label>
+
+      {/* نمایش فایل آپلود شده */}
+      {previewUrl && (
+        <div className={styles.filePreviewContainer}>
+          {previewUrl.endsWith('.pdf') ? (
+            <div className={styles.fileInfoContainer}>
+              <span>📄</span> {/* آیکن فایل PDF */}
+              <a href={previewUrl} target="_blank" rel="noopener noreferrer">
+                {catalogFile ? catalogFile.name : 'کاتالوگ فعلی'}
+              </a>
+              <button type="button" onClick={handleCatalogDelete} className={styles.deleteButton}>
+                حذف کاتالوگ
+              </button>
+            </div>
+          ) : (
+            <div className={styles.fileInfoContainer}>
+              <Image src={previewUrl} alt="پیش‌نمایش کاتالوگ" className={styles.previewImage} />
+              <button type="button" onClick={handleCatalogDelete} className={styles.deleteButton}>
+                حذف کاتالوگ
+              </button>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className={styles.buttonGroup}>
         <button type="submit" className={styles.formButton}>

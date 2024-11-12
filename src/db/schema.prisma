@@ -480,6 +480,7 @@ model CardBox {
   carId       String         @db.ObjectId
   sectionId   String         @db.ObjectId
   viewLink    String? // لینک صفحه محصول برای مشاهده
+  catalogUrl  String? // مسیر فایل کاتالوگ
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
   car         Car            @relation(fields: [carId], references: [id], onDelete: Cascade)
