@@ -63,10 +63,10 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
             </div>
             <div className={styles.actionBox}>
               <button className={styles.actionButton} onClick={handleViewClick(box.viewLink)}>
-                مشاهده
+                شرایط فروش
               </button>
               <button className={styles.actionButton} onClick={handleCartClick}>
-                سبد خرید
+                کاتالوگ
               </button>
             </div>
           </div>
