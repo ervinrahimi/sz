@@ -51,7 +51,7 @@
   margin-bottom: 15px;
   text-align: center;
   color: #333;
-margin-top: 5px;
+  margin-top: 5px;
   font-family: var(--font-kahroba);
   font-variation-settings: 'wdth' 100, 'wght' 750, 'CNTR' 40;
 }
@@ -77,14 +77,12 @@ margin-top: 5px;
   color: #333;
 }
 
-.checkboxContainer input[type="checkbox"] {
+.checkboxContainer input[type='checkbox'] {
   position: relative;
   margin-left: 10px;
   transform: scale(1.2);
   top: 1.7px;
 }
-
-
 
 .link {
   width: 100%;
@@ -133,8 +131,6 @@ margin-top: 5px;
   font-size: 1rem;
 }
 
-
-
 .submitButton {
   font-family: var(--font-kahroba);
   font-variation-settings: 'wdth' 100, 'wght' 750, 'CNTR' 40;
@@ -149,7 +145,6 @@ margin-top: 5px;
   font-size: 1rem;
   transition: background-color 0.3s ease;
   font-size: 15px;
-
 }
 
 .submitButton:hover {
