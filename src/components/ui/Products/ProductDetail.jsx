@@ -8,8 +8,17 @@ import toast from 'react-hot-toast'
 import Image from 'next/image'
 import { TypeAnimation } from 'react-type-animation'
 import { useRouter } from 'next/navigation'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { FreeMode, Navigation, Thumbs } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/free-mode'
+import 'swiper/css/navigation'
+import 'swiper/css/thumbs'
+import './StyleProductDetail.css'
+import { useState } from 'react'
 
 export default function ProductDetail({ car, cardBoxSections }) {
+  const [thumbsSwiper, setThumbsSwiper] = useState(null)
   const router = useRouter()
 
   const handleToast = () => {
@@ -20,10 +29,13 @@ export default function ProductDetail({ car, cardBoxSections }) {
     router.push(`/cart/shopping?carName=${carName}`, { scroll: true })
   }
 
+  const carImages = car?.image || []
+  const hasMultipleImages = carImages.length > 1
+
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <ProductBigImage address={car?.image[0] || '/default-car-image.webp'} />
+        <ProductBigImage address={carImages[0] || '/default-car-image.webp'} />
 
         <div className={styles.infoContainer}>
           <span className={styles.leftLine} />
@@ -45,10 +57,49 @@ export default function ProductDetail({ car, cardBoxSections }) {
                 repeat={Infinity}
               />
             </h4>
-            <Image src={car?.image[0] || '/cars/default.png'} width={1000} height={1000} alt="car" />
+            <Image src={carImages[0] || '/cars/default.png'} width={1000} height={1000} alt="car" />
           </div>
 
-          {/* <div className={styles.information}>
+          {/* Conditional Swiper Slider for additional images */}
+          {hasMultipleImages && (
+            <>
+              <Swiper
+                style={{
+                  '--swiper-navigation-color': '#fff',
+                  '--swiper-pagination-color': '#fff',
+                }}
+                loop={true}
+                spaceBetween={10}
+                thumbs={{ swiper: thumbsSwiper }}
+                modules={[FreeMode, Navigation, Thumbs]}
+                className="mySwiper2"
+              >
+                {carImages.slice(1).map((image, index) => (
+                  <SwiperSlide key={index}>
+                    <img src={image} alt={`Car image ${index + 2}`} className="mySwiperImage1" />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              <Swiper
+                onSwiper={setThumbsSwiper}
+                loop={true}
+                spaceBetween={10}
+                slidesPerView={4}
+                freeMode={true}
+                watchSlidesProgress={true}
+                modules={[FreeMode, Navigation, Thumbs]}
+                className="mySwiper"
+              >
+                {carImages.slice(1).map((image, index) => (
+                  <SwiperSlide key={index}>
+                    <img src={image} alt={`Thumbnail ${index + 2}`} className="mySwiperImage2" />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </>
+          )}
+
+          <div className={styles.information}>
             <h3>مشخصات فنی</h3>
             <div className={styles.informationGrid}>
               {car?.technicalSpecifications.map((spec) => (
@@ -77,8 +128,9 @@ export default function ProductDetail({ car, cardBoxSections }) {
                 </li>
               ))}
             </div>
-          </div> */}
+          </div>
 
+          {/* Sales Conditions */}
           {car?.salesConditions.map((condition) => (
             <>
               <div className={styles.line} />

@@ -60,12 +60,6 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
               <div className={styles.line}>
                 <span></span>
               </div>
-              <div className={styles.priceContainer}>
-                <span className={styles.priceNum}>
-                  {box.price}
-                  <span>ت</span>
-                </span>
-              </div>
               <div className={styles.actionBox}>
                 <button className={styles.actionButton} onClick={handleViewClick(box.viewLink)}>
                   شرایط فروش
