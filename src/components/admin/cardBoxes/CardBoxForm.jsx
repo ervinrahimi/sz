@@ -160,7 +160,7 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
             </div>
           ) : (
             <div className={styles.fileInfoContainer}>
-              <Image src={previewUrl} alt="پیش‌نمایش کاتالوگ" className={styles.previewImage} />
+              <Image src={previewUrl} alt="پیش‌نمایش کاتالوگ" className={styles.previewImage} width={100} height={100} />
               <button type="button" onClick={handleCatalogDelete} className={styles.deleteButton}>
                 حذف کاتالوگ
               </button>
