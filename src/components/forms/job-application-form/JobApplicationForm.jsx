@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'react-hot-toast'
 import styles from './JobApplicationForm.module.css'
 import { SoltanZadeLogoSVG } from '@/assets/svgs/Logos/Logos'
+import { ROUTES } from '@/constants/routes'
 
 const jobApplicationSchema = z.object({
   fullName: z.string().min(2, 'نام باید حداقل ۲ کاراکتر باشد'),
@@ -17,7 +18,7 @@ const jobApplicationSchema = z.object({
   phone: z.string().min(10, 'شماره تلفن معتبر نیست'),
   position: z.string().min(1, 'لطفا موقعیت شغلی را انتخاب کنید'),
   coverLetter: z.string().min(10, 'معرفی‌نامه باید حداقل ۱۰ کاراکتر باشد'),
-  linkedIn: z.string().url('لینک نامعتبر است').optional(),
+  linkedIn: z.string().optional(),
 })
 
 export default function JobApplicationForm() {
@@ -50,6 +51,10 @@ export default function JobApplicationForm() {
     } catch (error) {
       toast.error('مشکلی پیش آمده است')
     }
+  }
+
+  const handelClick = () => {
+    router.push(ROUTES.ROOT.MAIN)
   }
 
   return (
@@ -121,6 +126,10 @@ export default function JobApplicationForm() {
         <button type="submit" disabled={isSubmitting} className={styles.button}>
           ارسال درخواست
         </button>
+
+        <p onClick={handelClick} className={styles.backButton}>
+          بازگشت به صفحه اصلی
+        </p>
       </form>
     </div>
   )
