@@ -166,6 +166,7 @@ model SalesCondition {
   isLocked            Boolean              @default(false) // نیاز به مجوز
   authorizedUsers     AuthorizedUser[] // کاربران مجاز
   orders              Order[] // سفارش‌ها
+  images              String[] // فیلد جدید برای ذخیره لینک تصاویر آپلود شده
   createdAt           DateTime             @default(now()) // تاریخ ایجاد
   updatedAt           DateTime             @updatedAt // تاریخ به‌روزرسانی
 }
