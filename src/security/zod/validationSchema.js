@@ -327,20 +327,19 @@ export const userSchema = z.object({
 export const vehicleSchema = z.object({
   model: z.string().min(1, 'مدل الزامی است.'),
   name: z.string().min(1, 'نام الزامی است.'),
-  // حذف شده: imageFiles و اعتبارسنجی مرتبط
   status: z.enum(['AVAILABLE', 'UNAVAILABLE']),
   appearanceSpecifications: z.array(
     z.object({
       title: z.string().min(1, 'عنوان الزامی است.'),
-      options: z.array(z.string().min(1, 'مقدار نمی‌تواند خالی باشد.')),
-      isSelectable: z.boolean(),
+      value: z.string().min(1, 'مقدار الزامی است.'), // مقدار به عنوان اجباری
+      note: z.string().optional(), // یادداشت اختیاری
     })
   ),
   technicalSpecifications: z.array(
     z.object({
       key: z.string().min(1, 'ویژگی الزامی است.'),
       value: z.string().min(1, 'مقدار الزامی است.'),
-      note: z.string().optional(),
+      note: z.string().optional(), // یادداشت اختیاری
     })
   ),
 })

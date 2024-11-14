@@ -30,7 +30,7 @@ export default function VehicleDetails({ vehicle }) {
       name: vehicle.name || '',
       status: vehicle.status || 'AVAILABLE',
       appearanceSpecifications: vehicle.appearanceSpecifications || [
-        { title: '', options: [''], isSelectable: true },
+        { title: '', value: '', note: '' },
       ],
       technicalSpecifications: vehicle.technicalSpecifications || [
         { key: '', value: '', note: '' },
@@ -198,13 +198,23 @@ export default function VehicleDetails({ vehicle }) {
                 height={1400}
                 quality={100}
               />
-              <button type="button" className={styles.formButton} onClick={() => removeImage(index)}>
+              <button
+                type="button"
+                className={styles.formButton}
+                onClick={() => removeImage(index)}
+              >
                 حذف تصویر
               </button>
-              <button type="button" className={styles.formButton} onClick={() => moveImageUp(index)} disabled={index === 0}>
+              <button
+                type="button"
+                className={styles.formButton}
+                onClick={() => moveImageUp(index)}
+                disabled={index === 0}
+              >
                 بالا
               </button>
-              <button  className={styles.formButton }
+              <button
+                className={styles.formButton}
                 type="button"
                 onClick={() => moveImageDown(index)}
                 disabled={index === imagePreviews.length - 1}
@@ -233,21 +243,23 @@ export default function VehicleDetails({ vehicle }) {
                 {...register(`appearanceSpecifications.${index}.title`)}
                 className={styles.formInput}
               />
-              {errors.appearanceSpecifications?.[index]?.title && (
-                <p className={styles.formError}>
-                  {errors.appearanceSpecifications[index].title.message}
-                </p>
-              )}
             </label>
             <label className={styles.formLabel}>
-              قابل انتخاب بودن:
+              مقدار:
               <input
-                type="checkbox"
-                {...register(`appearanceSpecifications.${index}.isSelectable`)}
-                className={styles.checkbox}
+                type="text"
+                {...register(`appearanceSpecifications.${index}.value`)}
+                className={styles.formInput}
               />
             </label>
-
+            <label className={styles.formLabel}>
+              یادداشت:
+              <input
+                type="text"
+                {...register(`appearanceSpecifications.${index}.note`)}
+                className={styles.formInput}
+              />
+            </label>
             {index > 0 && (
               <button
                 type="button"
@@ -259,10 +271,9 @@ export default function VehicleDetails({ vehicle }) {
             )}
           </div>
         ))}
-
         <button
           type="button"
-          onClick={() => appendAppearance({ title: '', options: [], isSelectable: true })}
+          onClick={() => appendAppearance({ title: '', value: '', note: '' })}
           className={styles.formButton}
         >
           افزودن مشخصات ظاهری

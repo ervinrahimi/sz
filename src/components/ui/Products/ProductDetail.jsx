@@ -76,7 +76,7 @@ export default function ProductDetail({ car, cardBoxSections }) {
               >
                 {carImages.slice(1).map((image, index) => (
                   <SwiperSlide key={index}>
-                    <img src={image} alt={`Car image ${index + 2}`} className="mySwiperImage1" />
+                    <Image src={image} alt={`Car image ${index + 2}`} className="mySwiperImage1" height={100} width={100} />
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -92,7 +92,7 @@ export default function ProductDetail({ car, cardBoxSections }) {
               >
                 {carImages.slice(1).map((image, index) => (
                   <SwiperSlide key={index}>
-                    <img src={image} alt={`Thumbnail ${index + 2}`} className="mySwiperImage2" />
+                    <Image src={image} alt={`Thumbnail ${index + 2}`} className="mySwiperImage2" height={100} width={100}/>
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -124,7 +124,8 @@ export default function ProductDetail({ car, cardBoxSections }) {
                 <li key={spec.id} className={styles.subMargin}>
                   <span>{spec.title}</span>
                   <Image src="/dots.png" width={700} height={700} alt="dots" />
-                  <span>{spec.options.join(', ')}</span>
+                  <span>{spec.value || spec.options.join(', ')}</span>{' '}
+                  {/* نمایش مقدار انتخاب‌شده */}
                 </li>
               ))}
             </div>

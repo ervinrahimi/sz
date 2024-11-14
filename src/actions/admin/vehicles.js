@@ -8,17 +8,19 @@ import prisma from '@/db/client'
 export async function createVehicle(data) {
   const { model, name, imageFiles, status, appearanceSpecifications, technicalSpecifications } =
     data
+
+  // ایجاد خودرو جدید با مشخصات ظاهری و فنی
   const newVehicle = await prisma.car.create({
     data: {
       model,
       name,
-      image: imageFiles, // ذخیره آرایه URLها
+      image: imageFiles, // ذخیره URLهای تصاویر
       status,
       appearanceSpecifications: {
         create: appearanceSpecifications.map((spec) => ({
           title: spec.title,
-          options: spec.options,
-          isSelectable: spec.isSelectable,
+          value: spec.value || '', // مقدار انتخاب‌شده توسط کاربر
+          note: spec.note || '', // یادداشت اختیاری
         })),
       },
       technicalSpecifications: {
@@ -30,6 +32,7 @@ export async function createVehicle(data) {
       },
     },
   })
+
   return { success: true, data: newVehicle }
 }
 
@@ -37,24 +40,24 @@ export async function createVehicle(data) {
 export async function updateVehicle(data) {
   const { id, model, name, image, status, appearanceSpecifications, technicalSpecifications } = data
 
-  // به‌روزرسانی خودرو
+  // به‌روزرسانی خودرو با حذف مشخصات قبلی و افزودن مشخصات جدید
   const updatedVehicle = await prisma.car.update({
     where: { id },
     data: {
       model,
       name,
-      image, // ذخیره آرایه URLهای به‌روزرسانی‌شده
+      image, // ذخیره URLهای تصاویر به‌روزرسانی‌شده
       status,
       appearanceSpecifications: {
-        deleteMany: {}, // حذف مشخصات قبلی
+        deleteMany: {}, // حذف تمامی مشخصات ظاهری قبلی
         create: appearanceSpecifications.map((spec) => ({
           title: spec.title,
-          options: spec.options,
-          isSelectable: spec.isSelectable,
+          value: spec.value || '', // مقدار انتخاب‌شده توسط کاربر
+          note: spec.note || '', // یادداشت اختیاری
         })),
       },
       technicalSpecifications: {
-        deleteMany: {}, // حذف مشخصات قبلی
+        deleteMany: {}, // حذف تمامی مشخصات فنی قبلی
         create: technicalSpecifications.map((spec) => ({
           key: spec.key,
           value: spec.value,

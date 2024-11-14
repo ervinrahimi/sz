@@ -124,12 +124,12 @@ enum CarStatus {
 
 // مدل مشخصات ظاهری
 model AppearanceSpecification {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  car          Car      @relation(fields: [carId], references: [id], onDelete: Cascade)
-  carId        String   @db.ObjectId
-  title        String // عنوان (مثلاً رنگ)
-  options      String[] // لیست مقادیر قابل انتخاب
-  isSelectable Boolean  @default(true) // قابل انتخاب بودن توسط کاربر
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  car   Car     @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId String  @db.ObjectId
+  title String // عنوان (مثلاً رنگ)
+  value String? // مقدار انتخاب شده توسط کاربر (فیلد جدید)
+  note  String?
 }
 
 // مدل مشخصات فنی
