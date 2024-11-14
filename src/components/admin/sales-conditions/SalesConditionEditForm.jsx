@@ -25,7 +25,7 @@ export default function SalesConditionEditForm({ salesCondition }) {
   const [isLocked, setIsLocked] = useState(salesCondition.isLocked)
   const [status, setStatus] = useState(salesCondition.status)
   const [images, setImages] = useState(
-    salesCondition.images.map((imgUrl) => ({ preview: imgUrl, isUploaded: true }))
+    salesCondition.images?.map((imgUrl) => ({ preview: imgUrl, isUploaded: true }))
   ) // مدیریت تصاویر
   const router = useRouter()
 
@@ -83,7 +83,7 @@ export default function SalesConditionEditForm({ salesCondition }) {
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files)
     const validFiles = files.filter((file) => /(\.jpg|\.jpeg|\.png)$/i.test(file.name))
-    const newImages = validFiles.map((file) => ({
+    const newImages = validFiles?.map((file) => ({
       file,
       preview: URL.createObjectURL(file),
       isUploaded: false,
@@ -290,7 +290,7 @@ export default function SalesConditionEditForm({ salesCondition }) {
       {errors.images && <p className={styles.formError}>{errors.images.message}</p>}
 
       <div className={styles.previewContainer}>
-        {images.map((image, index) => (
+        {images?.map((image, index) => (
           <div key={index} className={styles.imageWrapper}>
             <Image
               width={150}

@@ -102,7 +102,7 @@ export default function SalesConditionUserManager({ salesConditionId, initialUse
       const validationErrors = []
       const errorCounts = { nationalCode: 0, phone: 0, name: 0, family: 0 }
   
-      const parsedData = uniqueData.map((user, index) => {
+      const parsedData = uniqueData?.map((user, index) => {
         const result = userSchema.safeParse(user)
         const isDuplicate = authorizedUsers.some(
           (existingUser) =>
@@ -197,7 +197,7 @@ export default function SalesConditionUserManager({ salesConditionId, initialUse
           <div className={styles.headerCell}>عملیات</div>
         </div>
         <div className={styles.body}>
-          {authorizedUsers.map((user) => (
+          {authorizedUsers?.map((user) => (
             <div key={user.id} className={styles.row}>
               <div className={styles.cell}>
                 {user.name} {user.family}
@@ -282,7 +282,7 @@ export default function SalesConditionUserManager({ salesConditionId, initialUse
                   <div className={styles.errorBox}>
                     <h4>خطاهای فایل</h4>
                     <ul>
-                      {excelErrors.map((error, index) => (
+                      {excelErrors?.map((error, index) => (
                         <li key={index} className={styles.error}>{error}</li>
                       ))}
                     </ul>
@@ -292,7 +292,7 @@ export default function SalesConditionUserManager({ salesConditionId, initialUse
                 {previewData.length > 0 && (
                   <div className={styles.previewBox}>
                     <div className={styles.previewContainer}>
-                      {previewData.map((user, index) => (
+                      {previewData?.map((user, index) => (
                         <div
                           key={user.id}
                           className={`${styles.previewRow} ${!user.isValid ? styles.invalidRow : ''}`}
