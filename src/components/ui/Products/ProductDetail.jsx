@@ -76,7 +76,7 @@ export default function ProductDetail({ car, cardBoxSections }) {
               >
                 {carImages.slice(1).map((image, index) => (
                   <SwiperSlide key={index}>
-                    <Image src={image} alt={`Car image ${index + 2}`} className="mySwiperImage1" height={100} width={100} />
+                    <Image src={image} alt={`Car image ${index + 2}`} className="mySwiperImage1" height={1080} width={1080} />
                   </SwiperSlide>
                 ))}
               </Swiper>
