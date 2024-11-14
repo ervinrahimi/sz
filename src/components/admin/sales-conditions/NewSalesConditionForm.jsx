@@ -11,10 +11,12 @@ import persian from 'react-date-object/calendars/persian'
 import DatePicker from 'react-multi-date-picker'
 import styles from '@/styles/form.module.css'
 import toast from 'react-hot-toast'
+import Image from 'next/image'
 
 export default function NewSalesConditionForm({ cars }) {
   const [deliveryDate, setDeliveryDate] = useState(null)
   const [isPending, startTransition] = useTransition()
+  const [images, setImages] = useState([]) // وضعیت برای مدیریت تصاویر
   const router = useRouter()
 
   const {
@@ -43,6 +45,7 @@ export default function NewSalesConditionForm({ cars }) {
       siteSalesCode: '',
       isLocked: false,
       users: [],
+      images: [], // مقدار پیش‌فرض برای تصاویر
     },
   })
 
@@ -52,15 +55,52 @@ export default function NewSalesConditionForm({ cars }) {
     setValue('deliveryDate', isoDate)
   }
 
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files)
+    const validFiles = files.filter((file) => /(\.jpg|\.jpeg|\.png)$/i.test(file.name))
+    setImages(validFiles)
+    setValue(
+      'images',
+      validFiles.map((file) => URL.createObjectURL(file))
+    ) // ذخیره URL محلی تصاویر برای پیش‌نمایش
+  }
+
   const onSubmit = async (formData) => {
     startTransition(async () => {
-      await createSalesCondition(formData)
-      toast.success('شرایط فروش شما ایجاد شد!', { duration: 5000 })
-      router.push('/admin/sales-conditions')
-      router.refresh()
+      const formDataWithImages = { ...formData }
+
+      const uploadedImages = []
+      for (const image of images) {
+        const formDataImage = new FormData()
+        formDataImage.append('files', image)
+
+        const uploadResponse = await fetch('/api/upload/saleconditions', {
+          method: 'POST',
+          body: formDataImage,
+        })
+
+        if (uploadResponse.ok) {
+          const { filePath } = await uploadResponse.json()
+          uploadedImages.push(filePath)
+        } else {
+          toast.error('خطا در آپلود فایل.')
+          return
+        }
+      }
+
+      formDataWithImages.images = uploadedImages // افزودن لینک تصاویر آپلود شده به داده‌های فرم
+
+      const res = await createSalesCondition(formDataWithImages)
+      if (res.success) {
+        toast.success('شرایط فروش شما ایجاد شد!', { duration: 5000 })
+        router.push('/admin/sales-conditions')
+        router.refresh()
+      } else {
+        toast.error(res.message || 'خطا در ایجاد شرایط فروش.', { duration: 5000 })
+      }
     })
   }
-  
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
@@ -77,11 +117,11 @@ export default function NewSalesConditionForm({ cars }) {
         <label>نام شرایط:</label>
         <input type="text" {...register('name')} className={styles.formInput} />
         {errors.name && <p className={styles.formError}>{errors.name.message}</p>}
-        
+
         <label className={styles.formLabel}>کد فروش در سایت:</label>
         <input type="text" {...register('siteSalesCode')} className={styles.formInput} />
         {errors.siteSalesCode && <p className={styles.formError}>{errors.siteSalesCode.message}</p>}
-        
+
         <label>نوع شرایط:</label>
         <select {...register('conditionType')} className={styles.formSelect}>
           <option value="GENERAL">عمومی</option>
@@ -102,7 +142,9 @@ export default function NewSalesConditionForm({ cars }) {
           <option value="PREPAYMENT">علی‌الحساب</option>
           <option value="FIXED">قطعی</option>
         </select>
-        {errors.contractPriceType && <p className={styles.formError}>{errors.contractPriceType.message}</p>}
+        {errors.contractPriceType && (
+          <p className={styles.formError}>{errors.contractPriceType.message}</p>
+        )}
 
         <label>نوع پرداخت:</label>
         <select {...register('paymentType')} className={styles.formSelect}>
@@ -153,7 +195,7 @@ export default function NewSalesConditionForm({ cars }) {
         <label>تاریخ تحویل:</label>
         <DatePicker
           value={deliveryDate}
-          onChange={handleDateChange} // تابع تغییر تاریخ
+          onChange={handleDateChange}
           calendar={persian}
           locale={persian_fa}
           calendarPosition="bottom-right"
@@ -166,6 +208,28 @@ export default function NewSalesConditionForm({ cars }) {
         {errors.participationProfit && (
           <p className={styles.formError}>{errors.participationProfit.message}</p>
         )}
+
+        <label>آپلود تصاویر:</label>
+        <input
+          type="file"
+          multiple
+          accept=".jpg, .jpeg, .png"
+          onChange={handleFileChange}
+          className={styles.formInput}
+        />
+        {errors.images && <p className={styles.formError}>{errors.images.message}</p>}
+        <div className={styles.previewContainer}>
+          {images.map((image, index) => (
+            <Image
+              key={index}
+              src={URL.createObjectURL(image)}
+              alt="Preview"
+              className={styles.previewImage}
+              height={150}
+              width={150}
+            />
+          ))}
+        </div>
 
         <label>قفل کردن شرایط فروش:</label>
         <input type="checkbox" {...register('isLocked')} className={styles.formCheckbox} />
