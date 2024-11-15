@@ -155,7 +155,7 @@ model SalesCondition {
   price               BigInt // قیمت خودرو
   registrationPayment BigInt? // پرداخت زمان ثبت‌نام
   oneMonthPayment     BigInt? // پرداخت یک ماهه
-  totalInstallments   BigInt? // تعداد اقساط (اینجا نوع Int مناسب است)
+  totalInstallments   Int? // تعداد اقساط
   monthlyInstallment  BigInt? // مبلغ اقساط ماهیانه
   remainingAtDelivery BigInt? // مانده زمان تحویل
   siteSalesCode       BigInt
@@ -167,8 +167,22 @@ model SalesCondition {
   authorizedUsers     AuthorizedUser[] // کاربران مجاز
   orders              Order[] // سفارش‌ها
   images              String[] // فیلد جدید برای ذخیره لینک تصاویر آپلود شده
+  salesFestival       SalesFestival?       @relation(fields: [salesFestivalId], references: [id], onDelete: SetNull)
+  salesFestivalId     String?              @db.ObjectId // ارتباط با جشنواره فروش
   createdAt           DateTime             @default(now()) // تاریخ ایجاد
   updatedAt           DateTime             @updatedAt // تاریخ به‌روزرسانی
+}
+
+// مدل جشنواره فروش
+model SalesFestival {
+  id                String           @id @default(auto()) @map("_id") @db.ObjectId
+  name              String           // نام جشنواره
+  description       String?          // توضیحات جشنواره
+  startDate         DateTime         // تاریخ شروع
+  endDate           DateTime         // تاریخ پایان
+  salesConditions   SalesCondition[] // شرایط فروش مربوط به این جشنواره
+  createdAt         DateTime         @default(now()) // تاریخ ایجاد
+  updatedAt         DateTime         @updatedAt // تاریخ به‌روزرسانی
 }
 
 enum SalesConditionStatus {
