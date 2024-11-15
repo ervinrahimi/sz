@@ -13,6 +13,8 @@ export default async function NewSalesConditionPage() {
     },
   })
 
+  const salesFestivals = await prisma.salesFestival.findMany()
+
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>
@@ -20,7 +22,7 @@ export default async function NewSalesConditionPage() {
           <h1 className={styles.title}>ایجاد شرایط فروش جدید</h1>
         </div>
         <div className={styles.balanceBox}>
-          <NewSalesConditionForm cars={cars} />
+          <NewSalesConditionForm cars={cars} salesFestivals={salesFestivals}/>
         </div>
       </div>
     </div>

@@ -116,8 +116,8 @@ export default function ProductDetail({ car, cardBoxSections }) {
                       src={image}
                       alt={`Thumbnail ${index + 2}`}
                       className="mySwiperImage2"
-                      height={100}
-                      width={100}
+                      height={1080} 
+                      width={1080}
                     />
                   </SwiperSlide>
                 ))}

@@ -13,7 +13,7 @@ import styles from '@/styles/form.module.css'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
 
-export default function SalesConditionEditForm({ salesCondition }) {
+export default function SalesConditionEditForm({ salesCondition, salesFestivals }) {
   const [deliveryDate, setDeliveryDate] = useState(
     salesCondition.deliveryDate ? new Date(salesCondition.deliveryDate) : null
   )
@@ -51,6 +51,7 @@ export default function SalesConditionEditForm({ salesCondition }) {
     defaultValues: {
       id: salesCondition.id,
       carId: salesCondition.car.id,
+      salesFestivalId: salesCondition.salesFestival.id,
       name: salesCondition.name,
       conditionType: salesCondition.conditionType,
       salesMethod: salesCondition.salesMethod,
@@ -175,6 +176,16 @@ export default function SalesConditionEditForm({ salesCondition }) {
           disabled
           className={styles.formInput}
         />
+
+        <label className={styles.formLabel}>انتخاب جشنواره فروش:</label>
+        <select {...register('salesFestivalId')} className={styles.formSelect}>
+          {salesFestivals.map((salesFestival) => (
+            <option key={salesFestival.id} value={salesFestival.id}>
+              {salesFestival.name}
+            </option>
+          ))}
+        </select>
+        {errors.salesFestivalId && <p className={styles.formError}>{errors.salesFestivalId.message}</p>}
 
         <label className={styles.formLabel}>نام شرایط:</label>
         <input type="text" {...register('name')} className={styles.formInput} />

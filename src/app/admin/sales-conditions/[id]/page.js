@@ -11,9 +11,12 @@ export default async function SalesConditionEditPage({ params }) {
     where: { id: conditionId },
     include: {
       authorizedUsers: true,
+      salesFestival: true,
       car: true,
     },
   })
+
+  const salesFestivals = await prisma.salesFestival.findMany()
 
   console.log(salesCondition)
 
@@ -38,7 +41,7 @@ export default async function SalesConditionEditPage({ params }) {
           )}
         </div>
         <div className={styles.balanceBox}>
-          <SalesConditionEditForm salesCondition={salesCondition} />
+          <SalesConditionEditForm salesCondition={salesCondition} salesFestivals={salesFestivals} />
         </div>
       </div>
     </div>

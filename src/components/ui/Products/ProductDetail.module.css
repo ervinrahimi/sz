@@ -164,7 +164,6 @@
 }
 
 .subText {
-  position: absolute;
   left: 0;
   top: 22px;
   text-align: left;
@@ -368,7 +367,7 @@
   margin: 40px;
 }
 
-.cashSelector p{
+.cashSelector p {
   font-family: var(--font-yekanbakh);
   font-variation-settings: 'wdth' 95, 'wght' 600, 'DOTS' 0;
   font-size: 14px;
@@ -386,7 +385,7 @@
 
 .festivalSelector button {
   font-family: var(--font-yekanbakh);
-    font-variation-settings: 'wdth' 95, 'wght' 700, 'DOTS' 0;
+  font-variation-settings: 'wdth' 95, 'wght' 700, 'DOTS' 0;
   margin: 0 10px;
   padding: 8px 15px;
   border: none;
@@ -415,7 +414,7 @@
   padding: 8px 15px;
   font-variation-settings: 'wdth' 95, 'wght' 600, 'DOTS' 0;
   border: none;
-  border-bottom: 2px solid rgba(20, 24, 82, 0);
+  border-bottom: 4px solid rgba(20, 24, 82, 0);
   background: #ffffff00;
   color: rgb(78, 78, 78);
   cursor: pointer;
@@ -461,7 +460,7 @@
 
 .buttonsSales {
   display: flex;
-  width:  100%;
+  width: 100%;
   gap: 30px;
 }
 

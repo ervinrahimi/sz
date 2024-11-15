@@ -117,6 +117,7 @@ const MIN_BIGINT = BigInt('-9223372036854775808')
 // Validation for New Sales Conditions Form
 export const newSalesConditionSchema = z.object({
   carId: z.string().min(1, 'انتخاب خودرو الزامی است.'),
+  salesFestivalId: z.string().min(1, 'انتخاب جشنواره الزامی است.'),
   name: z.string().min(1, 'نام شرایط الزامی است.'),
   conditionType: z.enum(['GENERAL', 'SPECIAL', 'ORGANIZATIONAL']),
   salesMethod: z.enum(['CASH', 'INSTALLMENT']),
@@ -207,6 +208,7 @@ export const newSalesConditionSchema = z.object({
 export const salesConditionSchema = z.object({
   id: z.string().nonempty('شناسه شرایط الزامی است.'),
   carId: z.string().nonempty('شناسه خودرو الزامی است.'),
+  salesFestivalId: z.string().min(1, 'انتخاب جشنواره الزامی است.'),
   name: z.string().min(1, 'نام شرایط الزامی است.'),
   conditionType: z.enum(['GENERAL', 'SPECIAL', 'ORGANIZATIONAL']),
   salesMethod: z.enum(['CASH', 'INSTALLMENT']),
