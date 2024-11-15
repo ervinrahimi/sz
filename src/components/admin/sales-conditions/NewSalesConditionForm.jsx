@@ -11,6 +11,7 @@ import persian from 'react-date-object/calendars/persian'
 import DatePicker from 'react-multi-date-picker'
 import styles from '@/styles/form.module.css'
 import toast from 'react-hot-toast'
+import Image from 'next/image'
 
 export default function NewSalesConditionForm({ cars }) {
   const [deliveryDate, setDeliveryDate] = useState(null)
@@ -245,7 +246,7 @@ export default function NewSalesConditionForm({ cars }) {
 <div className={styles.imagePreviewContainer}>
   {imagePreviews.map((preview, index) => (
     <div key={index} className={styles.imagePreviewWrapper}>
-      <img
+      <Image
         src={preview}
         alt={`پیش‌نمایش تصویر ${index + 1}`}
         className={styles.preview}

@@ -402,3 +402,8 @@ export const cardBoxSectionSchema = z.object({
   name: z.string().nonempty('نام بخش الزامی است'),
   subtitle: z.string().optional(),
 })
+
+export const salesFestivalSchema = z.object({
+  name: z.string().nonempty('عنوان جشنواره نباید خالی باشد'),
+  description: z.string().optional(),
+})
