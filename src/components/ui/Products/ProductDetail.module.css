@@ -131,6 +131,7 @@
   letter-spacing: -1px;
   font-size: 30px;
   text-align: center;
+  margin-top: 30px;
   margin-bottom: 46px;
 }
 
@@ -330,4 +331,153 @@
   .carContainer {
     top: -250px;
   }
+}
+
+.tabs {
+  display: flex;
+  gap: 20px;
+  margin-top: -10px;
+  justify-content: center;
+  padding: 20px 0px;
+  background-image: url(../../../../public/image.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.tabs button {
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 95, 'wght' 700, 'DOTS' 0;
+  padding: 8px 20px;
+  border-radius: 100px;
+  margin: 0 5px;
+  border: none;
+  background-color: #f1f1f1;
+  color: rgb(19, 19, 19);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.tabs .activeTab {
+  box-shadow: 0px 0px 7px 4px rgb(40, 40, 40);
+  color: rgb(19, 19, 19);
+}
+
+.cashSelector {
+  display: flex;
+  justify-content: center;
+  margin: 40px;
+}
+
+.cashSelector p{
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 95, 'wght' 600, 'DOTS' 0;
+  font-size: 14px;
+  color: rgb(78, 78, 78);
+  margin: 0 10px;
+  padding: 8px 15px;
+  border: 3px solid rgba(20, 24, 82, 0);
+}
+
+.festivalSelector {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.festivalSelector button {
+  font-family: var(--font-yekanbakh);
+    font-variation-settings: 'wdth' 95, 'wght' 700, 'DOTS' 0;
+  margin: 0 10px;
+  padding: 8px 15px;
+  border: none;
+  border: 3px solid rgba(20, 24, 82, 0);
+  background: #ffffff00;
+  cursor: pointer;
+  color: rgb(78, 78, 78);
+  font-size: 14px;
+  border-radius: 100px;
+}
+
+.festivalSelector .activeButton {
+  border: 3px solid rgb(19, 19, 19);
+  color: rgb(19, 19, 19);
+}
+
+.installmentSelector {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.installmentSelector button {
+  font-family: var(--font-yekanbakh);
+  margin: 0 10px;
+  padding: 8px 15px;
+  font-variation-settings: 'wdth' 95, 'wght' 600, 'DOTS' 0;
+  border: none;
+  border-bottom: 2px solid rgba(20, 24, 82, 0);
+  background: #ffffff00;
+  color: rgb(78, 78, 78);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.installmentSelector .activeButton {
+  border-bottom: 4px solid rgb(19, 19, 19);
+  color: rgb(19, 19, 19);
+}
+
+.salesConditions {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px 20px;
+  gap: 20px;
+}
+
+.salesBoxing {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  border: 1px solid #ccc;
+  width: 100%;
+  text-align: center;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.labelSales {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.labelSales h5 {
+  font-family: var(--font-kahroba);
+  font-variation-settings: 'wdth' 95, 'wght' 500, 'DOTS' 0;
+  font-size: 24px;
+}
+
+.buttonsSales {
+  display: flex;
+  width:  100%;
+  gap: 30px;
+}
+
+.buttonsSales button {
+  width: 100%;
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 95, 'wght' 600, 'DOTS' 0;
+  margin-top: 10px;
+  padding: 10px 15px;
+  border: none;
+  background: rgb(78, 78, 78);
+  color: #fff;
+  cursor: pointer;
+  border-radius: 100px;
+}
+
+.buttonsSales button:hover {
+  background: rgb(29, 29, 29);
 }

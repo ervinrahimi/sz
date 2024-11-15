@@ -1,4 +1,3 @@
-// components/ui/Products/ProductDetail.js
 'use client'
 
 import ProductBigImage from '@/components/ui/Products/ProductBigImage'
@@ -19,6 +18,9 @@ import { useState } from 'react'
 
 export default function ProductDetail({ car, cardBoxSections }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
+  const [activeTab, setActiveTab] = useState('INSTALLMENT')
+  const [selectedFestival, setSelectedFestival] = useState(null)
+  const [selectedInstallment, setSelectedInstallment] = useState(null)
   const router = useRouter()
 
   const handleToast = () => {
@@ -27,6 +29,18 @@ export default function ProductDetail({ car, cardBoxSections }) {
 
   const handleShopping = (carName) => {
     router.push(`/cart/shopping?carName=${carName}`, { scroll: true })
+  }
+
+  const filteredConditions = (festivalId, installmentMonths) => {
+    return car?.salesConditions.filter((condition) => {
+      const matchesFestival = festivalId
+        ? condition.salesFestivalId === festivalId
+        : !condition.salesFestivalId
+      const matchesInstallments = installmentMonths
+        ? condition.totalInstallments === installmentMonths
+        : true
+      return matchesFestival && matchesInstallments
+    })
   }
 
   const carImages = car?.image || []
@@ -60,7 +74,7 @@ export default function ProductDetail({ car, cardBoxSections }) {
             <Image src={carImages[0] || '/cars/default.png'} width={1000} height={1000} alt="car" />
           </div>
 
-          {/* Conditional Swiper Slider for additional images */}
+          {/* Swiper for multiple images */}
           {hasMultipleImages && (
             <>
               <Swiper
@@ -111,6 +125,7 @@ export default function ProductDetail({ car, cardBoxSections }) {
             </>
           )}
 
+          {/* Technical Specifications */}
           <div className={styles.information}>
             <h3>مشخصات فنی</h3>
             <div className={styles.informationGrid}>
@@ -129,6 +144,7 @@ export default function ProductDetail({ car, cardBoxSections }) {
 
           <div className={styles.line} />
 
+          {/* Appearance Specifications */}
           <div className={styles.information}>
             <h3>مشخصات ظاهری</h3>
             <div className={styles.informationGrid}>
@@ -145,57 +161,118 @@ export default function ProductDetail({ car, cardBoxSections }) {
             </div>
           </div>
 
-          {/* Sales Conditions */}
-          {car?.salesConditions.map((condition) => (
-            <>
-              <div className={styles.line} />
-              <div key={condition.id} className={styles.salesBox}>
-                <h5>{condition.name}</h5>
-                <h5>{condition.conditionType}</h5>
-              </div>
-              <div className={styles.information}>
-                <div className={styles.informationGrid}>
-                  <li>
-                    <span>قیمت</span>
-                    <Image src="/dots.png" width={700} height={700} alt="dots" />
-                    <span>{condition.price.toLocaleString()}</span>
-                  </li>
-                  <li>
-                    <span>پرداخت زمان ثبت نام</span>
-                    <Image src="/dots.png" width={700} height={700} alt="dots" />
-                    <span>{condition.registrationPayment?.toLocaleString() || '-'}</span>
-                  </li>
-                  <li>
-                    <span>پرداخت یکماهه</span>
-                    <Image src="/dots.png" width={700} height={700} alt="dots" />
-                    <span>{condition.oneMonthPayment?.toLocaleString() || '-'}</span>
-                  </li>
-                  <li>
-                    <span>مبلغ اقساط ماهیانه</span>
-                    <Image src="/dots.png" width={700} height={700} alt="dots" />
-                    <span>{condition.monthlyInstallment?.toLocaleString() || '-'}</span>
-                  </li>
-                  <li>
-                    <span>قیمت نهایی</span>
-                    <Image src="/dots.png" width={700} height={700} alt="dots" />
-                    <span>{condition.finalPrice.toLocaleString()}</span>
-                  </li>
-                  <li>
-                    <span>موعد تحویل</span>
-                    <Image src="/dots.png" width={700} height={700} alt="dots" />
-                    <span>{condition.deliveryDate?.toLocaleDateString() || '-'}</span>
-                  </li>
-                </div>
-                <div className={styles.actionButton}>
-                  <button onClick={() => handleShopping(car.name)}>ثبت سفارش</button>
-                  <button onClick={handleToast}>درخواست مشاوره</button>
-                </div>
-              </div>
-            </>
-          ))}
+          <div className={styles.line} />
 
+          {/* Sales Conditions */}
+          <div className={styles.information}>
+            <h3>شرایط فروش</h3>
+            <div className={styles.tabs}>
+              <button
+                onClick={() => setActiveTab('CASH')}
+                className={activeTab === 'CASH' ? styles.activeTab : ''}
+              >
+                فروش نقدی
+              </button>
+              <button
+                onClick={() => setActiveTab('INSTALLMENT')}
+                className={activeTab === 'INSTALLMENT' ? styles.activeTab : ''}
+              >
+                فروش شرایطی
+              </button>
+            </div>
+
+            {activeTab === 'CASH' && <div className={styles.cashSelector}><p>در حال حاضر در دسترس نیست</p></div>}
+
+            {activeTab === 'INSTALLMENT' && (
+              <>
+                <div className={styles.festivalSelector}>
+                  {car.salesConditions
+                    .map((condition) => condition.salesFestival)
+                    .filter(
+                      (festival, index, self) =>
+                        festival && self.findIndex((f) => f.id === festival.id) === index
+                    )
+                    .map((festival) => (
+                      <button
+                        key={festival.id}
+                        onClick={() => setSelectedFestival(festival.id)}
+                        className={selectedFestival === festival.id ? styles.activeButton : ''}
+                      >
+                        {festival.name}
+                      </button>
+                    ))}
+                </div>
+
+                <div className={styles.installmentSelector}>
+                  {Array.from(
+                    new Set(
+                      car.salesConditions
+                        .filter((condition) =>
+                          selectedFestival
+                            ? condition.salesFestival?.id === selectedFestival
+                            : !condition.salesFestival
+                        )
+                        .map((condition) => condition.totalInstallments)
+                    )
+                  ).map((months) => (
+                    <button
+                      key={months}
+                      onClick={() => setSelectedInstallment(months)}
+                      className={selectedInstallment === months ? styles.activeButton : ''}
+                    >
+                      {months} ماهه
+                    </button>
+                  ))}
+                </div>
+
+                {selectedInstallment && (
+                  <div className={styles.salesConditions}>
+                    {filteredConditions(selectedFestival, selectedInstallment).map((condition) => (
+                      <div key={condition.id} className={styles.salesBoxing}>
+                        <div className={styles.labelSales}>
+                          <h5>{condition.name}</h5>
+                        </div>
+                        <div className={styles.informationGrid}>
+                          <li>
+                            <span>پرداخت زمان ثبت‌نام</span>
+                            <Image src="/dots.png" width={700} height={700} alt="dots" />
+                            <span>{condition.registrationPayment?.toLocaleString() || '-'}</span>
+                          </li>
+                          <li>
+                            <span>پرداخت یکماهه</span>
+                            <Image src="/dots.png" width={700} height={700} alt="dots" />
+                            <span>{condition.oneMonthPayment?.toLocaleString() || '-'}</span>
+                          </li>
+                          <li>
+                            <span>مبلغ اقساط ماهیانه</span>
+                            <Image src="/dots.png" width={700} height={700} alt="dots" />
+                            <span>{condition.monthlyInstallment?.toLocaleString() || '-'}</span>
+                          </li>
+                          <li>
+                            <span>قیمت نهایی</span>
+                            <Image src="/dots.png" width={700} height={700} alt="dots" />
+                            <span>{condition.finalPrice.toLocaleString()}</span>
+                          </li>
+                          <li>
+                            <span>موعد تحویل</span>
+                            <Image src="/dots.png" width={700} height={700} alt="dots" />
+                            <span>{condition.deliveryDate?.toLocaleDateString() || '-'}</span>
+                          </li>
+                        </div>
+                        <div className={styles.buttonsSales}>
+                          <button onClick={() => handleShopping(car.name)}>ثبت سفارش</button>
+                          <button onClick={() => handleShopping(car.name)}>افزودن به سبد خرید</button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
           <div className={styles.line} />
         </div>
+        
 
         {/* نمایش cardBoxSections در ProductsBox */}
         {cardBoxSections[0] && (
