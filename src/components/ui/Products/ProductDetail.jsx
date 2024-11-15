@@ -76,7 +76,13 @@ export default function ProductDetail({ car, cardBoxSections }) {
               >
                 {carImages.slice(1).map((image, index) => (
                   <SwiperSlide key={index}>
-                    <Image src={image} alt={`Car image ${index + 2}`} className="mySwiperImage1" height={1080} width={1080} />
+                    <Image
+                      src={image}
+                      alt={`Car image ${index + 2}`}
+                      className="mySwiperImage1"
+                      height={1080}
+                      width={1080}
+                    />
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -92,7 +98,13 @@ export default function ProductDetail({ car, cardBoxSections }) {
               >
                 {carImages.slice(1).map((image, index) => (
                   <SwiperSlide key={index}>
-                    <Image src={image} alt={`Thumbnail ${index + 2}`} className="mySwiperImage2" height={100} width={100}/>
+                    <Image
+                      src={image}
+                      alt={`Thumbnail ${index + 2}`}
+                      className="mySwiperImage2"
+                      height={100}
+                      width={100}
+                    />
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -122,10 +134,12 @@ export default function ProductDetail({ car, cardBoxSections }) {
             <div className={styles.informationGrid}>
               {car?.appearanceSpecifications.map((spec) => (
                 <li key={spec.id} className={styles.subMargin}>
-                  <span>{spec.title}</span>
+                  <span>
+                    {spec.title}
+                    {spec.note && <div className={styles.subText}>{spec.note}</div>}
+                  </span>
                   <Image src="/dots.png" width={700} height={700} alt="dots" />
-                  <span>{spec.value || spec.options.join(', ')}</span>{' '}
-                  {/* نمایش مقدار انتخاب‌شده */}
+                  <span>{spec.value}</span>
                 </li>
               ))}
             </div>
