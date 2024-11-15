@@ -24,7 +24,7 @@ export async function createSalesCondition(data) {
     siteSalesCode,
     participationProfit,
     isLocked,
-    imageFiles, // اضافه کردن تصاویر
+    images, // اضافه کردن تصاویر
   } = data
 
   return await prisma.salesCondition.create({
@@ -46,7 +46,7 @@ export async function createSalesCondition(data) {
       deliveryDate: deliveryDate ? new Date(deliveryDate) : null,
       participationProfit: participationProfit ? parseFloat(participationProfit) : null,
       isLocked,
-      images: imageFiles, // ذخیره تصاویر
+      images: images, // ذخیره تصاویر
     },
   })
 }
@@ -96,7 +96,7 @@ export async function updateSalesCondition(data) {
       deliveryDate: deliveryDate ? new Date(deliveryDate) : null,
       participationProfit,
       isLocked,
-      images: images || [], // ذخیره تصاویر
+      images: images, // ذخیره تصاویر
     },
   })
   return { success: true, data: updatedCondition }
