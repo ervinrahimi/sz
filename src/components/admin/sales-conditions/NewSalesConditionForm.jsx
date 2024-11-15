@@ -11,12 +11,12 @@ import persian from 'react-date-object/calendars/persian'
 import DatePicker from 'react-multi-date-picker'
 import styles from '@/styles/form.module.css'
 import toast from 'react-hot-toast'
-import Image from 'next/image'
 
 export default function NewSalesConditionForm({ cars }) {
   const [deliveryDate, setDeliveryDate] = useState(null)
   const [isPending, startTransition] = useTransition()
-  const [images, setImages] = useState([]) // وضعیت برای مدیریت تصاویر
+  const [imageFiles, setImageFiles] = useState([]) // مدیریت فایل‌ها به عنوان آرایه
+  const [imagePreviews, setImagePreviews] = useState([]) // پیش‌نمایش تصاویر
   const router = useRouter()
 
   const {
@@ -45,7 +45,6 @@ export default function NewSalesConditionForm({ cars }) {
       siteSalesCode: '',
       isLocked: false,
       users: [],
-      images: [], // مقدار پیش‌فرض برای تصاویر
     },
   })
 
@@ -55,50 +54,72 @@ export default function NewSalesConditionForm({ cars }) {
     setValue('deliveryDate', isoDate)
   }
 
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files)
-    const validFiles = files.filter((file) => /(\.jpg|\.jpeg|\.png)$/i.test(file.name))
-    setImages(validFiles)
-    setValue(
-      'images',
-      validFiles.map((file) => URL.createObjectURL(file))
-    ) // ذخیره URL محلی تصاویر برای پیش‌نمایش
+  const onSubmit = async (data) => {
+    // اعتبارسنجی برای وجود فایل
+    if (imageFiles.length === 0) {
+      toast.error('لطفاً حداقل یک تصویر انتخاب کنید!', { duration: 5000 })
+      return
+    }
+
+    // آپلود فایل‌ها
+    const formData = new FormData()
+    imageFiles.forEach((file) => formData.append('files', file))
+
+    const res = await fetch('/api/upload/sales-condition', { method: 'POST', body: formData })
+    const uploadData = await res.json()
+
+    // اضافه کردن URLهای آپلود شده به داده‌های فرم
+    data.images = uploadData.urls
+
+    // ارسال داده‌ها به سرور
+    startTransition(async () => {
+      await createSalesCondition(data)
+      toast.success('شرایط فروش شما ایجاد شد!', { duration: 5000 })
+      router.push('/admin/sales-conditions')
+      router.refresh()
+    })
   }
 
-  const onSubmit = async (formData) => {
-    startTransition(async () => {
-      const formDataWithImages = { ...formData }
+  const moveImageUp = (index) => {
+    if (index > 0) {
+      const newFiles = [...imageFiles]
+      const newPreviews = [...imagePreviews]
 
-      const uploadedImages = []
-      for (const image of images) {
-        const formDataImage = new FormData()
-        formDataImage.append('files', image)
+      // جابه‌جایی آیتم‌ها
+      ;[newFiles[index - 1], newFiles[index]] = [newFiles[index], newFiles[index - 1]]
+      ;[newPreviews[index - 1], newPreviews[index]] = [newPreviews[index], newPreviews[index - 1]]
 
-        const uploadResponse = await fetch('/api/upload/saleconditions', {
-          method: 'POST',
-          body: formDataImage,
-        })
+      setImageFiles(newFiles)
+      setImagePreviews(newPreviews)
+    }
+  }
 
-        if (uploadResponse.ok) {
-          const { filePath } = await uploadResponse.json()
-          uploadedImages.push(filePath)
-        } else {
-          toast.error('خطا در آپلود فایل.')
-          return
-        }
-      }
+  const moveImageDown = (index) => {
+    if (index < imageFiles.length - 1) {
+      const newFiles = [...imageFiles]
+      const newPreviews = [...imagePreviews]
 
-      formDataWithImages.images = uploadedImages // افزودن لینک تصاویر آپلود شده به داده‌های فرم
+      // جابه‌جایی آیتم‌ها
+      ;[newFiles[index + 1], newFiles[index]] = [newFiles[index], newFiles[index + 1]]
+      ;[newPreviews[index + 1], newPreviews[index]] = [newPreviews[index], newPreviews[index + 1]]
 
-      const res = await createSalesCondition(formDataWithImages)
-      if (res.success) {
-        toast.success('شرایط فروش شما ایجاد شد!', { duration: 5000 })
-        router.push('/admin/sales-conditions')
-        router.refresh()
-      } else {
-        toast.error(res.message || 'خطا در ایجاد شرایط فروش.', { duration: 5000 })
-      }
-    })
+      setImageFiles(newFiles)
+      setImagePreviews(newPreviews)
+    }
+  }
+
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files)
+    if (files.length) {
+      const newPreviews = files.map((file) => URL.createObjectURL(file))
+      setImageFiles((prevFiles) => [...prevFiles, ...files]) // افزودن فایل‌ها به آرایه
+      setImagePreviews((prevPreviews) => [...prevPreviews, ...newPreviews]) // افزودن پیش‌نمایش‌ها به آرایه
+    }
+  }
+
+  const removeImage = (index) => {
+    setImageFiles((prevFiles) => prevFiles.filter((_, i) => i !== index))
+    setImagePreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index))
   }
 
   return (
@@ -195,7 +216,7 @@ export default function NewSalesConditionForm({ cars }) {
         <label>تاریخ تحویل:</label>
         <DatePicker
           value={deliveryDate}
-          onChange={handleDateChange}
+          onChange={handleDateChange} // تابع تغییر تاریخ
           calendar={persian}
           locale={persian_fa}
           calendarPosition="bottom-right"
@@ -209,27 +230,55 @@ export default function NewSalesConditionForm({ cars }) {
           <p className={styles.formError}>{errors.participationProfit.message}</p>
         )}
 
-        <label>آپلود تصاویر:</label>
-        <input
-          type="file"
-          multiple
-          accept=".jpg, .jpeg, .png"
-          onChange={handleFileChange}
-          className={styles.formInput}
-        />
-        {errors.images && <p className={styles.formError}>{errors.images.message}</p>}
-        <div className={styles.previewContainer}>
-          {images.map((image, index) => (
-            <Image
-              key={index}
-              src={URL.createObjectURL(image)}
-              alt="Preview"
-              className={styles.previewImage}
-              height={150}
-              width={150}
-            />
-          ))}
-        </div>
+<label className={styles.formInput}>
+  تصاویر شرایط فروش:
+  <input
+    className={styles.formFile}
+    type="file"
+    accept="image/*"
+    multiple
+    onChange={handleImageChange}
+  />
+  <p>نکته: تصویر اول به عنوان تصویر اصلی قرار می‌گیرد!</p>
+</label>
+
+<div className={styles.imagePreviewContainer}>
+  {imagePreviews.map((preview, index) => (
+    <div key={index} className={styles.imagePreviewWrapper}>
+      <img
+        src={preview}
+        alt={`پیش‌نمایش تصویر ${index + 1}`}
+        className={styles.preview}
+        width={100}
+        height={100}
+      />
+      <button
+        type="button"
+        className={styles.deleteButton}
+        onClick={() => removeImage(index)}
+      >
+        حذف تصویر
+      </button>
+      <button
+        type="button"
+        className={styles.moveButton}
+        onClick={() => moveImageUp(index)}
+        disabled={index === 0}
+      >
+        بالا
+      </button>
+      <button
+        type="button"
+        className={styles.moveButton}
+        onClick={() => moveImageDown(index)}
+        disabled={index === imagePreviews.length - 1}
+      >
+        پایین
+      </button>
+    </div>
+  ))}
+</div>
+
 
         <label>قفل کردن شرایط فروش:</label>
         <input type="checkbox" {...register('isLocked')} className={styles.formCheckbox} />
