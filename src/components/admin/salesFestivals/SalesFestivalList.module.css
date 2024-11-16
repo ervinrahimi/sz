@@ -1,4 +1,4 @@
-/* src/components/admin/users/UsersTable.module.css */
+/* src/components/admin/salesFestivals/SalesFestivalList.module.css */
 
 .container {
   display: flex;
@@ -22,7 +22,7 @@
 .headerCell {
   flex: 1;
   text-align: center;
-  color: #d1d1d1; /* رنگ کم‌رنگ‌تر از مشکی */
+  color: #d1d1d1;
 }
 
 .body {
@@ -60,6 +60,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-right: 8px;
 }
 
 .button:hover {

@@ -8,6 +8,7 @@ import persian from 'react-date-object/calendars/persian'
 import persian_fa from 'react-date-object/locales/persian_fa'
 import { createSalesFestival, updateSalesFestival } from '@/actions/admin/salesFestivals'
 import toast from 'react-hot-toast'
+import styles from '@/styles/form.module.css'
 
 export default function SalesFestivalForm({ festival, salesConditions }) {
   const router = useRouter()
@@ -46,7 +47,7 @@ export default function SalesFestivalForm({ festival, salesConditions }) {
       }
 
       router.push('/admin/sales-festivals')
-      router.refresh() // رفرش صفحه پس از هدایت
+      router.refresh()
     } catch (error) {
       console.error('خطا در ارسال اطلاعات:', error)
       toast.error('عملیات با خطا مواجه شد.')
@@ -54,65 +55,89 @@ export default function SalesFestivalForm({ festival, salesConditions }) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label>
-        نام جشنواره:
-        <input type="text" {...register('name')} placeholder="نام جشنواره" required />
-      </label>
+    <div className={styles.formWrapper}>
+      <h2 className={styles.title}>{isEdit ? 'ویرایش جشنواره' : 'ایجاد جشنواره'}</h2>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+        <label className={styles.formLabel}>
+          نام جشنواره:
+          <input
+            type="text"
+            {...register('name')}
+            placeholder="نام جشنواره"
+            required
+            className={styles.formInput}
+          />
+        </label>
 
-      <label>
-        توضیحات جشنواره:
-        <textarea {...register('description')} placeholder="توضیحات جشنواره" />
-      </label>
+        <label className={styles.formLabel}>
+          توضیحات جشنواره:
+          <textarea
+            {...register('description')}
+            placeholder="توضیحات جشنواره"
+            className={styles.formInput}
+          />
+        </label>
 
-      <label>
-        تاریخ شروع:
-        <DatePicker
-          value={startDate}
-          onChange={(value) => setStartDate(new Date(value))}
-          calendar={persian}
-          locale={persian_fa}
-          format="YYYY/MM/DD"
-          placeholder="تاریخ شروع"
-          required
-        />
-      </label>
+        <label className={styles.formLabel}>
+          تاریخ شروع:
+          <DatePicker
+            value={startDate}
+            onChange={(value) => setStartDate(new Date(value))}
+            calendar={persian}
+            locale={persian_fa}
+            format="YYYY/MM/DD"
+            placeholder="تاریخ شروع"
+            required
+            className={`${styles.formInput} ${styles.formLtr}`}
+          />
+        </label>
 
-      <label>
-        تاریخ پایان:
-        <DatePicker
-          value={endDate}
-          onChange={(value) => setEndDate(new Date(value))}
-          calendar={persian}
-          locale={persian_fa}
-          format="YYYY/MM/DD"
-          placeholder="تاریخ پایان"
-          required
-        />
-      </label>
+        <label className={styles.formLabel}>
+          تاریخ پایان:
+          <DatePicker
+            value={endDate}
+            onChange={(value) => setEndDate(new Date(value))}
+            calendar={persian}
+            locale={persian_fa}
+            format="YYYY/MM/DD"
+            placeholder="تاریخ پایان"
+            required
+            className={`${styles.formInput} ${styles.formLtr}`}
+          />
+        </label>
 
-      <label>
-        شرایط فروش:
-        <select
-          value={selectedCondition}
-          onChange={(e) => setSelectedCondition(e.target.value)}
-          required
-        >
-          <option value="" disabled>
-            انتخاب شرایط فروش
-          </option>
-          {salesConditions.map((sc) => (
-            <option key={sc.id} value={sc.id}>
-              {sc.name} - {sc.car?.name || 'بدون خودرو'}
+        <label className={styles.formLabel}>
+          شرایط فروش:
+          <select
+            value={selectedCondition}
+            onChange={(e) => setSelectedCondition(e.target.value)}
+            required
+            className={styles.formSelect}
+          >
+            <option value="" disabled>
+              انتخاب شرایط فروش
             </option>
-          ))}
-        </select>
-      </label>
+            {salesConditions.map((sc) => (
+              <option key={sc.id} value={sc.id}>
+                {sc.name} - {sc.car?.name || 'بدون خودرو'}
+              </option>
+            ))}
+          </select>
+        </label>
 
-      <button type="submit">{isEdit ? 'ویرایش' : 'ایجاد'}</button>
-      <button type="button" onClick={() => router.push('/admin/sales-festivals')}>
-        لغو
-      </button>
-    </form>
+        <div className={styles.formStatusButtonGroup}>
+          <button type="submit" className={styles.formButton}>
+            {isEdit ? 'ویرایش' : 'ایجاد'}
+          </button>
+          <button
+            type="button"
+            onClick={() => router.push('/admin/sales-festivals')}
+            className={styles.buttonStatus}
+          >
+            لغو
+          </button>
+        </div>
+      </form>
+    </div>
   )
 }

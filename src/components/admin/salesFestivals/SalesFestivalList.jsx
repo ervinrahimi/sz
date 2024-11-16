@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { deleteSalesFestival } from '@/actions/admin/salesFestivals'
 import toast from 'react-hot-toast'
+import styles from './SalesFestivalList.module.css'
 
 export default function SalesFestivalList({ festivals }) {
   const router = useRouter()
@@ -21,37 +22,42 @@ export default function SalesFestivalList({ festivals }) {
   }
 
   return (
-    <div>
-      <h1>لیست جشنواره‌ها</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>نام جشنواره</th>
-            <th>توضیحات</th>
-            <th>تاریخ شروع</th>
-            <th>تاریخ پایان</th>
-            <th>عملیات</th>
-          </tr>
-        </thead>
-        <tbody>
-          {festivals.map((festival) => (
-            <tr key={festival.id}>
-              <td>{festival.name}</td>
-              <td>{festival.description}</td>
-              <td>{new Date(festival.startDate).toLocaleDateString('fa-IR')}</td>
-              <td>{new Date(festival.endDate).toLocaleDateString('fa-IR')}</td>
-              <td>
-                <button onClick={() => handleDelete(festival.id)} style={{ marginRight: '10px' }}>
-                  حذف
-                </button>
-                <button onClick={() => router.push(`/admin/sales-festivals/edit/${festival.id}`)}>
-                  ویرایش
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className={styles.container}>
+      <div className={styles.headerRow}>
+        <div className={styles.headerCell}>نام جشنواره</div>
+        <div className={styles.headerCell}>توضیحات</div>
+        <div className={styles.headerCell}>تاریخ شروع</div>
+        <div className={styles.headerCell}>تاریخ پایان</div>
+        <div className={styles.headerCell}>عملیات</div>
+      </div>
+      <div className={styles.body}>
+        {festivals.map((festival) => (
+          <div key={festival.id} className={styles.row}>
+            <div className={styles.cell}>{festival.name}</div>
+            <div className={styles.cell}>{festival.description}</div>
+            <div className={styles.cell}>
+              {new Date(festival.startDate).toLocaleDateString('fa-IR')}
+            </div>
+            <div className={styles.cell}>
+              {new Date(festival.endDate).toLocaleDateString('fa-IR')}
+            </div>
+            <div className={styles.cell}>
+              <button
+                className={styles.button}
+                onClick={() => handleDelete(festival.id)}
+              >
+                حذف
+              </button>
+              <button
+                className={styles.button}
+                onClick={() => router.push(`/admin/sales-festivals/edit/${festival.id}`)}
+              >
+                ویرایش
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
