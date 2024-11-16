@@ -2,6 +2,7 @@
 
 import { getSalesConditions, getSalesFestivalById } from '@/actions/admin/salesFestivals'
 import SalesFestivalForm from '@/components/admin/salesFestivals/SalesFestivalForm'
+import styles from '../../../page.module.css'
 
 export default async function EditSalesFestivalPage({ params }) {
   const { id } = params
@@ -13,9 +14,15 @@ export default async function EditSalesFestivalPage({ params }) {
   }
 
   return (
-    <div>
-      <h1>ویرایش جشنواره</h1>
-      <SalesFestivalForm festival={festival} salesConditions={salesConditions} />
+    <div className={styles.container}>
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>ویرایش جشنواره</h1>
+        </div>
+        <div className={styles.balanceBox}>
+          <SalesFestivalForm festival={festival} salesConditions={salesConditions} />
+        </div>
+      </div>
     </div>
   )
 }

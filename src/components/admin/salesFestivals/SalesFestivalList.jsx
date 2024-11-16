@@ -23,23 +23,6 @@ export default function SalesFestivalList({ festivals }) {
   return (
     <div>
       <h1>لیست جشنواره‌ها</h1>
-
-      {/* دکمه ساختن جشنواره */}
-      <button
-        onClick={() => router.push('/admin/sales-festivals/create')}
-        style={{
-          marginBottom: '20px',
-          padding: '10px 20px',
-          backgroundColor: '#007bff',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer',
-        }}
-      >
-        ساختن جشنواره جدید
-      </button>
-
       <table>
         <thead>
           <tr>
