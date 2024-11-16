@@ -1,12 +1,10 @@
-import prisma from '@/db/client'
+// src/app/admin/sales-festivals/create/page.jsx
+
+import { getSalesConditions } from '@/actions/admin/salesFestivals'
 import SalesFestivalForm from '@/components/admin/salesFestivals/SalesFestivalForm'
 
 export default async function CreateSalesFestivalPage() {
-  const salesConditions = await prisma.salesCondition.findMany({
-    include: { car: true }, // دریافت اطلاعات خودرو برای هر شرایط فروش
-    orderBy: { createdAt: 'desc' },
-  })
-  
+  const salesConditions = await getSalesConditions()
 
   return (
     <div>

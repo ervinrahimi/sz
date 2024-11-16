@@ -2,111 +2,117 @@
 
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import DatePicker from 'react-multi-date-picker'
+import persian from 'react-date-object/calendars/persian'
+import persian_fa from 'react-date-object/locales/persian_fa'
 import { createSalesFestival, updateSalesFestival } from '@/actions/admin/salesFestivals'
-import styles from './SalesFestivalForm.module.css'
-import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 
 export default function SalesFestivalForm({ festival, salesConditions }) {
-  const isEdit = !!festival
   const router = useRouter()
+  const isEdit = !!festival
+  const [selectedCondition, setSelectedCondition] = useState(festival?.salesConditions[0]?.id || '')
+  const [startDate, setStartDate] = useState(
+    festival?.startDate ? new Date(festival.startDate) : null
+  )
+  const [endDate, setEndDate] = useState(festival?.endDate ? new Date(festival.endDate) : null)
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm()
-
-  useEffect(() => {
-    if (isEdit && festival) {
-      // بررسی وجود festival
-      setValue('name', festival.name || '')
-      setValue('description', festival.description || '')
-
-      // بررسی وجود startDate و تبدیل آن به رشته برای استفاده از split
-      const startDate = festival.startDate
-        ? new Date(festival.startDate).toISOString().split('T')[0]
-        : ''
-      setValue('startDate', startDate)
-
-      // بررسی وجود endDate و تبدیل آن به رشته برای استفاده از split
-      const endDate = festival.endDate ? new Date(festival.endDate).toISOString().split('T')[0] : ''
-      setValue('endDate', endDate)
-
-      setValue('salesConditionIds', festival.salesConditions?.map((sc) => sc.id) || [])
-    }
-  }, [isEdit, festival, setValue])
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      name: festival?.name || '',
+      description: festival?.description || '',
+    },
+  })
 
   const onSubmit = async (data) => {
     try {
-      if (isEdit) {
-        await updateSalesFestival(festival.id, data)
-        toast.success('جشنواره با موفقیت ویرایش شد')
-      } else {
-        await createSalesFestival(data)
-        toast.success('جشنواره با موفقیت ایجاد شد')
+      const start = startDate ? new Date(startDate).toISOString() : null
+      const end = endDate ? new Date(endDate).toISOString() : null
+
+      const formData = {
+        ...data,
+        startDate: start,
+        endDate: end,
+        salesCondition: selectedCondition,
       }
+
+      if (isEdit) {
+        await updateSalesFestival(festival.id, formData)
+        toast.success('جشنواره با موفقیت ویرایش شد!')
+      } else {
+        await createSalesFestival(formData)
+        toast.success('جشنواره با موفقیت ایجاد شد!')
+      }
+
       router.push('/admin/sales-festivals')
+      router.refresh() // رفرش صفحه پس از هدایت
     } catch (error) {
-      toast.error('مشکلی پیش آمد. لطفاً دوباره تلاش کنید.')
+      console.error('خطا در ارسال اطلاعات:', error)
+      toast.error('عملیات با خطا مواجه شد.')
     }
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper}>
-      <h2>{isEdit ? 'ویرایش جشنواره' : 'ایجاد جشنواره جدید'}</h2>
-      <div className={styles.formContainer}>
-        <label>
-          نام جشنواره:
-          <input
-            type="text"
-            {...register('name', { required: 'این فیلد اجباری است' })}
-            className={styles.formInput}
-          />
-          {errors.name && <span className={styles.formError}>{errors.name.message}</span>}
-        </label>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <label>
+        نام جشنواره:
+        <input type="text" {...register('name')} placeholder="نام جشنواره" required />
+      </label>
 
-        <label>
-          توضیحات:
-          <textarea {...register('description')} className={styles.formInput} />
-        </label>
+      <label>
+        توضیحات جشنواره:
+        <textarea {...register('description')} placeholder="توضیحات جشنواره" />
+      </label>
 
-        <label>
-          تاریخ شروع:
-          <input
-            type="date"
-            {...register('startDate', { required: 'این فیلد اجباری است' })}
-            className={styles.formInput}
-          />
-          {errors.startDate && <span className={styles.formError}>{errors.startDate.message}</span>}
-        </label>
+      <label>
+        تاریخ شروع:
+        <DatePicker
+          value={startDate}
+          onChange={(value) => setStartDate(new Date(value))}
+          calendar={persian}
+          locale={persian_fa}
+          format="YYYY/MM/DD"
+          placeholder="تاریخ شروع"
+          required
+        />
+      </label>
 
-        <label>
-          تاریخ پایان:
-          <input
-            type="date"
-            {...register('endDate', { required: 'این فیلد اجباری است' })}
-            className={styles.formInput}
-          />
-          {errors.endDate && <span className={styles.formError}>{errors.endDate.message}</span>}
-        </label>
+      <label>
+        تاریخ پایان:
+        <DatePicker
+          value={endDate}
+          onChange={(value) => setEndDate(new Date(value))}
+          calendar={persian}
+          locale={persian_fa}
+          format="YYYY/MM/DD"
+          placeholder="تاریخ پایان"
+          required
+        />
+      </label>
 
-        <label>
-          شرایط فروش مرتبط:
-          <select multiple {...register('salesConditionIds')} className={styles.formSelect}>
-            {salesConditions.map((condition) => (
-              <option key={condition.id} value={condition.id}>
-                {condition.name}
-              </option>
-            ))}
-          </select>
-        </label>
+      <label>
+        شرایط فروش:
+        <select
+          value={selectedCondition}
+          onChange={(e) => setSelectedCondition(e.target.value)}
+          required
+        >
+          <option value="" disabled>
+            انتخاب شرایط فروش
+          </option>
+          {salesConditions.map((sc) => (
+            <option key={sc.id} value={sc.id}>
+              {sc.name} - {sc.car?.name || 'بدون خودرو'}
+            </option>
+          ))}
+        </select>
+      </label>
 
-        <button type="submit" className={styles.formButton}>
-          {isEdit ? 'ویرایش جشنواره' : 'ایجاد جشنواره'}
-        </button>
-      </div>
+      <button type="submit">{isEdit ? 'ویرایش' : 'ایجاد'}</button>
+      <button type="button" onClick={() => router.push('/admin/sales-festivals')}>
+        لغو
+      </button>
     </form>
   )
 }

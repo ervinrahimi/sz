@@ -404,6 +404,9 @@ export const cardBoxSectionSchema = z.object({
 })
 
 export const salesFestivalSchema = z.object({
-  name: z.string().nonempty('عنوان جشنواره نباید خالی باشد'),
-  description: z.string().optional(),
+  name: z.string().nonempty('نام جشنواره الزامی است'), // فیلد نام الزامی
+  description: z.string().optional(), // توضیحات اختیاری
+  startDate: z.string().nonempty('تاریخ شروع الزامی است'), // تاریخ شروع الزامی
+  endDate: z.string().nonempty('تاریخ پایان الزامی است'), // تاریخ پایان الزامی
+  salesConditions: z.array(z.string()).min(1, 'حداقل یک شرایط فروش انتخاب کنید'), // حداقل یک شرایط فروش
 })
