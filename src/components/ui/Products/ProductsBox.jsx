@@ -14,7 +14,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
 
-import './ProductBoxStyles.css'
+import './ProductBoxSwiper.css'
 
 // import required modules
 import { Pagination } from 'swiper/modules'
@@ -46,11 +46,30 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
       </div>
       <div className={styles.container}>
         <Swiper
+          dir={'rtl'}
           slidesPerView={4}
           spaceBetween={30}
-          centeredSlides={true}
+          centeredSlides={false}
           pagination={{
             clickable: true,
+          }}
+          breakpoints={{
+            // سایز دسکتاپ
+            1024: {
+              slidesPerView: 4,
+            },
+            // سایز لپ‌تاپ
+            768: {
+              slidesPerView: 3,
+            },
+            // سایز تبلت
+            640: {
+              slidesPerView: 2,
+            },
+            // سایز موبایل
+            0: {
+              slidesPerView: 1,
+            },
           }}
           modules={[Pagination]}
           className="mySwiper"
@@ -59,7 +78,6 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
             cardBoxes.map((box) => (
               <>
                 <SwiperSlide>
-                  {' '}
                   <div key={box.id} className={styles.box}>
                     <div className={styles.colorContainer}>
                       <span className={styles.colors} />
@@ -103,49 +121,6 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
               </>
             ))}
         </Swiper>
-      </div>
-      <div className={styles.container}>
-        {cardBoxes &&
-          cardBoxes.map((box) => (
-            <>
-              <div key={box.id} className={styles.box}>
-                <div className={styles.colorContainer}>
-                  <span className={styles.colors} />
-                  <span className={styles.colors} />
-                  <span className={styles.colors} />
-                </div>
-                <Image
-                  className={styles.image}
-                  src={box.car.image[0]} // لینک عکس خودرو
-                  width={1000}
-                  height={1000}
-                  alt={'car-image'}
-                  onClick={handleViewClick(box.viewLink)}
-                />
-                <h4 className={styles.title} onClick={handleViewClick(box.viewLink)}>
-                  {box.car.name}
-                </h4>
-                <h3 className={styles.subTitle} onClick={handleViewClick(box.viewLink)}>
-                  {box.subtitle}
-                </h3>
-                <p className={styles.text}>{box.description.slice(0, 98) + '...'}</p>
-                <div className={styles.line}>
-                  <span></span>
-                </div>
-                <div className={styles.actionBox}>
-                  <button className={styles.actionButton} onClick={handleViewClick(box.viewLink)}>
-                    شرایط فروش
-                  </button>
-                  <button
-                    className={styles.actionButton}
-                    onClick={handleCatalogDownload(box.catalogUrl)}
-                  >
-                    دانلود کاتالوگ
-                  </button>
-                </div>
-              </div>
-            </>
-          ))}
       </div>
     </>
   )

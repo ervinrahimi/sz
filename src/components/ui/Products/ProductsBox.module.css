@@ -68,7 +68,7 @@
 }
 
 .box:hover {
-  transform: translateY(-5px);
+  /* transform: translateY(-5px); */
   box-shadow: 0 0px 20px -5px rgba(0, 0, 0, 0.2);
 }
 
@@ -302,12 +302,6 @@
   .box {
     flex-shrink: 0;
     scroll-snap-align: start;
-    width: 27%;
-    margin-right: 20px;
-  }
-
-  .box:last-child {
-    margin-right: 20px;
   }
 
   .subTitle {
@@ -353,12 +347,6 @@
   .box {
     flex-shrink: 0;
     scroll-snap-align: start;
-    width: 38%;
-    margin-right: 20px;
-  }
-
-  .box:last-child {
-    margin-right: 20px;
   }
 
   .subTitle {
@@ -404,12 +392,6 @@
   .box {
     flex-shrink: 0;
     scroll-snap-align: start;
-    width: 52%;
-    margin-right: 20px;
-  }
-
-  .box:last-child {
-    margin-right: 20px;
   }
 
   .subTitle {
@@ -455,12 +437,6 @@
   .box {
     flex-shrink: 0;
     scroll-snap-align: start;
-    width: 68%;
-    margin-right: 20px;
-  }
-
-  .box:last-child {
-    margin-right: 20px;
   }
 
   .subTitle {
