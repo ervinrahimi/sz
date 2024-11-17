@@ -95,15 +95,32 @@ export default function Sidebar({ admin }) {
           </Link>
         </li>
         <li>
-          <Link
-            href="/admin/sales-conditions"
-            className={`${styles.menuItem} ${
-              pathname === '/admin/sales-conditions' ? styles.active : ''
-            }`}
+          <div
+            onClick={() => setCartBoxSubmenuOpen(!isCartBoxSubmenuOpen)}
+            className={`${styles.menuItem} ${styles.submenuToggle}`}
           >
-            <Image src="/icons/admin/6.png" alt="Picture of the menu" width={25} height={25} />
-            مدیریت شرایط فروش
-          </Link>
+            <Image src="/icons/admin/6.png" alt="Menu Icon" width={25} height={25} />
+            شرایط فروش
+            <span className={styles.submenuIcon}>
+              {isCartBoxSubmenuOpen ? <Image src="/icons/dashboard/arrow-up.png" alt="Menu Icon" width={25} height={25} /> : <Image src="/icons/dashboard/arrow-down.png" alt="Menu Icon" width={25} height={25} />}
+            </span>
+          </div>
+          {isCartBoxSubmenuOpen && (
+            <ul className={styles.submenu}>
+              <li className={`${styles.submenuItem} ${pathname.startsWith('/admin/sales-conditions') ? styles.activeSubmenu : ''}`}>
+                <Image src="/icons/dashboard/sunMenu-arrow-left.png" alt="Menu Icon" width={20} height={20} />
+                <Link href="/admin/sales-conditions">
+                مدیریت شرایط فروش
+                </Link>
+              </li>
+              <li className={`${styles.submenuItem} ${pathname.startsWith('/admin/sales-festivals') ? styles.activeSubmenu : ''}`}>
+                <Image src="/icons/dashboard/sunMenu-arrow-left.png" alt="Menu Icon" width={20} height={20} />
+                <Link href="/admin/sales-festivals/">
+                مدیریت جشنواره ها
+                </Link>
+              </li>
+            </ul>
+          )}
         </li>
         <li>
           <Link
