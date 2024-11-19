@@ -295,7 +295,7 @@ export default function NewSalesConditionForm({ cars, salesFestivals}) {
         <div className={styles.imagePreviewContainer}>
           {imagePreviews.map((preview, index) => (
             <div key={index} className={styles.imagePreviewWrapper}>
-              <img
+              <Image
                 src={preview}
                 alt={`پیش‌نمایش تصویر ${index + 1}`}
                 className={styles.preview}
