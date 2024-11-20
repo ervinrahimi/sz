@@ -95,7 +95,7 @@ export async function POST(request) {
     await workbook.xlsx.writeFile(filePath);
 
     // ساخت لینک فایل
-    const fileUrl = `${BASE_URL}/uploads/${folderName}/${fileName}`;
+    const fileUrl = `${BASE_URL}uploads/${folderName}/${fileName}`;
 
     // ارسال ایمیل به ادمین
     await resend.emails.send({
