@@ -90,7 +90,7 @@ export async function POST(request) {
     mkdirSync(folderPath, { recursive: true });
     await workbook.xlsx.writeFile(filePath);
 
-    const fileUrl = `${BASE_URL}uploads/${folderName}/${fileName}`;
+    const fileUrl = `${BASE_URL}/uploads/${folderName}/${fileName}`;
 
     await resend.emails.send({
       from: 'SZ <noreply@soltanzade.com>',
