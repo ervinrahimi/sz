@@ -15,6 +15,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
 import './StyleProductDetail.css'
 import { useState } from 'react'
+import moment from 'moment-jalaali'
 
 export default function ProductDetail({ car, cardBoxSections }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
@@ -116,7 +117,7 @@ export default function ProductDetail({ car, cardBoxSections }) {
                       src={image}
                       alt={`Thumbnail ${index + 2}`}
                       className="mySwiperImage2"
-                      height={1080} 
+                      height={1080}
                       width={1080}
                     />
                   </SwiperSlide>
@@ -181,7 +182,11 @@ export default function ProductDetail({ car, cardBoxSections }) {
               </button>
             </div>
 
-            {activeTab === 'CASH' && <div className={styles.cashSelector}><p>در حال حاضر در دسترس نیست</p></div>}
+            {activeTab === 'CASH' && (
+              <div className={styles.cashSelector}>
+                <p>در حال حاضر در دسترس نیست</p>
+              </div>
+            )}
 
             {activeTab === 'INSTALLMENT' && (
               <>
@@ -256,12 +261,18 @@ export default function ProductDetail({ car, cardBoxSections }) {
                           <li>
                             <span>موعد تحویل</span>
                             <Image src="/dots.png" width={700} height={700} alt="dots" />
-                            <span>{condition.deliveryDate?.toLocaleDateString() || '-'}</span>
+                            <span>
+                              {condition.deliveryDate
+                                ? moment(condition.deliveryDate).format('jYYYY/jMM/jDD')
+                                : '-'}
+                            </span>
                           </li>
                         </div>
                         <div className={styles.buttonsSales}>
                           <button onClick={() => handleShopping(car.name)}>ثبت سفارش</button>
-                          <button onClick={() => handleShopping(car.name)}>افزودن به سبد خرید</button>
+                          <button onClick={() => handleShopping(car.name)}>
+                            افزودن به سبد خرید
+                          </button>
                         </div>
                       </div>
                     ))}
@@ -272,7 +283,6 @@ export default function ProductDetail({ car, cardBoxSections }) {
           </div>
           <div className={styles.line} />
         </div>
-        
 
         {/* نمایش cardBoxSections در ProductsBox */}
         {cardBoxSections[0] && (
