@@ -6,6 +6,7 @@ import { ROUTES } from '@/constants/routes'
 import { redirect } from 'next/navigation'
 import { auth } from '@/security/auth'
 import '@/styles/admin.css'
+import '@/styles/forms.css'
 
 export const metadata = {
   title: 'ادمین پنل',

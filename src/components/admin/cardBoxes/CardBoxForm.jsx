@@ -1,15 +1,13 @@
-// src/components/admin/cardBoxes/CardBoxForm.jsx
-
 'use client'
 
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { createCardBox, updateCardBox, deleteCatalogFile } from '@/actions/admin/cardBoxes'
 import { cardBoxSchema } from '@/security/zod/validationSchema'
-import { useRouter } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import styles from './CardBoxForm.module.css'
 import toast from 'react-hot-toast'
-import styles from '@/styles/form.module.css'
 import Image from 'next/image'
 
 export default function CardBoxForm({ cardBox, cars, sections }) {
@@ -137,7 +135,7 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
             </option>
           ))}
         </select>
-        {errors.sectionId && <span className={styles.formError}>{errors.sectionId.message}</span>}
+        {errors.sectionId && <span className={`${styles.formError} error`}>{errors.sectionId.message}</span>}
       </label>
 
       <label className={styles.formLabel}>
