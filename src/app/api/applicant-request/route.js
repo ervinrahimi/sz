@@ -94,7 +94,7 @@ export async function POST(request) {
 
     await resend.emails.send({
       from: 'SZ <noreply@soltanzade.com>',
-      to: ['clonerfan@gmail.com'],
+      to: ['karbasi374@gmail.com'],
       subject: 'درخواست متقاضی جدید',
       html: `
         ${emailContent}

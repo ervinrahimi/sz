@@ -100,7 +100,7 @@ export async function POST(request) {
     // ارسال ایمیل به ادمین
     await resend.emails.send({
       from: 'SZ <noreply@soltanzade.com>',
-      to: ['clonerfan@gmail.com'],
+      to: ['karbasi374@gmail.com'],
       subject: 'درخواست استخدام جدید',
       html: `
         ${emailContent}
