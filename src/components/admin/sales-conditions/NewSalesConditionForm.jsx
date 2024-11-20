@@ -13,7 +13,7 @@ import styles from '@/styles/form.module.css'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
 
-export default function NewSalesConditionForm({ cars, salesFestivals}) {
+export default function NewSalesConditionForm({ cars, salesFestivals }) {
   const [deliveryDate, setDeliveryDate] = useState(null)
   const [isPending, startTransition] = useTransition()
   const [imageFiles, setImageFiles] = useState([]) // مدیریت فایل‌ها به عنوان آرایه
@@ -137,7 +137,6 @@ export default function NewSalesConditionForm({ cars, salesFestivals}) {
         </select>
         {errors.carId && <p className={styles.formError}>{errors.carId.message}</p>}
 
-
         <label>انتخاب جشنواره فروش:</label>
         <select {...register('salesFestivalId')} className={styles.formSelect}>
           {salesFestivals.map((salesFestival) => (
@@ -146,7 +145,9 @@ export default function NewSalesConditionForm({ cars, salesFestivals}) {
             </option>
           ))}
         </select>
-        {errors.salesFestivalId && <p className={styles.formError}>{errors.salesFestivalId.message}</p>}
+        {errors.salesFestivalId && (
+          <p className={styles.formError}>{errors.salesFestivalId.message}</p>
+        )}
 
         <label>نام شرایط:</label>
         <input type="text" {...register('name')} className={styles.formInput} />
@@ -226,15 +227,8 @@ export default function NewSalesConditionForm({ cars, salesFestivals}) {
           <p className={styles.formError}>{errors.remainingAtDelivery.message}</p>
         )}
 
-        <label>تاریخ تحویل:</label>
-        <DatePicker
-          value={deliveryDate}
-          onChange={handleDateChange} // تابع تغییر تاریخ
-          calendar={persian}
-          locale={persian_fa}
-          calendarPosition="bottom-right"
-          className={styles.formInput}
-        />
+        <label>زمان تحویل (مثال: 120 روز کاری):</label>
+        <input type="text" {...register('deliveryDate')} className={styles.formInput} />
         {errors.deliveryDate && <p className={styles.formError}>{errors.deliveryDate.message}</p>}
 
         <label>سود مشارکت:</label>
@@ -243,54 +237,54 @@ export default function NewSalesConditionForm({ cars, salesFestivals}) {
           <p className={styles.formError}>{errors.participationProfit.message}</p>
         )}
 
-<label className={styles.formInput}>
-  تصاویر شرایط فروش:
-  <input
-    className={styles.formFile}
-    type="file"
-    accept="image/*"
-    multiple
-    onChange={handleImageChange}
-  />
-  <p>نکته: تصویر اول به عنوان تصویر اصلی قرار می‌گیرد!</p>
-</label>
+        <label className={styles.formInput}>
+          تصاویر شرایط فروش:
+          <input
+            className={styles.formFile}
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleImageChange}
+          />
+          <p>نکته: تصویر اول به عنوان تصویر اصلی قرار می‌گیرد!</p>
+        </label>
 
-<div className={styles.imagePreviewContainer}>
-  {imagePreviews.map((preview, index) => (
-    <div key={index} className={styles.imagePreviewWrapper}>
-      <Image
-        src={preview}
-        alt={`پیش‌نمایش تصویر ${index + 1}`}
-        className={styles.preview}
-        width={100}
-        height={100}
-      />
-      <button
-        type="button"
-        className={styles.deleteButton}
-        onClick={() => removeImage(index)}
-      >
-        حذف تصویر
-      </button>
-      <button
-        type="button"
-        className={styles.moveButton}
-        onClick={() => moveImageUp(index)}
-        disabled={index === 0}
-      >
-        بالا
-      </button>
-      <button
-        type="button"
-        className={styles.moveButton}
-        onClick={() => moveImageDown(index)}
-        disabled={index === imagePreviews.length - 1}
-      >
-        پایین
-      </button>
-    </div>
-  ))}
-</div>
+        <div className={styles.imagePreviewContainer}>
+          {imagePreviews.map((preview, index) => (
+            <div key={index} className={styles.imagePreviewWrapper}>
+              <Image
+                src={preview}
+                alt={`پیش‌نمایش تصویر ${index + 1}`}
+                className={styles.preview}
+                width={100}
+                height={100}
+              />
+              <button
+                type="button"
+                className={styles.deleteButton}
+                onClick={() => removeImage(index)}
+              >
+                حذف تصویر
+              </button>
+              <button
+                type="button"
+                className={styles.moveButton}
+                onClick={() => moveImageUp(index)}
+                disabled={index === 0}
+              >
+                بالا
+              </button>
+              <button
+                type="button"
+                className={styles.moveButton}
+                onClick={() => moveImageDown(index)}
+                disabled={index === imagePreviews.length - 1}
+              >
+                پایین
+              </button>
+            </div>
+          ))}
+        </div>
 
         <div className={styles.imagePreviewContainer}>
           {imagePreviews.map((preview, index) => (

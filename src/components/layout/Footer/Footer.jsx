@@ -25,7 +25,7 @@ export default function Footer() {
             <h3 className={styles.footerHeader}>ارتباط با ما</h3>
             <ul>
               <li>
-                <a href="#">شماره تماس : 999999</a>
+                <a href="#">شماره تماس : 02191694314</a>
               </li>
               <li>
                 <a href="#" className={styles.highlight}>

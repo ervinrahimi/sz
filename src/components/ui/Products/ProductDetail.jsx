@@ -15,7 +15,6 @@ import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
 import './StyleProductDetail.css'
 import { useState } from 'react'
-import moment from 'moment-jalaali'
 
 export default function ProductDetail({ car, cardBoxSections }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
@@ -261,11 +260,7 @@ export default function ProductDetail({ car, cardBoxSections }) {
                           <li>
                             <span>موعد تحویل</span>
                             <Image src="/dots.png" width={700} height={700} alt="dots" />
-                            <span>
-                              {condition.deliveryDate
-                                ? moment(condition.deliveryDate).format('jYYYY/jMM/jDD')
-                                : '-'}
-                            </span>
+                            <span>{condition.deliveryDate || 'مشخص نشده'} روز</span>
                           </li>
                         </div>
                         <div className={styles.buttonsSales}>

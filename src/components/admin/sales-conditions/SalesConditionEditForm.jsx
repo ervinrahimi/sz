@@ -20,7 +20,7 @@ export default function SalesConditionEditForm({ salesCondition, salesFestivals 
   const [isLocked, setIsLocked] = useState(salesCondition.isLocked)
   const [status, setStatus] = useState(salesCondition.status)
   const [imageFiles, setImageFiles] = useState(salesCondition.images || []) // تصاویر موجود یا خالی
-  const [imagePreviews, setImagePreviews] = useState(salesCondition.images || []) // پیش‌نمایش تصاویر  
+  const [imagePreviews, setImagePreviews] = useState(salesCondition.images || []) // پیش‌نمایش تصاویر
   const router = useRouter()
 
   const handleCheckboxChange = async () => {
@@ -51,7 +51,7 @@ export default function SalesConditionEditForm({ salesCondition, salesFestivals 
     defaultValues: {
       id: salesCondition.id,
       carId: salesCondition.car.id,
-      salesFestivalId: salesCondition.salesFestival.id,
+      salesFestivalId: salesCondition.salesFestival?.id,
       name: salesCondition.name,
       conditionType: salesCondition.conditionType,
       salesMethod: salesCondition.salesMethod,
@@ -185,7 +185,9 @@ export default function SalesConditionEditForm({ salesCondition, salesFestivals 
             </option>
           ))}
         </select>
-        {errors.salesFestivalId && <p className={styles.formError}>{errors.salesFestivalId.message}</p>}
+        {errors.salesFestivalId && (
+          <p className={styles.formError}>{errors.salesFestivalId.message}</p>
+        )}
 
         <label className={styles.formLabel}>نام شرایط:</label>
         <input type="text" {...register('name')} className={styles.formInput} />
@@ -265,14 +267,12 @@ export default function SalesConditionEditForm({ salesCondition, salesFestivals 
         <input type="text" {...register('finalPrice')} className={styles.formInput} />
         {errors.finalPrice && <p className={styles.formError}>{errors.finalPrice.message}</p>}
 
-        <label className={styles.formLabel}>تاریخ تحویل:</label>
-        <DatePicker
-          value={deliveryDate}
-          onChange={handleDateChange}
-          calendar={persian}
-          locale={persian_fa}
-          calendarPosition="bottom-right"
+        <label>زمان تحویل (مثال: 120 روز کاری):</label>
+        <input
+          type="text"
+          {...register('deliveryDate')}
           className={styles.formInput}
+          defaultValue={salesCondition.deliveryDate}
         />
         {errors.deliveryDate && <p className={styles.formError}>{errors.deliveryDate.message}</p>}
 
