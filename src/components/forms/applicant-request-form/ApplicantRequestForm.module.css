@@ -1,0 +1,157 @@
+/* styles/JobApplicationForm.module.css */
+
+.applicantRequestFormContainer {
+  display: flex;
+  width: 100%;
+  margin: 15px 0;
+  justify-content: center;
+  align-items: center;
+  font-variation-settings: 'wdth' 100, 'wght' 400, 'DOTS' 0;
+}
+
+.applicantRequestForm {
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+  border-radius: 12px;
+  background-color: #fff;
+  border: 2px solid rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  height: 70px;
+  width: 100%;
+}
+
+.logo path{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  fill: #333;
+}
+
+.title {
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 800, 'DOTS' 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.input {
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 400, 'DOTS' 0;
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
+}
+
+.error {
+  color: #e74c3c;
+  font-size: 0.8rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}  
+
+.button {
+  font-family: var(--font-yekanbakh);
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #a4e40200;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #81b181;
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+
+.button:hover {
+  background-color: #a4e40200;
+  color: #ffffff;
+  background-color: #6f976f;
+}
+
+.backButton {
+  margin-top: 10px;
+  font-family: var(--font-yekanbakh);
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #eee;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  font-variation-settings: 'wdth' 100, 'wght' 750, 'CNTR' 40;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.backButton:hover {
+  background-color: #d8d8d8;
+}
+
+.alternativeSignIn {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+.alternativeSignIn::before,
+.alternativeSignIn::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #ddd;
+}
+
+.alternativeSignIn span {
+  margin: 0 0.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.oauthButtons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+}
+
+.oauthButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.footerText {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.footerText a {
+  color: #333;
+  text-decoration: underline;
+}

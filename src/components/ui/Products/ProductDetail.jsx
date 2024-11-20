@@ -15,6 +15,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
 import './StyleProductDetail.css'
 import { useState } from 'react'
+import Link from 'next/link'
 
 export default function ProductDetail({ car, cardBoxSections }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
@@ -275,6 +276,11 @@ export default function ProductDetail({ car, cardBoxSections }) {
                 )}
               </>
             )}
+          </div>
+          <div className={styles.requestSell}>
+            <Link href={`/applicant-request`}>
+              درخواست خرید خودرو
+            </Link>
           </div>
           <div className={styles.line} />
         </div>
