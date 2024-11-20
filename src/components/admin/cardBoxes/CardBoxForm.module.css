@@ -1,0 +1,10 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 20px;
+}

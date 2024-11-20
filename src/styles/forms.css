@@ -7,10 +7,11 @@ form > h2 {
 
 /* Labels */
 form > label {
-  font-size: 14px;
-  gap: 15px;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  font-size: 14px;
+  gap: 10px;
   font-variation-settings: 'wdth' 98, 'wght' 500, 'DOTS' 1;
   color: #555;
   margin-bottom: 20px;
@@ -50,7 +51,6 @@ form input[type='file'] {
 }
 
 form input[type='file']:hover {
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
   border-color: #1c7d7f;
   box-shadow: 0 0 5px rgba(28, 125, 127, 0.5);
 }
@@ -95,7 +95,6 @@ form input[type='checkbox'] {
 /* Select Boxes */
 form select {
   cursor: pointer;
-  width: 100%;
   padding: 12px;
   border: 2px solid #ddd;
   border-radius: 8px;
@@ -112,6 +111,7 @@ form select:focus {
 
 /* Buttons */
 form button {
+  width: 100%;
   padding: 12px 16px;
   font-size: 16px;
   font-weight: bold;
