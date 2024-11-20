@@ -47,7 +47,7 @@ export default async function Home() {
           subtitles={{ s1: 'برای مشاهده کلیک کنید', s2: 'برای مشاهده کلیک کنید' }}
           dates={{ d1: 'آبان 1403', d2: 'آبان 1403' }}
           videos={false}
-          links={{ l1: '/t5', l2: '/sx5' }}
+          links={{ l1: '/67307f996a53b993440edc20', l2: '/67307f286a53b993440edc16' }}
         />
 
         {cardBoxSections[1] && (
@@ -70,7 +70,7 @@ export default async function Home() {
           subtitles={{ s1: 'برای مشاهده کلیک کنید', s2: 'برای مشاهده کلیک کنید' }}
           dates={{ d1: 'آبان 1403', d2: 'آبان 1403' }}
           videos={false}
-          links={{ l1: '/b511', l2: '/suba-m4' }}
+          links={{ l1: '/67307e9a6a53b993440edc0b', l2: '/6730801a6a53b993440edc2a' }}
         />
 
         {cardBoxSections[2] && (
