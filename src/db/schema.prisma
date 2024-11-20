@@ -160,7 +160,7 @@ model SalesCondition {
   remainingAtDelivery BigInt? // مانده زمان تحویل
   siteSalesCode       BigInt
   finalPrice          BigInt // قیمت نهایی
-  deliveryDate        DateTime? // موعد تحویل
+  deliveryDate        String? // موعد تحویل
   participationProfit BigInt? // سود مشارکت
   status              SalesConditionStatus @default(PENDING) // وضعیت شرایط فروش
   isLocked            Boolean              @default(false) // نیاز به مجوز
@@ -175,14 +175,14 @@ model SalesCondition {
 
 // مدل جشنواره فروش
 model SalesFestival {
-  id                String           @id @default(auto()) @map("_id") @db.ObjectId
-  name              String           // نام جشنواره
-  description       String?          // توضیحات جشنواره
-  startDate         DateTime         // تاریخ شروع
-  endDate           DateTime         // تاریخ پایان
-  salesConditions   SalesCondition[] // شرایط فروش مربوط به این جشنواره
-  createdAt         DateTime         @default(now()) // تاریخ ایجاد
-  updatedAt         DateTime         @updatedAt // تاریخ به‌روزرسانی
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  name            String // نام جشنواره
+  description     String? // توضیحات جشنواره
+  startDate       DateTime // تاریخ شروع
+  endDate         DateTime // تاریخ پایان
+  salesConditions SalesCondition[] // شرایط فروش مربوط به این جشنواره
+  createdAt       DateTime         @default(now()) // تاریخ ایجاد
+  updatedAt       DateTime         @updatedAt // تاریخ به‌روزرسانی
 }
 
 enum SalesConditionStatus {

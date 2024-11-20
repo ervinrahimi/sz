@@ -45,7 +45,7 @@ export async function createSalesCondition(data) {
       totalInstallments: totalInstallments ? parseInt(totalInstallments) : null,
       monthlyInstallment: monthlyInstallment ? parseFloat(monthlyInstallment) : null,
       remainingAtDelivery: remainingAtDelivery ? parseFloat(remainingAtDelivery) : null,
-      deliveryDate: deliveryDate ? new Date(deliveryDate) : null,
+      deliveryDate,
       participationProfit: participationProfit ? parseFloat(participationProfit) : null,
       isLocked,
       images: images, // ذخیره تصاویر
@@ -97,7 +97,7 @@ export async function updateSalesCondition(data) {
       remainingAtDelivery,
       status,
       finalPrice,
-      deliveryDate: deliveryDate ? new Date(deliveryDate) : null,
+      deliveryDate,
       participationProfit,
       isLocked,
       images: images, // ذخیره تصاویر

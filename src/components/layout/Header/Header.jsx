@@ -18,9 +18,11 @@ import Link from 'next/link'
 import toast from 'react-hot-toast'
 import { ROUTES } from '@/constants/routes'
 
-export default function Header({ product, menuItems, user}) {
+export default function Header({ product, menuItems, user }) {
   const [showContent, setShowContent] = useState(true)
   const [isOpen, setIsOpen] = useState(false)
+  const [toastCount, setToastCount] = useState(0)
+  const [canShowToast, setCanShowToast] = useState(true)
 
   const toggleMenu = () => {
     setIsOpen(!isOpen)
@@ -47,6 +49,19 @@ export default function Header({ product, menuItems, user}) {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
+
+  useEffect(() => {
+    if (toastCount >= 5) {
+      setCanShowToast(false)
+
+      const timer = setTimeout(() => {
+        setToastCount(0)
+        setCanShowToast(true)
+      }, 5000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [toastCount])
 
   const renderSubMenus = (subMenus) => {
     return (
@@ -86,6 +101,18 @@ export default function Header({ product, menuItems, user}) {
   const isActive = (path) => {
     return pathname === path
   }
+
+  const handleMenuClick = (isLastMenu) => {
+    if (!isLastMenu) {
+      if (toastCount < 5) {
+        toast('این منو در حال توسعه است!')
+        setToastCount(toastCount + 1) // افزایش تعداد نمایش Toast
+      } else {
+        console.log('حداکثر تعداد Toast نمایش داده شده است.')
+      }
+    }
+  }
+
   return (
     <>
       {/* منوی کناری */}
@@ -95,13 +122,14 @@ export default function Header({ product, menuItems, user}) {
         </button>
         <ul>
           {menuItems &&
-            menuItems.map((menu) => 
-              menu.isActive && (
-                <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
-                  <Link href={menu.link || '#'}>{menu.title}</Link>
-                </li>
-              )
-          )}
+            menuItems.map(
+              (menu) =>
+                menu.isActive && (
+                  <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
+                    <Link href={menu.link || '#'}>{menu.title}</Link>
+                  </li>
+                )
+            )}
         </ul>
       </div>
 
@@ -117,30 +145,32 @@ export default function Header({ product, menuItems, user}) {
             <SoltanZadeLogoSVG onClick={handleClick} className={styles.logo} />
             <ul>
               {menuItems &&
-                menuItems.map((menu) => 
-                  menu.isActive && (
-                    <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
-                      <Link href={menu.link || '#'}>{menu.title}</Link>
-                      {menu.subMenus.length > 0 && (
-                        <MenuArrowIcon
-                          className={isActive(menu.link) ? styles.active : 'menuArrowIcon'}
-                        />
-                      )}
-                      {menu.subMenus && menu.subMenus.length > 0 && (
-                        <ul className={styles.subMenu}>
-                          {menu.subMenus.map((subMenu) => (
-                            <li
-                              key={subMenu.id}
-                              className={isActive(subMenu.link) ? styles.active : ''}
-                            >
-                              <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </li>
-                  )
-                )}
+                menuItems.map((menu, index) => {
+                  const isLastMenu = index === menuItems.length - 1 // بررسی اینکه آیا این منو آخرین منو است یا خیر
+                  if (menu.isActive) {
+                    return (
+                      <li
+                        key={menu.id}
+                        className={isLastMenu ? '' : 'disabled'}
+                        onClick={() => {
+                          if (!isLastMenu) {
+                            if (canShowToast) {
+                              toast('این منو در حال توسعه است!')
+                              setToastCount(toastCount + 1)
+                            }
+                          }
+                        }}
+                      >
+                        {isLastMenu ? (
+                          <Link href={menu.link || '#'}>{menu.title}</Link>
+                        ) : (
+                          <span>{menu.title}</span>
+                        )}
+                      </li>
+                    )
+                  }
+                  return null
+                })}
             </ul>
           </div>
           <div className={styles.leftSideMenu}>
