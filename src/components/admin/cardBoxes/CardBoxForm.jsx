@@ -81,85 +81,96 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
-      <label className={styles.formLabel}>
-        عنوان کارت باکس:
-        <input type="text" {...register('title')} className={styles.formInput} />
-        {errors.title && <span className={styles.formError}>{errors.title.message}</span>}
-      </label>
+    <form className={`formContainer`} onSubmit={handleSubmit(onSubmit)}>
+      <div className={`labelGroup`}>
+        <label className={`formLabel`}>
+          عنوان کارت باکس:
+          <input type="text" {...register('title')} className={`formInput`} />
+          {errors.title && <span className={`formError`}>{errors.title.message}</span>}
+        </label>
 
-      <label className={styles.formLabel}>
-        عنوان صفت خودرو:
-        <input type="text" {...register('subtitle')} className={styles.formInput} />
-        {errors.subtitle && <span className={styles.formError}>{errors.subtitle.message}</span>}
-      </label>
+        <label className={`formLabel`}>
+          عنوان صفت خودرو:
+          <input type="text" {...register('subtitle')} className={`formInput`} />
+          {errors.subtitle && <span className={`formError`}>{errors.subtitle.message}</span>}
+        </label>
+      </div>
 
-      <label className={styles.formLabel}>
+      <label className={`formLabel`}>
         توضیحات:
-        <textarea {...register('description')} className={styles.formInput} />
-        {errors.description && (
-          <span className={styles.formError}>{errors.description.message}</span>
-        )}
+        <textarea {...register('description')} className={`formInputArea`} />
+        {errors.description && <span className={`formError`}>{errors.description.message}</span>}
       </label>
 
-      <label className={styles.formLabel}>
+      <label className={`formLabel`}>
         قیمت:
         <input
           type="number"
           {...register('price', { valueAsNumber: true })}
-          className={styles.formInput}
+          className={`formInput`}
         />
-        {errors.price && <span className={styles.formError}>{errors.price.message}</span>}
+        {errors.price && <span className={`formError`}>{errors.price.message}</span>}
       </label>
+      <div className={`labelGroup`}>
+        <label className={`formLabel`}>
+          انتخاب خودرو:
+          <select {...register('carId')} className={`formSelect`}>
+            <option value="">انتخاب کنید</option>
+            {cars.map((car) => (
+              <option key={car.id} value={car.id}>
+                {car.name}
+              </option>
+            ))}
+          </select>
+          {errors.carId && <span className={`formError`}>{errors.carId.message}</span>}
+        </label>
 
-      <label className={styles.formLabel}>
-        انتخاب خودرو:
-        <select {...register('carId')} className={styles.formInput}>
-          <option value="">انتخاب کنید</option>
-          {cars.map((car) => (
-            <option key={car.id} value={car.id}>
-              {car.name}
-            </option>
-          ))}
-        </select>
-        {errors.carId && <span className={styles.formError}>{errors.carId.message}</span>}
-      </label>
-
-      <label className={styles.formLabel}>
-        انتخاب بخش:
-        <select {...register('sectionId')} className={styles.formInput}>
-          <option value="">انتخاب کنید</option>
-          {sections.map((section) => (
-            <option key={section.id} value={section.id}>
-              {section.name}
-            </option>
-          ))}
-        </select>
-        {errors.sectionId && <span className={`${styles.formError} error`}>{errors.sectionId.message}</span>}
-      </label>
-
-      <label className={styles.formLabel}>
+        <label className={`formLabel`}>
+          انتخاب بخش:
+          <select {...register('sectionId')} className={`formSelect`}>
+            <option value="">انتخاب کنید</option>
+            {sections.map((section) => (
+              <option key={section.id} value={section.id}>
+                {section.name}
+              </option>
+            ))}
+          </select>
+          {errors.sectionId && <span className={`formError`}>{errors.sectionId.message}</span>}
+        </label>
+      </div>
+      <label className={`formLabel`}>
         آپلود کاتالوگ:
-        <input type="file" onChange={handleCatalogChange} accept="image/*,application/pdf" />
+        <input
+          type="file"
+          className={`formFile`}
+          onChange={handleCatalogChange}
+          accept="image/*,application/pdf"
+        />
       </label>
 
       {/* نمایش فایل آپلود شده */}
       {previewUrl && (
-        <div className={styles.filePreviewContainer}>
+        <div className={`filePreviewContainer`}>
           {previewUrl.endsWith('.pdf') ? (
-            <div className={styles.fileInfoContainer}>
+            <div className={`fileInfoContainer`}>
               <span>📄</span> {/* آیکن فایل PDF */}
               <a href={previewUrl} target="_blank" rel="noopener noreferrer">
                 {catalogFile ? catalogFile.name : 'کاتالوگ فعلی'}
               </a>
-              <button type="button" onClick={handleCatalogDelete} className={styles.deleteButton}>
+              <button type="button" onClick={handleCatalogDelete} className={`deleteButton`}>
                 حذف کاتالوگ
               </button>
             </div>
           ) : (
-            <div className={styles.fileInfoContainer}>
-              <Image src={previewUrl} alt="پیش‌نمایش کاتالوگ" className={styles.previewImage} width={100} height={100} />
-              <button type="button" onClick={handleCatalogDelete} className={styles.deleteButton}>
+            <div className={`fileInfoContainer`}>
+              <Image
+                src={previewUrl}
+                alt="پیش‌نمایش کاتالوگ"
+                className={`previewImage`}
+                width={100}
+                height={100}
+              />
+              <button type="button" onClick={handleCatalogDelete} className={`deleteButton`}>
                 حذف کاتالوگ
               </button>
             </div>
@@ -167,11 +178,11 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
         </div>
       )}
 
-      <div className={styles.buttonGroup}>
-        <button type="submit" className={styles.formButton}>
+      <div className={`buttonGroup`}>
+        <button type="submit" className={`formButton`}>
           {isEdit ? 'ویرایش' : 'ایجاد'}
         </button>
-        <button type="button" onClick={handleCancel} className={styles.formButton}>
+        <button type="button" onClick={handleCancel} className={`formButton`}>
           لغو
         </button>
       </div>

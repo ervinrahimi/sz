@@ -160,23 +160,24 @@ export default function VehicleDetails({ vehicle }) {
   }
 
   return (
-    <div className={styles.formWrapper}>
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
-        <label className={styles.formLabel}>
-          مدل:
-          <input type="text" {...register('model')} className={styles.formInput} />
-          {errors.model && <p className={styles.formError}>{errors.model.message}</p>}
-        </label>
-        <label className={styles.formLabel}>
-          نام:
-          <input type="text" {...register('name')} className={styles.formInput} />
-          {errors.name && <p className={styles.formError}>{errors.name.message}</p>}
-        </label>
+      <form onSubmit={handleSubmit(onSubmit)} className={`formContainer`}>
 
-        <label className={styles.formInput}>
+        <div className={`labelGroup`}>
+        <label className={`formLabel`}>
+          مدل:
+          <input type="text" {...register('model')} className={`formInput`} />
+          {errors.model && <p className={`formError`}>{errors.model.message}</p>}
+        </label>
+        <label className={`formLabel`}>
+          نام:
+          <input type="text" {...register('name')} className={`formInput`} />
+          {errors.name && <p className={`formError`}>{errors.name.message}</p>}
+        </label>
+        </div>
+        <label className={`formLabel`}>
           تصویر خودرو:
           <input
-            className={styles.formFile}
+            className={`formFile`}
             type="file"
             accept="image/*"
             multiple // اجازه آپلود چندین تصویر
@@ -184,37 +185,37 @@ export default function VehicleDetails({ vehicle }) {
           />
           <p>نکته: تصویر اول به عنوان تصویر اصلی قرار می‌گیرد!</p>
           {/* نمایش خطای تصویر در صورت وجود */}
-          {errors.imageFile && <p className={styles.formError}>{errors.imageFile.message}</p>}
+          {errors.imageFile && <p className={`formError`}>{errors.imageFile.message}</p>}
         </label>
 
-        <div className={styles.imagePreviewContainer}>
+        <div className={`imagePreviewContainer`}>
           {imagePreviews.map((preview, index) => (
-            <div key={index} className={styles.imagePreviewWrapper}>
+            <div key={index} className={`imagePreviewWrapper`}>
               <Image
                 src={preview}
                 alt={`پیش‌نمایش تصویر ${index + 1}`}
-                className={styles.preview}
+                className={`preview`}
                 width={1400}
                 height={1400}
                 quality={100}
               />
               <button
                 type="button"
-                className={styles.formButton}
+                className={`deleteButton`}
                 onClick={() => removeImage(index)}
               >
                 حذف تصویر
               </button>
               <button
                 type="button"
-                className={styles.formButton}
+                className={`moveButton`}
                 onClick={() => moveImageUp(index)}
                 disabled={index === 0}
               >
                 بالا
               </button>
               <button
-                className={styles.formButton}
+                className={`moveButton`}
                 type="button"
                 onClick={() => moveImageDown(index)}
                 disabled={index === imagePreviews.length - 1}
@@ -225,39 +226,39 @@ export default function VehicleDetails({ vehicle }) {
           ))}
         </div>
 
-        <label className={styles.formLabel}>
+        <label className={`formLabel`}>
           وضعیت:
-          <select {...register('status')} className={styles.formSelect}>
+          <select {...register('status')} className={`formSelect`}>
             <option value="AVAILABLE">موجود</option>
             <option value="UNAVAILABLE">ناموجود</option>
           </select>
         </label>
 
-        <h3 className={styles.subtitle}>مشخصات ظاهری</h3>
+        <h3 className={`subtitle`}>مشخصات ظاهری</h3>
         {appearanceFields.map((spec, index) => (
-          <div key={spec.id} className={styles.specification}>
-            <label className={styles.formLabel}>
+          <div key={spec.id} className={`labelGroup`}>
+            <label className={`formLabel`}>
               عنوان:
               <input
                 type="text"
                 {...register(`appearanceSpecifications.${index}.title`)}
-                className={styles.formInput}
+                className={`formInput`}
               />
             </label>
-            <label className={styles.formLabel}>
+            <label className={`formLabel`}>
               مقدار:
               <input
                 type="text"
                 {...register(`appearanceSpecifications.${index}.value`)}
-                className={styles.formInput}
+                className={`formInput`}
               />
             </label>
-            <label className={styles.formLabel}>
+            <label className={`formLabel`}>
               یادداشت:
               <input
                 type="text"
                 {...register(`appearanceSpecifications.${index}.note`)}
-                className={styles.formInput}
+                className={`formInput`}
               />
             </label>
             {index > 0 && (
@@ -274,46 +275,46 @@ export default function VehicleDetails({ vehicle }) {
         <button
           type="button"
           onClick={() => appendAppearance({ title: '', value: '', note: '' })}
-          className={styles.formButton}
+          className={`formButton`}
         >
           افزودن مشخصات ظاهری
         </button>
 
         <h3 className={styles.subtitle}>مشخصات فنی</h3>
         {technicalFields.map((spec, index) => (
-          <div key={spec.id} className={styles.specification}>
-            <label className={styles.formLabel}>
+          <div key={spec.id} className={`labelGroup`}>
+            <label className={`formLabel`}>
               ویژگی:
               <input
                 type="text"
                 {...register(`technicalSpecifications.${index}.key`)}
-                className={styles.formInput}
+                className={`formInput`}
               />
               {errors.technicalSpecifications?.[index]?.key && (
-                <p className={styles.formError}>
+                <p className={`formError`}>
                   {errors.technicalSpecifications[index].key.message}
                 </p>
               )}
             </label>
-            <label className={styles.formLabel}>
+            <label className={`formLabel`}>
               مقدار:
               <input
                 type="text"
                 {...register(`technicalSpecifications.${index}.value`)}
-                className={styles.formInput}
+                className={`formInput`}
               />
               {errors.technicalSpecifications?.[index]?.value && (
-                <p className={styles.formError}>
+                <p className={`formError`}>
                   {errors.technicalSpecifications[index].value.message}
                 </p>
               )}
             </label>
-            <label className={styles.formLabel}>
+            <label className={`formLabel`}>
               یادداشت:
               <input
                 type="text"
                 {...register(`technicalSpecifications.${index}.note`)}
-                className={styles.formInput}
+                className={`formInput`}
               />
             </label>
 
@@ -321,7 +322,7 @@ export default function VehicleDetails({ vehicle }) {
               <button
                 type="button"
                 onClick={() => removeTechnical(index)}
-                className={styles.formButton}
+                className={`deleteButton`}
               >
                 حذف مشخصه
               </button>
@@ -346,6 +347,5 @@ export default function VehicleDetails({ vehicle }) {
           </button>
         </div>
       </form>
-    </div>
   )
 }

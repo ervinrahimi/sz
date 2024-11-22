@@ -1,12 +1,15 @@
-/* Form Title */
-form > h2 {
-  font-size: 20px;
-  color: #333;
-  margin-bottom: 12px;
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
+.labelGroup {
+  display: flex;
+  gap: 10px;
+}
 /* Labels */
-form > label {
+.formLabel {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -18,8 +21,8 @@ form > label {
 }
 
 /* Text Inputs and Textareas */
-form input:not([type='file']),
-form textarea {
+.formInput:not([type='file']),
+.formInputArea {
   margin-top: 4px;
   padding: 12px;
   border: 2px solid #ddd;
@@ -30,18 +33,19 @@ form textarea {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-form input:not([type='file']):focus,
-form textarea:focus {
+.formInput:not([type='file']):focus,
+.formInputArea:focus {
   border-color: #1c7d7f;
   box-shadow: 0 0 5px rgba(28, 125, 127, 0.5);
 }
 
-form textarea {
+.formInputArea {
   height: 150px;
 }
 
 /* File Inputs */
-form input[type='file'] {
+.formFile[type='file'] {
+  cursor: pointer;
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -50,16 +54,16 @@ form input[type='file'] {
   transition: border-color 0.3s ease;
 }
 
-form input[type='file']:hover {
+.formFile[type='file']:hover {
   border-color: #1c7d7f;
   box-shadow: 0 0 5px rgba(28, 125, 127, 0.5);
 }
 
-form input[type='file']::-webkit-file-upload-button {
+.formFile[type='file']::-webkit-file-upload-button {
   visibility: hidden;
 }
 
-form input[type='file']::before {
+.formFile[type='file']::before {
   content: 'آپلود فایل';
   display: inline-block;
   background-color: #595959;
@@ -75,16 +79,87 @@ form input[type='file']::before {
   transition: background-color 0.3s ease;
 }
 
-form input[type='file']:hover::before {
+.formFile[type='file']:hover::before {
   background-color: #17686a;
 }
 
-form input[type='file']:active::before {
+.formFile[type='file']:active::before {
   background-color: #155a5c;
 }
 
+.imagePreviewContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.imagePreviewWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 100px;
+  min-height: 100px;
+  max-width: 100px;
+  max-height: 100px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.deleteButton,
+.moveButton {
+  margin-top: 10px;
+  background-color: rgba(255, 255, 255, 0.932);
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  width: 100%;
+  border-radius: 10px; 
+  transition: background-color 0.3s ease;
+}
+
+.deleteButton {
+  background-color: rgb(232, 65, 65);
+  color: white;
+}
+
+.moveButton {
+  background-color: #1c7d7f;
+  color: white;
+}
+
+.deleteButton:hover {
+  background-color: rgb(255, 0, 0);
+}
+
+.moveButton:hover {
+  background-color: #28b0b2;
+}
+
+.moveButton {
+  margin-top: 5px;
+  padding: 10px;
+  width: 100%;
+  font-size: 12px;
+  line-height: 1;
+}
+
 /* Checkboxes */
-form input[type='checkbox'] {
+.formCheckbox[type='checkbox'] {
   accent-color: #1c7d7f; /* تغییر رنگ تیک */
   width: 18px;
   height: 18px;
@@ -93,7 +168,7 @@ form input[type='checkbox'] {
 }
 
 /* Select Boxes */
-form select {
+.formSelect {
   cursor: pointer;
   padding: 12px;
   border: 2px solid #ddd;
@@ -104,13 +179,18 @@ form select {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-form select:focus {
+.formSelect:focus {
   border-color: #1c7d7f;
   box-shadow: 0 0 5px rgba(28, 125, 127, 0.5);
 }
 
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+}
+
 /* Buttons */
-form button {
+.formButton {
   width: 100%;
   padding: 12px 16px;
   font-size: 16px;
@@ -123,10 +203,10 @@ form button {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-form button:hover {
+.formButton:hover {
   background-color: #17686a;
 }
 
-form button:active {
+.formButton:active {
   transform: scale(0.98);
 }
