@@ -6,7 +6,7 @@
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-
+  opacity: 1 !important;
   /* Center slide text vertically */
   display: inline;
   justify-content: center;

@@ -109,12 +109,15 @@
 }
 
 .footerBottom p,
-.footerBottom a {
+.footerBottom a,
+.footerBottom span {
+  cursor: pointer;
   color: #6c757d;
   text-decoration: none;
 }
 
-.footerBottom a:hover {
+.footerBottom a:hover,
+.footerBottom span:hover {
   color: #000;
 }
 

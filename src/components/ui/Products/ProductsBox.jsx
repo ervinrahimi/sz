@@ -50,9 +50,6 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
           slidesPerView={4}
           spaceBetween={30}
           centeredSlides={false}
-          pagination={{
-            clickable: true,
-          }}
           breakpoints={{
             // سایز دسکتاپ
             1024: {
@@ -71,7 +68,6 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
               slidesPerView: 1,
             },
           }}
-          modules={[Pagination]}
           className="mySwiper"
         >
           {cardBoxes &&

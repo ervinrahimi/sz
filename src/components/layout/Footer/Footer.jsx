@@ -1,8 +1,29 @@
-// src/components/Footer.jsx
-import Link from 'next/link'
+'use client'
 import styles from './Footer.module.css'
+import toast from 'react-hot-toast'
+import Link from 'next/link'
+import { useState } from 'react'
 
 export default function Footer() {
+  const [toastCount, setToastCount] = useState(0)
+  const [isToastLimited, setIsToastLimited] = useState(false)
+
+  const handleToast = () => {
+    if (!isToastLimited) {
+      if (toastCount < 5) {
+        toast('این شبکه اجتماعی هنوز در دسترس نیست!')
+        setToastCount(toastCount + 1)
+      }
+      if (toastCount + 1 === 5) {
+        setIsToastLimited(true)
+        setTimeout(() => {
+          setToastCount(0)
+          setIsToastLimited(false)
+        }, 2000) // بعد از ۱۰ ثانیه محدودیت برداشته می‌شود
+      }
+    }
+  }
+
   return (
     <>
       <footer className={styles.footer}>
@@ -68,8 +89,9 @@ export default function Footer() {
             <a href="#">حریم خصوصی</a> · <a href="#">خط مشی و شرایط سایت</a>
           </p>
           <div className={styles.socialLinks}>
-            <Link href="#">تلگرام</Link> ·<Link href="https://www.instagram.com/fardakhodro/">اینستاگرام</Link> ·
-            <Link href="#">واتساپ</Link> ·<Link href="#">یوتیوب</Link>
+            <span onClick={handleToast}>تلگرام</span> ·
+            <Link href="https://www.instagram.com/fardakhodro/">اینستاگرام</Link> ·
+            <span onClick={handleToast}>واتساپ</span> ·<span onClick={handleToast}>یوتیوب</span>
           </div>
         </div>
       </footer>
