@@ -1,26 +1,41 @@
 'use client'
+
+import { useState } from 'react'
 import styles from './Footer.module.css'
 import toast from 'react-hot-toast'
-import Link from 'next/link'
-import { useState } from 'react'
 
 export default function Footer() {
-  const [toastCount, setToastCount] = useState(0)
-  const [isToastLimited, setIsToastLimited] = useState(false)
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const handleToast = () => {
-    if (!isToastLimited) {
-      if (toastCount < 5) {
-        toast('این شبکه اجتماعی هنوز در دسترس نیست!')
-        setToastCount(toastCount + 1)
+  const handleNewsletterSubmit = async () => {
+    if (!email) {
+      toast.error('لطفاً ایمیل خود را وارد کنید!')
+      return
+    }
+
+    setLoading(true)
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        toast.success('ایمیل با موفقیت ارسال شد!')
+        setEmail('')
+      } else {
+        toast.error(result.error || 'خطا در ارسال ایمیل')
       }
-      if (toastCount + 1 === 5) {
-        setIsToastLimited(true)
-        setTimeout(() => {
-          setToastCount(0)
-          setIsToastLimited(false)
-        }, 2000) // بعد از ۱۰ ثانیه محدودیت برداشته می‌شود
-      }
+    } catch (error) {
+      toast.error('خطا در برقراری ارتباط با سرور')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -78,8 +93,15 @@ export default function Footer() {
               برای اطلاع از اخبار های سایت گروه خودرو سلطان زاده از طریق فرم زیر از خبر ها مطلع شوید
             </p>
             <div className={styles.newsletter}>
-              <input type="email" placeholder="ایمیل خود را وارد کنید" />
-              <button>اشتراک</button>
+              <input
+                type="email"
+                placeholder="ایمیل خود را وارد کنید"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <button onClick={handleNewsletterSubmit} disabled={loading}>
+                {loading ? 'در حال ارسال...' : 'اشتراک'}
+              </button>
             </div>
           </div>
         </div>
@@ -89,23 +111,15 @@ export default function Footer() {
             <a href="#">حریم خصوصی</a> · <a href="#">خط مشی و شرایط سایت</a>
           </p>
           <div className={styles.socialLinks}>
-            <span onClick={handleToast}>تلگرام</span> ·
-            <Link href="https://www.instagram.com/fardakhodro/">اینستاگرام</Link> ·
-            <span onClick={handleToast}>واتساپ</span> ·<span onClick={handleToast}>یوتیوب</span>
+            <span>تلگرام</span> ·<a href="https://www.instagram.com/fardakhodro/">اینستاگرام</a> ·
+            <span>واتساپ</span> ·<span>یوتیوب</span>
           </div>
         </div>
       </footer>
 
       <div className={styles.ctaSection}>
         <p>تمامی حقوق این سایت متعلق به گروه خودرو سلطان زاده میباشد.</p>
-        {/* <button>Upgrade my plan</button> */}
       </div>
-
-      {/* <div>
-        <p className={styles.copyright}>
-          تمامی حقوق این سایت متعلق به گروه خودرو سلطان زاده میباشد.
-        </p>
-      </div> */}
     </>
   )
 }
