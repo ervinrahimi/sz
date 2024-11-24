@@ -1,0 +1,106 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: Arial, sans-serif;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.content {
+  display: flex;
+  gap: 40px;
+}
+
+.contactForm {
+  flex: 1;
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contactForm h2 {
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+.textarea {
+  height: 80px;
+  resize: none;
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.checkboxGroup label {
+  font-size: 0.9rem;
+}
+
+.submitButton {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.supportInfo {
+  flex: 1;
+}
+
+.supportInfo h2 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.supportInfo p {
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.supportInfo a {
+  color: #4f46e5;
+  text-decoration: none;
+}
+
+.supportInfo a:hover {
+  text-decoration: underline;
+}
