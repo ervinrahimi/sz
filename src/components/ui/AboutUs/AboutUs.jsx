@@ -92,9 +92,6 @@ export default function AboutUsPage() {
           </div>
         ))}
       </div>
-
-      {/* دکمه بارگذاری بیشتر */}
-      <button className={styles.loadMoreButton}>Load more</button>
     </div>
   )
 }
