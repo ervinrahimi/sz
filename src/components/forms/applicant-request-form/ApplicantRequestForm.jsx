@@ -61,39 +61,43 @@ export default function ApplicantRequestForm() {
   return (
     <div className={styles.applicantRequestFormContainer}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.applicantRequestForm}>
-        <div className={styles.logo}>
+        {/* <div className={styles.logo}>
           <SoltanZadeLogoSVG className={styles.logo} />
-        </div>
+        </div> */}
         <h1 className={styles.title}>درخواست متقاضی</h1>
         <p className={styles.subtitle}>لطفا اطلاعات خود را وارد کنید</p>
 
+        <label>نام :</label>
         <input
           type="text"
-          placeholder="نام"
+          placeholder="نام خود را وارد کنید"
           {...register('firstName')}
           disabled={isSubmitting}
           className={styles.input}
         />
         {errors.firstName && <p className={styles.error}>{errors.firstName.message}</p>}
 
+        <label>نام خانوادگی :</label>
         <input
           type="text"
-          placeholder="نام خانوادگی"
+          placeholder="نام خانوادگی خود را وارد کنید"
           {...register('lastName')}
           disabled={isSubmitting}
           className={styles.input}
         />
         {errors.lastName && <p className={styles.error}>{errors.lastName.message}</p>}
 
+        <label>کدملی :</label>
         <input
           type="text"
-          placeholder="کد ملی"
+          placeholder="کد ملی خود را وارد کنید"
           {...register('nationalId')}
           disabled={isSubmitting}
           className={styles.input}
         />
         {errors.nationalId && <p className={styles.error}>{errors.nationalId.message}</p>}
 
+        <label>جنسیت :</label>
         <select {...register('gender')} disabled={isSubmitting} className={styles.input}>
           <option value="">انتخاب جنسیت</option>
           <option value="male">مرد</option>
@@ -101,45 +105,50 @@ export default function ApplicantRequestForm() {
         </select>
         {errors.gender && <p className={styles.error}>{errors.gender.message}</p>}
 
+        <label>نام پدر :</label>
         <input
           type="text"
-          placeholder="نام پدر"
+          placeholder="نام پدر خود را وارد کنید"
           {...register('fatherName')}
           disabled={isSubmitting}
           className={styles.input}
         />
         {errors.fatherName && <p className={styles.error}>{errors.fatherName.message}</p>}
 
+        <label>نشانی محل سکونت :</label>
         <input
           type="text"
-          placeholder="نشانی محل سکونت"
+          placeholder="نشانی محل سکونت خود را وارد کنید"
           {...register('address')}
           disabled={isSubmitting}
           className={styles.input}
         />
         {errors.address && <p className={styles.error}>{errors.address.message}</p>}
 
+        <label>نام استان :</label>
         <input
           type="text"
-          placeholder="نام استان"
+          placeholder="نام استان خود را وارد کنید"
           {...register('province')}
           disabled={isSubmitting}
           className={styles.input}
         />
         {errors.province && <p className={styles.error}>{errors.province.message}</p>}
 
+        <label>نام شهر :</label>
         <input
           type="text"
-          placeholder="نام شهر"
+          placeholder="نام شهر خود را وارد کنید"
           {...register('city')}
           disabled={isSubmitting}
           className={styles.input}
         />
         {errors.city && <p className={styles.error}>{errors.city.message}</p>}
 
+        <label>ایمیل :</label>
         <input
           type="email"
-          placeholder="ایمیل"
+          placeholder="ایمیل خود را وارد کنید"
           {...register('email')}
           disabled={isSubmitting}
           className={styles.input}
