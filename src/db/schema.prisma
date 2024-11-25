@@ -453,16 +453,17 @@ model Authenticator {
 
 model MenuItem {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  title        String // عنوان منو
-  link         String? // لینک منو (اختیاری)
-  isActive     Boolean  @default(true) // فعال یا غیرفعال بودن منو
-  order        Int // ترتیب نمایش منو
-  parentMenuID String?  @db.ObjectId // آی‌دی منوی والد (اگر زیر منو است)
-  subMenuIDs   String[] @db.ObjectId // لیست آی‌دی‌های زیرمنوها
-  createdAt    DateTime @default(now()) // تاریخ ایجاد
-  updatedAt    DateTime @updatedAt // تاریخ به‌روزرسانی
+  title        String
+  link         String?
+  isActive     Boolean  @default(true)
+  order        Int
+  parentMenuID String?  @db.ObjectId
+  subMenuIDs   String[] @db.ObjectId
+  menuLevel    Int      @default(0) // سطح منو (۰: منوی اصلی، ۱: زیرمنو)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  @@index([parentMenuID]) // ایندکس برای جستجوی سریع بر اساس والد
+  @@index([parentMenuID])
 }
 
 // For Slider Management

@@ -75,12 +75,12 @@ export default function MenuForm() {
           {...register('parentMenuID')}
           className={styles.formSelect}
         >
-          <option value="">به زودی...</option>
-          {/* {menuOptions.map((menu) => (
+          <option value="">بدون والد</option>
+          {menuOptions.map((menu) => (
             <option key={menu.id} value={menu.id}>
               {menu.title}
             </option>
-          ))} */}
+          ))}
         </select>
       </label>
 

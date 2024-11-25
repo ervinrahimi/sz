@@ -87,6 +87,53 @@
   background-color: #007bff;
 }
 
+.subMenuRow {
+  background-color: #f0f0f0;
+  margin-left: 20px;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popupContent {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  width: 80%;
+}
+
+.closeButton {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background: rgb(252, 47, 47);
+  font-weight: bold;
+  font-size: 17px;
+  color: white;
+  border: none;
+  display: flex;
+  border-radius: 0px 10px 0px 10px ;
+  padding: 2px 15px;
+  cursor: pointer;
+}
+
+.subMenuContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
 @media (max-width: 768px) {
   .container {
     min-width: 900px;

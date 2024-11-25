@@ -4,17 +4,26 @@ import prisma from '@/db/client'
 
 // افزودن آیتم جدید به منو
 export async function addMenuItem(data) {
-  const { title, link, parentMenuID, order } = data
+  const { title, link, parentMenuID } = data;
+
+  // تعیین سطح منو
+  const menuLevel = parentMenuID ? 1 : 0;
+
+  // ترتیب‌دهی جداگانه برای هر سطح
+  const order = await prisma.menuItem.count({
+    where: { parentMenuID },
+  });
+
   const menuItem = await prisma.menuItem.create({
     data: {
       title,
       link,
       parentMenuID,
+      menuLevel,
       order,
     },
-  })
+  });
 
-  // اگر آیتم جدید زیرمنو است، آن را به فهرست زیرمنوهای منوی والد اضافه کنیم
   if (parentMenuID) {
     await prisma.menuItem.update({
       where: { id: parentMenuID },
@@ -23,69 +32,101 @@ export async function addMenuItem(data) {
           push: menuItem.id,
         },
       },
-    })
+    });
   }
 
-  return menuItem
+  return menuItem;
 }
 
-// ویرایش آیتم منو
+// به‌روزرسانی ترتیب آیتم‌ها
 export async function updateMenuItem(id, data) {
-  const { title, link, order, isActive } = data
-  await prisma.menuItem.update({
+  const existingItem = await prisma.menuItem.findUnique({
+    where: { id },
+  });
+
+  if (!existingItem) {
+    throw new Error('Menu item not found');
+  }
+
+  const { order, parentMenuID } = existingItem;
+
+  // اگر ترتیب تغییر کرده باشد
+  if (data.order !== undefined && data.order !== order) {
+    // دریافت لیست آیتم‌های هم‌سطح
+    const siblings = await prisma.menuItem.findMany({
+      where: { parentMenuID },
+      orderBy: { order: 'asc' },
+    });
+
+    // تنظیم ترتیب آیتم‌های دیگر
+    const updates = siblings.map((sibling) => {
+      if (sibling.id === id) return null; // آیتم جاری را نادیده بگیر
+
+      if (data.order < order && sibling.order >= data.order && sibling.order < order) {
+        // اگر آیتم به سمت بالا جابه‌جا شده باشد
+        return prisma.menuItem.update({
+          where: { id: sibling.id },
+          data: { order: sibling.order + 1 },
+        });
+      } else if (data.order > order && sibling.order <= data.order && sibling.order > order) {
+        // اگر آیتم به سمت پایین جابه‌جا شده باشد
+        return prisma.menuItem.update({
+          where: { id: sibling.id },
+          data: { order: sibling.order - 1 },
+        });
+      }
+      return null;
+    });
+
+    // اجرای همه به‌روزرسانی‌ها
+    await Promise.all(updates.filter(Boolean));
+  }
+
+  // به‌روزرسانی آیتم جاری
+  return prisma.menuItem.update({
     where: { id },
     data: {
-      title,
-      link,
-      order,
-      isActive,
+      ...data,
+      order: data.order !== undefined ? data.order : order,
     },
-  })
+  });
 }
 
 // حذف آیتم منو
 export async function deleteMenuItem(id) {
-  const menuItem = await prisma.menuItem.findUnique({
-    where: { id },
-  })
+  const menuItem = await prisma.menuItem.findUnique({ where: { id } });
+  if (!menuItem) throw new Error('Menu item not found');
 
-  if (!menuItem) {
-    throw new Error('Menu item not found')
-  }
+  const { parentMenuID, order } = menuItem;
 
-  const { parentMenuID, order } = menuItem
-
-  // حذف آیتم از فهرست زیرمنوهای والد، اگر زیرمنو است
+  // حذف آیتم از لیست زیرمنوهای والد
   if (parentMenuID) {
     await prisma.menuItem.update({
       where: { id: parentMenuID },
       data: {
-        subMenuIDs: {
-          set: menuItem.subMenuIDs.filter(subId => subId !== id),
-        },
+        subMenuIDs: { set: menuItem.subMenuIDs.filter((subId) => subId !== id) },
       },
-    })
+    });
   }
 
-  // حذف آیتم از منو
-  await prisma.menuItem.delete({
-    where: { id },
-  })
+  // حذف آیتم
+  await prisma.menuItem.delete({ where: { id } });
 
-  // به‌روزرسانی order برای آیتم‌هایی که order آن‌ها بیشتر از آیتم حذف‌شده است
-  await prisma.menuItem.updateMany({
-    where: {
-      parentMenuID,
-      order: {
-        gt: order,
-      },
-    },
-    data: {
-      order: {
-        decrement: 1, // کاهش order به اندازه 1
-      },
-    },
-  })
+  // دریافت آیتم‌های هم‌سطح برای بازآرایی ترتیب
+  const siblingItems = await prisma.menuItem.findMany({
+    where: { parentMenuID },
+    orderBy: { order: 'asc' },
+  });
+
+  // بازآرایی ترتیب به‌صورت مستقیم
+  await Promise.all(
+    siblingItems.map((sibling, index) =>
+      prisma.menuItem.update({
+        where: { id: sibling.id },
+        data: { order: index },
+      })
+    )
+  );
 }
 
 // دریافت لیست منوها
