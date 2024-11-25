@@ -25,6 +25,7 @@
 }
 
 .contactForm {
+  text-align: right;
   height: max-content;
   flex: 1;
   border: 1px solid #ddd;
@@ -37,12 +38,14 @@
 }
 
 .contactForm h2 {
+  text-align: center;
   font-family: var(--font-yekanbakh);
   font-variation-settings: 'wdth' 100, 'wght' 600, 'DOTS' 0;
   margin-bottom: 20px;
 }
 
 .form {
+  gap: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -52,8 +55,14 @@
   gap: 10px;
 }
 
-.row div{
-  width: 100%
+.error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 10px;
+}
+
+.row div {
+  width: 100%;
 }
 
 .input,
@@ -63,11 +72,10 @@
   font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
   font-size: 15px;
   width: 100%;
-  margin-bottom: 15px;
   padding: 10px;
   outline: none;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .input:focus,
@@ -78,7 +86,7 @@
 }
 
 .textarea {
-  height: 120px;
+  height: 150px;
   resize: vertical;
 }
 
@@ -134,7 +142,6 @@
 .supportInfo a:hover {
   color: #3e773e;
   font-variation-settings: 'wdth' 100, 'wght' 700, 'DOTS' 0;
-
 }
 
 /* استایل‌های ریسپانسیو */
@@ -156,10 +163,4 @@
   .row {
     flex-direction: column;
   }
-}
-
-.error {
-  color: red;
-  font-size: 0.8rem;
-  margin-top: 5px;
 }

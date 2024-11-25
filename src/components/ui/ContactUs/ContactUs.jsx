@@ -1,20 +1,24 @@
-'use client';
+'use client'
 
-import styles from './ContactUs.module.css';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import styles from './ContactUs.module.css'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import toast from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
 
 const contactFormSchema = z.object({
   firstName: z.string().min(2, 'نام باید حداقل دو حرف باشد.'),
   lastName: z.string().min(2, 'نام خانوادگی باید حداقل دو حرف باشد.'),
   email: z.string().email('ایمیل معتبر وارد کنید.'),
-  phone: z.string().regex(/^\+?\d{1,4}[-.\s]?\(?\d{1,3}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/, 'شماره تلفن معتبر وارد کنید.'),
-  teamSize: z.string().min(1, 'لطفاً اندازه تیم را انتخاب کنید.'),
-  location: z.string().min(1, 'لطفاً موقعیت جغرافیایی را انتخاب کنید.'),
+  phone: z
+    .string()
+    .regex(
+      /^\+?\d{1,4}[-.\s]?\(?\d{1,3}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+      'شماره تلفن معتبر وارد کنید.'
+    ),
   message: z.string().min(10, 'پیام باید حداقل ۱۰ حرف باشد.'),
-  products: z.array(z.string()).optional(),
-});
+})
 
 export default function ContactSupportPage() {
   const {
@@ -23,13 +27,31 @@ export default function ContactSupportPage() {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(contactFormSchema),
-  });
+  })
 
-  const onSubmit = (data) => {
-    // ارسال داده‌ها به سرور
-    console.log(data);
-  };
+  const router = useRouter()
 
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch('/api/contact-us', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      if (response.ok) {
+        toast.success('درخواست شما با موفقیت ارسال شد', { duration: 5000 })
+        router.push('/')
+      } else {
+        const errorData = await response.json()
+        toast.error(errorData.error || 'مشکلی پیش آمده است')
+      }
+    } catch (error) {
+      toast.error('مشکلی پیش آمده است')
+    }
+  }
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>تماس و پشتیبانی</h1>
@@ -82,30 +104,12 @@ export default function ContactSupportPage() {
               {errors.phone && <p className={styles.error}>{errors.phone.message}</p>}
             </div>
             <div>
-              <select className={styles.select} {...register('teamSize')}>
-                <option value="">اندازه تیم</option>
-                <option value="1-50">۱-۵۰ نفر</option>
-                <option value="51-200">۵۱-۲۰۰ نفر</option>
-                <option value="201+">۲۰۱ نفر و بیشتر</option>
-              </select>
-              {errors.teamSize && <p className={styles.error}>{errors.teamSize.message}</p>}
-            </div>
-            <div>
-              <select className={styles.select} {...register('location')}>
-                <option value="">موقعیت جغرافیایی</option>
-                <option value="Australia">استرالیا</option>
-                <option value="USA">آمریکا</option>
-                <option value="Europe">اروپا</option>
-              </select>
-              {errors.location && <p className={styles.error}>{errors.location.message}</p>}
-            </div>
-            <div>
               <textarea
                 placeholder="پیام خود را وارد کنید..."
                 className={styles.textarea}
                 {...register('message')}
-              ></textarea>
-              {errors.message && <p className={styles.error}>{errors.message.message}</p>}
+                ></textarea>
+                {errors.message && <p className={styles.error}>{errors.message.message}</p>}
             </div>
             <button type="submit" className={styles.submitButton}>
               ارسال پیام
@@ -116,45 +120,43 @@ export default function ContactSupportPage() {
         {/* اطلاعات پشتیبانی */}
         <div className={styles.supportInfo}>
           <div>
-          <h2>گفت‌وگو با تیم فروش</h2>
-          <p>با تیم دوستانه ما صحبت کنید</p>
-          <p>
-            <a href="mailto:sales@untitledui.com">sales@untitledui.com</a>
-          </p>
+            <h2>گفت‌وگو با تیم فروش</h2>
+            <p>با تیم دوستانه ما صحبت کنید</p>
+            <p>
+              <a href="mailto:sales@untitledui.com">sales@untitledui.com</a>
+            </p>
           </div>
           <div>
-          <h2>پشتیبانی ایمیل</h2>
-          <p>ایمیل بفرستید و ما ظرف ۲۴ ساعت پاسخ می‌دهیم.</p>
-          <p>
-            <a href="mailto:support@untitledui.com">support@untitledui.com</a>
-          </p>
+            <h2>پشتیبانی ایمیل</h2>
+            <p>ایمیل بفرستید و ما ظرف ۲۴ ساعت پاسخ می‌دهیم.</p>
+            <p>
+              <a href="mailto:support@untitledui.com">support@untitledui.com</a>
+            </p>
           </div>
           <div>
-          <h2>چت</h2>
-          <p>۲۴/۷ با تیم ما چت کنید و فوراً پشتیبانی بگیرید.</p>
-          <p>
-            <a href="#">
-              شروع چت
-            </a>
-          </p>
+            <h2>چت</h2>
+            <p>۲۴/۷ با تیم ما چت کنید و فوراً پشتیبانی بگیرید.</p>
+            <p>
+              <a href="#">شروع چت</a>
+            </p>
           </div>
           <div>
-          <h2>تماس با ما</h2>
-          <p>دوشنبه تا جمعه، ۹ صبح - ۵ عصر</p>
-          <p>
-            <a href="tel:+61340209204">02191694314</a>
-          </p>
+            <h2>تماس با ما</h2>
+            <p>دوشنبه تا جمعه، ۹ صبح - ۵ عصر</p>
+            <p>
+              <a href="tel:+61340209204">02191694314</a>
+            </p>
           </div>
           <div>
-          <h2>آدرس شعبه ملبورن</h2>
-          <p>
-            خیابان ۹۰ آفیس
-            <br />
-            فیتزروی، ویک ۳۰۶۵ استرالیا
-          </p>
+            <h2>آدرس شعبه ملبورن</h2>
+            <p>
+              خیابان ۹۰ آفیس
+              <br />
+              فیتزروی، ویک ۳۰۶۵ استرالیا
+            </p>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
