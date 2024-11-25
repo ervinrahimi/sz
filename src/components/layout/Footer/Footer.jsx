@@ -47,13 +47,13 @@ export default function Footer() {
             <h3 className={styles.footerHeader}>دسترسی سریع</h3>
             <ul>
               <li>
-                <a href="#">صفحه اصلی</a>
+                <a href="/">صفحه اصلی</a>
               </li>
               <li>
-                <a href="#">درباره ما</a>
+                <a href="/about-us">درباره ما</a>
               </li>
               <li>
-                <a href="#">تماس با ما</a>
+                <a href="contact-us">تماس با ما</a>
               </li>
             </ul>
           </div>

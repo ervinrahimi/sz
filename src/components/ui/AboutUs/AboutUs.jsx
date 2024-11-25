@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import styles from './AboutUs.module.css'
+import Image from 'next/image'
 
 export default function AboutUsPage() {
   const [openIndex, setOpenIndex] = useState(null)
@@ -12,72 +13,117 @@ export default function AboutUsPage() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Contact our friendly team</h1>
-      <p className={styles.subtitle}>Let us know how we can help.</p>
+      {/* عنوان اصلی */}
+      <h1 className={styles.title}>درباره ما</h1>
+
+      {/* متن معرفی */}
+      <p className={styles.intro}>
+        ما یک تیم پیشرو در صنعت هستیم که با هدف ارائه بهترین خدمات و محصولات به مشتریان خود فعالیت
+        می‌کنیم. مأموریت ما ایجاد تجربه‌ای بی‌نظیر برای شماست و چشم‌انداز ما تبدیل شدن به بهترین در
+        این حوزه است.
+      </p>
+
+      {/* تصاویر مرتبط */}
+      <div className={styles.imageSection}>
+        <Image width={3000} height={2000} src="/about-us/team.jpg" alt="تیم ما" className={styles.image} />
+        <Image width={3000} height={2000} src="/about-us/office.jpg" alt="دفتر کار" className={styles.image} />
+      </div>
+
+      {/* تاریخچه مختصر شرکت */}
+      <section className={styles.history}>
+        <h2 className={styles.sectionTitle}>تاریخچه ما</h2>
+        <p className={styles.sectionContent}>
+          شرکت ما در سال ۱۳۹۰ با هدف ارائه خدمات نوآورانه تأسیس شد. از آن زمان تاکنون، ما با
+          تلاش‌های مستمر توانسته‌ایم اعتماد مشتریان خود را جلب کنیم و به یکی از پیشگامان این صنعت
+          تبدیل شویم.
+        </p>
+      </section>
+
+      {/* بخش ارزش‌ها */}
+      <section className={styles.values}>
+        <h2 className={styles.sectionTitle}>ارزش‌های ما</h2>
+        <ul className={styles.valueList}>
+          <li>
+          <Image width={500} height={500} src="/about-us/icons/medal-star.png" alt="تیم ما" className={styles.valueImage} />
+          <p>تعهد به کیفیت</p>
+          </li>
+          <li>
+          <Image width={500} height={500} src="/about-us/icons/24-support.png" alt="تیم ما" className={styles.valueImage} />
+          <p>پشتیبانی ۲۴ ساعته</p>
+          </li>
+          <li>
+          <Image width={500} height={500} src="/about-us/icons/star.png" alt="تیم ما" className={styles.valueImage} />
+          <p>نوآوری و خلاقیت</p>
+          </li>
+          <li>
+          <Image width={500} height={500} src="/about-us/icons/profile-2user.png" alt="تیم ما" className={styles.valueImage} />
+          <p>همکاری تیمی</p>
+          </li>
+        </ul>
+      </section>
 
       {/* کارت‌ها */}
       <div className={styles.cards}>
         {[
           {
-            title: 'Chat to sales',
-            description: 'Speak to our friendly team.',
-            link: 'sales@untitledui.com',
+            title: 'تماس با فروش',
+            description: 'صحبت با تیم فروش',
+            linkText: 'sales@soltanzade.com',
+            link: '',
           },
           {
-            title: 'Chat to support',
-            description: 'We’re here to help.',
-            link: 'support@untitledui.com',
+            title: 'پشتیبانی',
+            description: 'ما اینجا هستیم تا کمک کنیم',
+            linkText: 'support@soltanzade.com',
+            link: '',
           },
-          { title: 'Visit us', description: 'Visit our office HQ.', link: 'View on Google Maps' },
-          { title: 'Call us', description: 'Mon-Fri from 8am to 5pm.', link: '+1 555 000-0000' },
+          {
+            title: 'بازدید از دفتر',
+            description: 'دفتر اصلی ما',
+            linkText: 'مشاهده در نقشه',
+            link: '',
+          },
+          {
+            title: 'تماس با ما',
+            description: 'دوشنبه تا جمعه',
+            linkText: '02191694314',
+            link: '',
+          },
         ].map((card, index) => (
           <div key={index} className={styles.card}>
             <p className={styles.cardTitle}>{card.title}</p>
             <p className={styles.cardDescription}>{card.description}</p>
-            <a href="#" className={styles.cardLink}>
-              {card.link}
+            <a href={card.link} className={styles.cardLink}>
+              {card.linkText}
             </a>
           </div>
         ))}
       </div>
 
       {/* سوالات متداول */}
-      <h2 className={styles.faqTitle}>Frequently asked questions</h2>
+      <h2 className={styles.faqTitle}>سوالات متداول</h2>
       <div className={styles.faqs}>
         {[
           {
-            question: 'Is there a free trial available?',
+            question: 'آیا امکان استفاده رایگان وجود دارد؟',
+            answer: 'بله، شما می‌توانید به مدت ۳۰ روز از خدمات ما به صورت رایگان استفاده کنید.',
+          },
+          {
+            question: 'آیا می‌توانم پلن خود را تغییر دهم؟',
+            answer: 'بله، شما می‌توانید هر زمان پلن خود را ارتقا یا کاهش دهید.',
+          },
+          {
+            question: 'سیاست لغو اشتراک شما چیست؟',
+            answer: 'شما می‌توانید در هر زمان اشتراک خود را بدون هیچ جریمه‌ای لغو کنید.',
+          },
+          {
+            question: 'آیا می‌توان اطلاعات اضافی به فاکتور اضافه کرد؟',
             answer:
-              'Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free 30-minute onboarding call to get you up and running.',
+              'بله، شما می‌توانید یادداشت‌های سفارشی و اطلاعات اضافی را به فاکتور خود اضافه کنید.',
           },
           {
-            question: 'Can I change my plan later?',
-            answer: 'Yes, you can upgrade or downgrade your plan anytime.',
-          },
-          {
-            question: 'What is your cancellation policy?',
-            answer: 'You can cancel anytime without any penalties.',
-          },
-          {
-            question: 'Can other info be added to an invoice?',
-            answer:
-              'Yes, you can include custom notes and additional information in your invoices.',
-          },
-          {
-            question: 'How does billing work?',
-            answer: 'We bill you monthly based on your chosen plan.',
-          },
-          {
-            question: 'How do I change my account email?',
-            answer: 'You can update your email in your account settings.',
-          },
-          {
-            question: 'How does support work?',
-            answer: 'Our support team is available 24/7 to assist you.',
-          },
-          {
-            question: 'Do you provide tutorials?',
-            answer: 'Yes, we offer a range of tutorials to help you get started.',
+            question: 'چطور می‌توانم ایمیل حساب کاربری خود را تغییر دهم؟',
+            answer: 'شما می‌توانید ایمیل خود را در تنظیمات حساب کاربری به‌روزرسانی کنید.',
           },
         ].map((faq, index) => (
           <div
@@ -91,6 +137,12 @@ export default function AboutUsPage() {
             {openIndex === index && <div className={styles.faqAnswer}>{faq.answer}</div>}
           </div>
         ))}
+      </div>
+
+      {/* دکمه‌های CTA */}
+      <div className={styles.ctaButtons}>
+        <button className={styles.ctaButton}>تماس با ما</button>
+        <button className={styles.ctaButton}>عضویت</button>
       </div>
     </div>
   )
