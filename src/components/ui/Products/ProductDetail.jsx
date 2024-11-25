@@ -16,8 +16,10 @@ import 'swiper/css/thumbs'
 import './StyleProductDetail.css'
 import { useState } from 'react'
 import Link from 'next/link'
+import CommentForm from '@/components/ui/comments/CommentForm'
+import CommentList from '@/components/ui/comments/CommentList'
 
-export default function ProductDetail({ car, cardBoxSections }) {
+export default function ProductDetail({ car, cardBoxSections, user }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
   const [activeTab, setActiveTab] = useState('INSTALLMENT')
   const [selectedFestival, setSelectedFestival] = useState(null)
@@ -278,11 +280,15 @@ export default function ProductDetail({ car, cardBoxSections }) {
             )}
           </div>
           <div className={styles.requestSell}>
-            <Link href={`/applicant-request`}>
-              درخواست خرید خودرو
-            </Link>
+            <Link href={`/applicant-request`}>درخواست خرید خودرو</Link>
           </div>
           <div className={styles.line} />
+        </div>
+
+        <div className={styles.commentsSection}>
+          <h2>نظرات کاربران</h2>
+          <CommentList pageId={car.id} /> {/* نمایش لیست نظرات */}
+          <CommentForm pageId={car.id} userId={user.id} /> {/* فرم ارسال نظر */}
         </div>
 
         {/* نمایش cardBoxSections در ProductsBox */}

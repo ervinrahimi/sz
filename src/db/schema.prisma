@@ -42,6 +42,8 @@ model User {
   documents             Document[] // مدارک
   createdAt             DateTime               @default(now()) // تاریخ ایجاد
   updatedAt             DateTime               @updatedAt // تاریخ به‌روزرسانی
+  Comment               Comment[]
+  AdminReply            AdminReply[]
 
   @@unique([email, username, nationalCode])
 }
@@ -500,4 +502,27 @@ model CardBox {
   updatedAt   DateTime       @updatedAt
   car         Car            @relation(fields: [carId], references: [id], onDelete: Cascade)
   section     CardBoxSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+}
+
+model Comment {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  content    String // محتوای نظر کاربر
+  createdAt  DateTime    @default(now()) // تاریخ ثبت نظر
+  updatedAt  DateTime    @updatedAt // تاریخ آخرین بروزرسانی
+  isApproved Boolean     @default(false) // وضعیت تایید نظر
+  userId     String      @db.ObjectId // شناسه کاربر نظر دهنده
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  adminReply AdminReply? // پاسخ ادمین (ارتباط 1 به 1)
+  pageId     String // صفحه‌ای که نظر در آن داده شده (مانند مشخصات خودرو)
+}
+
+model AdminReply {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  content   String // متن پاسخ ادمین
+  createdAt DateTime @default(now()) // تاریخ ثبت پاسخ
+  updatedAt DateTime @updatedAt // تاریخ آخرین بروزرسانی
+  adminId   String   @db.ObjectId // شناسه ادمین پاسخ دهنده
+  admin     User     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  commentId String   @unique @db.ObjectId // کامنتی که پاسخ داده شده
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
 }
