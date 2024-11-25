@@ -22,11 +22,22 @@ export default function CommentList({ pageId }) {
     <div>
       {comments.length > 0 ? (
         comments.map((comment) => (
-          <div key={comment.id}>
-            <p>{comment.content}</p>
+          <div
+            key={comment.id}
+            style={{ marginBottom: '20px', padding: '10px', border: '1px solid #ccc' }}
+          >
+            {/* نام کاربر */}
+            <p>
+              <strong>کاربر:</strong> {comment.user?.name || 'ناشناس'}
+            </p>
+            {/* متن نظر */}
+            <p>
+              <strong>نظر:</strong> {comment.content}
+            </p>
+            {/* پاسخ ادمین */}
             {comment.adminReply && (
               <p style={{ fontStyle: 'italic', color: 'gray' }}>
-                پاسخ ادمین: {comment.adminReply.content}
+                <strong>پاسخ ادمین:</strong> {comment.adminReply.content}
               </p>
             )}
           </div>

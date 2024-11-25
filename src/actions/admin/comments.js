@@ -16,9 +16,10 @@ export async function getComments() {
 // دریافت کامنت‌ها بر اساس صفحه
 export async function getCommentsByPage(pageId) {
   return prisma.comment.findMany({
-    where: { pageId, isApproved: true },
+    where: { pageId },
     include: {
-      adminReply: true,
+      user: true, // دریافت اطلاعات کاربر
+      adminReply: true, // دریافت اطلاعات پاسخ ادمین (در صورت وجود)
     },
     orderBy: { createdAt: 'desc' },
   })
@@ -59,4 +60,17 @@ export async function addComment(data) {
   return prisma.comment.create({
     data,
   })
+}
+
+export async function deleteComment(commentId) {
+  try {
+    // حذف کامنت از دیتابیس
+    await prisma.comment.delete({
+      where: { id: commentId },
+    })
+    return { success: true, message: 'نظر با موفقیت حذف شد.' }
+  } catch (error) {
+    console.error('خطا در حذف نظر:', error)
+    throw new Error('حذف نظر با مشکل مواجه شد.')
+  }
 }

@@ -2,18 +2,20 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { updateCommentStatus, addAdminReply } from '@/actions/admin/comments'
+import { updateCommentStatus, addAdminReply, deleteComment } from '@/actions/admin/comments'
 import toast from 'react-hot-toast'
 
 export default function CommentDetails({ comment, user }) {
   const router = useRouter()
   const [reply, setReply] = useState('')
+  const [statusChanged, setStatusChanged] = useState(comment.isApproved !== null) // وضعیت کامنت
 
   const handleApproval = async (status) => {
     try {
       await updateCommentStatus(comment.id, status)
       toast.success(status ? 'نظر تایید شد' : 'نظر رد شد')
-      router.push('/admin/comments')
+      setStatusChanged(true) // تغییر وضعیت
+      router.refresh()
     } catch (error) {
       toast.error('خطا در تغییر وضعیت نظر')
     }
@@ -34,6 +36,16 @@ export default function CommentDetails({ comment, user }) {
     }
   }
 
+  const handleDelete = async () => {
+    try {
+      await deleteComment(comment.id)
+      toast.success('نظر با موفقیت حذف شد')
+      router.push('/admin/comments') // بازگشت به صفحه مدیریت نظرات
+    } catch (error) {
+      toast.error('خطا در حذف نظر')
+    }
+  }
+
   return (
     <div>
       <h1>جزئیات نظر</h1>
@@ -41,11 +53,22 @@ export default function CommentDetails({ comment, user }) {
       <p>نظر: {comment.content}</p>
       <p>تاریخ ثبت: {new Date(comment.createdAt).toLocaleDateString()}</p>
 
-      <div>
-        <button onClick={() => handleApproval(true)}>تایید</button>
-        <button onClick={() => handleApproval(false)}>رد</button>
-      </div>
+      {/* نمایش دکمه‌های تایید و رد فقط در صورتی که وضعیت تغییر نکرده باشد */}
+      {!statusChanged && (
+        <div>
+          <button onClick={() => handleApproval(true)}>تایید</button>
+          <button onClick={() => handleApproval(false)}>رد</button>
+        </div>
+      )}
 
+      {/* نمایش دکمه حذف در صورتی که وضعیت تغییر کرده باشد */}
+      {statusChanged && (
+        <div>
+          <button onClick={handleDelete}>حذف نظر</button>
+        </div>
+      )}
+
+      {/* فرم پاسخ ادمین */}
       <div>
         <textarea
           value={reply}
