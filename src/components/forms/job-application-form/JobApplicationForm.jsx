@@ -60,39 +60,43 @@ export default function JobApplicationForm() {
   return (
     <div className={styles.jobApplicationFormContainer}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.jobApplicationForm}>
-        <div className={styles.logo}>
+        {/* <div className={styles.logo}>
           <SoltanZadeLogoSVG className={styles.logo} />
-        </div>
+        </div> */}
         <h1 className={styles.title}>درخواست همکاری</h1>
         <p className={styles.subtitle}>لطفا اطلاعات خود را وارد کنید</p>
 
+        <label>نام و نام خانوادگی :</label>
         <input
           type="text"
-          placeholder="نام و نام خانوادگی"
+          placeholder="نام و نام خانوادگی خود را وارد کنید"
           {...register('fullName')}
           disabled={isSubmitting}
           className={styles.input}
         />
         {errors.fullName && <p className={styles.error}>{errors.fullName.message}</p>}
 
+        <label>ایمیل :</label>
         <input
           type="email"
-          placeholder="ایمیل"
+          placeholder="ایمیل خود را وارد کنید"
           {...register('email')}
           disabled={isSubmitting}
           className={styles.input}
         />
         {errors.email && <p className={styles.error}>{errors.email.message}</p>}
 
+        <label>شماره تلفن :</label>
         <input
           type="text"
-          placeholder="شماره تلفن"
+          placeholder="شماره تلفن خود را وارد کنید"
           {...register('phone')}
           disabled={isSubmitting}
           className={styles.input}
         />
         {errors.phone && <p className={styles.error}>{errors.phone.message}</p>}
 
+        <label>موقعیت شغلی :</label>
         <select
           {...register('position')}
           disabled={isSubmitting}
@@ -106,6 +110,7 @@ export default function JobApplicationForm() {
         </select>
         {errors.position && <p className={styles.error}>{errors.position.message}</p>}
 
+        <label>معرفی و توضحیات :</label>
         <textarea
           placeholder="معرفی و توضیحات"
           {...register('coverLetter')}
@@ -114,6 +119,7 @@ export default function JobApplicationForm() {
         ></textarea>
         {errors.coverLetter && <p className={styles.error}>{errors.coverLetter.message}</p>}
 
+        <label>لینکدین :</label>
         <input
           type="url"
           placeholder="لینکدین (اختیاری)"
