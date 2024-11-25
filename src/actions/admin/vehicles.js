@@ -6,10 +6,18 @@ import prisma from '@/db/client'
 
 // ایجاد خودرو جدید
 export async function createVehicle(data) {
-  const { model, name, imageFiles, status, appearanceSpecifications, technicalSpecifications } =
-    data
+  const {
+    model,
+    name,
+    imageFiles,
+    status,
+    appearanceSpecifications,
+    technicalSpecifications,
+    comfortFeatures,
+    safetyFeatures,
+  } = data
 
-  // ایجاد خودرو جدید با مشخصات ظاهری و فنی
+  // ایجاد خودرو جدید با مشخصات کامل
   const newVehicle = await prisma.car.create({
     data: {
       model,
@@ -19,8 +27,8 @@ export async function createVehicle(data) {
       appearanceSpecifications: {
         create: appearanceSpecifications.map((spec) => ({
           title: spec.title,
-          value: spec.value || '', // مقدار انتخاب‌شده توسط کاربر
-          note: spec.note || '', // یادداشت اختیاری
+          value: spec.value || '',
+          note: spec.note || '',
         })),
       },
       technicalSpecifications: {
@@ -28,6 +36,18 @@ export async function createVehicle(data) {
           key: spec.key,
           value: spec.value,
           note: spec.note,
+        })),
+      },
+      comfortFeatures: {
+        create: comfortFeatures.map((feature) => ({
+          featureName: feature.featureName,
+          description: feature.description || '',
+        })),
+      },
+      safetyFeatures: {
+        create: safetyFeatures.map((feature) => ({
+          featureName: feature.featureName,
+          description: feature.description || '',
         })),
       },
     },
@@ -38,7 +58,17 @@ export async function createVehicle(data) {
 
 // ویرایش خودرو
 export async function updateVehicle(data) {
-  const { id, model, name, image, status, appearanceSpecifications, technicalSpecifications } = data
+  const {
+    id,
+    model,
+    name,
+    image,
+    status,
+    appearanceSpecifications,
+    technicalSpecifications,
+    comfortFeatures,
+    safetyFeatures,
+  } = data
 
   // به‌روزرسانی خودرو با حذف مشخصات قبلی و افزودن مشخصات جدید
   const updatedVehicle = await prisma.car.update({
@@ -52,8 +82,8 @@ export async function updateVehicle(data) {
         deleteMany: {}, // حذف تمامی مشخصات ظاهری قبلی
         create: appearanceSpecifications.map((spec) => ({
           title: spec.title,
-          value: spec.value || '', // مقدار انتخاب‌شده توسط کاربر
-          note: spec.note || '', // یادداشت اختیاری
+          value: spec.value || '',
+          note: spec.note || '',
         })),
       },
       technicalSpecifications: {
@@ -62,6 +92,20 @@ export async function updateVehicle(data) {
           key: spec.key,
           value: spec.value,
           note: spec.note,
+        })),
+      },
+      comfortFeatures: {
+        deleteMany: {}, // حذف تمامی امکانات رفاهی قبلی
+        create: comfortFeatures.map((feature) => ({
+          featureName: feature.featureName,
+          description: feature.description || '',
+        })),
+      },
+      safetyFeatures: {
+        deleteMany: {}, // حذف تمامی امکانات ایمنی قبلی
+        create: safetyFeatures.map((feature) => ({
+          featureName: feature.featureName,
+          description: feature.description || '',
         })),
       },
     },

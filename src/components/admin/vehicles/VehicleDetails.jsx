@@ -35,6 +35,12 @@ export default function VehicleDetails({ vehicle }) {
       technicalSpecifications: vehicle.technicalSpecifications || [
         { key: '', value: '', note: '' },
       ],
+      comfortFeatures: vehicle.comfortFeatures || [
+        { featureName: '', description: ''},
+      ],
+      safetyFeatures: vehicle.safetyFeatures || [
+        { featureName: '', description: ''},
+      ],
     },
     mode: 'onChange', // اضافه کردن این خط برای بهبود عملکرد
   })
@@ -55,6 +61,24 @@ export default function VehicleDetails({ vehicle }) {
   } = useFieldArray({
     control,
     name: 'technicalSpecifications',
+  })
+
+  const {
+    fields: comfortFields,
+    append: appendComfort,
+    remove: removeComfort,
+  } = useFieldArray({
+    control,
+    name: 'comfortFeatures',
+  })
+
+  const {
+    fields: safetyFields,
+    append: appendSafety,
+    remove: removeSafety,
+  } = useFieldArray({
+    control,
+    name: 'safetyFeatures',
   })
 
   const onSubmit = async (data) => {
@@ -160,9 +184,8 @@ export default function VehicleDetails({ vehicle }) {
   }
 
   return (
-      <form onSubmit={handleSubmit(onSubmit)} className={`formContainer`}>
-
-        <div className={`labelGroup`}>
+    <form onSubmit={handleSubmit(onSubmit)} className={`formContainer`}>
+      <div className={`labelGroup`}>
         <label className={`formLabel`}>
           مدل:
           <input type="text" {...register('model')} className={`formInput`} />
@@ -173,179 +196,241 @@ export default function VehicleDetails({ vehicle }) {
           <input type="text" {...register('name')} className={`formInput`} />
           {errors.name && <p className={`formError`}>{errors.name.message}</p>}
         </label>
-        </div>
-        <label className={`formLabel`}>
-          تصویر خودرو:
-          <input
-            className={`formFile`}
-            type="file"
-            accept="image/*"
-            multiple // اجازه آپلود چندین تصویر
-            onChange={handleImageChange}
-          />
-          <p>نکته: تصویر اول به عنوان تصویر اصلی قرار می‌گیرد!</p>
-          {/* نمایش خطای تصویر در صورت وجود */}
-          {errors.imageFile && <p className={`formError`}>{errors.imageFile.message}</p>}
-        </label>
+      </div>
+      <label className={`formLabel`}>
+        تصویر خودرو:
+        <input
+          className={`formFile`}
+          type="file"
+          accept="image/*"
+          multiple // اجازه آپلود چندین تصویر
+          onChange={handleImageChange}
+        />
+        <p>نکته: تصویر اول به عنوان تصویر اصلی قرار می‌گیرد!</p>
+        {/* نمایش خطای تصویر در صورت وجود */}
+        {errors.imageFile && <p className={`formError`}>{errors.imageFile.message}</p>}
+      </label>
 
-        <div className={`imagePreviewContainer`}>
-          {imagePreviews.map((preview, index) => (
-            <div key={index} className={`imagePreviewWrapper`}>
-              <Image
-                src={preview}
-                alt={`پیش‌نمایش تصویر ${index + 1}`}
-                className={`preview`}
-                width={1400}
-                height={1400}
-                quality={100}
-              />
-              <button
-                type="button"
-                className={`deleteButton`}
-                onClick={() => removeImage(index)}
-              >
-                حذف تصویر
-              </button>
-              <button
-                type="button"
-                className={`moveButton`}
-                onClick={() => moveImageUp(index)}
-                disabled={index === 0}
-              >
-                بالا
-              </button>
-              <button
-                className={`moveButton`}
-                type="button"
-                onClick={() => moveImageDown(index)}
-                disabled={index === imagePreviews.length - 1}
-              >
-                پایین
-              </button>
-            </div>
-          ))}
-        </div>
-
-        <label className={`formLabel`}>
-          وضعیت:
-          <select {...register('status')} className={`formSelect`}>
-            <option value="AVAILABLE">موجود</option>
-            <option value="UNAVAILABLE">ناموجود</option>
-          </select>
-        </label>
-
-        <h3 className={`subtitle`}>مشخصات ظاهری</h3>
-        {appearanceFields.map((spec, index) => (
-          <div key={spec.id} className={`labelGroup`}>
-            <label className={`formLabel`}>
-              عنوان:
-              <input
-                type="text"
-                {...register(`appearanceSpecifications.${index}.title`)}
-                className={`formInput`}
-              />
-            </label>
-            <label className={`formLabel`}>
-              مقدار:
-              <input
-                type="text"
-                {...register(`appearanceSpecifications.${index}.value`)}
-                className={`formInput`}
-              />
-            </label>
-            <label className={`formLabel`}>
-              یادداشت:
-              <input
-                type="text"
-                {...register(`appearanceSpecifications.${index}.note`)}
-                className={`formInput`}
-              />
-            </label>
-            {index > 0 && (
-              <button
-                type="button"
-                onClick={() => removeAppearance(index)}
-                className={styles.formButton}
-              >
-                حذف مشخصه
-              </button>
-            )}
+      <div className={`imagePreviewContainer`}>
+        {imagePreviews.map((preview, index) => (
+          <div key={index} className={`imagePreviewWrapper`}>
+            <Image
+              src={preview}
+              alt={`پیش‌نمایش تصویر ${index + 1}`}
+              className={`preview`}
+              width={1400}
+              height={1400}
+              quality={100}
+            />
+            <button type="button" className={`deleteButton`} onClick={() => removeImage(index)}>
+              حذف تصویر
+            </button>
+            <button
+              type="button"
+              className={`moveButton`}
+              onClick={() => moveImageUp(index)}
+              disabled={index === 0}
+            >
+              بالا
+            </button>
+            <button
+              className={`moveButton`}
+              type="button"
+              onClick={() => moveImageDown(index)}
+              disabled={index === imagePreviews.length - 1}
+            >
+              پایین
+            </button>
           </div>
         ))}
-        <button
-          type="button"
-          onClick={() => appendAppearance({ title: '', value: '', note: '' })}
-          className={`formButton`}
-        >
-          افزودن مشخصات ظاهری
-        </button>
+      </div>
 
-        <h3 className={styles.subtitle}>مشخصات فنی</h3>
-        {technicalFields.map((spec, index) => (
-          <div key={spec.id} className={`labelGroup`}>
-            <label className={`formLabel`}>
-              ویژگی:
-              <input
-                type="text"
-                {...register(`technicalSpecifications.${index}.key`)}
-                className={`formInput`}
-              />
-              {errors.technicalSpecifications?.[index]?.key && (
-                <p className={`formError`}>
-                  {errors.technicalSpecifications[index].key.message}
-                </p>
-              )}
-            </label>
-            <label className={`formLabel`}>
-              مقدار:
-              <input
-                type="text"
-                {...register(`technicalSpecifications.${index}.value`)}
-                className={`formInput`}
-              />
-              {errors.technicalSpecifications?.[index]?.value && (
-                <p className={`formError`}>
-                  {errors.technicalSpecifications[index].value.message}
-                </p>
-              )}
-            </label>
-            <label className={`formLabel`}>
-              یادداشت:
-              <input
-                type="text"
-                {...register(`technicalSpecifications.${index}.note`)}
-                className={`formInput`}
-              />
-            </label>
+      <label className={`formLabel`}>
+        وضعیت:
+        <select {...register('status')} className={`formSelect`}>
+          <option value="AVAILABLE">موجود</option>
+          <option value="UNAVAILABLE">ناموجود</option>
+        </select>
+      </label>
 
-            {index > 0 && (
-              <button
-                type="button"
-                onClick={() => removeTechnical(index)}
-                className={`deleteButton`}
-              >
-                حذف مشخصه
-              </button>
-            )}
-          </div>
-        ))}
-
-        <button
-          type="button"
-          onClick={() => appendTechnical({ key: '', value: '', note: '' })}
-          className={styles.formButton}
-        >
-          افزودن مشخصات فنی
-        </button>
-
-        <div className={styles.actions}>
-          <button type="submit" className={styles.formButton}>
-            ذخیره
-          </button>
-          <button type="button" className={styles.formButton} onClick={handleCancel}>
-            لغو
-          </button>
+      <h3 className={`subtitle`}>مشخصات ظاهری</h3>
+      {appearanceFields.map((spec, index) => (
+        <div key={spec.id} className={`labelGroup`}>
+          <label className={`formLabel`}>
+            عنوان:
+            <input
+              type="text"
+              {...register(`appearanceSpecifications.${index}.title`)}
+              className={`formInput`}
+            />
+          </label>
+          <label className={`formLabel`}>
+            مقدار:
+            <input
+              type="text"
+              {...register(`appearanceSpecifications.${index}.value`)}
+              className={`formInput`}
+            />
+          </label>
+          <label className={`formLabel`}>
+            یادداشت:
+            <input
+              type="text"
+              {...register(`appearanceSpecifications.${index}.note`)}
+              className={`formInput`}
+            />
+          </label>
+          {index > 0 && (
+            <button
+              type="button"
+              onClick={() => removeAppearance(index)}
+              className={styles.formButton}
+            >
+              حذف مشخصه
+            </button>
+          )}
         </div>
-      </form>
+      ))}
+      <button
+        type="button"
+        onClick={() => appendAppearance({ title: '', value: '', note: '' })}
+        className={`formButton`}
+      >
+        افزودن مشخصات ظاهری
+      </button>
+
+      <h3 className={styles.subtitle}>مشخصات فنی</h3>
+      {technicalFields.map((spec, index) => (
+        <div key={spec.id} className={`labelGroup`}>
+          <label className={`formLabel`}>
+            ویژگی:
+            <input
+              type="text"
+              {...register(`technicalSpecifications.${index}.key`)}
+              className={`formInput`}
+            />
+            {errors.technicalSpecifications?.[index]?.key && (
+              <p className={`formError`}>{errors.technicalSpecifications[index].key.message}</p>
+            )}
+          </label>
+          <label className={`formLabel`}>
+            مقدار:
+            <input
+              type="text"
+              {...register(`technicalSpecifications.${index}.value`)}
+              className={`formInput`}
+            />
+            {errors.technicalSpecifications?.[index]?.value && (
+              <p className={`formError`}>{errors.technicalSpecifications[index].value.message}</p>
+            )}
+          </label>
+          <label className={`formLabel`}>
+            یادداشت:
+            <input
+              type="text"
+              {...register(`technicalSpecifications.${index}.note`)}
+              className={`formInput`}
+            />
+          </label>
+
+          {index > 0 && (
+            <button type="button" onClick={() => removeTechnical(index)} className={`deleteButton`}>
+              حذف مشخصه
+            </button>
+          )}
+        </div>
+      ))}
+
+      <button
+        type="button"
+        onClick={() => appendTechnical({ key: '', value: '', note: '' })}
+        className={styles.formButton}
+      >
+        افزودن مشخصات فنی
+      </button>
+
+      <h3 className={styles.subtitle}>امکانات رفاهی</h3>
+      {comfortFields.map((feature, index) => (
+        <div key={feature.id} className={`labelGroup`}>
+          <label className={`formLabel`}>
+            نام ویژگی:
+            <input
+              type="text"
+              {...register(`comfortFeatures.${index}.featureName`)}
+              className={`formInput`}
+            />
+            {errors.comfortFeatures?.[index]?.featureName && (
+              <p className={`formError`}>{errors.comfortFeatures[index].featureName.message}</p>
+            )}
+          </label>
+          <label className={`formLabel`}>
+            توضیحات:
+            <input
+              type="text"
+              {...register(`comfortFeatures.${index}.description`)}
+              className={`formInput`}
+            />
+          </label>
+          {index > 0 && (
+            <button type="button" onClick={() => removeComfort(index)} className={`deleteButton`}>
+              حذف
+            </button>
+          )}
+        </div>
+      ))}
+      <button
+        type="button"
+        onClick={() => appendComfort({ featureName: '', description: '' })}
+        className={`formButton`}
+      >
+        افزودن امکانات رفاهی
+      </button>
+
+      <h3 className={styles.subtitle}>امکانات ایمنی</h3>
+      {safetyFields.map((feature, index) => (
+        <div key={feature.id} className={`labelGroup`}>
+          <label className={`formLabel`}>
+            نام ویژگی:
+            <input
+              type="text"
+              {...register(`safetyFeatures.${index}.featureName`)}
+              className={`formInput`}
+            />
+            {errors.safetyFeatures?.[index]?.featureName && (
+              <p className={`formError`}>{errors.safetyFeatures[index].featureName.message}</p>
+            )}
+          </label>
+          <label className={`formLabel`}>
+            توضیحات:
+            <input
+              type="text"
+              {...register(`safetyFeatures.${index}.description`)}
+              className={`formInput`}
+            />
+          </label>
+          {index > 0 && (
+            <button type="button" onClick={() => removeSafety(index)} className={`deleteButton`}>
+              حذف
+            </button>
+          )}
+        </div>
+      ))}
+      <button
+        type="button"
+        onClick={() => appendSafety({ featureName: '', description: '' })}
+        className={`formButton`}
+      >
+        افزودن امکانات ایمنی
+      </button>
+
+      <div className={styles.actions}>
+        <button type="submit" className={styles.formButton}>
+          ذخیره
+        </button>
+        <button type="button" className={styles.formButton} onClick={handleCancel}>
+          لغو
+        </button>
+      </div>
+    </form>
   )
 }

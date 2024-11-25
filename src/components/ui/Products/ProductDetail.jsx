@@ -166,6 +166,42 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
 
           <div className={styles.line} />
 
+          {/* Comfort Features */}
+          <div className={styles.information}>
+            <h3>امکانات رفاهی</h3>
+            <div className={styles.informationGrid}>
+              {car?.comfortFeatures.map((feature) => (
+                <li key={feature.id} className={styles.subMargin}>
+                  <span>
+                    {feature.featureName}
+                  </span>
+                  <Image src="/dots.png" width={700} height={700} alt="dots" />
+                  <span>{feature.description || '—'}</span>
+                </li>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.line} />
+
+          {/* Safety Features */}
+          <div className={styles.information}>
+            <h3>امکانات ایمنی</h3>
+            <div className={styles.informationGrid}>
+              {car?.safetyFeatures.map((feature) => (
+                <li key={feature.id} className={styles.subMargin}>
+                  <span>
+                    {feature.featureName}
+                  </span>
+                  <Image src="/dots.png" width={700} height={700} alt="dots" />
+                  <span>{feature.description || '—'}</span>
+                </li>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.line} />
+
           {/* Sales Conditions */}
           <div className={styles.information}>
             <h3>شرایط فروش</h3>

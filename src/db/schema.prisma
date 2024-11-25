@@ -103,17 +103,19 @@ enum AddressType {
 // مدل خودرو
 model Car {
   id                       String                    @id @default(auto()) @map("_id") @db.ObjectId
-  model                    String // مدل خودرو (مثلاً M4، T5)
-  name                     String // نام خودرو
+  model                    String
+  name                     String
   isActive                 Boolean                   @default(true)
-  image                    String[] // تغییر داده شده به آرایه‌ای از تصاویر
-  status                   CarStatus? // وضعیت خودرو (موجود/ناموجود)
-  appearanceSpecifications AppearanceSpecification[] // مشخصات ظاهری
-  technicalSpecifications  TechnicalSpecification[] // مشخصات فنی
-  salesConditions          SalesCondition[] // شرایط فروش
-  orders                   Order[] // سفارش‌ها
-  createdAt                DateTime                  @default(now()) // تاریخ ایجاد
-  updatedAt                DateTime                  @updatedAt // تاریخ به‌روزرسانی
+  image                    String[]
+  status                   CarStatus?
+  appearanceSpecifications AppearanceSpecification[]
+  technicalSpecifications  TechnicalSpecification[]
+  comfortFeatures          ComfortFeature[] // امکانات رفاهی
+  safetyFeatures           SafetyFeature[] // امکانات ایمنی
+  salesConditions          SalesCondition[]
+  orders                   Order[]
+  createdAt                DateTime                  @default(now())
+  updatedAt                DateTime                  @updatedAt
   CardBox                  CardBox[]
 }
 
@@ -142,6 +144,24 @@ model TechnicalSpecification {
   key   String // ویژگی (مثلاً حجم موتور)
   value String // مقدار (مثلاً 1590)
   note  String? // یادداشت
+}
+
+// مدل امکانات رفاهی
+model ComfortFeature {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  car         Car     @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId       String  @db.ObjectId
+  featureName String // نام ویژگی
+  description String? // توضیحات اختیاری
+}
+
+// مدل امکانات ایمنی
+model SafetyFeature {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  car         Car     @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId       String  @db.ObjectId
+  featureName String // نام ویژگی
+  description String? // توضیحات اختیاری
 }
 
 // مدل شرایط فروش

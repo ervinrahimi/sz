@@ -333,15 +333,27 @@ export const vehicleSchema = z.object({
   appearanceSpecifications: z.array(
     z.object({
       title: z.string().min(1, 'عنوان الزامی است.'),
-      value: z.string().min(1, 'مقدار الزامی است.'), // مقدار به عنوان اجباری
-      note: z.string().optional(), // یادداشت اختیاری
+      value: z.string().min(1, 'مقدار الزامی است.'),
+      note: z.string().optional(),
     })
   ),
   technicalSpecifications: z.array(
     z.object({
       key: z.string().min(1, 'ویژگی الزامی است.'),
       value: z.string().min(1, 'مقدار الزامی است.'),
-      note: z.string().optional(), // یادداشت اختیاری
+      note: z.string().optional(),
+    })
+  ),
+  comfortFeatures: z.array(
+    z.object({
+      featureName: z.string().min(1, 'نام ویژگی الزامی است.'),
+      description: z.string().optional(),
+    })
+  ),
+  safetyFeatures: z.array(
+    z.object({
+      featureName: z.string().min(1, 'نام ویژگی الزامی است.'),
+      description: z.string().optional(),
     })
   ),
 })
