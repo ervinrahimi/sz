@@ -1,132 +1,160 @@
-'use client'
+'use client';
 
-import styles from './ContactUs.module.css'
+import styles from './ContactUs.module.css';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const contactFormSchema = z.object({
+  firstName: z.string().min(2, 'نام باید حداقل دو حرف باشد.'),
+  lastName: z.string().min(2, 'نام خانوادگی باید حداقل دو حرف باشد.'),
+  email: z.string().email('ایمیل معتبر وارد کنید.'),
+  phone: z.string().regex(/^\+?\d{1,4}[-.\s]?\(?\d{1,3}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/, 'شماره تلفن معتبر وارد کنید.'),
+  teamSize: z.string().min(1, 'لطفاً اندازه تیم را انتخاب کنید.'),
+  location: z.string().min(1, 'لطفاً موقعیت جغرافیایی را انتخاب کنید.'),
+  message: z.string().min(10, 'پیام باید حداقل ۱۰ حرف باشد.'),
+  products: z.array(z.string()).optional(),
+});
 
 export default function ContactSupportPage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(contactFormSchema),
+  });
+
+  const onSubmit = (data) => {
+    // ارسال داده‌ها به سرور
+    console.log(data);
+  };
+
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Contact & support</h1>
+      <h1 className={styles.title}>تماس و پشتیبانی</h1>
       <p className={styles.subtitle}>
-        Have questions about pricing, plans, or Untitled UI? Fill out the form and our friendly team
-        can get back to you within 24 hours.
+        سوالی درباره قیمت‌ها، برنامه‌ها یا استفاده از Untitled UI دارید؟ فرم را پر کنید و تیم ما ظرف
+        ۲۴ ساعت با شما تماس می‌گیرد.
       </p>
 
       <div className={styles.content}>
         {/* فرم تماس */}
         <div className={styles.contactForm}>
-          <h2>Contact our sales team</h2>
-          <form className={styles.form}>
+          <h2>تماس با تیم فروش ما</h2>
+          <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
             <div className={styles.row}>
+              <div>
+                <input
+                  type="text"
+                  placeholder="نام"
+                  className={styles.input}
+                  {...register('firstName')}
+                />
+                {errors.firstName && <p className={styles.error}>{errors.firstName.message}</p>}
+              </div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="نام خانوادگی"
+                  className={styles.input}
+                  {...register('lastName')}
+                />
+                {errors.lastName && <p className={styles.error}>{errors.lastName.message}</p>}
+              </div>
+            </div>
+            <div>
+              <input
+                type="email"
+                placeholder="ایمیل شما"
+                className={styles.input}
+                {...register('email')}
+              />
+              {errors.email && <p className={styles.error}>{errors.email.message}</p>}
+            </div>
+            <div>
               <input
                 type="text"
-                name="firstName"
-                placeholder="First name"
+                placeholder="شماره تماس"
                 className={styles.input}
+                {...register('phone')}
               />
-              <input type="text" name="lastName" placeholder="Last name" className={styles.input} />
+              {errors.phone && <p className={styles.error}>{errors.phone.message}</p>}
             </div>
-            <input
-              type="email"
-              name="email"
-              placeholder="you@company.com"
-              className={styles.input}
-            />
-            <input
-              type="tel"
-              name="phone"
-              placeholder="AU +61 400 000 000"
-              className={styles.input}
-            />
-            <select name="teamSize" className={styles.select}>
-              <option value="">Team size</option>
-              <option value="1-50">1-50 people</option>
-              <option value="51-200">51-200 people</option>
-              <option value="201+">201+ people</option>
-            </select>
-            <select name="location" className={styles.select}>
-              <option value="">Location</option>
-              <option value="Australia">Australia</option>
-              <option value="USA">USA</option>
-              <option value="Europe">Europe</option>
-            </select>
-            <textarea
-              name="message"
-              placeholder="Leave us a message..."
-              className={styles.textarea}
-            ></textarea>
-            <div className={styles.checkboxGroup}>
-              <label>
-                <input type="checkbox" value="Mail" />
-                Untitled Mail
-              </label>
-              <label>
-                <input type="checkbox" value="VPN" />
-                Untitled VPN
-              </label>
-              <label>
-                <input type="checkbox" value="Calendar" />
-                Untitled Calendar
-              </label>
-              <label>
-                <input type="checkbox" value="Workspace" />
-                Untitled Workspace
-              </label>
-              <label>
-                <input type="checkbox" value="Drive" />
-                Untitled Drive
-              </label>
+            <div>
+              <select className={styles.select} {...register('teamSize')}>
+                <option value="">اندازه تیم</option>
+                <option value="1-50">۱-۵۰ نفر</option>
+                <option value="51-200">۵۱-۲۰۰ نفر</option>
+                <option value="201+">۲۰۱ نفر و بیشتر</option>
+              </select>
+              {errors.teamSize && <p className={styles.error}>{errors.teamSize.message}</p>}
+            </div>
+            <div>
+              <select className={styles.select} {...register('location')}>
+                <option value="">موقعیت جغرافیایی</option>
+                <option value="Australia">استرالیا</option>
+                <option value="USA">آمریکا</option>
+                <option value="Europe">اروپا</option>
+              </select>
+              {errors.location && <p className={styles.error}>{errors.location.message}</p>}
+            </div>
+            <div>
+              <textarea
+                placeholder="پیام خود را وارد کنید..."
+                className={styles.textarea}
+                {...register('message')}
+              ></textarea>
+              {errors.message && <p className={styles.error}>{errors.message.message}</p>}
             </div>
             <button type="submit" className={styles.submitButton}>
-              Send message
+              ارسال پیام
             </button>
           </form>
         </div>
 
         {/* اطلاعات پشتیبانی */}
         <div className={styles.supportInfo}>
-          <h2>Chat to sales</h2>
-          <p>Interested in switching? Speak to our friendly team.</p>
+          <div>
+          <h2>گفت‌وگو با تیم فروش</h2>
+          <p>با تیم دوستانه ما صحبت کنید</p>
           <p>
             <a href="mailto:sales@untitledui.com">sales@untitledui.com</a>
           </p>
-
-          <h2>Email support</h2>
-          <p>Email us and we’ll get back to you within 24 hours.</p>
+          </div>
+          <div>
+          <h2>پشتیبانی ایمیل</h2>
+          <p>ایمیل بفرستید و ما ظرف ۲۴ ساعت پاسخ می‌دهیم.</p>
           <p>
             <a href="mailto:support@untitledui.com">support@untitledui.com</a>
           </p>
-
-          <h2>Chat support</h2>
-          <p>Chat to our staff 24/7 for instant access to support.</p>
+          </div>
+          <div>
+          <h2>چت</h2>
+          <p>۲۴/۷ با تیم ما چت کنید و فوراً پشتیبانی بگیرید.</p>
           <p>
             <a href="#">
-              Start live chat <span style={{ color: 'green' }}>• Online</span>
+              شروع چت
             </a>
           </p>
-
-          <h2>Call us</h2>
-          <p>Mon - Fri, 9:00 AM - 5:00 PM (UTC/GMT +10:00)</p>
+          </div>
+          <div>
+          <h2>تماس با ما</h2>
+          <p>دوشنبه تا جمعه، ۹ صبح - ۵ عصر</p>
           <p>
-            <a href="tel:+61340209204">+61 3 4020 9204</a>
+            <a href="tel:+61340209204">02191694314</a>
           </p>
-
-          <h2>Melbourne</h2>
-          <p>Visit our office Mon - Fri, 9:00 AM - 5:00 PM.</p>
+          </div>
+          <div>
+          <h2>آدرس شعبه ملبورن</h2>
           <p>
-            90 Office Street
+            خیابان ۹۰ آفیس
             <br />
-            Fitzroy, VIC 3065 Australia
+            فیتزروی، ویک ۳۰۶۵ استرالیا
           </p>
-
-          <h2>Sydney</h2>
-          <p>Visit our office Mon - Fri, 9:00 AM - 5:00 PM.</p>
-          <p>
-            40 Bridge Street
-            <br />
-            Sydney, NSW 2000 Australia
-          </p>
+          </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
