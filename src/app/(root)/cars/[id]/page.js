@@ -12,6 +12,8 @@ export default async function CarPage({ params }) {
     include: {
       technicalSpecifications: true,
       appearanceSpecifications: true,
+      comfortFeatures: true,
+      safetyFeatures: true,
       salesConditions: {
         include: {
           salesFestival: true, // اضافه کردن ارتباط جشنواره
@@ -32,5 +34,5 @@ export default async function CarPage({ params }) {
     orderBy: { order: 'asc' },
   })
 
-  return <ProductDetail car={car} cardBoxSections={cardBoxSections} user={session?.user}/>
+  return <ProductDetail car={car} cardBoxSections={cardBoxSections} user={session?.user} />
 }

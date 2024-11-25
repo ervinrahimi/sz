@@ -11,6 +11,8 @@ export default async function VehicleDetailsPage({ params }) {
     include: {
       appearanceSpecifications: true,
       technicalSpecifications: true,
+      comfortFeatures: true,
+      safetyFeatures: true,
       salesConditions: true,
     },
   })

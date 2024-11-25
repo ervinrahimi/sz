@@ -31,6 +31,8 @@ export default function VehicleCreate() {
       status: 'AVAILABLE',
       appearanceSpecifications: [{ title: '', value: '', note: '' }],
       technicalSpecifications: [{ key: '', value: '', note: '' }],
+      comfortFeatures: [{ featureName: '', description: '' }],
+      safetyFeatures: [{ featureName: '', description: '' }],
     },
   })
 
@@ -50,6 +52,24 @@ export default function VehicleCreate() {
   } = useFieldArray({
     control,
     name: 'technicalSpecifications',
+  })
+
+  const {
+    fields: comfortFields,
+    append: appendComfort,
+    remove: removeComfort,
+  } = useFieldArray({
+    control,
+    name: 'comfortFeatures',
+  })
+
+  const {
+    fields: safetyFields,
+    append: appendSafety,
+    remove: removeSafety,
+  } = useFieldArray({
+    control,
+    name: 'safetyFeatures',
   })
 
   const handleImageChange = (e) => {
@@ -296,6 +316,82 @@ export default function VehicleCreate() {
           className={styles.formButton}
         >
           افزودن مشخصات فنی
+        </button>
+
+        <h3 className={styles.subtitle}>امکانات رفاهی</h3>
+        {comfortFields.map((feature, index) => (
+          <div key={feature.id} className={styles.specification}>
+            <label className={styles.formLabel}>
+              نام ویژگی:
+              <input
+                type="text"
+                {...register(`comfortFeatures.${index}.featureName`)}
+                className={styles.formInput}
+              />
+            </label>
+            <label className={styles.formLabel}>
+              توضیحات:
+              <input
+                type="text"
+                {...register(`comfortFeatures.${index}.description`)}
+                className={styles.formInput}
+              />
+            </label>
+            {index > 0 && (
+              <button
+                type="button"
+                onClick={() => removeComfort(index)}
+                className={styles.formButton}
+              >
+                حذف
+              </button>
+            )}
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={() => appendComfort({ featureName: '', description: '' })}
+          className={styles.formButton}
+        >
+          افزودن امکانات رفاهی
+        </button>
+
+        <h3 className={styles.subtitle}>امکانات ایمنی</h3>
+        {safetyFields.map((feature, index) => (
+          <div key={feature.id} className={styles.specification}>
+            <label className={styles.formLabel}>
+              نام ویژگی:
+              <input
+                type="text"
+                {...register(`safetyFeatures.${index}.featureName`)}
+                className={styles.formInput}
+              />
+            </label>
+            <label className={styles.formLabel}>
+              توضیحات:
+              <input
+                type="text"
+                {...register(`safetyFeatures.${index}.description`)}
+                className={styles.formInput}
+              />
+            </label>
+            {index > 0 && (
+              <button
+                type="button"
+                onClick={() => removeSafety(index)}
+                className={styles.formButton}
+              >
+                حذف
+              </button>
+            )}
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={() => appendSafety({ featureName: '', description: '' })}
+          className={styles.formButton}
+        >
+          افزودن امکانات ایمنی
         </button>
 
         <button type="submit" className={styles.formButton}>
