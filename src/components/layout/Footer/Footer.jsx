@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import styles from './Footer.module.css'
 import toast from 'react-hot-toast'
+import Link from 'next/link'
 
 export default function Footer() {
   const [email, setEmail] = useState('')
@@ -108,7 +109,7 @@ export default function Footer() {
 
         <div className={styles.footerBottom}>
           <p>
-            <a href="#">حریم خصوصی</a> · <a href="#">خط مشی و شرایط سایت</a>
+            <Link href="/Privacy-Policy">حریم خصوصی</Link> · <Link href="/Terms-And-Conditions">خط مشی و شرایط سایت</Link>
           </p>
           <div className={styles.socialLinks}>
             <span>تلگرام</span> ·<a href="https://www.instagram.com/fardakhodro/">اینستاگرام</a> ·
