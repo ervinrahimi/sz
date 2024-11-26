@@ -126,8 +126,26 @@ export default function Header({ product, menuItems, user }) {
               (menu) =>
                 menu.isActive && (
                   <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
-                    <Link href={menu.link || '#'}>{menu.title}</Link>
-                  </li>
+                  <Link href={menu.link || '#'}>{menu.title}</Link>
+                  {/* اگر زیرمنوها وجود داشته باشند، آنها را رندر کن */}
+                  {menu.subMenus && menu.subMenus.length > 0 && (
+                    <>
+                      <MenuArrowIcon
+                        className={isActive(menu.link) ? styles.active : styles.menuArrowIcon}
+                      />
+                      <ul className={styles.subMenu}>
+                        {menu.subMenus.map((subMenu) => (
+                          <li
+                            key={subMenu.id}
+                            className={isActive(subMenu.link) ? styles.active : ''}
+                          >
+                            <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </li>
                 )
             )}
         </ul>
@@ -144,33 +162,34 @@ export default function Header({ product, menuItems, user }) {
           <div className={styles.rightSideMenu}>
             <SoltanZadeLogoSVG onClick={handleClick} className={styles.logo} />
             <ul>
-              {menuItems &&
-                menuItems.map((menu, index) => {
-                  const isLastMenu = index === menuItems.length - 1 // بررسی اینکه آیا این منو آخرین منو است یا خیر
-                  if (menu.isActive) {
-                    return (
-                      <li
-                        key={menu.id}
-                        className={isLastMenu ? '' : 'disabled'}
-                        onClick={() => {
-                          if (!isLastMenu) {
-                            if (canShowToast) {
-                              toast('این منو در حال توسعه است!')
-                              setToastCount(toastCount + 1)
-                            }
-                          }
-                        }}
-                      >
-                        {isLastMenu ? (
-                          <Link href={menu.link || '#'}>{menu.title}</Link>
-                        ) : (
-                          <span>{menu.title}</span>
-                        )}
-                      </li>
-                    )
-                  }
-                  return null
-                })}
+              {menuItems.map((menu) => {
+                if (menu.isActive) {
+                  return (
+                    <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
+                      <Link href={menu.link || '#'}>{menu.title}</Link>
+                      {/* اگر زیرمنوها وجود داشته باشند، آنها را رندر کن */}
+                      {menu.subMenus && menu.subMenus.length > 0 && (
+                        <>
+                          <MenuArrowIcon
+                            className={isActive(menu.link) ? styles.active : styles.menuArrowIcon}
+                          />
+                          <ul className={styles.subMenu}>
+                            {menu.subMenus.map((subMenu) => (
+                              <li
+                                key={subMenu.id}
+                                className={isActive(subMenu.link) ? styles.active : ''}
+                              >
+                                <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </>
+                      )}
+                    </li>
+                  )
+                }
+                return null
+              })}
             </ul>
           </div>
           <div className={styles.leftSideMenu}>

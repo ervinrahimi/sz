@@ -400,7 +400,7 @@
   margin-right: -20px;
   border-radius: 15px;
   position: absolute;
-  margin-top: 100px;
+  margin-top: 105px;
   display: flex !important; /* نمایش زیرمنوها هنگام هاور */
   align-items: center;
   flex-direction: column;
@@ -413,4 +413,13 @@
 
 .subMenu li:hover {
   color: #cbe3eb; /* رنگ زیرمنوها هنگام هاور */
+}
+
+/* زیرمنو در حالت موبایل */
+@media (max-width: 1080px) {
+  .subMenu {
+    list-style: none;
+    padding-left: 20px;
+    display: none !important; /* زیرمنوها مخفی هستند */
+  }
 }
