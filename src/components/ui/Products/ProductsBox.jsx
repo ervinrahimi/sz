@@ -11,13 +11,13 @@ import toast from 'react-hot-toast'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 // Import Swiper styles
-import 'swiper/css'
-import 'swiper/css/pagination'
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 import './ProductBoxSwiper.css'
 
 // import required modules
-import { Pagination } from 'swiper/modules'
+import { Navigation, Pagination } from 'swiper/modules'
 
 export default function ProductsBox({ title, subTitle, cardBoxes }) {
   const router = useRouter()
@@ -48,6 +48,8 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
         <Swiper
           dir={'rtl'}
           slidesPerView={4}
+          navigation={true}
+          modules={[Navigation]}
           spaceBetween={30}
           centeredSlides={false}
           breakpoints={{
