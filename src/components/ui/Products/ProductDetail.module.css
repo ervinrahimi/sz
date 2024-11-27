@@ -505,5 +505,49 @@
 }
 
 .commentsSection {
-  
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-bottom: 100px;
+}
+
+.titleContainer {
+  display: block;
+  width: 1570px;
+  height: max-content;
+  margin: 0;
+  position: relative;
+  padding-right: 23px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.titleContainer::after {
+  content: ' ';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 1.5px;
+  height: 83%;
+  background-color: rgba(0, 9, 46, 0.18);
+}
+
+.titleOff {
+  display: none;
+}
+
+.titleContainer h3 {
+  font-variation-settings: 'wdth' 100, 'wght' 750, 'CNTR' 40;
+  color: #25283e;
+  font-size: 24px;
+  line-height: 1.5;
+  margin-top: 3px;
+}
+
+.titleContainer p {
+  font-variation-settings: 'wdth' 100, 'wght' 600, 'DOTS' 0;
+  color: #969baf;
+  font-size: 14px;
+  letter-spacing: -0.6px;
 }

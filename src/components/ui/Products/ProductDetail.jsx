@@ -328,9 +328,11 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
         )}
 
         <div className={styles.commentsSection}>
-          <h2>نظرات کاربران</h2>
-          <CommentList pageId={car.id} /> {/* نمایش لیست نظرات */}
+          <div className={styles.titleContainer}>
+            <h3>نظرات کاربران</h3>
+          </div>
           <CommentForm pageId={car.id} userId={user.id} /> {/* فرم ارسال نظر */}
+          <CommentList pageId={car.id} /> {/* نمایش لیست نظرات */}
         </div>
       </div>
     </div>

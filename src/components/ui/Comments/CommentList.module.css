@@ -1,0 +1,63 @@
+.commentList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.commentListBox {
+  width: 1570px;
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background-color: #fff;
+}  
+
+.userComment {
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
+  font-size: 16px;
+  background-color: aliceblue;
+  padding: 15px 20px;
+  border-radius: 10px;
+}
+
+.userComment p {
+  font-size: 16px;
+  margin-bottom: 5px;
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
+  color: #363636;
+}
+
+.userComment strong{
+  color: #25283e;
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 800, 'DOTS' 0;
+}
+
+.adminReply {
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
+  margin-top: 10px;
+  background-color: rgb(186, 191, 196);
+  padding: 15px 20px;
+  border-radius: 10px;
+}
+
+.adminReply strong{
+  color: #25283e;
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 800, 'DOTS' 0;
+}
+.adminReply p {
+  font-size: 16px;
+  margin-bottom: 5px;
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
+  color: #363636;
+}

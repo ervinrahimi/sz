@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { addComment } from '@/actions/admin/comments'
 import toast from 'react-hot-toast'
+import styles from './CommentForm.module.css'
 
 export default function CommentForm({ pageId, userId }) {
   const [content, setContent] = useState('')
@@ -23,13 +24,14 @@ export default function CommentForm({ pageId, userId }) {
   }
 
   return (
-    <div>
+    <div className={styles.commentForm}>
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder="نظر خود را بنویسید"
+        className={styles.textBox}
       />
-      <button onClick={handleSubmit}>ارسال نظر</button>
+      <button className={styles.submitButton} onClick={handleSubmit}>ارسال نظر</button>
     </div>
   )
 }
