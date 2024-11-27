@@ -1,0 +1,47 @@
+.commentForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 1570px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.textBox {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
+  font-size: 15px;
+  width: 100%;
+  padding: 10px;
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.textBox:focus {
+  border-color: rgb(87, 168, 87);
+  box-shadow: 0 0 5px rgba(87, 168, 87, 0.5);
+}
+
+.textBox {
+  height: 150px;
+  resize: vertical;
+}
+
+.submitButton {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
+  background-color: #57a857;
+  color: white;
+  border: none;
+  padding: 12px 15px;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: #3e773e;
+}

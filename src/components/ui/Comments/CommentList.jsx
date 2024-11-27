@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { getCommentsByPage } from '@/actions/admin/comments'
+import styles from './CommentList.module.css'
 
 export default function CommentList({ pageId }) {
   const [comments, setComments] = useState([])
@@ -19,13 +20,11 @@ export default function CommentList({ pageId }) {
   }, [pageId])
 
   return (
-    <div>
+    <div className={styles.commentListBox}>
       {comments.length > 0 ? (
         comments.map((comment) => (
-          <div
-            key={comment.id}
-            style={{ marginBottom: '20px', padding: '10px', border: '1px solid #ccc' }}
-          >
+          <div key={comment.id} className={styles.commentlist}>
+            <div  className={styles.userComment}>
             {/* نام کاربر */}
             <p>
               <strong>کاربر:</strong> {comment.user?.name || 'ناشناس'}
@@ -34,9 +33,10 @@ export default function CommentList({ pageId }) {
             <p>
               <strong>نظر:</strong> {comment.content}
             </p>
+            </div>
             {/* پاسخ ادمین */}
             {comment.adminReply && (
-              <p style={{ fontStyle: 'italic', color: 'gray' }}>
+              <p className={styles.adminReply}>
                 <strong>پاسخ ادمین:</strong> {comment.adminReply.content}
               </p>
             )}
