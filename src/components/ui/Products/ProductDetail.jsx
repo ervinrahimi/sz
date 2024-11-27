@@ -172,9 +172,7 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
             <div className={styles.informationGrid}>
               {car?.comfortFeatures.map((feature) => (
                 <li key={feature.id} className={styles.subMargin}>
-                  <span>
-                    {feature.featureName}
-                  </span>
+                  <span>{feature.featureName}</span>
                   <Image src="/dots.png" width={700} height={700} alt="dots" />
                   <span>{feature.description || '—'}</span>
                 </li>
@@ -190,9 +188,7 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
             <div className={styles.informationGrid}>
               {car?.safetyFeatures.map((feature) => (
                 <li key={feature.id} className={styles.subMargin}>
-                  <span>
-                    {feature.featureName}
-                  </span>
+                  <span>{feature.featureName}</span>
                   <Image src="/dots.png" width={700} height={700} alt="dots" />
                   <span>{feature.description || '—'}</span>
                 </li>
@@ -321,12 +317,6 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
           <div className={styles.line} />
         </div>
 
-        <div className={styles.commentsSection}>
-          <h2>نظرات کاربران</h2>
-          <CommentList pageId={car.id} /> {/* نمایش لیست نظرات */}
-          <CommentForm pageId={car.id} userId={user.id} /> {/* فرم ارسال نظر */}
-        </div>
-
         {/* نمایش cardBoxSections در ProductsBox */}
         {cardBoxSections[0] && (
           <ProductsBox
@@ -336,6 +326,12 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
             cardBoxes={cardBoxSections[0].cardBoxes}
           />
         )}
+
+        <div className={styles.commentsSection}>
+          <h2>نظرات کاربران</h2>
+          <CommentList pageId={car.id} /> {/* نمایش لیست نظرات */}
+          <CommentForm pageId={car.id} userId={user.id} /> {/* فرم ارسال نظر */}
+        </div>
       </div>
     </div>
   )
