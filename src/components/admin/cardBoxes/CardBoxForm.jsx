@@ -1,12 +1,11 @@
 'use client'
 
-import { createCardBox, updateCardBox, deleteCatalogFile } from '@/actions/admin/cardBoxes'
+import { createCardBox, updateCardBox, deleteCatalogFile, deleteImageFile } from '@/actions/admin/cardBoxes'
 import { cardBoxSchema } from '@/security/zod/validationSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import styles from './CardBoxForm.module.css'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
 
@@ -16,6 +15,9 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
   const [catalogFile, setCatalogFile] = useState(null)
   const [hasCatalog, setHasCatalog] = useState(!!cardBox?.catalogUrl)
   const [previewUrl, setPreviewUrl] = useState(cardBox?.catalogUrl || null)
+
+  const [imageFile, setImageFile] = useState(null)
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(cardBox?.imageUrl || null)
 
   const {
     register,
@@ -59,18 +61,62 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
     }
   }
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    setImageFile(file)
+    if (file && file.type.startsWith('image/')) {
+      setImagePreviewUrl(URL.createObjectURL(file))
+    } else {
+      setImagePreviewUrl(null)
+    }
+  }
+
+  const handleImageDelete = async () => {
+    try {
+      await deleteImageFile(cardBox.id)
+      setImagePreviewUrl(null)
+      setImageFile(null)
+      toast.success('تصویر با موفقیت حذف شد')
+    } catch (error) {
+      toast.error('حذف تصویر با مشکل مواجه شد')
+    }
+  }
+
   const onSubmit = async (data) => {
-    const formData = new FormData()
-    Object.keys(data).forEach((key) => formData.append(key, data[key]))
+    // آپلود تصویر در صورت وجود
+    let newImageUrl = null
+    if (imageFile) {
+      const formData = new FormData()
+      formData.append('imageFile', imageFile)
+
+      const res = await fetch('/api/upload/cardbox', { method: 'POST', body: formData })
+      const uploadData = await res.json()
+      newImageUrl = uploadData.url
+    }
+
+    // آپلود کاتالوگ در صورت وجود
+    let newCatalogUrl = null
     if (catalogFile) {
+      const formData = new FormData()
       formData.append('catalogFile', catalogFile)
+
+      const res = await fetch('/api/upload/cardbox-catalog', { method: 'POST', body: formData })
+      const uploadData = await res.json()
+      newCatalogUrl = uploadData.url
+    }
+
+    // آماده‌سازی داده‌ها برای ارسال به اکشن
+    const cardBoxData = {
+      ...data,
+      imageUrl: newImageUrl || cardBox?.imageUrl,
+      catalogUrl: newCatalogUrl || cardBox?.catalogUrl,
     }
 
     if (isEdit) {
-      await updateCardBox(cardBox.id, formData)
+      await updateCardBox(cardBox.id, cardBoxData)
       toast.success('کارت باکس شما با موفقیت ویرایش شد', { duration: 5000 })
     } else {
-      await createCardBox(formData)
+      await createCardBox(cardBoxData)
       toast.success('کارت باکس شما با موفقیت ساخته شد', { duration: 5000 })
     }
     router.push('/admin/card-boxes')
@@ -138,6 +184,37 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
           {errors.sectionId && <span className={`formError`}>{errors.sectionId.message}</span>}
         </label>
       </div>
+
+      {/* آپلود تصویر */}
+      <label className={`formLabel`}>
+        آپلود تصویر:
+        <input
+          type="file"
+          className={`formFile`}
+          onChange={handleImageChange}
+          accept="image/*"
+        />
+      </label>
+
+      {/* نمایش پیش‌نمایش تصویر */}
+      {imagePreviewUrl && (
+        <div className={`filePreviewContainer`}>
+          <div className={`fileInfoContainer`}>
+            <Image
+              src={imagePreviewUrl}
+              alt="پیش‌نمایش تصویر"
+              className={`previewImage`}
+              width={100}
+              height={100}
+            />
+            <button type="button" onClick={handleImageDelete} className={`deleteButton`}>
+              حذف تصویر
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* آپلود کاتالوگ */}
       <label className={`formLabel`}>
         آپلود کاتالوگ:
         <input
@@ -148,12 +225,12 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
         />
       </label>
 
-      {/* نمایش فایل آپلود شده */}
+      {/* نمایش فایل کاتالوگ آپلود شده */}
       {previewUrl && (
         <div className={`filePreviewContainer`}>
           {previewUrl.endsWith('.pdf') ? (
             <div className={`fileInfoContainer`}>
-              <span>📄</span> {/* آیکن فایل PDF */}
+              <span>📄</span>
               <a href={previewUrl} target="_blank" rel="noopener noreferrer">
                 {catalogFile ? catalogFile.name : 'کاتالوگ فعلی'}
               </a>

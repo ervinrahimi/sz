@@ -386,30 +386,6 @@ export const cardBoxSchema = z.object({
   carId: z.string().nonempty('انتخاب خودرو الزامی است'),
   sectionId: z.string().nonempty('انتخاب بخش الزامی است'),
   viewLink: z.string().optional(),
-
-  catalogFile: z
-    .any()
-    .optional()
-    .superRefine((file, ctx) => {
-      const MAX_FILE_SIZE = 5 * 1024 * 1024 // حداکثر اندازه فایل: 5 مگابایت
-      const ALLOWED_MIME_TYPES = ['application/pdf', 'image/jpeg', 'image/png']
-
-      if (file) {
-        if (!ALLOWED_MIME_TYPES.includes(file.type)) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: 'فرمت فایل غیرمجاز است. تنها فرمت‌های PDF، JPG و PNG قابل قبول هستند.',
-          })
-        }
-
-        if (file.size > MAX_FILE_SIZE) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: 'حجم فایل بیش از حد مجاز است (حداکثر 5 مگابایت).',
-          })
-        }
-      }
-    }),
 })
 
 export const cardBoxSectionSchema = z.object({
