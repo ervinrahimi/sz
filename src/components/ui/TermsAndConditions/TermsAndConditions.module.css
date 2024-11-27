@@ -1,24 +1,27 @@
 .termsContainer {
-  font-family: var(--font-yekanBakh), sans-serif !important;
-  color: #333333;
-  background-color: transparent;
+  font-family: var(--font-yekanBakh);
+  color: #333333; /* تغییر رنگ متن به رنگ تیره برای تم روشن */
+  background-color: transparent; /* حذف رنگ پس‌زمینه */
   padding: 20px;
 }
 
 .title {
+  font-family: var(--font-yekanBakh);
+  font-variation-settings: 'wdth' 95, 'wght' 700, 'DOTS' 0;
   font-size: 36px;
   text-align: center;
   margin-bottom: 10px;
 }
 
 .highlight {
-  color: #3b5998;
+  color: #3b5998; /* رنگ تأکید */
 }
 
 .description {
+  font-variation-settings: 'wdth' 95, 'wght' 500, 'DOTS' 0;
   text-align: center;
   margin-bottom: 20px;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 1.5;
 }
 
@@ -28,11 +31,12 @@
 }
 
 .sidebar {
-  width: 25%;
-  background-color: #f9f9f9;
-  padding: 15px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background-color: #ffffff; /* استفاده از رنگ روشن برای پس‌زمینه ستون کناری */
+  padding: 25px 35px;
   border-radius: 8px;
-  border: 1px solid #dddddd;
+  border: 1px solid #dddddd; /* حاشیه روشن برای تفکیک */
 }
 
 .sidebar ul {
@@ -41,31 +45,27 @@
 }
 
 .sidebar li {
-  margin-bottom: 10px;
-  color: #555555;
+  text-align: center;
+  font-family: var(--font-yekanBakh);
+  font-variation-settings: 'wdth' 95, 'wght' 700, 'DOTS' 0;
+  margin-bottom: 20px;
+  color: #555555; /* رنگ متن ستون کناری */
   cursor: pointer;
 }
 
 .sidebar li:hover {
-  color: #3b5998;
-}
-
-.link {
-  text-decoration: none;
-  color: #555555;
-  transition: color 0.2s;
-}
-
-.link:hover {
-  color: #3b5998;
+  color: #3b5998; /* تغییر رنگ هنگام هاور */
 }
 
 .mainContent {
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  flex: 1;
   width: 75%;
-  background-color: #ffffff;
+  background-color: #ffffff; /* استفاده از رنگ سفید برای متن اصلی */
   padding: 20px;
   border-radius: 8px;
-  border: 1px solid #dddddd;
+  border: 1px solid #dddddd; /* حاشیه روشن برای تفکیک */
 }
 
 .mainContent section {
@@ -73,13 +73,16 @@
 }
 
 .mainContent h2 {
+  font-family: var(--font-yekanBakh);
+  font-variation-settings: 'wdth' 95, 'wght' 700, 'DOTS' 0;
   font-size: 20px;
   margin-bottom: 10px;
-  color: #333333;
+  color: #333333; /* رنگ تیره برای تیترها */
 }
 
 .mainContent p {
-  font-size: 14px;
+  font-variation-settings: 'wdth' 95, 'wght' 500, 'DOTS' 0;
+  font-size: 17px;
   line-height: 1.6;
-  color: #555555;
+  color: #555555; /* رنگ متن پاراگراف‌ها */
 }
