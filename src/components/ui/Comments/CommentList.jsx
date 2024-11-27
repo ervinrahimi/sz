@@ -43,7 +43,7 @@ export default function CommentList({ pageId }) {
           </div>
         ))
       ) : (
-        <p>هنوز نظری ثبت نشده است.</p>
+        <p className={styles.noComment}>هنوز نظری ثبت نشده است</p>
       )}
     </div>
   )

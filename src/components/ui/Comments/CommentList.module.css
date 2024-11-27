@@ -61,3 +61,11 @@
   font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
   color: #363636;
 }
+
+.noComment {
+  color: #25283e;
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 800, 'DOTS' 0;
+  text-align: center;
+  font-size: 18px;
+}
