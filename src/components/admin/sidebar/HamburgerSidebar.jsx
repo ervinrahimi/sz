@@ -14,12 +14,13 @@ export default function HamburgerSidebar({ user }) {
   const pathname = usePathname()
 
   const toggleSidebar = () => {
-    setIsOpen(!isOpen)
+    setIsOpen(!isOpen);
   }
 
   const handleToast = () => {
     toast('این امکان به زودی در درسترس قرار میگیرد!')
   }
+
 
   return (
     <div className={styles.hamburgerContainer}>

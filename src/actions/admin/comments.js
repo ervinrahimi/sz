@@ -16,10 +16,15 @@ export async function getComments() {
 // دریافت کامنت‌ها بر اساس صفحه
 export async function getCommentsByPage(pageId) {
   return prisma.comment.findMany({
-    where: { pageId },
+    where: {
+      pageId,
+      adminReply: { // شرط اضافه شده
+        isNot: null, // فقط نظراتی که پاسخ ادمین دارند
+      },
+    },
     include: {
       user: true, // دریافت اطلاعات کاربر
-      adminReply: true, // دریافت اطلاعات پاسخ ادمین (در صورت وجود)
+      adminReply: true, // دریافت اطلاعات پاسخ ادمین
     },
     orderBy: { createdAt: 'desc' },
   })

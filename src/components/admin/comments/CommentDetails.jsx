@@ -15,6 +15,7 @@ export default function CommentDetails({ comment, user }) {
       await updateCommentStatus(comment.id, status)
       toast.success(status ? 'نظر تایید شد' : 'نظر رد شد')
       setStatusChanged(true) // تغییر وضعیت
+      router.push('/admin/comments') // بازگشت به صفحه مدیریت نظرات
       router.refresh()
     } catch (error) {
       toast.error('خطا در تغییر وضعیت نظر')
@@ -30,6 +31,7 @@ export default function CommentDetails({ comment, user }) {
     try {
       await addAdminReply(comment.id, user.id, reply)
       toast.success('پاسخ ثبت شد')
+      router.push('/admin/comments') // بازگشت به صفحه مدیریت نظرات
       router.refresh()
     } catch (error) {
       toast.error('خطا در ثبت پاسخ')
@@ -47,36 +49,49 @@ export default function CommentDetails({ comment, user }) {
   }
 
   return (
-    <div>
-      <h1>جزئیات نظر</h1>
-      <p>نام کاربر: {comment.user.name || 'ناشناس'}</p>
-      <p>نظر: {comment.content}</p>
-      <p>تاریخ ثبت: {new Date(comment.createdAt).toLocaleDateString()}</p>
-
-      {/* نمایش دکمه‌های تایید و رد فقط در صورتی که وضعیت تغییر نکرده باشد */}
-      {!statusChanged && (
-        <div>
-          <button onClick={() => handleApproval(true)}>تایید</button>
-          <button onClick={() => handleApproval(false)}>رد</button>
-        </div>
-      )}
-
-      {/* نمایش دکمه حذف در صورتی که وضعیت تغییر کرده باشد */}
-      {statusChanged && (
-        <div>
-          <button onClick={handleDelete}>حذف نظر</button>
-        </div>
-      )}
+    <div className={`formContainer`}>
+      <p className={`formLabel`}>
+        نام کاربر: <span>{comment.user.name || 'ناشناس'}</span>
+      </p>
+      <p className={`formLabel`}>
+        نظر: <span>{comment.content}</span>
+      </p>
+      <p className={`formLabel`}>
+        تاریخ ثبت: <span>{new Date(comment.createdAt).toLocaleDateString()}</span>
+      </p>
 
       {/* فرم پاسخ ادمین */}
-      <div>
+      <label className={`formLabel`}>
+        پاسخ:
         <textarea
           value={reply}
           onChange={(e) => setReply(e.target.value)}
           placeholder="پاسخ ادمین"
+          className={`formInputArea`}
         />
-        <button onClick={handleReply}>ارسال پاسخ</button>
-      </div>
+      </label>
+      <button onClick={handleReply} className={`formButton`}>
+        ارسال پاسخ
+      </button>
+      {/* نمایش دکمه‌های تایید و رد فقط در صورتی که وضعیت تغییر نکرده باشد */}
+      {!statusChanged && (
+        <div className={`buttonGroup`}>
+          <button onClick={() => handleApproval(true)} className={`formButton`}>
+            تایید
+          </button>
+          <button onClick={() => handleApproval(false)} className={`formButton`}>
+            رد
+          </button>
+        </div>
+      )}
+      {/* نمایش دکمه حذف در صورتی که وضعیت تغییر کرده باشد */}
+      {statusChanged && (
+        <div className={`buttonGroup`}>
+          <button onClick={handleDelete} className={`formButton deleteButton`}>
+            حذف نظر
+          </button>
+        </div>
+      )}
     </div>
   )
 }

@@ -45,3 +45,13 @@
 .submitButton:hover {
   background-color: #3e773e;
 }
+
+/* استایل‌های ریسپانسیو */
+@media (max-width: 1570px) {
+  .commentForm {
+    width: 95%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  
+}

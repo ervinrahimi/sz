@@ -331,7 +331,12 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
           <div className={styles.titleContainer}>
             <h3>نظرات کاربران</h3>
           </div>
-          <CommentForm pageId={car.id} userId={user.id} /> {/* فرم ارسال نظر */}
+          {!user && (
+            <div className={styles.userLockBox}>
+              <div className={styles.userLock}>لطفا برای نظر دادن ابتدا لاگین کنید</div>
+            </div>
+          )}
+          {user && <CommentForm pageId={car.id} userId={user.id} />}
           <CommentList pageId={car.id} /> {/* نمایش لیست نظرات */}
         </div>
       </div>

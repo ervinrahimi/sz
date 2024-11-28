@@ -10,7 +10,7 @@ import {
   MenuPhoneIcon,
   MenuProfileIcon,
   MenuIcon,
-  MenuWhatsappIcon
+  MenuWhatsappIcon,
 } from '@/assets/svgs/Icons/Icons'
 import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
@@ -86,7 +86,6 @@ export default function HeaderSticky({ menuItems, user }) {
     }
   }
 
-
   const isActive = (path) => {
     return pathname === path
   }
@@ -100,7 +99,8 @@ export default function HeaderSticky({ menuItems, user }) {
         </button>
         <ul>
           {menuItems &&
-              menuItems.map((menu) => 
+            menuItems.map(
+              (menu) =>
                 menu.isActive && (
                   <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
                     <Link href={menu.link || '#'}>{menu.title}</Link>
@@ -116,26 +116,36 @@ export default function HeaderSticky({ menuItems, user }) {
             <div className={styles.rightSideMenu}>
               <SoltanZadeLogoSVG onClick={handleClick} className={styles.logo} />
               <ul>
-                {menuItems && menuItems.map((menu) => menu.isActive && (
-                    <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
-                      <Link href={menu.link || '#'}>
-                        {menu.title}
-                      </Link>
-                      {menu.subMenus.length > 0 && <MenuArrowIcon className={isActive(menu.link) ? styles.active : 'menuArrowIcon'} />} 
-                      {menu.subMenus && menu.subMenus.length > 0 && (
-                        <div className={styles.subMenu}>
-                        <ul>
-                          {menu.subMenus && menu.subMenus.map((subMenu) => (
-                            <li key={subMenu.id} className={isActive(subMenu.link) ? styles.active : ''}>
-                              <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
-                            </li>
-                          ))}
-                        </ul>
-                        </div>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+                {menuItems &&
+                  menuItems.map(
+                    (menu) =>
+                      menu.isActive && (
+                        <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
+                          <Link href={menu.link || '#'}>{menu.title}</Link>
+                          {menu.subMenus.length > 0 && (
+                            <MenuArrowIcon
+                              className={isActive(menu.link) ? styles.active : 'menuArrowIcon'}
+                            />
+                          )}
+                          {menu.subMenus && menu.subMenus.length > 0 && (
+                            <div className={styles.subMenu}>
+                              <ul>
+                                {menu.subMenus &&
+                                  menu.subMenus.map((subMenu) => (
+                                    <li
+                                      key={subMenu.id}
+                                      className={isActive(subMenu.link) ? styles.active : ''}
+                                    >
+                                      <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
+                                    </li>
+                                  ))}
+                              </ul>
+                            </div>
+                          )}
+                        </li>
+                      )
+                  )}
+              </ul>
             </div>
             <div className={styles.leftSideMenu}>
               {/* <button className={styles.menuButton} onClick={handleShopClick}>
