@@ -123,13 +123,15 @@ export default function HeaderSticky({ menuItems, user }) {
                       </Link>
                       {menu.subMenus.length > 0 && <MenuArrowIcon className={isActive(menu.link) ? styles.active : 'menuArrowIcon'} />} 
                       {menu.subMenus && menu.subMenus.length > 0 && (
-                        <ul className={styles.subMenu}>
+                        <div className={styles.subMenu}>
+                        <ul>
                           {menu.subMenus && menu.subMenus.map((subMenu) => (
                             <li key={subMenu.id} className={isActive(subMenu.link) ? styles.active : ''}>
                               <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
                             </li>
                           ))}
                         </ul>
+                        </div>
                       )}
                     </li>
                   ))}

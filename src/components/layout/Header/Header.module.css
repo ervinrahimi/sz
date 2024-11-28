@@ -76,6 +76,7 @@
 }
 
 .headerMenu ul li {
+  position: relative;
   list-style: none;
   display: flex;
   justify-content: space-between;
@@ -395,24 +396,38 @@
 }
 
 .headerMenu ul li:hover > .subMenu {
-  background-color: rgba(0, 0, 0, 0.479);
-  padding: 10px 15px;
-  margin-right: -20px;
-  border-radius: 15px;
+  width: 100%;
+  padding-top: 50px;
   position: absolute;
-  margin-top: 105px;
   display: flex !important; /* نمایش زیرمنوها هنگام هاور */
   align-items: center;
   flex-direction: column;
 }
 
-.subMenu li {
-  padding: 5px 0;
+.headerMenu ul li:hover > .subMenu > ul {
+  background-color: rgba(0, 0, 0, 0.479);
+  padding: 10px 15px;
+  text-align: center;
+  border-radius: 10px;
+  position: absolute;
+  display: flex !important; /* نمایش زیرمنوها هنگام هاور */
+  align-items: center;
+  flex-direction: column;
+
+    /* تنظیم مرکز عمودی */
+    left: 50%; /* موقعیت عمودی را در وسط قرار می‌دهد */
+    transform: translateX(-50%); /* به اندازه نصف ارتفاع زیرمنو بالا می‌برد تا دقیقاً وسط قرار بگیرد */
+}
+
+
+.subMenu > ul > li {
+  width: 100%;
+  padding: 5px 10px;
   color: rgba(255, 255, 255, 0.7); /* رنگ زیرمنوها */
 }
 
-.subMenu li:hover {
-  color: #cbe3eb; /* رنگ زیرمنوها هنگام هاور */
+.subMenu > ul > li:hover {
+  color: #a6e4a6; /* رنگ زیرمنوها هنگام هاور */
 }
 
 /* زیرمنو در حالت موبایل */

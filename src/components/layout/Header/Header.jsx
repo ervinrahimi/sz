@@ -126,26 +126,28 @@ export default function Header({ product, menuItems, user }) {
               (menu) =>
                 menu.isActive && (
                   <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
-                  <Link href={menu.link || '#'}>{menu.title}</Link>
-                  {/* اگر زیرمنوها وجود داشته باشند، آنها را رندر کن */}
-                  {menu.subMenus && menu.subMenus.length > 0 && (
-                    <>
-                      <MenuArrowIcon
-                        className={isActive(menu.link) ? styles.active : styles.menuArrowIcon}
-                      />
-                      <ul className={styles.subMenu}>
-                        {menu.subMenus.map((subMenu) => (
-                          <li
-                            key={subMenu.id}
-                            className={isActive(subMenu.link) ? styles.active : ''}
-                          >
-                            <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  )}
-                </li>
+                    <Link href={menu.link || '#'}>{menu.title}</Link>
+                    {/* اگر زیرمنوها وجود داشته باشند، آنها را رندر کن */}
+                    {menu.subMenus && menu.subMenus.length > 0 && (
+                      <>
+                        <MenuArrowIcon
+                          className={isActive(menu.link) ? styles.active : styles.menuArrowIcon}
+                        />
+                        <div className={styles.subMenu}>
+                          <ul>
+                            {menu.subMenus.map((subMenu) => (
+                              <li
+                                key={subMenu.id}
+                                className={isActive(subMenu.link) ? styles.active : ''}
+                              >
+                                <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </>
+                    )}
+                  </li>
                 )
             )}
         </ul>
@@ -173,16 +175,18 @@ export default function Header({ product, menuItems, user }) {
                           <MenuArrowIcon
                             className={isActive(menu.link) ? styles.active : styles.menuArrowIcon}
                           />
-                          <ul className={styles.subMenu}>
-                            {menu.subMenus.map((subMenu) => (
-                              <li
-                                key={subMenu.id}
-                                className={isActive(subMenu.link) ? styles.active : ''}
-                              >
-                                <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
-                              </li>
-                            ))}
-                          </ul>
+                          <div className={styles.subMenu}>
+                            <ul>
+                              {menu.subMenus.map((subMenu) => (
+                                <li
+                                  key={subMenu.id}
+                                  className={isActive(subMenu.link) ? styles.active : ''}
+                                >
+                                  <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         </>
                       )}
                     </li>
