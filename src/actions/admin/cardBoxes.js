@@ -1,6 +1,7 @@
 'use server'
 
 import prisma from '@/db/client'
+import { deleteFileFromServer } from '@/utils/fileUtils'
 import { revalidatePath } from 'next/cache'
 
 // حذف فایل کاتالوگ در دیتابیس و سرور
