@@ -16,8 +16,8 @@ import 'swiper/css/thumbs'
 import './StyleProductDetail.css'
 import { useState } from 'react'
 import Link from 'next/link'
-import CommentForm from '@/components/ui/comments/CommentForm'
-import CommentList from '@/components/ui/comments/CommentList'
+import CommentForm from '../Comments/CommentForm'
+import CommentList from '../Comments/CommentList'
 
 export default function ProductDetail({ car, cardBoxSections, user }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
