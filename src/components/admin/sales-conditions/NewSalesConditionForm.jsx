@@ -241,7 +241,7 @@ export default function NewSalesConditionForm({ cars, salesFestivals }) {
         <label>توضیحات تکمیلی:</label>
         <textarea
           {...register('additionalInfo')}
-          className={styles.formTextarea}
+          className={styles.formInput}
           placeholder="توضیحات تکمیلی خود را وارد کنید..."
         />
         {errors.additionalInfo && (

@@ -304,6 +304,8 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
                             افزودن به سبد خرید
                           </button>
                         </div>
+                        <h3>توضیحات تکمیلی</h3>
+                        <p>{condition.additionalInfo}</p>
                       </div>
                     ))}
                   </div>

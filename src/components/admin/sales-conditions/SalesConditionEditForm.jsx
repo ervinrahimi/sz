@@ -286,7 +286,7 @@ export default function SalesConditionEditForm({ salesCondition, salesFestivals 
         <label className={styles.formLabel}>توضیحات تکمیلی:</label>
         <textarea
           {...register('additionalInfo')}
-          className={styles.formTextarea}
+          className={styles.formInput}
           placeholder="توضیحات تکمیلی خود را وارد کنید..."
           defaultValue={salesCondition.additionalInfo}
         />
