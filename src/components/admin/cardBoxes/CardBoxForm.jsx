@@ -204,8 +204,8 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
               src={imagePreviewUrl}
               alt="پیش‌نمایش تصویر"
               className={`previewImage`}
-              width={100}
-              height={100}
+              width={300}
+              height={200}
             />
             <button type="button" onClick={handleImageDelete} className={`deleteButton`}>
               حذف تصویر
@@ -244,8 +244,8 @@ export default function CardBoxForm({ cardBox, cars, sections }) {
                 src={previewUrl}
                 alt="پیش‌نمایش کاتالوگ"
                 className={`previewImage`}
-                width={100}
-                height={100}
+                width={1400}
+                height={1400}
               />
               <button type="button" onClick={handleCatalogDelete} className={`deleteButton`}>
                 حذف کاتالوگ
