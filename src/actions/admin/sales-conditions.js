@@ -26,6 +26,7 @@ export async function createSalesCondition(data) {
     participationProfit,
     isLocked,
     images, // اضافه کردن تصاویر
+    additionalInfo,
   } = data
 
   return await prisma.salesCondition.create({
@@ -49,6 +50,7 @@ export async function createSalesCondition(data) {
       participationProfit: participationProfit ? parseFloat(participationProfit) : null,
       isLocked,
       images: images, // ذخیره تصاویر
+      additionalInfo: additionalInfo || null,
     },
   })
 }
@@ -76,6 +78,7 @@ export async function updateSalesCondition(data) {
     participationProfit,
     isLocked,
     images, // اضافه کردن تصاویر
+    additionalInfo,
   } = data
 
   const updatedCondition = await prisma.salesCondition.update({
@@ -101,6 +104,7 @@ export async function updateSalesCondition(data) {
       participationProfit,
       isLocked,
       images: images, // ذخیره تصاویر
+      additionalInfo: additionalInfo || null,
     },
   })
   return { success: true, data: updatedCondition }
@@ -161,7 +165,7 @@ export async function reorderImages(salesConditionId, newImagesOrder) {
 export async function removeImageFromSalesCondition(imageUrl, salesConditionId) {
   try {
     // حذف تصویر از فایل سیستم
-    const filePath = path.join(process.cwd(), 'public' , 'uploads' , 'saleconditions' , imageUrl)
+    const filePath = path.join(process.cwd(), 'public', 'uploads', 'saleconditions', imageUrl)
     await fs.unlink(filePath)
 
     // حذف لینک تصویر از دیتابیس

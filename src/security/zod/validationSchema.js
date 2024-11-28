@@ -203,6 +203,7 @@ export const newSalesConditionSchema = z.object({
       })
     )
     .optional(),
+  additionalInfo: z.string().max(500, 'توضیحات تکمیلی نباید بیشتر از ۵۰۰ کاراکتر باشد.').optional(),
 })
 
 export const salesConditionSchema = z.object({
@@ -293,6 +294,7 @@ export const salesConditionSchema = z.object({
       })
     )
     .optional(),
+  additionalInfo: z.string().max(500, 'توضیحات تکمیلی نباید بیشتر از ۵۰۰ کاراکتر باشد.').optional(),
 })
 
 // For Create User Form

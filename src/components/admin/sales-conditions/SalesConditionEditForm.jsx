@@ -67,6 +67,7 @@ export default function SalesConditionEditForm({ salesCondition, salesFestivals 
       participationProfit: salesCondition.participationProfit?.toString() || '',
       siteSalesCode: salesCondition.siteSalesCode?.toString() || '', // فیلد جدید
       status: salesCondition.status || 'PENDING', // مقدار پیش‌فرض status
+      additionalInfo: salesCondition.additionalInfo || '',
     },
   })
 
@@ -280,6 +281,17 @@ export default function SalesConditionEditForm({ salesCondition, salesFestivals 
         <input type="text" {...register('participationProfit')} className={styles.formInput} />
         {errors.participationProfit && (
           <p className={styles.formError}>{errors.participationProfit.message}</p>
+        )}
+
+        <label className={styles.formLabel}>توضیحات تکمیلی:</label>
+        <textarea
+          {...register('additionalInfo')}
+          className={styles.formTextarea}
+          placeholder="توضیحات تکمیلی خود را وارد کنید..."
+          defaultValue={salesCondition.additionalInfo}
+        />
+        {errors.additionalInfo && (
+          <p className={styles.formError}>{errors.additionalInfo.message}</p>
         )}
 
         <label className={styles.formLabel}>وضعیت:</label>

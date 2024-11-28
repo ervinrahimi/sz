@@ -47,6 +47,7 @@ export default function NewSalesConditionForm({ cars, salesFestivals }) {
       siteSalesCode: '',
       isLocked: false,
       users: [],
+      additionalInfo: '',
     },
   })
 
@@ -235,6 +236,16 @@ export default function NewSalesConditionForm({ cars, salesFestivals }) {
         <input type="number" {...register('participationProfit')} className={styles.formInput} />
         {errors.participationProfit && (
           <p className={styles.formError}>{errors.participationProfit.message}</p>
+        )}
+
+        <label>توضیحات تکمیلی:</label>
+        <textarea
+          {...register('additionalInfo')}
+          className={styles.formTextarea}
+          placeholder="توضیحات تکمیلی خود را وارد کنید..."
+        />
+        {errors.additionalInfo && (
+          <p className={styles.formError}>{errors.additionalInfo.message}</p>
         )}
 
         <label className={styles.formInput}>
