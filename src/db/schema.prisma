@@ -189,6 +189,7 @@ model SalesCondition {
   authorizedUsers     AuthorizedUser[] // کاربران مجاز
   orders              Order[] // سفارش‌ها
   images              String[] // فیلد جدید برای ذخیره لینک تصاویر آپلود شده
+  additionalInfo      String? // توضیحات تکمیلی
   salesFestival       SalesFestival?       @relation(fields: [salesFestivalId], references: [id], onDelete: SetNull)
   salesFestivalId     String?              @db.ObjectId // ارتباط با جشنواره فروش
   createdAt           DateTime             @default(now()) // تاریخ ایجاد
