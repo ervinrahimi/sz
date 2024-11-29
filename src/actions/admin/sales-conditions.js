@@ -184,3 +184,44 @@ export async function removeImageFromSalesCondition(imageUrl, salesConditionId) 
     return { success: false, message: 'خطا در حذف تصویر' }
   }
 }
+
+export async function getSalesConditions(filter) {
+  try {
+    const conditions = await prisma.salesCondition.findMany({
+      where: filter
+        ? { salesFestival: { name: filter } } // فیلتر بر اساس نام SalesFestival
+        : {}, // بدون فیلتر: تمام شرایط فروش
+      include: {
+        car: {
+          select: {
+            id: true,
+            name: true, // نام ماشین
+            image: true,
+          },
+        },
+        salesFestival: {
+          select: {
+            name: true, // نام SalesFestival
+          },
+        },
+      },
+    })
+
+    return conditions.map((condition) => ({
+      id: condition.id,
+      name: condition.name,
+      carName: condition.car?.name || 'بدون نام',
+      carId: condition.carId,
+      carImage: condition.car?.image,
+      description: condition.additionalInfo || '',
+      images: condition.images || [],
+      salesFestival: condition.salesFestival?.name || 'بدون نام',
+    }))
+  } catch (error) {
+    console.error('Error fetching sales conditions:', {
+      message: error.message,
+      stack: error.stack,
+    })
+    throw new Error('خطا در واکشی شرایط فروش')
+  }
+}
