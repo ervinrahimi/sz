@@ -25,6 +25,7 @@
     "react-hook-form": "^7.53.0",
     "react-hot-toast": "^2.4.1",
     "react-multi-date-picker": "^4.5.2",
+    "react-quill": "^2.0.0",
     "react-type-animation": "^3.2.0",
     "resend": "^4.0.0",
     "swiper": "^11.1.14",
