@@ -44,6 +44,8 @@ model User {
   updatedAt             DateTime               @updatedAt // تاریخ به‌روزرسانی
   Comment               Comment[]
   AdminReply            AdminReply[]
+  blogAuthor            BlogAuthor? // رابطه با نویسنده وبلاگ
+  blogComments          BlogComment[] // رابطه با نظرات وبلاگ
 
   @@unique([email, username, nationalCode])
 }
@@ -548,4 +550,135 @@ model AdminReply {
   admin     User     @relation(fields: [adminId], references: [id], onDelete: Cascade)
   commentId String   @unique @db.ObjectId // کامنتی که پاسخ داده شده
   comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+}
+
+//////////////////////////////////////////////////////
+//
+// بخش مربوط به وبلاگ سایت
+//
+// این بخش شامل مدل‌های مرتبط با وبلاگ است
+// از جمله نویسندگان، مقالات، دسته‌بندی‌ها
+// برچسب‌ها، نظرات، تنظیمات سئو و تنظیمات کلی
+//                                                   
+//////////////////////////////////////////////////////
+
+// مدل نویسنده وبلاگ
+model BlogAuthor {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String        @unique @db.ObjectId
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio         String? // بیوگرافی نویسنده
+  avatar      String? // تصویر نویسنده
+  socialLinks Json? // لینک‌های شبکه‌های اجتماعی
+  articles    BlogArticle[] // مقالات نویسنده
+  createdAt   DateTime      @default(now()) // تاریخ ایجاد
+  updatedAt   DateTime      @updatedAt // تاریخ بروزرسانی
+}
+
+// مدل مقاله وبلاگ
+model BlogArticle {
+  id          String                @id @default(auto()) @map("_id") @db.ObjectId
+  title       String // عنوان مقاله
+  slug        String                @unique // لینک یکتا برای سئو
+  content     String // محتوای مقاله
+  excerpt     String? // خلاصه مقاله
+  coverImage  String? // تصویر شاخص مقاله
+  status      BlogArticleStatus     @default(DRAFT) // وضعیت مقاله
+  authorId    String                @db.ObjectId
+  author      BlogAuthor            @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  categories  BlogArticleCategory[] // دسته‌بندی‌های مقاله
+  tags        BlogArticleTag[] // برچسب‌ها
+  seo         BlogSeo? // اطلاعات سئو
+  comments    BlogComment[] // نظرات
+  views       Int                   @default(0) // تعداد بازدید
+  isFeatured  Boolean               @default(false) // آیا مقاله ویژه است
+  publishedAt DateTime? // تاریخ انتشار
+  createdAt   DateTime              @default(now()) // تاریخ ایجاد
+  updatedAt   DateTime              @updatedAt // تاریخ بروزرسانی
+}
+
+// وضعیت مقاله
+enum BlogArticleStatus {
+  DRAFT // پیش‌نویس
+  PUBLISHED // منتشر شده
+  ARCHIVED // بایگانی شده
+}
+
+// مدل دسته‌بندی مقالات
+model BlogCategory {
+  id          String                @id @default(auto()) @map("_id") @db.ObjectId
+  name        String                @unique // نام دسته‌بندی
+  slug        String                @unique // لینک یکتا
+  description String? // توضیحات دسته‌بندی
+  articles    BlogArticleCategory[] // روابط مقالات
+  createdAt   DateTime              @default(now()) // تاریخ ایجاد
+  updatedAt   DateTime              @updatedAt // تاریخ بروزرسانی
+}
+
+// مدل واسطه دسته‌بندی مقاله
+model BlogArticleCategory {
+  id         String       @id @default(auto()) @map("_id") @db.ObjectId
+  articleId  String       @db.ObjectId
+  categoryId String       @db.ObjectId
+  article    BlogArticle  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  category   BlogCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+}
+
+// مدل برچسب مقالات
+model BlogTag {
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  name      String           @unique // نام برچسب
+  slug      String           @unique // لینک یکتا
+  articles  BlogArticleTag[] // روابط مقالات
+  createdAt DateTime         @default(now()) // تاریخ ایجاد
+  updatedAt DateTime         @updatedAt // تاریخ بروزرسانی
+}
+
+// مدل واسطه برچسب مقاله
+model BlogArticleTag {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  articleId String      @db.ObjectId
+  tagId     String      @db.ObjectId
+  article   BlogArticle @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  tag       BlogTag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+}
+
+// مدل سئو مقاله
+model BlogSeo {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  articleId   String      @unique @db.ObjectId
+  article     BlogArticle @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  title       String? // عنوان سئو
+  description String? // توضیحات متا
+  keywords    String[] // کلمات کلیدی
+  metaImage   String? // تصویر متا
+  createdAt   DateTime    @default(now()) // تاریخ ایجاد
+  updatedAt   DateTime    @updatedAt // تاریخ بروزرسانی
+}
+
+// مدل نظرات مقالات
+model BlogComment {
+  id         String        @id @default(auto()) @map("_id") @db.ObjectId
+  articleId  String        @db.ObjectId
+  article    BlogArticle   @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  userId     String        @db.ObjectId
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content    String // متن نظر
+  isApproved Boolean       @default(false) // تایید نظر
+  parentId   String?       @db.ObjectId
+  parent     BlogComment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies    BlogComment[] @relation("CommentReplies") // پاسخ‌ها
+  createdAt  DateTime      @default(now()) // تاریخ ایجاد
+  updatedAt  DateTime      @updatedAt // تاریخ بروزرسانی
+}
+
+// تنظیمات وبلاگ
+model BlogSettings {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String // عنوان وبلاگ
+  description String? // توضیحات وبلاگ
+  logo        String? // لوگوی وبلاگ
+  bannerImage String? // تصویر بنر وبلاگ
+  createdAt   DateTime @default(now()) // تاریخ ایجاد
+  updatedAt   DateTime @updatedAt // تاریخ بروزرسانی
 }
