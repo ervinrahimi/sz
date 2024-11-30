@@ -105,16 +105,38 @@ export async function deleteSalesFestival(id) {
  */
 export async function getSalesFestivals() {
   try {
-    return await prisma.salesFestival.findMany({
+    const festivals = await prisma.salesFestival.findMany({
       include: {
         salesConditions: {
           include: {
-            car: true,
+            car: {
+              select: {
+                id: true,
+                name: true, // فقط نام خودرو
+              },
+            },
           },
         },
       },
     })
+
+    return festivals.map((festival) => ({
+      id: festival.id,
+      name: festival.name,
+      salesConditions: festival.salesConditions.map((condition) => ({
+        id: condition.id,
+        name: condition.name,
+        car: condition.car || null, // اطلاعات خودرو
+        price: condition.price,
+        description: condition.additionalInfo || '',
+        images: condition.images || [],
+      })),
+    }))
   } catch (error) {
+    console.error('Error fetching sales festivals:', {
+      message: error.message,
+      stack: error.stack,
+    })
     throw new Error('خطا در دریافت لیست جشنواره‌ها')
   }
 }
