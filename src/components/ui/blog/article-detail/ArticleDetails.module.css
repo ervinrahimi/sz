@@ -1,0 +1,124 @@
+.container {
+  font-family: var(--font-yekanBakh);
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 100px auto 200px;
+  direction: rtl;
+  background-color: white;
+  border-radius: 30px;
+}
+
+.header {
+  text-align: right;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-variation-settings: 'wdth' 100, 'wght' 700, 'DOTS' 0;
+  font-family: var(--font-yekanBakh);
+  font-size: 24px;
+  font-weight: bold;
+  color: #202020;
+}
+
+.meta {
+  display: flex;
+  gap: 5px;
+  font-variation-settings: 'wdth' 100, 'wght' 700, 'DOTS' 0;
+  font-family: var(--font-yekanBakh);
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.meta span {
+  background-color: #e5f7e5;
+  border-radius: 10px;
+  padding: 5px 10px;
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
+  font-family: var(--font-yekanBakh);
+  font-size: 14px;
+  color: #4caf50;
+  margin-top: 10px;
+}
+
+.coverImage {
+  margin: 20px 0;
+  overflow: hidden;
+}
+
+.coverImage > img{
+  border-radius: 25px;
+}
+
+
+.content {
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
+  font-family: var(--font-yekanBakh);
+  font-size: 18px;
+  color: #444;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.categories,
+.tags {
+  margin: 10px 0;
+  font-variation-settings: 'wdth' 100, 'wght' 650, 'DOTS' 0;
+  font-family: var(--font-yekanBakh);
+  font-size: 16px;
+}
+
+.category,
+.tag {
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
+  font-family: var(--font-yekanBakh);
+  font-size: 15px;
+  display: inline-block;
+  background-color: #f3f3f3;
+  color: #555;
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 10px;
+}
+
+.authorSection {
+  font-variation-settings: 'wdth' 100, 'wght' 550, 'DOTS' 0;
+  font-family: var(--font-yekanBakh);
+  font-size: 15px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  border-radius: 20px;
+}
+
+.authorSection > div{
+  border-right: 4px solid #444;
+  padding-right: 15px;
+  margin-right: 15px;
+}
+
+.authorAvatar {
+  border-radius: 20px;
+}
+
+.authorSection h3{
+  font-variation-settings: 'wdth' 100, 'wght' 700, 'DOTS' 0;
+  font-family: var(--font-yekanBakh);
+  font-size: 16px;
+}
+
+
+.commentsSection {
+  margin-top: 40px;
+}
+
+.commentsSection > h3{
+  border-right: 4px solid #4caf50;
+  color: rgb(40, 40, 40);
+  padding-right: 10px;
+  font-variation-settings: 'wdth' 100, 'wght' 700, 'DOTS' 0;
+  font-family: var(--font-yekanBakh);
+  font-size: 20px;
+  margin-bottom: 20px;
+}

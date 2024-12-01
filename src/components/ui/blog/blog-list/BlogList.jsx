@@ -10,7 +10,7 @@ export default function BlogList() {
           وبلاگ سلطانی زاده
         </h1>
         <p className={styles.description}>
-          وبلاگ شامل تمامی مقالات مرتبط با خودرو هست...
+          توضیح کوتاه یا شعار کوتاه به زودی قرار میگیرد...
         </p>
         <div className={styles.searchBox}>
           <input
