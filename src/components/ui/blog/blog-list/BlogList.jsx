@@ -117,7 +117,7 @@ export default function BlogList() {
           {/* Articles in Boxes */}
           <section className={styles.articles}>
             {articles.slice(1).map((article, index) => (
-              <Link href={`/blog/detail/${article.id}`} key={article.id} passHref>
+              <Link href={`/blog/detail`} key={article.id} passHref>
                 <article className={styles.article}>
                   <Image
                     src={article.image}
