@@ -1,31 +1,33 @@
-import Image from "next/image";
-import styles from "./ArticleDetails.module.css";
+import Image from 'next/image'
+import styles from './ArticleDetails.module.css'
+import CommentForm from '../../Comments/CommentForm'
+import CommentList from '../../Comments/CommentList'
 
 export default function ArticleDetail() {
   const article = {
-    title: "چگونه دوچرخه مناسب برای بهار انتخاب کنیم؟",
+    title: 'چگونه دوچرخه مناسب برای بهار انتخاب کنیم؟',
     coverImage:
-      "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/bb9708132201083.61a4bd29db497.jpg",
+      'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/bb9708132201083.61a4bd29db497.jpg',
     content:
-      "این مقاله به شما کمک می‌کند تا بهترین دوچرخه را برای فصل بهار انتخاب کنید. انتخاب دوچرخه مناسب با توجه به شرایط آب‌وهوایی، نوع جاده و نیازهای شخصی شما از اهمیت بالایی برخوردار است...",
+      'این مقاله به شما کمک می‌کند تا بهترین دوچرخه را برای فصل بهار انتخاب کنید. انتخاب دوچرخه مناسب با توجه به شرایط آب‌وهوایی، نوع جاده و نیازهای شخصی شما از اهمیت بالایی برخوردار است...',
     author: {
-      name: "سباستین",
+      name: 'سباستین',
       avatar:
-        "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/bb9708132201083.61a4bd29db497.jpg",
-      bio: "نویسنده و علاقه‌مند به دوچرخه‌سواری.",
+        'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/bb9708132201083.61a4bd29db497.jpg',
+      bio: 'نویسنده و علاقه‌مند به دوچرخه‌سواری.',
     },
-    categories: ["ورزش", "تفریح"],
-    tags: ["دوچرخه", "ورزش", "بهار"],
-    publishedAt: "1402/09/10",
-  };
+    categories: ['ورزش', 'تفریح'],
+    tags: ['دوچرخه', 'ورزش', 'بهار'],
+    publishedAt: '1402/09/10',
+  }
 
   const comments = [
     {
-      user: "علی رضایی",
-      content: "مقاله بسیار مفیدی بود. ممنون از نویسنده!",
-      createdAt: "1402/09/11",
+      user: 'علی رضایی',
+      content: 'مقاله بسیار مفیدی بود. ممنون از نویسنده!',
+      createdAt: '1402/09/11',
     },
-  ];
+  ]
 
   return (
     <div className={styles.container}>
@@ -49,7 +51,7 @@ export default function ArticleDetail() {
         <p>{article.content}</p>
       </div>
       <div className={styles.categories}>
-        <strong>دسته‌بندی‌ها:</strong>{" "}
+        <strong>دسته‌بندی‌ها:</strong>{' '}
         {article.categories.map((category, index) => (
           <span key={index} className={styles.category}>
             {category}
@@ -57,7 +59,7 @@ export default function ArticleDetail() {
         ))}
       </div>
       <div className={styles.tags}>
-        <strong>برچسب‌ها:</strong>{" "}
+        <strong>برچسب‌ها:</strong>{' '}
         {article.tags.map((tag, index) => (
           <span key={index} className={styles.tag}>
             {tag}
@@ -78,8 +80,17 @@ export default function ArticleDetail() {
         </div>
       </div>
       <div className={styles.commentsSection}>
-        <h3>نظرات</h3>
+        <div className={styles.titleContainer}>
+          <h3>نظرات کاربران</h3>
+        </div>
+        {!user && (
+          <div className={styles.userLockBox}>
+            <div className={styles.userLock}>لطفا برای نظر دادن ابتدا لاگین کنید</div>
+          </div>
+        )}
+        {user && <CommentForm pageId={car.id} userId={user.id} />}
+        <CommentList pageId={car.id} /> {/* نمایش لیست نظرات */}
       </div>
     </div>
-  );
+  )
 }
