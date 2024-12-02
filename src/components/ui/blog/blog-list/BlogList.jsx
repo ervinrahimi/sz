@@ -91,7 +91,7 @@ export default function BlogList() {
 
         <main className={styles.main}>
           {/* Featured Article */}
-          <Link href={`/blog/detail/${articles[0].id}`} passHref>
+          <Link href={`/blog/detail`} passHref>
             <section className={styles.featured}>
               <div className={styles.featuredImage}>
                 <Image
