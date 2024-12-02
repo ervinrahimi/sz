@@ -6,6 +6,8 @@
   direction: rtl;
   background-color: white;
   border-radius: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #dedede;
 }
 
 .header {
@@ -30,15 +32,23 @@
   margin-top: 10px;
 }
 
-.meta span {
-  background-color: #e5f7e5;
+.meta > span {
   border-radius: 10px;
   padding: 5px 10px;
   font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
   font-family: var(--font-yekanBakh);
   font-size: 14px;
-  color: #4caf50;
   margin-top: 10px;
+}
+
+.meta > span:nth-child(1) {
+  background-color: #e5f7e5;
+  color: #4caf50;
+}
+
+.meta > span:nth-child(2) {
+  background-color: #ffdcef;
+  color: #c1006a;
 }
 
 .coverImage {
@@ -110,10 +120,13 @@
 
 
 .commentsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   margin-top: 40px;
 }
 
-.commentsSection > h3{
+.commentsSection h3{
   border-right: 4px solid #4caf50;
   color: rgb(40, 40, 40);
   padding-right: 10px;
@@ -121,4 +134,146 @@
   font-family: var(--font-yekanBakh);
   font-size: 20px;
   margin-bottom: 20px;
+}
+
+.commentForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.textBox {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
+  font-size: 15px;
+  width: 100%;
+  padding: 10px;
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.textBox:focus {
+  border-color: rgb(87, 168, 87);
+  box-shadow: 0 0 5px rgba(87, 168, 87, 0.5);
+}
+
+.textBox {
+  height: 150px;
+  resize: vertical;
+}
+
+.submitButton {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
+  background-color: #57a857;
+  color: white;
+  border: none;
+  padding: 12px 15px;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: #3e773e;
+}
+
+.commentList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.commentListBox {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ebebeb;
+  background-color: #fff;
+}  
+
+.userComment {
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
+  font-size: 16px;
+  background-color: aliceblue;
+  padding: 15px 20px;
+  border-radius: 10px;
+}
+
+.userComment p {
+  font-size: 16px;
+  margin-bottom: 5px;
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
+  color: #363636;
+}
+
+.userComment strong{
+  color: #25283e;
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 800, 'DOTS' 0;
+}
+
+.adminReply {
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
+  margin-top: 10px;
+  background-color: rgb(201, 215, 229);
+  padding: 15px 20px;
+  border-radius: 10px;
+}
+
+.adminReply strong{
+  color: #25283e;
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 800, 'DOTS' 0;
+}
+.adminReply p {
+  font-size: 16px;
+  margin-bottom: 5px;
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
+  color: #363636;
+}
+
+.noComment {
+  color: #25283e;
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 800, 'DOTS' 0;
+  text-align: center;
+  font-size: 18px;
+}
+
+.userLockBox {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background-color: #fff;
+}  
+
+.userLock {
+  color: #25283e;
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 100, 'wght' 800, 'DOTS' 0;
+  text-align: center;
+  font-size: 18px;
 }

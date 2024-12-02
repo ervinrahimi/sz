@@ -3,7 +3,7 @@ import styles from './ArticleDetails.module.css'
 import CommentForm from '../../Comments/CommentForm'
 import CommentList from '../../Comments/CommentList'
 
-export default function ArticleDetail() {
+export default function ArticleDetail({ user }) {
   const article = {
     title: 'چگونه دوچرخه مناسب برای بهار انتخاب کنیم؟',
     coverImage:
@@ -88,8 +88,30 @@ export default function ArticleDetail() {
             <div className={styles.userLock}>لطفا برای نظر دادن ابتدا لاگین کنید</div>
           </div>
         )}
-        {user && <CommentForm pageId={car.id} userId={user.id} />}
-        <CommentList pageId={car.id} /> {/* نمایش لیست نظرات */}
+        {user && (
+          <div className={styles.commentForm}>
+            <textarea placeholder="نظر خود را بنویسید" className={styles.textBox} />
+            <button className={styles.submitButton}>ارسال نظر</button>
+          </div>
+        )}
+        <div className={styles.commentListBox}>
+          <div className={styles.commentlist}>
+            <div className={styles.userComment}>
+              {/* نام کاربر */}
+              <p>
+                <strong>کاربر:</strong> عرفان
+              </p>
+              {/* متن نظر */}
+              <p>
+                <strong>نظر:</strong> سلام
+              </p>
+            </div>
+            {/* پاسخ ادمین */}
+            <p className={styles.adminReply}>
+              <strong>پاسخ ادمین:</strong> خدا نگه دار
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   )

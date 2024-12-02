@@ -76,6 +76,7 @@
 }
 
 .featured {
+  cursor: pointer;
   display: flex;
   gap: 20px;
   align-items: center;
@@ -136,6 +137,7 @@
 
 .article {
   overflow: hidden;
+  cursor: pointer;
 }
 
 .image {
@@ -180,3 +182,4 @@
   background-color: #e5e9ff;
   color: #316ce8;
 }
+
