@@ -33,6 +33,10 @@ export default function JobApplicationForm() {
 
   const onSubmit = async (data) => {
     try {
+      if (!data.linkedIn) {
+        data.linkedIn = undefined
+      }
+
       const response = await fetch('/api/job-application', {
         method: 'POST',
         headers: {
