@@ -117,7 +117,8 @@
 .subTitle,
 .text,
 .priceNum {
-  padding-right: 25px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 
 .title {
@@ -128,6 +129,8 @@
   letter-spacing: -1.5px;
   line-height: 1.2;
   cursor: pointer;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 .subTitle {
