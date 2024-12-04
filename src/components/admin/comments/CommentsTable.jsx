@@ -1,11 +1,15 @@
-// src/components/admin/comments/CommentsTable.jsx
-
 'use client'
 
 import styles from './CommentsTable.module.css'
 import Link from 'next/link'
+import moment from 'moment-jalaali' // وارد کردن moment-jalaali
 
 export default function CommentsTable({ comments }) {
+  // تابع تبدیل تاریخ میلادی به شمسی با استفاده از moment-jalaali
+  const convertToJalali = (date) => {
+    return moment(date).format('jYYYY/jMM/jDD') // تبدیل به تاریخ شمسی
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.headerRow}>
@@ -15,16 +19,15 @@ export default function CommentsTable({ comments }) {
         <div className={styles.headerCell}>عملیات</div>
       </div>
       <div className={styles.body}>
-        {comments.map(comment => (
+        {comments.map((comment) => (
           <div key={comment.id} className={styles.row}>
             <div className={styles.cell}>{comment.user.name || 'ناشناس'}</div>
             <div className={styles.cell}>
-              {comment.content.length > 10 
-                ? `${comment.content.slice(0, 10)}...` 
-                : comment.content}
+              {comment.content.length > 10 ? `${comment.content.slice(0, 10)}...` : comment.content}
             </div>
             <div className={styles.cell}>
-              {new Date(comment.createdAt).toLocaleDateString()}
+              {/* استفاده از تابع convertToJalali برای تبدیل تاریخ */}
+              {convertToJalali(comment.createdAt)}
             </div>
             <div className={styles.cell}>
               <Link href={`/admin/comments/${comment.id}`}>
