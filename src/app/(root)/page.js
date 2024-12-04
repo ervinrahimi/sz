@@ -6,6 +6,7 @@ import styles from './page.module.css'
 import { WideLightPoster } from '@/components/ui/Posters/Posters'
 import { MainSlider } from '@/components/ui/Slider/Slider'
 import prisma from '@/db/client'
+import BlogBox from '@/components/ui/blog/blog-box/BlogBox'
 
 export default async function Home() {
   // دریافت اسلایدها
@@ -25,10 +26,97 @@ export default async function Home() {
     orderBy: { order: 'asc' }, // مرتب‌سازی بخش‌ها بر اساس فیلد order
   })
 
+  const articles = [
+    {
+      id: 0,
+      tag: 'جدیدترین',
+      className: 'new',
+      title: 'بررسی خودرو سوبا ام فور 2024',
+      description: 'نقد و بررسی کامل از طراحی، عملکرد و قیمت خودرو سوبا ام فور.',
+      author: 'سباستین',
+      date: 'همین الان',
+      imageUrl: '/blog/1.jpg',
+      viewLink: '/blog/detail'
+    },
+    {
+      id: 1,
+      tag: 'بررسی',
+      className: 'review',
+      title: 'خودروهای MG؛ انتخاب جدید بازار ایران',
+      description: 'ویژگی‌ها و تفاوت‌های کلیدی بین مدل‌های مختلف MG.',
+      author: 'الکساندر',
+      date: 'دو روز پیش',
+      imageUrl: '/blog/2.jpg',
+      viewLink: '/blog/detail'
+    },
+    {
+      id: 2,
+      tag: 'راهنما',
+      className: 'guide',
+      title: 'چگونه بهترین خودرو خانوادگی انتخاب کنیم؟',
+      description: 'راهنمای کامل برای خرید خودرو مناسب خانواده.',
+      author: 'لیزا',
+      date: 'پنج روز پیش',
+      imageUrl: '/blog/3.jpg',
+      viewLink: '/blog/detail'
+    },
+    {
+      id: 3,
+      tag: 'نکات',
+      className: 'tips',
+      title: 'نکات مهم برای خرید خودرو دست دوم',
+      description: 'چگونه خودروی دست دوم با کیفیت بخریم.',
+      author: 'جک',
+      date: 'یک هفته پیش',
+      imageUrl: '/blog/4.jpg',
+      viewLink: '/blog/detail'
+    },
+    {
+      id: 4,
+      tag: 'فناوری',
+      className: 'tech',
+      title: 'تاثیر تکنولوژی بر خودروهای امروزی',
+      description: 'نقش هوش مصنوعی و تکنولوژی‌های نوین در خودروهای مدرن.',
+      author: 'ماریا',
+      date: 'دو هفته پیش',
+      imageUrl: '/blog/5.jpg',
+      viewLink: '/blog/detail'
+    },
+    {
+      id: 5,
+      tag: 'تعمیرات',
+      className: 'fixing',
+      title: 'چگونه خودرو خود را برای زمستان آماده کنیم؟',
+      description: 'نکاتی برای تعمیر و نگهداری خودرو در فصل سرما.',
+      author: 'جان',
+      date: 'سه هفته پیش',
+      imageUrl: '/blog/6.jpg',
+      viewLink: '/blog/detail'
+    },
+    {
+      id: 6,
+      tag: 'فروشگاه',
+      className: 'shop',
+      title: 'بهترین نمایشگاه‌های خودرو در ایران',
+      description: 'راهنمای خرید از معتبرترین نمایشگاه‌ها.',
+      author: 'نیکول',
+      date: 'یک ماه پیش',
+      imageUrl: '/blog/7.jpg',
+      viewLink: '/blog/detail'
+    },
+  ];
+
   return (
     <div className={styles.page}>
       <div className={styles.container}>
         <MainSlider slides={slidesData} />
+
+        <BlogBox
+          title="مقالات اخیر"
+          subTitle="آخرین مطالب درباره خودروها"
+          cardBoxes={articles}
+        />
+        <WideLightPoster />
 
         {cardBoxSections[0] && (
           <ProductsBox
@@ -38,8 +126,6 @@ export default async function Home() {
             cardBoxes={cardBoxSections[0].cardBoxes}
           />
         )}
-
-        <WideLightPoster />
 
         <MiniSlider
           images={{ img1: 't5-sharayet.jpg', img2: 'sx5-sharayet.jpg' }}

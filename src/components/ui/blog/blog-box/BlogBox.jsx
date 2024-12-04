@@ -3,7 +3,7 @@
 'use client'
 
 import React from 'react'
-import styles from './ProductsBox.module.css'
+import styles from './BlogBox.module.css'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
@@ -14,12 +14,12 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/navigation'
 
-import './ProductBoxSwiper.css'
+import './BlogBoxSwiper.css'
 
 // import required modules
-import { Navigation, Pagination } from 'swiper/modules'
+import { Navigation } from 'swiper/modules'
 
-export default function ProductsBox({ title, subTitle, cardBoxes }) {
+export default function BlogBox({ title, subTitle, cardBoxes }) {
   const router = useRouter()
 
   const handleViewClick = (link) => () => {
@@ -27,14 +27,6 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
       router.push(link)
     } else {
       toast.error('لینک مشاهده موجود نیست')
-    }
-  }
-
-  const handleCatalogDownload = (catalogUrl) => () => {
-    if (catalogUrl) {
-      window.open(catalogUrl, '_blank')
-    } else {
-      toast.error('کاتالوگ موجود نیست')
     }
   }
 
@@ -47,16 +39,12 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
       <div className={styles.container}>
         <Swiper
           dir={'rtl'}
-          slidesPerView={5}
+          slidesPerView={4}
           navigation={true}
           modules={[Navigation]}
-          spaceBetween={20}
+          spaceBetween={40}
           centeredSlides={false}
           breakpoints={{
-            // سایز دسکتاپ
-            1440: {
-              slidesPerView: 5,
-            },
             // سایز دسکتاپ
             1024: {
               slidesPerView: 4,
@@ -82,25 +70,23 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
                 <SwiperSlide>
                   <div key={box.id} className={styles.box}>
                     <div className={styles.colorContainer}>
-                      <span className={styles.colors} />
-                      <span className={styles.colors} />
-                      <span className={styles.colors} />
+                      <span className={styles.tag} >{box.tag}</span>
                     </div>
                     <Image
                       className={styles.image}
-                      src={box.imageUrl || ''} // لینک عکس خودرو
+                      src={box.imageUrl || ''} // لینک عکس
                       width={1000}
                       height={1000}
                       alt={'car-image'}
                       onClick={handleViewClick(box.viewLink)}
                     />
                     <h4 className={styles.title} onClick={handleViewClick(box.viewLink)}>
-                      {box.car.name}
+                      {box.title}
                     </h4>
                     <h3 className={styles.subTitle} onClick={handleViewClick(box.viewLink)}>
                       {box.subtitle}
                     </h3>
-                    <p className={styles.text}>{box.description.slice(0, 98) + '...'}</p>
+                    <p className={styles.text}>{box.description.slice(0, 120) + '...'}</p>
                     <div className={styles.line}>
                       <span></span>
                     </div>
@@ -109,13 +95,7 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
                         className={styles.actionButton}
                         onClick={handleViewClick(box.viewLink)}
                       >
-                        شرایط فروش
-                      </button>
-                      <button
-                        className={styles.actionButton}
-                        onClick={handleCatalogDownload(box.catalogUrl)}
-                      >
-                        دانلود کاتالوگ
+                        مشاهده مقاله
                       </button>
                     </div>
                   </div>
