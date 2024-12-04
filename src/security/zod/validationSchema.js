@@ -188,7 +188,7 @@ export const newSalesConditionSchema = z.object({
     .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار سود مشارکت معتبر نیست.')
     .optional(),
 
-  deliveryDate: z.string().optional(),
+  deliveryDate: z.string().nonempty('زمان تحویل الزامی است'),
   isLocked: z.boolean(),
 
   users: z
@@ -281,7 +281,7 @@ export const salesConditionSchema = z.object({
     .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار سود مشارکت معتبر نیست.')
     .optional(),
 
-  deliveryDate: z.string().optional(),
+  deliveryDate: z.string().nonempty('زمان تحویل الزامی است'),
   authorizedUsers: z
     .array(
       z.object({
