@@ -121,22 +121,12 @@ export async function getSalesFestivals() {
     })
 
     return festivals.map((festival) => ({
-      id: festival.id,
-      name: festival.name,
-      salesConditions: festival.salesConditions.map((condition) => ({
-        id: condition.id,
-        name: condition.name,
-        car: condition.car || null, // اطلاعات خودرو
-        price: condition.price,
-        description: condition.additionalInfo || '',
-        images: condition.images || [],
-      })),
+      ...festival,
+      startDate: festival.startDate ? festival.startDate.toISOString() : null,
+      endDate: festival.endDate ? festival.endDate.toISOString() : null,
     }))
   } catch (error) {
-    console.error('Error fetching sales festivals:', {
-      message: error.message,
-      stack: error.stack,
-    })
-    throw new Error('خطا در دریافت لیست جشنواره‌ها')
+    console.error('خطا در واکشی جشنواره‌ها:', error)
+    throw new Error('خطا در واکشی داده‌ها')
   }
 }

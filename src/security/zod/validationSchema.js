@@ -382,9 +382,13 @@ export const slideSchema = z.object({
 
 export const cardBoxSchema = z.object({
   title: z.string().nonempty('عنوان کارت باکس الزامی است'),
-  subtitle: z.string().optional(),
+  subtitle: z.string().nonempty('صفت خودرو الزامی است'),
   description: z.string().nonempty('توضیحات الزامی است'),
-  price: z.number().positive('قیمت باید عددی مثبت باشد').int('قیمت باید یک عدد صحیح باشد'),
+  price: z
+    .number({ invalid_type_error: 'قیمت الزامی است' })
+    .positive('قیمت باید عددی مثبت باشد')
+    .int('قیمت باید یک عدد صحیح باشد')
+    .transform((value) => (isNaN(value) ? 0 : value)),
   carId: z.string().nonempty('انتخاب خودرو الزامی است'),
   sectionId: z.string().nonempty('انتخاب بخش الزامی است'),
   viewLink: z.string().optional(),

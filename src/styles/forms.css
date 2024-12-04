@@ -210,3 +210,8 @@
 .formButton:active {
   transform: scale(0.98);
 }
+
+/* Errors */
+.formError {
+  color: red;
+}

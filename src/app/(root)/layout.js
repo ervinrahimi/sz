@@ -10,7 +10,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <>
-      <GlobalLoading />
+      {/* <GlobalLoading /> */}
       <ConditionalHeader menuItems={menuItems} user={session?.user} />
       {children}
       <Footer />
