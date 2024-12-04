@@ -73,8 +73,6 @@ export default function SalesPlans() {
 
   return (
     <>
-      <WideLightPoster />
-
       <div className={styles.filterButtons}>
         <div
           className={styles.filterButtonWrapper}
@@ -119,14 +117,17 @@ export default function SalesPlans() {
       </div>
 
       {loading ? (
-        <div className={styles.saleConditions}>
-          <p>در حال بارگذاری...</p>
+        <div className={styles.loadingContainer}>
+          <div className={styles.loadingWrapper}>
+            <div className={styles.loadingDot}></div>
+            <span className={styles.loadingText}>در حال بارگذاری</span>
+          </div>
         </div>
       ) : (
         <>
           {salesConditions.length === 0 && (
-            <div className={styles.saleConditions}>
-              <p>هیچ آیتمی موجود نیست!</p>
+            <div className={styles.errorItemContainer}>
+              <p className={styles.errorItemText}>هیچ آیتمی موجود نیست</p>
             </div>
           )}
           {salesConditions.length > 0 && (
@@ -157,8 +158,8 @@ export default function SalesPlans() {
                     )}
 
                     <div className={styles.salesConditionDescription}>
-                      <h2>{condition.name}</h2>
-                      <p>ماشین: {condition.carName}</p>
+                      <h2>{condition.carName}</h2>
+                      <p>{condition.name}</p>
                       <p>{condition.description}</p>
                     </div>
 

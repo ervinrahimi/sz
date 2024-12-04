@@ -84,7 +84,7 @@ export default function BlogBox({ title, subTitle, cardBoxes }) {
                       {box.title}
                     </h4>
                     <h3 className={styles.subTitle} onClick={handleViewClick(box.viewLink)}>
-                      {box.subtitle}
+                      {box.date}
                     </h3>
                     <p className={styles.text}>{box.description.slice(0, 120) + '...'}</p>
                     <div className={styles.line}>

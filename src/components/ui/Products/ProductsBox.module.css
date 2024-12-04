@@ -125,6 +125,7 @@
 .text,
 .priceNum {
   padding-right: 25px;
+  padding-left: 25px;
 }
 
 .title {
