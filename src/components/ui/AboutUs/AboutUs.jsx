@@ -25,8 +25,8 @@ export default function AboutUsPage() {
 
       {/* تصاویر مرتبط */}
       <div className={styles.imageSection}>
-        <Image width={3000} height={2000} src="/about-us/team.jpg" alt="تیم ما" className={styles.image} />
-        <Image width={3000} height={2000} src="/about-us/office.jpg" alt="دفتر کار" className={styles.image} />
+        <Image width={3000} height={2000} quality={100} src="/about-us/team.jpg" alt="تیم ما" className={styles.image} />
+        <Image width={3000} height={2000} quality={100} src="/about-us/office.jpg" alt="دفتر کار" className={styles.image} />
       </div>
 
       {/* تاریخچه مختصر شرکت */}

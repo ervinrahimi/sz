@@ -33,6 +33,10 @@ export default function JobApplicationForm() {
 
   const onSubmit = async (data) => {
     try {
+      if (!data.linkedIn) {
+        data.linkedIn = undefined
+      }
+
       const response = await fetch('/api/job-application', {
         method: 'POST',
         headers: {
@@ -43,7 +47,7 @@ export default function JobApplicationForm() {
 
       if (response.ok) {
         toast.success('درخواست شما با موفقیت ارسال شد')
-        router.push('/')
+        router.push('/employment/success') // هدایت به صفحه تأیید
       } else {
         const errorData = await response.json()
         toast.error(errorData.error || 'مشکلی پیش آمده است')
@@ -97,11 +101,7 @@ export default function JobApplicationForm() {
         {errors.phone && <p className={styles.error}>{errors.phone.message}</p>}
 
         <label>موقعیت شغلی :</label>
-        <select
-          {...register('position')}
-          disabled={isSubmitting}
-          className={styles.input}
-        >
+        <select {...register('position')} disabled={isSubmitting} className={styles.input}>
           <option value="">انتخاب موقعیت شغلی</option>
           <option value="frontend">توسعه‌دهنده فرانت‌اند</option>
           <option value="backend">توسعه‌دهنده بک‌اند</option>

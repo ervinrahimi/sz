@@ -44,7 +44,7 @@ export default function ApplicantRequestForm() {
 
       if (response.ok) {
         toast.success('درخواست شما با موفقیت ارسال شد')
-        router.push('/')
+        router.push('/applicant-request/success') // تغییر مسیر به صفحه موفقیت
       } else {
         const errorData = await response.json()
         toast.error(errorData.error || 'مشکلی پیش آمده است')
