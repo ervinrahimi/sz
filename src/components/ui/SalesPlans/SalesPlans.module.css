@@ -1,13 +1,4 @@
-.bannerContainer {
-  position: relative;
-  width: 100%;
-  height: 100px;
-  display: block;
-  margin-bottom: 30px;
-  border-radius: 20px;
-}
-
-.filterButtonContainer {
+.filterButtons {
   position: relative;
   margin: 0 auto;
   display: flex;
@@ -16,107 +7,159 @@
   height: max-content;
 }
 
-.saleConditionsContainer {
-  max-width: 1600px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 20px;
-  margin-bottom: 10px;
+.filterButtonWrapper {
+  position: relative;
 }
 
-.saleConditionsTitle {
-  font-family: var(--font-yekanBakh);
-  display: flex;
-  justify-content: space-between;
-}
-
-.filterButtonContainer button {
+.filterButton {
   font-family: var(--font-yekanBakh);
   padding: 10px 15px;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 15px;
   border: 1px solid #ddd;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   cursor: pointer;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.filterButtonContainer button:hover {
-  background-color: #3b5998;
-  color: white;
+/* حالت Hover */
+.filterButton:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-.selection {
-  font-family: var(--font-yekanBakh);
-  padding: 10px 15px;
-  text-align: center;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-  margin-bottom: 10px;
+/* حالت Active */
+.filterButton.active {
+  background-color: var(--active-bg, #3b5998); /* رنگ پویا */
+  color: var(--active-color, white);
 }
 
-.salesConditionDetails {
-  display: flex;
-  gap: 20px;
-  border-radius: 10px;
-  background-color: white;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  background-color: white;
+.activeIndicator {
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  background-color: var(--indicator-color, #00ff3c); /* رنگ پویا */
+  border-radius: 50%;
+  animation: blink 2s infinite;
+}
+
+/* انیمیشن چراغ */
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.saleConditions {
+  max-width: 1300px;
+  margin: 40px auto;
   padding: 20px;
-  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  border-radius: 30px;
+  background: #fdfdfd;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.salesConditionContent {
+.salesCondition {
+  position: relative;
+  text-align: center;
   display: flex;
-  gap: 20px;
-  padding: 30px;
-  border-radius: 10px;
+  flex-direction: column;
+  gap: 15px;
+  border-radius: 20px;
   border: 1px solid #ddd;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  width: 100%;
-  background-color: #eee;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
   text-align: justify;
+  padding: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.salesConditionButton {
-  display: flex;
-  gap: 10px;
-  align-items: end;
-  padding: 10px;
+.salesFestival {
+  color: var(--festival-color, white);
+  font-size: 16px;
+  font-family: var(--font-yekanBakh);
+  font-variation-settings: 'wdth' 100, 'wght' 400, 'DOTS' 0;
+  border-radius: 20px 0px 20px 0px;
+  margin-top: -15px;
+  padding: 8px 20px;
+  position: absolute;
+  left: 0;
+  background-color: var(--festival-bg, rgb(49, 49, 49)); /* رنگ پویا */
 }
 
-.showSalesCondition > img {
+.salesCondition:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.salesConditionImage {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
   border-radius: 10px;
 }
 
-.description {
+.salesConditionDescription {
+  margin-top: 10px;
+  text-align: center;
+  width: 100%;
   display: flex;
   flex: 1;
   flex-direction: column;
   gap: 10px;
-  padding: 10px 0;
+  font-size: 16px;
+  color: #555;
 }
 
-.description > h2 {
+.salesConditionDescription > h2 {
   font-family: var(--font-yekanBakh);
+  font-variation-settings: 'wdth' 100, 'wght' 750, 'DOTS' 0;
+  font-size: 20px;
+  color: #333;
 }
 
-.salesConditionButton > button {
+.salesConditionButtons > button {
   font-family: var(--font-yekanBakh);
-  display: flex;
-  gap: 10px;
-  border-radius: 10px;
   background-color: #3b5998;
-  border: none;
   color: white;
-  height: fit-content;
-  padding: 10px 20px;
+  font-size: 18px;
+  width: 100%;
+  border: none;
+  border-radius: 15px;
+  padding: 10px 15px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.salesConditionButton button:hover {
+.salesConditionButtons > button:hover {
   background-color: #2c3b5a;
+}
+
+/* واکنش‌گرایی */
+@media (max-width: 1024px) {
+  .saleConditions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .saleConditions {
+    grid-template-columns: 1fr;
+  }
+
+  .salesCondition {
+    padding: 10px;
+  }
 }

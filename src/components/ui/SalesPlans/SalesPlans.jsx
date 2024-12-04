@@ -6,12 +6,28 @@ import Image from 'next/image'
 import toast from 'react-hot-toast'
 import { getSalesConditions } from '@/actions/admin/sales-conditions'
 import { getSalesFestivals } from '@/actions/admin/salesFestivals' // واکشی لیست SalesFestival
+import { WideLightPoster } from '../Posters/Posters'
 
 export default function SalesPlans() {
   const [salesConditions, setSalesConditions] = useState([])
   const [salesFestivals, setSalesFestivals] = useState([]) // لیست فیلترها
   const [loading, startTransition] = useTransition()
   const [filter, setFilter] = useState(null)
+  const [activeButton, setActiveButton] = useState(null) // وضعیت دکمه فعال
+
+  // تعیین رنگ‌ها بر اساس نام
+  const getColors = (name) => {
+    switch (name) {
+      case 'پرایم':
+        return { bg: '#ffd8e0', color: '#ff2250', indicator: '#49ff0a' } // زرد
+      case 'پرستیژ':
+        return { bg: '#f6dfff', color: '#bc12ff', indicator: '#49ff0a' } // بنفش
+      case 'اولتیمیت':
+        return { bg: '#dcffea', color: '#2ea45d', indicator: '#49ff0a' } // آبی
+      default:
+        return { bg: '#e0e3ff', color: '#0f21cf', indicator: '#49ff0a' } // پیش‌فرض
+    }
+  }
 
   // واکشی لیست SalesFestival
   const fetchSalesFestivals = async () => {
@@ -49,58 +65,102 @@ export default function SalesPlans() {
     })
   }, [filter])
 
-  // هدایت به صفحه جزئیات خودرو
-  const handleViewDetails = (carId) => {
-    window.location.href = `/cars/${carId}`
+  // مدیریت فعال‌سازی دکمه‌ها
+  const handleFilterClick = (festivalName) => {
+    setFilter(festivalName)
+    setActiveButton(festivalName)
   }
 
   return (
     <>
-      <Image
-        className={styles.bannerContainer}
-        alt=""
-        src="/banner.jpg"
-        width={1200}
-        height={300}
-      />
-      <div className={styles.filterButtonContainer}>
-        {salesFestivals.map((festival) => (
-          <button key={festival.id} onClick={() => setFilter(festival.name)}>
-            {festival.name}
+      <WideLightPoster />
+
+      <div className={styles.filterButtons}>
+        <div
+          className={styles.filterButtonWrapper}
+          style={{
+            '--active-bg': getColors('all').bg,
+            '--active-color': getColors('all').color,
+            '--indicator-color': getColors('all').indicator,
+          }}
+        >
+          <button
+            className={`${styles.filterButton} ${activeButton === null ? styles.active : ''}`}
+            onClick={() => handleFilterClick(null)}
+          >
+            نمایش همه
           </button>
-        ))}
-        <button onClick={() => setFilter(null)}>نمایش همه</button>
+          {activeButton === null && <div className={styles.activeIndicator} />}
+        </div>
+        {salesFestivals.map((festival) => {
+          const { bg, color, indicator } = getColors(festival.name)
+          return (
+            <div
+              key={festival.id}
+              className={styles.filterButtonWrapper}
+              style={{
+                '--active-bg': bg,
+                '--active-color': color,
+                '--indicator-color': indicator,
+              }}
+            >
+              <button
+                className={`${styles.filterButton} ${
+                  activeButton === festival.name ? styles.active : ''
+                }`}
+                onClick={() => handleFilterClick(festival.name)}
+              >
+                {festival.name}
+              </button>
+              {activeButton === festival.name && <div className={styles.activeIndicator} />}
+            </div>
+          )
+        })}
       </div>
+
       {loading ? (
-        <p>در حال بارگذاری...</p>
+        <div className={styles.saleConditions}>
+          <p>در حال بارگذاری...</p>
+        </div>
       ) : (
-        <div className={styles.saleConditionsContainer}>
-          {salesConditions.map((condition) => (
-            <div key={condition.id} className={styles.salesConditionDetails}>
-              <div className={styles.salesConditionContent}>
-                <div className={styles.showSalesCondition}>
-                  {condition.carImage[0] && (
-                    <Image
-                      className={styles.imageSalesCondition}
-                      src={condition.carImage[0]}
-                      alt={condition.name}
-                      height={200}
-                      width={600}
-                    />
-                  )}
+        <div className={styles.saleConditions}>
+          {salesConditions.map((condition) => {
+            const { bg, color } = getColors(condition.salesFestival)
+            return (
+              <div
+                key={condition.id}
+                className={styles.salesCondition}
+                style={{
+                  '--festival-bg': bg,
+                  '--festival-color': color,
+                }}
+              >
+                <div className={styles.salesFestival}>
+                  <p>{condition.salesFestival}</p>
                 </div>
-                <div className={styles.description}>
+
+                {condition.carImage[0] && (
+                  <Image
+                    className={styles.salesConditionImage}
+                    src={condition.carImage[0]}
+                    width={1000}
+                    height={1000}
+                    alt={'car-image'}
+                  />
+                )}
+
+                <div className={styles.salesConditionDescription}>
                   <h2>{condition.name}</h2>
                   <p>ماشین: {condition.carName}</p>
-                  <p>شرایط فروش: {condition.salesFestival}</p>
                   <p>{condition.description}</p>
                 </div>
-                <div className={styles.salesConditionButton}>
+
+                <div className={styles.salesConditionButtons}>
                   <button onClick={() => handleViewDetails(condition.carId)}>شرایط فروش</button>
                 </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
     </>
