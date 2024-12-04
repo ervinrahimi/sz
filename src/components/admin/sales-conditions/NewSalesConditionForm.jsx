@@ -334,8 +334,9 @@ export default function NewSalesConditionForm({ cars, salesFestivals }) {
           ))}
         </div>
 
-        <label>قفل کردن شرایط فروش:</label>
+        <label className={styles.formLabel}>اختصاص شرایط برای خریداران خاص:</label>
         <input type="checkbox" {...register('isLocked')} className={styles.formCheckbox} />
+        <span>در صورت زدن تیک بالا باید لیست کاربران را در قسمت ویرایش شرایط فروش اضافه کنید!</span>
 
         <button type="submit" disabled={isPending} className={styles.formButton}>
           ایجاد شرایط فروش

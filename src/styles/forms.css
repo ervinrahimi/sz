@@ -43,6 +43,10 @@
   height: 150px;
 }
 
+.filePreviewContainer {
+  width: max-content;
+}
+
 /* File Inputs */
 .formFile[type='file'] {
   cursor: pointer;
@@ -185,6 +189,7 @@
 }
 
 .buttonGroup {
+  margin-top: 15px;
   display: flex;
   gap: 10px;
 }

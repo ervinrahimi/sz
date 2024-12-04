@@ -44,6 +44,7 @@ export default function SalesConditionEditForm({ salesCondition, salesFestivals 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
     setValue,
   } = useForm({
@@ -165,6 +166,11 @@ export default function SalesConditionEditForm({ salesCondition, salesFestivals 
     } else {
       toast.error(res.message || 'خطا در به‌روزرسانی اطلاعات.', { duration: 5000 })
     }
+  }
+
+  const handleCancel = () => {
+    reset()
+    router.back()
   }
 
   return (
@@ -389,7 +395,7 @@ export default function SalesConditionEditForm({ salesCondition, salesFestivals 
         <button type="submit" className={styles.formButton}>
           ویرایش شرایط فروش
         </button>
-        <button type="button" className={styles.formButton}>
+        <button type="button" className={styles.formButton}  onClick={handleCancel}>
           لغو
         </button>
       </form>
