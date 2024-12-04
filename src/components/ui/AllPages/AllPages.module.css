@@ -1,0 +1,59 @@
+@keyframes skeleton {
+  0% {
+    background-color: #4b4a4a;
+  }
+  50% {
+    background-color: #6d6d6d;
+  }
+  100% {
+    background-color: #4b4a4a;
+  }
+}
+
+.container {
+  padding: 25px 50px;
+}
+
+.container div:not(.leftright , .lefts) {
+  border-radius: 30px;
+  animation: skeleton 1.5s infinite ease-in-out;
+}
+
+.top {
+  padding: 40px;
+  margin-bottom: 25px;
+}
+
+.leftright {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 25px;
+}
+
+.right {
+  flex-grow: 1;
+}
+
+.lefts {
+  flex-grow: 1;
+}
+
+.leftone {
+  padding: 280px 0px;
+  margin-bottom: 25px;
+}
+
+.lefttwo {
+  padding: 180px 0px;
+}
+
+.bottom {
+  padding: 70px;
+  margin-bottom: 25px;
+}
+
+.end {
+  padding: 40px;
+  margin-bottom: 25px;
+}
