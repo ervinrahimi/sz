@@ -123,45 +123,52 @@ export default function SalesPlans() {
           <p>در حال بارگذاری...</p>
         </div>
       ) : (
-        <div className={styles.saleConditions}>
-          {salesConditions.map((condition) => {
-            const { bg, color } = getColors(condition.salesFestival)
-            return (
-              <div
-                key={condition.id}
-                className={styles.salesCondition}
-                style={{
-                  '--festival-bg': bg,
-                  '--festival-color': color,
-                }}
-              >
-                <div className={styles.salesFestival}>
-                  <p>{condition.salesFestival}</p>
-                </div>
+        <>
+          {salesConditions.length === 0 && (
+            <div className={styles.saleConditions}>
+              <p>هیچ آیتمی موجود نیست!</p>
+            </div>
+          )}
+          <div className={styles.saleConditions}>
+            {salesConditions.map((condition) => {
+              const { bg, color } = getColors(condition.salesFestival)
+              return (
+                <div
+                  key={condition.id}
+                  className={styles.salesCondition}
+                  style={{
+                    '--festival-bg': bg,
+                    '--festival-color': color,
+                  }}
+                >
+                  <div className={styles.salesFestival}>
+                    <p>{condition.salesFestival}</p>
+                  </div>
 
-                {condition.carImage[0] && (
-                  <Image
-                    className={styles.salesConditionImage}
-                    src={condition.carImage[0]}
-                    width={1000}
-                    height={1000}
-                    alt={'car-image'}
-                  />
-                )}
+                  {condition.carImage[0] && (
+                    <Image
+                      className={styles.salesConditionImage}
+                      src={condition.carImage[0]}
+                      width={1000}
+                      height={1000}
+                      alt={'car-image'}
+                    />
+                  )}
 
-                <div className={styles.salesConditionDescription}>
-                  <h2>{condition.name}</h2>
-                  <p>ماشین: {condition.carName}</p>
-                  <p>{condition.description}</p>
-                </div>
+                  <div className={styles.salesConditionDescription}>
+                    <h2>{condition.name}</h2>
+                    <p>ماشین: {condition.carName}</p>
+                    <p>{condition.description}</p>
+                  </div>
 
-                <div className={styles.salesConditionButtons}>
-                  <button onClick={() => handleViewDetails(condition.carId)}>شرایط فروش</button>
+                  <div className={styles.salesConditionButtons}>
+                    <button onClick={() => handleViewDetails(condition.carId)}>شرایط فروش</button>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
-        </div>
+              )
+            })}
+          </div>
+        </>
       )}
     </>
   )
