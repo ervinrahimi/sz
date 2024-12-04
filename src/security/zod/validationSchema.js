@@ -348,14 +348,14 @@ export const vehicleSchema = z.object({
   ),
   comfortFeatures: z.array(
     z.object({
-      featureName: z.string().min(1, 'نام ویژگی الزامی است.'),
-      description: z.string().optional(),
+      featureName: z.string().nonempty('نام ویژگی الزامی است.'),
+      description: z.string().nonempty('نام توضیحات الزامی است.'),
     })
   ),
   safetyFeatures: z.array(
     z.object({
-      featureName: z.string().min(1, 'نام ویژگی الزامی است.'),
-      description: z.string().optional(),
+      featureName: z.string().nonempty('نام ویژگی الزامی است.'),
+      description: z.string().nonempty('نام توضیحات الزامی است.'),
     })
   ),
 })
