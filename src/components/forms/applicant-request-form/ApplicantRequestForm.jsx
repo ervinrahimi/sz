@@ -99,7 +99,6 @@ export default function ApplicantRequestForm() {
 
         <label>جنسیت :</label>
         <select {...register('gender')} disabled={isSubmitting} className={styles.input}>
-          <option value="">انتخاب جنسیت</option>
           <option value="male">مرد</option>
           <option value="female">زن</option>
         </select>
