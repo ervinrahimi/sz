@@ -225,6 +225,11 @@ export default function VehicleCreate() {
                 className={styles.formInput}
               />
             </label>
+            {errors.appearanceSpecifications?.[index]?.title && (
+              <p className={styles.formError}>
+                {errors.appearanceSpecifications[index].title.message}
+              </p>
+            )}
             <label className={styles.formLabel}>
               مقدار:
               <input
@@ -233,6 +238,11 @@ export default function VehicleCreate() {
                 className={styles.formInput}
               />
             </label>
+            {errors.appearanceSpecifications?.[index]?.title && (
+              <p className={styles.formError}>
+                {errors.appearanceSpecifications[index].title.message}
+              </p>
+            )}
             <label className={styles.formLabel}>
               یادداشت:
               <input
@@ -329,6 +339,11 @@ export default function VehicleCreate() {
                 className={styles.formInput}
               />
             </label>
+            {errors.comfortFeatures?.[index]?.featureName && (
+              <p className={styles.formError}>
+                {errors.comfortFeatures[index].featureName.message}
+              </p>
+            )}
             <label className={styles.formLabel}>
               توضیحات:
               <input
@@ -337,6 +352,11 @@ export default function VehicleCreate() {
                 className={styles.formInput}
               />
             </label>
+            {errors.comfortFeatures?.[index]?.featureName && (
+              <p className={styles.formError}>
+                {errors.comfortFeatures[index].featureName.message}
+              </p>
+            )}
             {index > 0 && (
               <button
                 type="button"
@@ -367,6 +387,9 @@ export default function VehicleCreate() {
                 className={styles.formInput}
               />
             </label>
+            {errors.safetyFeatures?.[index]?.featureName && (
+              <p className={styles.formError}>{errors.safetyFeatures[index].featureName.message}</p>
+            )}
             <label className={styles.formLabel}>
               توضیحات:
               <input
@@ -375,6 +398,9 @@ export default function VehicleCreate() {
                 className={styles.formInput}
               />
             </label>
+            {errors.safetyFeatures?.[index]?.featureName && (
+              <p className={styles.formError}>{errors.safetyFeatures[index].featureName.message}</p>
+            )}
             {index > 0 && (
               <button
                 type="button"

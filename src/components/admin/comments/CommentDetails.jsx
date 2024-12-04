@@ -4,11 +4,17 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { updateCommentStatus, addAdminReply, deleteComment } from '@/actions/admin/comments'
 import toast from 'react-hot-toast'
+import moment from 'moment-jalaali' // وارد کردن moment-jalaali
 
 export default function CommentDetails({ comment, user }) {
   const router = useRouter()
   const [reply, setReply] = useState('')
   const [statusChanged, setStatusChanged] = useState(comment.isApproved !== null) // وضعیت کامنت
+
+  // تابع تبدیل تاریخ میلادی به شمسی با استفاده از moment-jalaali
+  const convertToJalali = (date) => {
+    return moment(date).format('jYYYY/jMM/jDD') // تبدیل به تاریخ شمسی
+  }
 
   const handleApproval = async (status) => {
     try {
@@ -57,7 +63,8 @@ export default function CommentDetails({ comment, user }) {
         نظر: <span>{comment.content}</span>
       </p>
       <p className={`formLabel`}>
-        تاریخ ثبت: <span>{new Date(comment.createdAt).toLocaleDateString()}</span>
+        تاریخ ثبت: <span>{convertToJalali(comment.createdAt)}</span>{' '}
+        {/* استفاده از تابع convertToJalali */}
       </p>
 
       {/* فرم پاسخ ادمین */}

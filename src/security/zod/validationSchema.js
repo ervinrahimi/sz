@@ -188,7 +188,7 @@ export const newSalesConditionSchema = z.object({
     .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار سود مشارکت معتبر نیست.')
     .optional(),
 
-  deliveryDate: z.string().optional(),
+  deliveryDate: z.string().nonempty('زمان تحویل الزامی است'),
   isLocked: z.boolean(),
 
   users: z
@@ -281,7 +281,7 @@ export const salesConditionSchema = z.object({
     .refine((val) => val <= MAX_BIGINT && val >= MIN_BIGINT, 'مقدار سود مشارکت معتبر نیست.')
     .optional(),
 
-  deliveryDate: z.string().optional(),
+  deliveryDate: z.string().nonempty('زمان تحویل الزامی است'),
   authorizedUsers: z
     .array(
       z.object({
@@ -348,14 +348,14 @@ export const vehicleSchema = z.object({
   ),
   comfortFeatures: z.array(
     z.object({
-      featureName: z.string().min(1, 'نام ویژگی الزامی است.'),
-      description: z.string().optional(),
+      featureName: z.string().nonempty('نام ویژگی الزامی است.'),
+      description: z.string().nonempty('نام توضیحات الزامی است.'),
     })
   ),
   safetyFeatures: z.array(
     z.object({
-      featureName: z.string().min(1, 'نام ویژگی الزامی است.'),
-      description: z.string().optional(),
+      featureName: z.string().nonempty('نام ویژگی الزامی است.'),
+      description: z.string().nonempty('نام توضیحات الزامی است.'),
     })
   ),
 })
@@ -382,9 +382,13 @@ export const slideSchema = z.object({
 
 export const cardBoxSchema = z.object({
   title: z.string().nonempty('عنوان کارت باکس الزامی است'),
-  subtitle: z.string().optional(),
+  subtitle: z.string().nonempty('صفت خودرو الزامی است'),
   description: z.string().nonempty('توضیحات الزامی است'),
-  price: z.number().positive('قیمت باید عددی مثبت باشد').int('قیمت باید یک عدد صحیح باشد'),
+  price: z
+    .number({ invalid_type_error: 'قیمت الزامی است' })
+    .positive('قیمت باید عددی مثبت باشد')
+    .int('قیمت باید یک عدد صحیح باشد')
+    .transform((value) => (isNaN(value) ? 0 : value)),
   carId: z.string().nonempty('انتخاب خودرو الزامی است'),
   sectionId: z.string().nonempty('انتخاب بخش الزامی است'),
   viewLink: z.string().optional(),

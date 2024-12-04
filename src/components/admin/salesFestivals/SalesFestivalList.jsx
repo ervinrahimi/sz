@@ -21,6 +21,16 @@ export default function SalesFestivalList({ festivals }) {
     }
   }
 
+  // تابع کمکی برای قالب‌بندی تاریخ
+  const formatDate = (date) => {
+    if (!date || isNaN(new Date(date))) return 'تاریخ نامعتبر'
+    return new Date(date).toLocaleDateString('fa-IR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.headerRow}>
@@ -33,23 +43,24 @@ export default function SalesFestivalList({ festivals }) {
       <div className={styles.body}>
         {festivals.map((festival) => (
           <div key={festival.id} className={styles.row}>
-            <div className={styles.cell}>{festival.name}</div>
-            <div className={styles.cell}>{festival.description}</div>
-            <div className={styles.cell}>
-              {new Date(festival.startDate).toLocaleDateString('fa-IR')}
-            </div>
-            <div className={styles.cell}>
-              {new Date(festival.endDate).toLocaleDateString('fa-IR')}
-            </div>
+            {/* نام جشنواره */}
+            <div className={styles.cell}>{festival.name || 'نام‌گذاری نشده'}</div>
+            {/* توضیحات جشنواره */}
+            <div className={styles.cell}>{festival.description || 'بدون توضیحات'}</div>
+            {/* تاریخ شروع */}
+            <div className={styles.cell}>{formatDate(festival.startDate)}</div>
+            {/* تاریخ پایان */}
+            <div className={styles.cell}>{formatDate(festival.endDate)}</div>
+            {/* عملیات */}
             <div className={styles.cell}>
               <button
-                className={styles.button}
+                className={`${styles.button} ${styles.deleteButton}`}
                 onClick={() => handleDelete(festival.id)}
               >
                 حذف
               </button>
               <button
-                className={styles.button}
+                className={`${styles.button} ${styles.editButton}`}
                 onClick={() => router.push(`/admin/sales-festivals/edit/${festival.id}`)}
               >
                 ویرایش
