@@ -9,7 +9,7 @@ export default function SalesConditionsTable({ salesConditions }) {
   return (
     <div className={styles.container}>
       <div className={styles.headerRow}>
-        <div className={styles.headerCell}>کد شرایط</div>
+        <div className={styles.headerCell}>کد فروش</div>
         <div className={styles.headerCell}>نام شرایط</div>
         <div className={styles.headerCell}>خودرو</div>
         <div className={styles.headerCell}>نوع شرایط</div>
@@ -19,7 +19,7 @@ export default function SalesConditionsTable({ salesConditions }) {
       <div className={styles.body}>
         {salesConditions.map((condition) => (
           <div key={condition.id} className={styles.row}>
-            <div className={styles.cell}>{condition.id}</div>
+            <div className={styles.cell}>{condition.siteSalesCode.toString()}</div>
             <div className={styles.cell}>{condition.name}</div>
             <div className={styles.cell}>{condition.car.name}</div>
             <div className={styles.cell}>{getConditionType(condition.conditionType)}</div>
