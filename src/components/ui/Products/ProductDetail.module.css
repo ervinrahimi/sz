@@ -157,7 +157,7 @@
 
 .informationGrid img {
   object-fit: cover;
-  width: 320px;
+  width: 320px !important;
   height: max-content;
   margin: 0 20px;
   opacity: 0.8;
@@ -525,20 +525,21 @@
 }
 
 .requestSell {
+  margin: 0px 20px;
   font-family: var(--font-yekanbakh);
   font-variation-settings: 'wdth' 100, 'wght' 650, 'DOTS' 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
   margin-bottom: 20px;
 }
 
 .requestSell > a {
-  width: max-content;
+  width: 100%;
+  text-align: center;
   background-color: #8bbe8b;
   padding: 15px 40px;
-  border-radius: 100px 15px 100px 15px;
+  border-radius: 20px;
   align-items: center;
   color: #fff;
 }
@@ -614,6 +615,15 @@
   font-variation-settings: 'wdth' 100, 'wght' 800, 'DOTS' 0;
   text-align: center;
   font-size: 18px;
+}
+
+.salesImage {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  cursor: pointer;
 }
 
 /* استایل‌های ریسپانسیو */

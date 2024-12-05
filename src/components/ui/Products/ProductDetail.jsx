@@ -293,14 +293,16 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
                 </div>
                 <Swiper
                   pagination={true}
-                  navigation={true}
-                  modules={[Pagination, Navigation]}
+                  modules={[Pagination]}
                   className="mySwiper"
                 >
                   <div className={styles.salesConditions}>
                     {filteredConditions(selectedFestival, selectedInstallment).map((condition) => (
                       <SwiperSlide key={condition.id}>
                         <div className={styles.salesBoxing}>
+                          <div className={styles.salesImage}>
+                            <Image src={condition.images[0]} width={1000} height={1000} alt="sales-image" />
+                          </div>
                           <div className={styles.labelSales}>
                             <h5>{condition.name}</h5>
                           </div>
