@@ -244,7 +244,7 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
                         onChange={(e) => setSelectedFestival(e.target.value)}
                         className={styles.selectBox}
                       >
-                        <option value="">همه جشنواره ها</option>
+                        <option value="" className={styles.red}>همه جشنواره ها</option>
                         {car.salesConditions
                           .map((condition) => condition.salesFestival)
                           .filter(
