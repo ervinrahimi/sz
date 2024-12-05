@@ -377,76 +377,56 @@
   border: 3px solid rgba(20, 24, 82, 0);
 }
 
-.installment {
-  margin-top: 20px;
-  margin: 20px 20px;
+.festivalSelector {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  margin: 20px 0;
 }
 
-.selectBox {
-  display: flex;
+.festivalSelector button {
   font-family: var(--font-yekanbakh);
-  font-variation-settings: 'wdth' 95, 'wght' 500, 'DOTS' 0;
-  padding: 6px 10px;
-  font-size: 16px;
-  background-color: #229799;
-  color: white;
-  border-radius: 15px;
-  outline: none;
+  font-variation-settings: 'wdth' 95, 'wght' 700, 'DOTS' 0;
+  margin: 0 10px;
+  padding: 8px 15px;
   border: none;
+  border: 3px solid rgba(20, 24, 82, 0);
+  background: #ffffff00;
   cursor: pointer;
-  border-left: 16px solid transparent;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  color: rgb(78, 78, 78);
+  font-size: 14px;
+  border-radius: 100px;
 }
 
-.selectBox option {
-  background-color: white;
-  color: #424242;
-  outline: none;
+.festivalSelector .activeButton {
+  border: 3px solid rgb(19, 19, 19);
+  color: rgb(19, 19, 19);
+}
+
+.installmentSelector {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 .installmentSelector button {
   font-family: var(--font-yekanbakh);
-  font-variation-settings: 'wdth' 95, 'wght' 400, 'DOTS' 0;
+  margin: 0 10px;
   padding: 8px 15px;
+  font-variation-settings: 'wdth' 95, 'wght' 600, 'DOTS' 0;
   border: none;
-  background-color: #229799;
+  border-bottom: 4px solid rgba(20, 24, 82, 0);
+  background: #ffffff00;
+  color: rgb(78, 78, 78);
   cursor: pointer;
-  color: rgb(255, 255, 255);
   font-size: 14px;
-  border-radius: 15px;
 }
 
 .installmentSelector .activeButton {
-  background-color: #424242;
-  color: #ffffff;
-}
-
-.installmentSelector,
-.festivalSelector {
-  gap: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.installmentSelector > p,
-.festivalSelector > p {
-  font-family: var(--font-yekanbakh);
-  font-variation-settings: 'wdth' 95, 'wght' 750, 'DOTS' 0;
-  color: #424242;
-  font-size: 16px;
-}
-
-.installmentSelector > div,
-.festivalSelector > div {
-  display: flex;
-  gap: 10px;
+  border-bottom: 4px solid rgb(19, 19, 19);
+  color: rgb(19, 19, 19);
 }
 
 .salesConditions {
-  margin-top: 20px;
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -463,42 +443,19 @@
   width: 100%;
   text-align: center;
   background: #f9f9f9;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 .labelSales {
-  margin-top: 30px;
   width: 100%;
   display: flex;
   justify-content: center;
 }
-
 
 .labelSales h5 {
   font-family: var(--font-kahroba);
   font-variation-settings: 'wdth' 95, 'wght' 500, 'DOTS' 0;
   font-size: 24px;
-}
-
-.labelInfo {
-  margin-top: 30px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.labelInfo h5 {
-  font-family: var(--font-kahroba);
-  font-variation-settings: 'wdth' 95, 'wght' 500, 'DOTS' 0;
-  font-size: 24px;
-}
-
-.infoDetail {
-  margin-top: 10px;
-  margin-bottom: 30px;
-  font-family: var(--font-yekanbakh);
-  font-variation-settings: 'wdth' 95, 'wght' 400, 'DOTS' 0;
-  font-size: 16px;
 }
 
 .buttonsSales {
@@ -606,7 +563,7 @@
   padding: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   background-color: #fff;
-}
+}  
 
 .userLock {
   color: #25283e;
@@ -623,4 +580,5 @@
     margin-right: auto;
     margin-left: auto;
   }
+  
 }
