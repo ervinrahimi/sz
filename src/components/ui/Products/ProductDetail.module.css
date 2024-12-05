@@ -463,19 +463,42 @@
   width: 100%;
   text-align: center;
   background: #f9f9f9;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 .labelSales {
+  margin-top: 30px;
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
+
 .labelSales h5 {
   font-family: var(--font-kahroba);
   font-variation-settings: 'wdth' 95, 'wght' 500, 'DOTS' 0;
   font-size: 24px;
+}
+
+.labelInfo {
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.labelInfo h5 {
+  font-family: var(--font-kahroba);
+  font-variation-settings: 'wdth' 95, 'wght' 500, 'DOTS' 0;
+  font-size: 24px;
+}
+
+.infoDetail {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 95, 'wght' 400, 'DOTS' 0;
+  font-size: 16px;
 }
 
 .buttonsSales {

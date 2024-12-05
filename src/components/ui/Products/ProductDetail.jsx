@@ -337,8 +337,10 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
                               افزودن به سبد خرید
                             </button>
                           </div>
-                          <h3>توضیحات تکمیلی</h3>
-                          <p>{condition.DitionalInfo}</p>
+                          <div className={styles.labelInfo}>
+                            <h5>توضیحات تکمیلی</h5>
+                          </div>
+                          <p  className={styles.infoDetail}>{condition.DitionalInfo || 'توضیحات تکمیلی ندارد'}</p>
                         </div>
                       </SwiperSlide>
                     ))}
