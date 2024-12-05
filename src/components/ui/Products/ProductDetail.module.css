@@ -379,6 +379,7 @@
 
 .installment {
   margin-top: 20px;
+  margin: 20px 20px;
   display: flex;
   justify-content: space-between;
 }
@@ -386,46 +387,68 @@
 .selectBox {
   display: flex;
   font-family: var(--font-yekanbakh);
-  font-variation-settings: 'wdth' 95, 'wght' 700, 'DOTS' 0;
+
+  font-variation-settings: 'wdth' 95, 'wght' 500, 'DOTS' 0;
   padding: 6px 10px;
-  margin: 0 10px;
   font-size: 16px;
-  background-color: #ffffff00;
-  border-radius: 100px;
-  border: 3px solid rgb(19, 19, 19);
+  background-color: #fff;
+  border: 1px solid black;
+  color: #424242;
+  border-radius: 15px;
+  outline: none;
+  border: none;
   cursor: pointer;
+  border-left: 16px solid transparent;
 }
 
 .selectBox:focus {
-  border: 3px solid rgb(19, 19, 19);
   outline: none;
+}
+
+.selectBox option:hover{
+  color: red;
+  background: rgba(100, 100, 100, 0.3);
 }
 
 
 .installmentSelector button {
   font-family: var(--font-yekanbakh);
-  font-variation-settings: 'wdth' 95, 'wght' 700, 'DOTS' 0;
-  margin: 0 10px;
+  font-variation-settings: 'wdth' 95, 'wght' 400, 'DOTS' 0;
   padding: 8px 15px;
   border: none;
-  border: 3px solid rgba(20, 24, 82, 0);
-  background: #ffffff00;
+  background-color: #229799;
   cursor: pointer;
-  color: rgb(78, 78, 78);
+  color: rgb(255, 255, 255);
   font-size: 14px;
-  border-radius: 100px;
+  border-radius: 15px;
 }
 
 .installmentSelector .activeButton {
-  border: 3px solid rgb(19, 19, 19);
-  color: rgb(19, 19, 19);
+  background-color: #424242;
+  color: #ffffff;
 }
 
-.installmentSelector {
+.installmentSelector,
+.festivalSelector {
+  gap: 10px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 
+.installmentSelector > p,
+.festivalSelector > p {
+  font-family: var(--font-yekanbakh);
+  font-variation-settings: 'wdth' 95, 'wght' 750, 'DOTS' 0;
+  color: #424242;
+  font-size: 16px;
+}
+
+.installmentSelector > div,
+.festivalSelector > div {
+  display: flex;
+  gap: 10px;
+}
 
 .salesConditions {
   margin-top: 20px;

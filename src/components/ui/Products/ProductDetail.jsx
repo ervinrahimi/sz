@@ -63,7 +63,7 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <ProductBigImage address={carImages[0] || '/default-car-image.webp'} />
+        <ProductBigImage Dress={carImages[0] || '/default-car-image.webp'} />
 
         <div className={styles.infoContainer}>
           <span className={styles.leftLine} />
@@ -237,105 +237,112 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
               <>
                 <div className={styles.installment}>
                   <div className={styles.festivalSelector}>
-                    <select
-                      value={selectedFestival || ''}
-                      onChange={(e) => setSelectedFestival(e.target.value)}
-                      className={styles.selectBox}
-                    >
-                      <option value="">همه جشنواره ها</option>
-                      {car.salesConditions
-                        .map((condition) => condition.salesFestival)
-                        .filter(
-                          (festival, index, self) =>
-                            festival && self.findIndex((f) => f.id === festival.id) === index
-                        )
-                        .map((festival) => (
-                          <option key={festival.id} value={festival.id}>
-                            {festival.name}
-                          </option>
-                        ))}
-                    </select>
+                    <p> انتخاب جشنواره فروش:</p>
+                    <div>
+                      <select
+                        value={selectedFestival || ''}
+                        onChange={(e) => setSelectedFestival(e.target.value)}
+                        className={styles.selectBox}
+                      >
+                        <option value="">همه جشنواره ها</option>
+                        {car.salesConditions
+                          .map((condition) => condition.salesFestival)
+                          .filter(
+                            (festival, index, self) =>
+                              festival && self.findIndex((f) => f.id === festival.id) === index
+                          )
+                          .map((festival) => (
+                            <option key={festival.id} value={festival.id}>
+                              {festival.name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
                   </div>
 
                   <div className={styles.installmentSelector}>
-                    <button
-                      onClick={() => setSelectedInstallment(null)}
-                      className={!selectedInstallment ? styles.activeButton : ''}
-                    >
-                      همه اقساط
-                    </button>
-                    {Array.from(
-                      new Set(
-                        car.salesConditions
-                          .filter((condition) =>
-                            selectedFestival
-                              ? condition.salesFestival?.id === selectedFestival
-                              : true
-                          )
-                          .map((condition) => condition.totalInstallments)
-                      )
-                    ).map((months) => (
+                    <p> فیلتر کردن تعداد اقساط:</p>
+                    <div>
                       <button
-                        key={months}
-                        onClick={() => setSelectedInstallment(months)}
-                        className={selectedInstallment === months ? styles.activeButton : ''}
+                        onClick={() => setSelectedInstallment(null)}
+                        className={!selectedInstallment ? styles.activeButton : ''}
                       >
-                        {months} ماهه
+                        همه اقساط
                       </button>
-                    ))}
+                      {Array.from(
+                        new Set(
+                          car.salesConditions
+                            .filter((condition) =>
+                              selectedFestival
+                                ? condition.salesFestival?.id === selectedFestival
+                                : true
+                            )
+                            .map((condition) => condition.totalInstallments)
+                        )
+                      ).map((months) => (
+                        <button
+                          key={months}
+                          onClick={() => setSelectedInstallment(months)}
+                          className={selectedInstallment === months ? styles.activeButton : ''}
+                        >
+                          {months} ماهه
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
-                <Swiper pagination={pagination} modules={[Pagination]} className="mySwiper">
-                  <SwiperSlide>
-                    <div className={styles.salesConditions}>
-                      {filteredConditions(selectedFestival, selectedInstallment).map(
-                        (condition) => (
-                          <div key={condition.id} className={styles.salesBoxing}>
-                            <div className={styles.labelSales}>
-                              <h5>{condition.name}</h5>
-                            </div>
-                            <div className={styles.informationGrid}>
-                              <li>
-                                <span>پرداخت زمان ثبت‌نام</span>
-                                <Image src="/dots.png" width={700} height={700} alt="dots" />
-                                <span>
-                                  {condition.registrationPayment?.toLocaleString() || '-'}
-                                </span>
-                              </li>
-                              <li>
-                                <span>پرداخت یکماهه</span>
-                                <Image src="/dots.png" width={700} height={700} alt="dots" />
-                                <span>{condition.oneMonthPayment?.toLocaleString() || '-'}</span>
-                              </li>
-                              <li>
-                                <span>مبلغ اقساط ماهیانه</span>
-                                <Image src="/dots.png" width={700} height={700} alt="dots" />
-                                <span>{condition.monthlyInstallment?.toLocaleString() || '-'}</span>
-                              </li>
-                              <li>
-                                <span>قیمت نهایی</span>
-                                <Image src="/dots.png" width={700} height={700} alt="dots" />
-                                <span>{condition.finalPrice.toLocaleString()}</span>
-                              </li>
-                              <li>
-                                <span>موعد تحویل</span>
-                                <Image src="/dots.png" width={700} height={700} alt="dots" />
-                                <span>{condition.deliveryDate || 'مشخص نشده'} روز</span>
-                              </li>
-                            </div>
-                            <div className={styles.buttonsSales}>
-                              <button onClick={() => handleShopping(car.name)}>ثبت سفارش</button>
-                              <button onClick={() => handleShopping(car.name)}>
-                                افزودن به سبد خرید
-                              </button>
-                            </div>
-                            <h3>توضیحات تکمیلی</h3>
-                            <p>{condition.additionalInfo}</p>
+                <Swiper
+                  pagination={true}
+                  navigation={true}
+                  modules={[Pagination, Navigation]}
+                  className="mySwiper"
+                >
+                  <div className={styles.salesConditions}>
+                    {filteredConditions(selectedFestival, selectedInstallment).map((condition) => (
+                      <SwiperSlide key={condition.id}>
+                        <div className={styles.salesBoxing}>
+                          <div className={styles.labelSales}>
+                            <h5>{condition.name}</h5>
                           </div>
-                        )
-                      )}
-                    </div>
-                  </SwiperSlide>
+                          <div className={styles.informationGrid}>
+                            <li>
+                              <span>پرداخت زمان ثبت‌نام</span>
+                              <Image src="/dots.png" width={700} height={700} alt="dots" />
+                              <span>{condition.registrationPayment?.toLocaleString() || '-'}</span>
+                            </li>
+                            <li>
+                              <span>پرداخت یکماهه</span>
+                              <Image src="/dots.png" width={700} height={700} alt="dots" />
+                              <span>{condition.oneMonthPayment?.toLocaleString() || '-'}</span>
+                            </li>
+                            <li>
+                              <span>مبلغ اقساط ماهیانه</span>
+                              <Image src="/dots.png" width={700} height={700} alt="dots" />
+                              <span>{condition.monthlyInstallment?.toLocaleString() || '-'}</span>
+                            </li>
+                            <li>
+                              <span>قیمت نهایی</span>
+                              <Image src="/dots.png" width={700} height={700} alt="dots" />
+                              <span>{condition.finalPrice.toLocaleString()}</span>
+                            </li>
+                            <li>
+                              <span>موعد تحویل</span>
+                              <Image src="/dots.png" width={700} height={700} alt="dots" />
+                              <span>{condition.deliveryDate || 'مشخص نشده'} روز</span>
+                            </li>
+                          </div>
+                          <div className={styles.buttonsSales}>
+                            <button onClick={() => handleShopping(car.name)}>ثبت سفارش</button>
+                            <button onClick={() => handleShopping(car.name)}>
+                              افزودن به سبد خرید
+                            </button>
+                          </div>
+                          <h3>توضیحات تکمیلی</h3>
+                          <p>{condition.DitionalInfo}</p>
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </div>
                 </Swiper>
               </>
             )}
