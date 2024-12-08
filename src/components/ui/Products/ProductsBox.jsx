@@ -77,10 +77,9 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
           className="mySwiper"
         >
           {cardBoxes &&
-            cardBoxes.map((box) => (
-              <>
-                <SwiperSlide>
-                  <div key={box.id} className={styles.box}>
+            cardBoxes.map((box, index) => (
+                <SwiperSlide key={index}>
+                  <div className={styles.box}>
                     <div className={styles.colorContainer}>
                       <span className={styles.colors} />
                       <span className={styles.colors} />
@@ -120,7 +119,6 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
                     </div>
                   </div>
                 </SwiperSlide>
-              </>
             ))}
         </Swiper>
       </div>

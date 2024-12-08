@@ -65,10 +65,9 @@ export default function BlogBox({ title, subTitle, cardBoxes }) {
           className="mySwiper"
         >
           {cardBoxes &&
-            cardBoxes.map((box) => (
-              <>
-                <SwiperSlide>
-                  <div key={box.id} className={styles.box}>
+            cardBoxes.map((box, index) => (
+                <SwiperSlide key={index}>
+                  <div className={styles.box}>
                     <div className={styles.colorContainer}>
                       <span className={styles.tag} >{box.tag}</span>
                     </div>
@@ -100,7 +99,6 @@ export default function BlogBox({ title, subTitle, cardBoxes }) {
                     </div>
                   </div>
                 </SwiperSlide>
-              </>
             ))}
         </Swiper>
       </div>
