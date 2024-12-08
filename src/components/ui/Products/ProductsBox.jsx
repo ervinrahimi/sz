@@ -87,7 +87,7 @@ export default function ProductsBox({ title, subTitle, cardBoxes }) {
                     </div>
                     <Image
                       className={styles.image}
-                      src={box.imageUrl || ''} // لینک عکس خودرو
+                      src={box.imageUrl || '/cars/default.png'} // لینک عکس خودرو
                       width={1000}
                       height={1000}
                       alt={'car-image'}
