@@ -65,7 +65,7 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <ProductBigImage Dress={carImages[0] || '/default-car-image.webp'} />
+        <ProductBigImage address={carImages[0] || '/default-car-image.webp'} />
 
         <div className={styles.infoContainer}>
           <span className={styles.leftLine} />
