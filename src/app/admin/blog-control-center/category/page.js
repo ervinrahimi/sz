@@ -1,6 +1,6 @@
 // src/app/admin/card-box-sections/page.jsx
 
-import styles from '../page.module.css'
+import styles from '../../page.module.css'
 import prisma from '@/db/client'
 import CardBoxSectionsList from '@/components/admin/cardBoxSections/CardBoxSectionsList'
 import Link from 'next/link'
