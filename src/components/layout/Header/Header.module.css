@@ -263,6 +263,10 @@
 }
 
 @media (max-width: 1024px) {
+  .mainHeader {
+    padding: 1rem 2rem;
+  }
+
   .desktopNav {
     display: none;
   }
