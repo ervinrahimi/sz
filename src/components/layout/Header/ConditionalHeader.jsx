@@ -1,9 +1,7 @@
 'use client'
 
-import HeaderSticky from '@/components/layout/Header/HeaderSticky'
 import Header from '@/components/layout/Header/Header'
 import { usePathname } from 'next/navigation'
-import MainHeader from '@/components/layout/Header/MainHeader'
 
 export default function ConditionalHeader({ menuItems, user }) {
   const pathname = usePathname()
@@ -15,11 +13,10 @@ export default function ConditionalHeader({ menuItems, user }) {
     <>
       {isMainHeader ? (
         <>
-          <HeaderSticky menuItems={menuItems} user={user} />
           <Header menuItems={menuItems} user={user} />
         </>
       ) : (
-        <MainHeader menuItems={menuItems} user={user} />
+        <Header otherPages={true} user={user} />
       )}
     </>
   )

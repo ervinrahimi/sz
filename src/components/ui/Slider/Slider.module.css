@@ -6,7 +6,7 @@
   margin: 0 auto;
   direction: ltr;
   background-color: rgba(96, 35, 35, 0.324);
-  z-index: 0;
+  z-index: -1;
   font-family: var(--font-kahroba);
   font-variation-settings: 'wdth' 100, 'wght' 750, 'CNTR' 40;
   color: white;

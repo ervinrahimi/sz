@@ -1,440 +1,305 @@
-.container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: max-content;
-  display: block;
-  font-variation-settings: 'wdth' 98, 'wght' 600, 'DOTS' 1;
-  font-size: 13px;
-  letter-spacing: -0.35px;
-  color: rgba(255, 255, 255, 0.85);
-  z-index: 999;
+.headerWrapper {
+  font-family: var(--font-yekanbakh) !important;
+  margin-bottom: -150px;
 }
 
-.containerP {
-  position: absolute;
-  top: 7px;
-  left: 0;
-  width: 100%;
-  height: max-content;
-  display: block;
-  font-variation-settings: 'wdth' 98, 'wght' 600, 'DOTS' 1;
-  font-size: 13px;
-  letter-spacing: -0.35px;
-  color: rgba(255, 255, 255, 0.85);
-  z-index: 999;
+.headerWrapperP {
+  font-family: var(--font-yekanbakh) !important;
+  background-color: rgb(52, 52, 52);
+  box-shadow: 2px 9px 14px 0px rgba(2, 15, 36, 0.1);
+  margin-bottom: 40px;
 }
 
-.addressBarContainer {
-  width: 100%;
-  height: max-content;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.12);
-}
-
-.addressBar {
+.mainHeader {
   display: flex;
   justify-content: space-between;
-  padding: 16px 173px;
+  align-items: center;
+  padding: 1rem 5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  direction: rtl;
 }
 
-.headerMenu {
-  margin-top: 31px;
-  /* margin-top: 70px; */
-  padding: 0 173px;
-  display: flex;
-  justify-content: space-between;
-  font-variation-settings: 'wdth' 98, 'wght' 400, 'DOTS' 1;
-  font-size: 14px;
-  letter-spacing: -0px;
-}
-
-.rightSideMenu,
-.leftSideMenu {
+.logoNav {
   display: flex;
   align-items: center;
+  gap: 2rem;
 }
 
 .logo {
-  display: block;
-  cursor: pointer;
-  position: relative;
-  top: -5px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
 }
 
-.logo:hover path {
-  fill: #cef0ff;
-}
-
-.headerMenu ul {
-  list-style: none;
+.desktopNav {
   display: flex;
-  justify-content: space-between;
-  margin-right: 36px;
-  width: max-content;
-  height: max-content;
-}
-
-.headerMenu ul li {
-  position: relative;
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-left: 18px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 0.5rem;
+  border-radius: 2rem;
+  gap: 0.5rem;
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
+}
+
+.navItem {
+  color: white;
+  text-decoration: none;
+  padding: 0.3rem 1rem;
+  border-radius: 1.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.navItem:hover,
+.navItem.active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.navDivider {
+  width: 1px;
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.3);
+  margin: 0 0.5rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.iconGroup {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 1.5rem;
+  padding: 0.25rem;
+  height: 40px;
+}
+
+.iconButton {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border: none;
   cursor: pointer;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
 }
 
-.headerMenu ul li:hover {
-  color: #cbe3eb;
+.iconButton:hover {
+  color: white;
 }
 
-.headerMenu ul li svg {
-  position: relative;
-  display: block;
-  color: yellow;
-  margin-right: 10px;
-  bottom: 1px;
+.iconDivider {
+  width: 1px;
+  height: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.3);
+  margin: 0 0.25rem;
 }
 
-.menuArrowIcon path {
-  fill: #ffffff;
+.textIconButton {
+  font-family: var(--font-yekanbakh) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+  font-size: 15.5px;
+  background: rgba(255, 255, 255, 0.8);
+  color: #098f2f;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, width 0.3s ease, border-radius 0.3s ease;
+  height: 40px;
 }
 
-.headerMenu ul li:hover svg path {
-  fill: #cbe3eb;
+.textIconButton:hover {
+  background-color: white;
+  color: #098f2f;
 }
 
-.headerMenu ul li:hover svg {
-  transform: rotate(180deg);
+.iconButton,
+.textIconButton {
+  transition: all 0.3s ease;
 }
 
-.active {
-  color: #d7dfff;
-  font-variation-settings: 'wdth' 98, 'wght' 800, 'DOTS' 1;
+.consultationButton {
+  border-radius: 1.5rem;
 }
 
-.active path {
-  fill: #d7dfff;
+.consultationButton .buttonText {
+  padding-right: 0.5rem;
+}
+
+.actionButton {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .menuButton {
-  position: relative;
-  width: 47px;
-  height: 47px;
-  border-radius: 50px;
+  display: none;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: white;
   border: none;
-  margin-right: 10px;
   cursor: pointer;
-  background: unset;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-}
-
-.menuButton:hover {
-  /* background: rgb(170, 184, 192); */
-  background: #e3eff5;
-}
-
-.menuButton svg {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.menuButton:hover svg path {
-  stroke: #050b29;
-}
-
-.menuLinkButton {
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   display: flex;
-  padding: 13px 34px;
-  border: 2px solid #a6e4a6;
-  border-radius: 50px;
-  margin-right: 10px;
-  color: #a6e4a6;
-  cursor: pointer;
-  font-variation-settings: 'wdth' 98, 'wght' 700, 'DOTS' 1;
+  align-items: center;
+  justify-content: center;
 }
 
-.menuLinkButton:hover {
-  background: #a6e4a6;
-  color: black;
-}
-
-.phoneIcon {
-  margin-right: 10px;
-}
-
-.menuLinkButton:hover .phoneIcon {
-  filter: brightness(0);
-}
-
-/* STICKY MENU CODES */
-
-.stickyContainer {
+.mobileMenuOverlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: max-content;
-  background: rgba(12, 14, 20, 0.7);
-  z-index: 999999;
-  backdrop-filter: blur(20px);
-  padding: 15px 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.stickyContainer .container {
-  position: relative;
+.mobileMenuOverlayActive {
+  opacity: 1;
+  visibility: visible;
 }
 
-.stickyContainer .headerMenu {
-  margin: 0;
+.mobileMenuOverlayAnimating {
+  visibility: visible;
 }
 
-.hidden {
-  transform: translateY(-100%);
-}
-.visible {
-  transform: translateY(0);
-}
-
-@media (max-width: 1600px) {
-  .container {
-    font-size: 13px;
-  }
-
-  .containerP {
-    font-size: 13px;
-    letter-spacing: -0.35px;
-    z-index: 999;
-  }
-
-  .addressBar {
-    padding: 16px 20px;
-  }
-
-  .headerMenu {
-    margin-top: 31px;
-    padding: 0 20px;
-    font-size: 14px;
-    letter-spacing: -0px;
-  }
-}
-
-@media (max-width: 1200px) {
-  .container {
-    font-size: 13px;
-  }
-
-  .containerP {
-    font-size: 13px;
-    letter-spacing: -0.35px;
-    z-index: 999;
-  }
-
-  .addressBar {
-    padding: 16px 20px;
-  }
-
-  .headerMenu {
-    margin-top: 31px;
-    padding: 0 20px;
-    font-size: 14px;
-    letter-spacing: -0px;
-  }
-
-  .headerMenu ul li {
-    margin-left: 10px;
-  }
-  .menuLinkButton {
-    padding: 13px 18px;
-  }
-}
-
-@media (max-width: 1080px) {
-  .container {
-    font-size: 13px;
-  }
-
-  .containerP {
-    font-size: 13px;
-    letter-spacing: -0.35px;
-    z-index: 999;
-  }
-
-  .addressBar {
-    padding: 16px 20px;
-  }
-
-  .headerMenu {
-    margin-top: 31px;
-    padding: 0 20px;
-    font-size: 14px;
-    letter-spacing: -0px;
-  }
-  .headerMenu ul {
-    margin-right: 0;
-  }
-
-  .headerMenu ul li {
-    margin-left: 10px;
-    display: none;
-  }
-  .menuLinkButton {
-    padding: 13px 18px;
-  }
-
-  .menuLinkButton {
-    margin-right: 6px;
-  }
-
-  .menuButton {
-    margin-right: 6px;
-  }
-
-  .menuLinkButton {
-    padding: 13px 13px;
-  }
-
-  .menuLinkButton svg {
-    margin: 0;
-  }
-
-  .menuIconButton {
-    display: flex;
-    padding: 16px 16px;
-    border: 2px solid #b0b0b0;
-    border-radius: 50px;
-    margin-right: 10px;
-    cursor: pointer;
-    background: none;
-  }
-}
-
-@media (max-width: 560px) {
-  .addressBar {
-    display: none;
-  }
-}
-
-@media (max-width: 400px) {
-  .addressBar {
-    display: none;
-  }
-}
-
-/* HamburgerMenu.module.css */
-.hamburger {
-  font-size: 24px;
-  cursor: pointer;
-  background: none;
-  border: none;
-  position: fixed;
-  top: 20px;
-  left: 20px; /* موقعیت دکمه همبرگری در سمت چپ */
-  z-index: 10;
-}
-
-.menu {
-  position: fixed;
-  top: 0;
-  left: -100%; /* شروع منو از خارج از صفحه سمت چپ */
+.mobileMenuContent {
   width: 100%;
   height: 100%;
-  background-color: rgba(17, 20, 29, 0.75);
-  color: #fff;
-  transition: left 0.25s ease; /* انیمیشن حرکت از چپ به راست */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 99999999;
-  backdrop-filter: blur(10px);
+  position: relative;
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
 }
 
-.menu.open {
-  left: 0; /* در حالت باز، منو به داخل صفحه وارد می‌شود */
+.mobileMenuContentActive {
+  transform: translateY(0);
 }
 
-.close {
-  font-size: 24px;
-  background: none;
-  border: 2px solid white;
-  color: #fff;
+.closeButton {
   position: absolute;
-  top: 25px;
-  left: 25px; /* دکمه بستن در سمت چپ منو قرار می‌گیرد */
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 2rem;
   cursor: pointer;
-  width: 43px;
-  height: 43px;
-  border-radius: 100px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
 }
 
-.menu ul {
-  list-style: none;
-  padding: 0;
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
-.menu ul li {
-  margin: 15px 0;
-  text-align: center;
-  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 1;
-}
-
-.menu ul li a {
+.mobileNavItem {
+  font-variation-settings: 'wdth' 100, 'wght' 400, 'DOTS' 0;
+  color: white;
   text-decoration: none;
-  color: #fff;
-  font-size: 18px;
-}
-
-/* استایل برای زیرمنو */
-.subMenu {
-  list-style: none;
-  padding-left: 20px;
-  display: none !important; /* زیرمنوها مخفی هستند */
-}
-
-.headerMenu ul li:hover > .subMenu {
-  width: 100%;
-  padding-top: 50px;
-  position: absolute;
-  display: flex !important; /* نمایش زیرمنوها هنگام هاور */
-  align-items: center;
-  flex-direction: column;
-}
-
-.headerMenu ul li:hover > .subMenu > ul {
-  background-color: rgba(0, 0, 0, 0.479);
-  padding: 10px 15px;
+  font-size: 1.2rem;
+  padding: 0.6rem 1.5rem;
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  transition: background-color 0.3s ease;
+  width: 300px;
   text-align: center;
-  border-radius: 10px;
-  position: absolute;
-  display: flex !important; /* نمایش زیرمنوها هنگام هاور */
-  align-items: center;
-  flex-direction: column;
-
-    /* تنظیم مرکز عمودی */
-    left: 50%; /* موقعیت عمودی را در وسط قرار می‌دهد */
-    transform: translateX(-50%); /* به اندازه نصف ارتفاع زیرمنو بالا می‌برد تا دقیقاً وسط قرار بگیرد */
+  backdrop-filter: blur(5px);
 }
 
-
-.subMenu > ul > li {
-  width: 100%;
-  padding: 5px 10px;
-  color: rgba(255, 255, 255, 0.7); /* رنگ زیرمنوها */
+.mobileNavItem:hover,
+.mobileNavItem.active {
+  background: rgba(255, 255, 255, 0.3);
 }
 
-.subMenu > ul > li:hover {
-  color: #a6e4a6; /* رنگ زیرمنوها هنگام هاور */
+.actions svg {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
-/* زیرمنو در حالت موبایل */
-@media (max-width: 1080px) {
-  .subMenu {
-    list-style: none;
-    padding-left: 20px;
-    display: none !important; /* زیرمنوها مخفی هستند */
+@media (max-width: 1024px) {
+  .desktopNav {
+    display: none;
   }
+
+  .menuButton {
+    display: flex;
+  }
+
+  .textIconButton {
+    padding: 0.5rem;
+    width: 40px;
+    justify-content: center;
+  }
+  
+  .buttonText {
+    display: none;
+  }
+
+  .consultationButton {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .consultationButton .buttonText {
+    display: none;
+  }
+}
+
+@media (min-width: 1025px) {
+  .menuButton {
+    display: none;
+  }
+}
+
+.buttonText {
+  display: inline;
 }

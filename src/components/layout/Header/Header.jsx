@@ -1,235 +1,126 @@
-// components/ClickableDiv.js
-'use client'
+'use client' // برای استفاده از usePathname در App Router ضروری است
 
+import {
+  RiShoppingCart2Line,
+  RiUser3Line,
+  RiCustomerService2Line,
+  RiMenu3Line,
+  RiCloseLine,
+} from 'react-icons/ri'
 import React, { useState, useEffect } from 'react'
 import styles from './Header.module.css'
+import TopHeader from './TopHeader'
 import { SoltanZadeLogoSVG } from '@/assets/svgs/Logos/Logos'
-import {
-  MenuArrowIcon,
-  MenuCartIcon,
-  MenuIcon,
-  MenuPhoneIcon,
-  MenuProfileIcon,
-  MenuWhatsappIcon,
-} from '@/assets/svgs/Icons/Icons'
-import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
-import Link from 'next/link'
-import toast from 'react-hot-toast'
-import { ROUTES } from '@/constants/routes'
 
-export default function Header({ product, menuItems, user }) {
-  const [showContent, setShowContent] = useState(true)
-  const [isOpen, setIsOpen] = useState(false)
-  const [toastCount, setToastCount] = useState(0)
-  const [canShowToast, setCanShowToast] = useState(true)
+export default function Header({otherPages}) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isAnimating, setIsAnimating] = useState(false)
+  
+  const pathname = usePathname() // مسیر فعلی را دریافت می‌کند
+
+  const navItems = [
+    ['خانه', '/'],
+    ['قطعات یدکی', '/spare-parts'],
+    ['وبلاگ', '/blog'],
+    ['شعب', '/branches'],
+    ['طرح های فروش', '/sales-plan'],
+    ['کارشناسان', '/experts'],
+    ['همراهی بعد از فروش', '/support-after-sale'],
+    ['استخدام', '/employment'],
+    ['همراهان', '/companions']
+  ]
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen)
+    setIsMenuOpen(!isMenuOpen)
+    setIsAnimating(true)
   }
 
   useEffect(() => {
-    // تابع برای بررسی عرض صفحه
-    const handleResize = () => {
-      if (window.innerWidth < 1080) {
-        setShowContent(false)
-      } else {
-        setShowContent(true)
-      }
-    }
-
-    // بررسی اولیه هنگام بارگذاری صفحه
-    handleResize()
-
-    // ثبت رویداد تغییر اندازه صفحه
-    window.addEventListener('resize', handleResize)
-
-    // پاکسازی رویداد هنگام خروج کامپوننت
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (toastCount >= 5) {
-      setCanShowToast(false)
-
-      const timer = setTimeout(() => {
-        setToastCount(0)
-        setCanShowToast(true)
-      }, 5000)
-
+    if (isAnimating) {
+      const timer = setTimeout(() => setIsAnimating(false), 300)
       return () => clearTimeout(timer)
     }
-  }, [toastCount])
-
-  const renderSubMenus = (subMenus) => {
-    return (
-      <ul className={styles.subMenu}>
-        {subMenus &&
-          subMenus.map((subMenu) => (
-            <li key={subMenu.id} className={isActive(subMenu.link) ? styles.active : ''}>
-              <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
-            </li>
-          ))}
-      </ul>
-    )
-  }
-
-  const router = useRouter()
-  const pathname = usePathname()
-
-  const handleClick = () => {
-    router.push('/'), { scroll: false }
-  }
-
-  const handleLogin = () => {
-    if (user) {
-      if (user.role > 0) {
-        return router.push('/admin'), { scroll: false }
-      }
-      return router.push('/Dashboard'), { scroll: false }
-    } else {
-      return router.push(ROUTES.AUTH.MAIN), { scroll: false }
-    }
-  }
-
-  const handleShopClick = () => {
-    toast('در حال حاضر نمیتوانید این عملیات را انجام دهید')
-  }
-
-  const isActive = (path) => {
-    return pathname === path
-  }
-
-  const handleMenuClick = (isLastMenu) => {
-    if (!isLastMenu) {
-      if (toastCount < 5) {
-        toast('این منو در حال توسعه است!')
-        setToastCount(toastCount + 1) // افزایش تعداد نمایش Toast
-      } else {
-        console.log('حداکثر تعداد Toast نمایش داده شده است.')
-      }
-    }
-  }
+  }, [isAnimating])
 
   return (
-    <>
-      {/* منوی کناری */}
-      <div className={`${styles.menu} ${isOpen ? styles.open : ''}`}>
-        <button className={styles.close} onClick={toggleMenu}>
-          ×
-        </button>
-        <ul>
-          {menuItems &&
-            menuItems.map(
-              (menu) =>
-                menu.isActive && (
-                  <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
-                    <Link href={menu.link || '#'}>{menu.title}</Link>
-                    {/* اگر زیرمنوها وجود داشته باشند، آنها را رندر کن */}
-                    {menu.subMenus && menu.subMenus.length > 0 && (
-                      <>
-                        <MenuArrowIcon
-                          className={isActive(menu.link) ? styles.active : styles.menuArrowIcon}
-                        />
-                        <div className={styles.subMenu}>
-                          <ul>
-                            {menu.subMenus.map((subMenu) => (
-                              <li
-                                key={subMenu.id}
-                                className={isActive(subMenu.link) ? styles.active : ''}
-                              >
-                                <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </>
-                    )}
-                  </li>
-                )
-            )}
-        </ul>
-      </div>
-
-      <div className={product ? styles.containerP : styles.container}>
-        <div className={styles.addressBarContainer}>
-          <div className={styles.addressBar}>
-            <span>رسالت شمالی، روبروی داروخانه رسالت، برج ساعت</span>
-            <span>07633330003  -  02191694314</span>
+    <header className={otherPages ? styles.headerWrapperP :  styles.headerWrapper}>
+      <TopHeader />
+      <div className={`${styles.mainHeader} ${styles.sticky}`}>
+        <div className={styles.logoNav}>
+          <div className={styles.logo}>
+            <SoltanZadeLogoSVG />
           </div>
+          <nav className={styles.desktopNav}>
+            {navItems.map((item, index) => {
+              const isActive = pathname === item[1]
+              return (
+                <React.Fragment key={index}>
+                  <a
+                    href={item[1]}
+                    className={`${styles.navItem} ${isActive ? styles.active : ''}`}
+                  >
+                    {item[0]}
+                  </a>
+                  {index === 0 && <div className={styles.navDivider}></div>}
+                </React.Fragment>
+              )
+            })}
+          </nav>
         </div>
-        <div className={styles.headerMenu}>
-          <div className={styles.rightSideMenu}>
-            <SoltanZadeLogoSVG onClick={handleClick} className={styles.logo} />
-            <ul>
-              {menuItems.map((menu) => {
-                if (menu.isActive) {
-                  return (
-                    <li key={menu.id} className={isActive(menu.link) ? styles.active : ''}>
-                      <Link href={menu.link || '#'}>{menu.title}</Link>
-                      {/* اگر زیرمنوها وجود داشته باشند، آنها را رندر کن */}
-                      {menu.subMenus && menu.subMenus.length > 0 && (
-                        <>
-                          <MenuArrowIcon
-                            className={isActive(menu.link) ? styles.active : styles.menuArrowIcon}
-                          />
-                          <div className={styles.subMenu}>
-                            <ul>
-                              {menu.subMenus.map((subMenu) => (
-                                <li
-                                  key={subMenu.id}
-                                  className={isActive(subMenu.link) ? styles.active : ''}
-                                >
-                                  <Link href={subMenu.link || '#'}>{subMenu.title}</Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </>
-                      )}
-                    </li>
-                  )
-                }
-                return null
-              })}
-            </ul>
+        <div className={styles.actions}>
+          <div className={styles.iconGroup}>
+            <button className={styles.iconButton} aria-label="حساب کاربری">
+              <RiUser3Line />
+            </button>
+            <div className={styles.iconDivider}></div>
+            <button className={styles.iconButton} aria-label="سبد خرید">
+              <RiShoppingCart2Line />
+            </button>
           </div>
-          <div className={styles.leftSideMenu}>
-            {/* <button className={styles.menuButton} onClick={handleShopClick}>
-              <MenuSearchIcon />
-            </button> */}
-            <button className={styles.menuButton} onClick={handleShopClick}>
-              <MenuCartIcon />
-            </button>
-
-            <button className={styles.menuButton} onClick={handleLogin}>
-              <MenuProfileIcon />
-            </button>
-
-            <button className={styles.menuButton} onClick={handleLogin}>
-              <MenuWhatsappIcon />
-            </button>
-
-            {!showContent ? (
-              <Link href={'https://www.google.com/'} className={styles.menuLinkButton}>
-                <MenuPhoneIcon className={styles.phoneIcon} />
-              </Link>
-            ) : (
-              <Link href={'tel:09035434627'} className={styles.menuLinkButton}>
-                مشاوره
-                <MenuPhoneIcon className={styles.phoneIcon} />
-              </Link>
-            )}
-            {!showContent ? (
-              <button className={styles.menuIconButton} onClick={toggleMenu}>
-                <MenuIcon className={styles.menuIcon} />
-              </button>
-            ) : null}
-          </div>
+          <button className={`${styles.textIconButton} ${styles.consultationButton}`}>
+            <RiCustomerService2Line />
+            <span className={styles.buttonText}>مشاوره</span>
+          </button>
+          <button
+            className={`${styles.iconButton} ${styles.menuButton}`}
+            onClick={toggleMenu}
+            aria-label="منو"
+          >
+            <RiMenu3Line />
+          </button>
         </div>
       </div>
-    </>
+      <div
+        className={`${styles.mobileMenuOverlay} ${
+          isMenuOpen ? styles.mobileMenuOverlayActive : ''
+        } ${isAnimating ? styles.mobileMenuOverlayAnimating : ''}`}
+      >
+        <div
+          className={`${styles.mobileMenuContent} ${
+            isMenuOpen ? styles.mobileMenuContentActive : ''
+          }`}
+        >
+          <button className={styles.closeButton} onClick={toggleMenu}>
+            <RiCloseLine />
+          </button>
+          <nav className={styles.mobileNav}>
+            {navItems.map((item, index) => {
+              const isActive = pathname === item[1]
+              return (
+                <a
+                  key={index}
+                  href={item[1]}
+                  className={`${styles.mobileNavItem} ${isActive ? styles.active : ''}`}
+                  onClick={toggleMenu}
+                >
+                  {item[0]}
+                </a>
+              )
+            })}
+          </nav>
+        </div>
+      </div>
+    </header>
   )
 }
