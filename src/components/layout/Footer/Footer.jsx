@@ -113,7 +113,7 @@ export default function Footer() {
           </p>
           <div className={styles.socialLinks}>
             <span>تلگرام</span> ·<a href="https://www.instagram.com/fardakhodro/">اینستاگرام</a> ·
-            <span>واتساپ</span> ·<span>یوتیوب</span>
+            <span >واتساپ</span> ·<span>یوتیوب</span>
           </div>
         </div>
       </footer>

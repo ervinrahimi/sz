@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f8f9ff;
+  font-family: var(--font-yekanbakh) !important;
+  font-variation-settings: 'wdth' 100, 'wght' 400, 'DOTS' 0;
+  direction: rtl;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  gap: 1px;
+  background-color: #e5e7eb;
+}
+

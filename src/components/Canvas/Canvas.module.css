@@ -1,0 +1,132 @@
+.canvas {
+  flex: 1;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-yekanbakh) !important;
+  direction: rtl;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.fieldWrapper {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.field {
+  padding: 1rem;
+  border: 1px dashed #e5e7eb;
+  border-radius: 0.375rem;
+  cursor: move;
+  position: relative;
+}
+
+.field:hover {
+  border-color: #6366f1;
+}
+
+.fieldActions {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.input, .textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  text-align: right;
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.deleteButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: none;
+  border-radius: 50%;
+  color: #ef4444;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.deleteButton:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.submitButtonWrapper {
+  padding: 1rem 0rem;
+  margin-top: 1rem;
+}
+
+.submitButton {
+  width: 100%;
+  margin-top: 0;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.375rem;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.submitButton:hover {
+  opacity: 0.9;
+}
+
+.dropZone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  border: 2px dashed #e5e7eb;
+  border-radius: 0.375rem;
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+.dropZone svg {
+  margin-bottom: 1rem;
+}
+
+.formTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+

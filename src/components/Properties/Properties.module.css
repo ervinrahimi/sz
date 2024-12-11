@@ -1,0 +1,83 @@
+.properties {
+  width: 280px;
+  background-color: white;
+  border-left: 1px solid #e5e7eb;
+  padding: 1rem;
+}
+
+.empty {
+  color: #6b7280;
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.875rem;
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+
+.alignmentTools {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.alignButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.saveButton {
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  margin-top: 1rem;
+  height: 38px; /* Match the height of input fields */
+}
+
+.saveButton:hover {
+  opacity: 0.9;
+}
+
+.fullWidth {
+  width: 100%;
+  display: block;
+}
+
