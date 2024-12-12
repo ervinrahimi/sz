@@ -6,9 +6,9 @@ import styles from './legal-contact.module.css'
 import { useState, useEffect } from 'react'
 
 const images = [
-  "https://img.freepik.com/free-photo/lifestyle-people-emotions-casual-concept-confident-nice-smiling-asian-woman-cross-arms-chest-confident-ready-help-listening-coworkers-taking-part-conversation_1258-59335.jpg?t=st=1733931782~exp=1733935382~hmac=ecaf5c797b04951251dee62fe2dd298e9b23b40afa21a6ffb47b16ae9345b8aa&w=1380",
-  "https://img.freepik.com/free-photo/lifestyle-people-emotions-casual-concept-touched-tender-smiling-asian-woman-gladly-receive-praises-hold-hands-heart-grinning-thankful-appreciate-compliment_1258-59340.jpg?t=st=1733935437~exp=1733939037~hmac=40f51812f9a3e944df7e8bac65fbf2b2cc2a40e852f73d42ac5403144e7634ee&w=1380",
-  "https://img.freepik.com/free-photo/lifestyle-people-emotions-casual-concept-thoughtful-stylish-young-woman-smiling-pleased-dreaming-imaging-perfect-plan-have-interesting-idea-thinking-looking-upper-left-corner_1258-59348.jpg?t=st=1733935475~exp=1733939075~hmac=19ed002a4bb41d1d98e78d0edc8fff44737c7602d2472335f913cc9af0a4c518&w=1380"
+  "https://images.netdirector.co.uk/gforces-auto/image/upload/w_343,h_257,dpr_2.0,q_auto,c_fill,f_auto,fl_lossy/auto-client/7e7647bedb4566cf14afe1bf58bc257a/website_thumbnail_2_mobile.jpg",
+  "https://automobilefarsi.com/images/aks/1403/08/AutomobileFa-Suba-M4-1-14030828-600400.webp",
+  "https://hips.hearstapps.com/autoweek/assets/mg5.jpg"
 ];
 
 export default function LegalContact() {
@@ -22,7 +22,7 @@ export default function LegalContact() {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
         setOpacity(1);
       }, 300);
-    }, 3000);
+    }, 6000);
 
     return () => clearInterval(interval);
   }, []);

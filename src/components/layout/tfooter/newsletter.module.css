@@ -14,13 +14,17 @@
 }
 
 .title {
-  font-size: 2rem;
+  font-family: var(--font-yekanbakh) !important;
+  font-variation-settings: 'wdth' 100, 'wght' 750, 'DOTS' 0;
+  font-size: 1.5rem;
   font-weight: 600;
   margin: 0 0 0.5rem 0;
   color: #000;
 }
 
 .description {
+  font-family: var(--font-yekanbakh) !important;
+  font-variation-settings: 'wdth' 100, 'wght' 450, 'DOTS' 0;
   font-size: 1rem;
   color: #666;
   margin: 0 0 1.5rem 0;

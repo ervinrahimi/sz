@@ -24,7 +24,8 @@
 }
 
 .sectionTitle {
-  font-size: 0.875rem;
+  font-variation-settings: 'wdth' 100, 'wght' 650, 'DOTS' 0;
+  font-size: 1em;
   font-weight: 600;
   color: #4b5563;
   margin-bottom: 1rem;
@@ -41,10 +42,12 @@
   text-decoration: none;
   line-height: 2;
   transition: color 0.2s ease;
+  font-family: var(--font-yekanbakh) !important;
+  font-variation-settings: 'wdth' 100, 'wght' 500, 'DOTS' 0;
 }
 
 .link:hover {
-  color: #111827;
+  color: #24272e;
 }
 
 .bottomBar {
@@ -63,8 +66,12 @@
   align-items: center;
   gap: 0.5rem;
   font-weight: 600;
-  color: #111827;
 }
+
+.logo path{
+  fill: #1e2c4a;
+}
+
 
 .copyright {
   color: #6b7280;

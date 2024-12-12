@@ -21,6 +21,8 @@
 }
 
 .link {
+  font-family: var(--font-yekanbakh) !important;
+  font-variation-settings: 'wdth' 100, 'wght' 450, 'DOTS' 0;
   color: #666;
   text-decoration: none;
   font-size: 0.875rem;
@@ -37,6 +39,8 @@
 }
 
 .copyright {
+  font-family: var(--font-yekanbakh) !important;
+  font-variation-settings: 'wdth' 100, 'wght' 450, 'DOTS' 0;
   color: #666;
   font-size: 0.875rem;
 }

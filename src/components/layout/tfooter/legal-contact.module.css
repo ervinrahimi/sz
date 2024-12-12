@@ -24,19 +24,23 @@
 }
 
 .title {
-  font-size: 2.5rem;
+  font-variation-settings: 'wdth' 100, 'wght' 750, 'DOTS' 0;
+  font-size: 2rem;
   font-weight: 600;
   margin: 0 0 1rem 0;
   line-height: 1.2;
 }
 
 .subtitle {
+  font-variation-settings: 'wdth' 100, 'wght' 450, 'DOTS' 0;
   font-size: 1.1rem;
   margin: 0 0 2rem 0;
   opacity: 0.9;
 }
 
 .buttons {
+  font-variation-settings: 'wdth' 100, 'wght' 450, 'DOTS' 0;
+  font-family: var(--font-yekanbakh) !important;
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
