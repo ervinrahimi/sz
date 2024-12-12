@@ -110,6 +110,10 @@
     width: 100%;
   }
 
+  .subscribe__input-group {
+    width: 100%;
+  }
+
   .subscribe__button {
     width: 100%;
     margin-top: 1rem;
