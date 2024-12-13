@@ -1,8 +1,11 @@
-import BlogList from '@/components/ui/blog/blog-list/BlogList'
-import React from 'react'
+import BestBlog from "@/components/ui/tblog/BestBlog";
+import BlogSlider from "@/components/ui/tblog/BlogSlider";
 
-export default function page() {
+export default function BlogPage() {
   return (
-    <BlogList />
+    <main>
+      <BlogSlider />
+      <BestBlog />
+    </main>
   )
 }

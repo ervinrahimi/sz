@@ -1,16 +1,8 @@
-import BestBlog from "@/components/ui/tblog/BestBlog";
-import BlogSlider from "@/components/ui/tblog/BlogSlider";
-import FeaturedBlog from "@/components/ui/tblog/FeaturedBlog";
-import NewsBlog from "@/components/ui/tblog/NewsBlog";
-import Subscribe from "@/components/ui/tblog/Subscribe";
+import BlogList from '@/components/ui/blog/blog-list/BlogList'
+import React from 'react'
 
-export default function BlogPage() {
+export default function page() {
   return (
-    <main>
-      <BlogSlider />
-      <NewsBlog />
-      <BestBlog />
-      <FeaturedBlog />
-    </main>
+    <BlogList />
   )
 }
