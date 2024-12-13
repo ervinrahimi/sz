@@ -1,0 +1,43 @@
+.sliderContainer {
+  width: 100%;
+  padding: 20px 0;
+}
+
+.swiperWrapper {
+  padding: 20px 10px;
+  margin-bottom: 10px;
+}
+
+.swiper {
+  padding-bottom: 55px;
+}
+
+.swiper :global(.swiper-pagination) {
+  bottom: 25px;
+}
+
+.swiper :global(.swiper-pagination-bullet) {
+  background-color: #333;
+  opacity: 0.5;
+  width: 12px;
+  height: 12px;
+}
+
+.swiper :global(.swiper-pagination-bullet-active) {
+  background-color: #333;
+  opacity: 1;
+  width: 13px;
+  height: 13px;
+}
+
+@media (max-width: 768px) {
+  .swiperWrapper {
+    padding: 10px 5px;
+    margin-bottom: 30px;
+  }
+
+  .swiper {
+    padding-bottom: 30px;
+  }
+}
+
