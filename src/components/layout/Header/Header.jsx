@@ -12,11 +12,12 @@ import styles from './Header.module.css'
 import TopHeader from './TopHeader'
 import { SoltanZadeLogoSVG } from '@/assets/svgs/Logos/Logos'
 import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 
-export default function Header({otherPages}) {
+export default function Header({ otherPages }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
-  
+
   const pathname = usePathname() // مسیر فعلی را دریافت می‌کند
 
   const navItems = [
@@ -28,7 +29,7 @@ export default function Header({otherPages}) {
     ['کارشناسان', '/experts'],
     ['همراهی بعد از فروش', '/support-after-sale'],
     ['استخدام', '/employment'],
-    ['همراهان', '/companions']
+    ['همراهان', '/companions'],
   ]
 
   const toggleMenu = () => {
@@ -44,12 +45,14 @@ export default function Header({otherPages}) {
   }, [isAnimating])
 
   return (
-    <header className={otherPages ? styles.headerWrapperP :  styles.headerWrapper}>
+    <header className={otherPages ? styles.headerWrapperP : styles.headerWrapper}>
       <TopHeader />
       <div className={`${styles.mainHeader} ${styles.sticky}`}>
         <div className={styles.logoNav}>
           <div className={styles.logo}>
-            <SoltanZadeLogoSVG />
+            <Link href="/">
+              <SoltanZadeLogoSVG />
+            </Link>
           </div>
           <nav className={styles.desktopNav}>
             {navItems.map((item, index) => {
@@ -70,13 +73,17 @@ export default function Header({otherPages}) {
         </div>
         <div className={styles.actions}>
           <div className={styles.iconGroup}>
-            <button className={styles.iconButton} aria-label="حساب کاربری">
-              <RiUser3Line />
-            </button>
+            <Link href="/Dashboard">
+              <button className={styles.iconButton} aria-label="حساب کاربری">
+                <RiUser3Line />
+              </button>
+            </Link>
             <div className={styles.iconDivider}></div>
-            <button className={styles.iconButton} aria-label="سبد خرید">
-              <RiShoppingCart2Line />
-            </button>
+            <Link href="/">
+              <button className={styles.iconButton} aria-label="سبد خرید">
+                <RiShoppingCart2Line />
+              </button>
+            </Link>
           </div>
           <button className={`${styles.textIconButton} ${styles.consultationButton}`}>
             <RiCustomerService2Line />

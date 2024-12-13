@@ -7,7 +7,7 @@ export default function ConditionalHeader({ menuItems, user }) {
   const pathname = usePathname()
 
   // بررسی اگر مسیر در صفحات اصلی است یا از صفحات مرتبط با "/cars" است
-  const isMainHeader = pathname === '/' || pathname.startsWith('/cars')
+  const isMainHeader = pathname === '/' || pathname.startsWith('/cars') 
 
   return (
     <>

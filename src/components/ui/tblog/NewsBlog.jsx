@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
 import { ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react'
 import 'swiper/css'
-import './NewsBlog.css'
+import styles from './NewsBlog.module.css'
 
 export default function NewsBlog() {
   const swiperRef = useRef(null);
@@ -76,9 +76,9 @@ export default function NewsBlog() {
   };
 
   return (
-    <section className="news-blog">
-      <h2 className="news-blog__title">اخبار خودرو</h2>
-      <div className="news-blog__slider-container">
+    <section className={styles.newsBlog}>
+      <h2 className={styles.newsBlogTitle}>اخبار خودرو</h2>
+      <div className={styles.newsBlogSliderContainer}>
         <Swiper
           ref={swiperRef}
           modules={[Navigation]}
@@ -99,64 +99,32 @@ export default function NewsBlog() {
               spaceBetween: 20,
             },
           }}
-          className="news-blog__swiper news-blog__swiper--equal-height"
+          className={`${styles.newsBlogSwiper} ${styles.newsBlogSwiperEqualHeight}`}
         >
           {carNews.map((news) => (
-            <SwiperSlide key={news.id} className="news-blog__slide">
-              <article className="news-blog__card" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                <div className="news-blog__image-container">
+            <SwiperSlide key={news.id} className={styles.newsBlogSlide}>
+              <article className={`${styles.newsBlogCard} ${styles.newsBlogCardWrapper}`}>
+                <div className={styles.newsBlogImageContainer}>
                   <img 
                     src={news.image} 
                     alt={news.title}
-                    className="news-blog__image"
+                    className={styles.newsBlogImage}
                   />
                 </div>
-                <div className="news-blog__content" style={{ 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  flexGrow: 1, 
-                  paddingBottom: '20px',
-                  minHeight: '200px',
-                  maxHeight: '300px',
-                  overflow: 'hidden'
-                }}>
-                  <h3 className="news-blog__card-title" style={{ 
-                    marginBottom: '12px',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    display: '-webkit-box',
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: 'vertical'
-                  }}>{news.title}</h3>
-                  <div className="news-blog__meta" style={{ 
-                    marginBottom: '8px',
-                    fontSize: '0.9em'
-                  }}>
+                <div className={styles.newsBlogContent}>
+                  <h3 className={styles.newsBlogCardTitle}>{news.title}</h3>
+                  <div className={styles.newsBlogMeta}>
                     <span>{news.date}</span>
-                    <span className="news-blog__separator">•</span>
+                    <span className={styles.newsBlogSeparator}>•</span>
                     <span>{news.views} بازدید</span>
-                    <span className="news-blog__separator">•</span>
+                    <span className={styles.newsBlogSeparator}>•</span>
                     <span>{news.category}</span>
                   </div>
-                  <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div className="news-blog__author">{news.author}</div>
+                  <div className={styles.newsBlogCardFooter}>
+                    <div className={styles.newsBlogAuthor}>{news.author}</div>
                     <button 
                       onClick={() => window.location.href = `/blog/${news.slug}`}
-                      className="news-blog__read-more-button"
-                      style={{
-                        backgroundColor: '#ef4444',
-                        color: 'white',
-                        padding: '8px 16px',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        fontSize: '14px',
-                        fontWeight: 'bold',
-                        transition: 'background-color 0.3s'
-                      }}
+                      className={styles.newsBlogReadMoreButton}
                     >
                       ادامه مطلب
                       <ArrowLeft size={16} />
@@ -168,14 +136,14 @@ export default function NewsBlog() {
           ))}
         </Swiper>
         <button 
-          className="news-blog__nav-button news-blog__nav-button--next" 
+          className={`${styles.newsBlogNavButton} ${styles.newsBlogNavButtonNext}`} 
           onClick={handleNext}
           aria-label="Next slide"
         >
           <ChevronRight size={20} />
         </button>
         <button 
-          className="news-blog__nav-button news-blog__nav-button--prev" 
+          className={`${styles.newsBlogNavButton} ${styles.newsBlogNavButtonPrev}`} 
           onClick={handlePrev}
           aria-label="Previous slide"
         >
@@ -185,13 +153,3 @@ export default function NewsBlog() {
     </section>
   )
 }
-
-// Note: Update the CSS file (NewsBlog.css) to include the following styles:
-// .news-blog__swiper--equal-height .swiper-slide {
-//   height: auto !important;
-// }
-// 
-// .news-blog__swiper--equal-height .news-blog__card {
-//   height: 100%;
-// }
-
