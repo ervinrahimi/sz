@@ -2,10 +2,21 @@
 import React, { useState, useEffect } from 'react'
 import styles from './BlogLayout.module.css'
 import { Share2 } from 'lucide-react'
+import { posts } from './data/posts'
+import { useParams } from 'next/navigation'
 
 const BlogLayout = ({ children }) => {
   const [activeSection, setActiveSection] = useState('')
   const [scrollProgress, setScrollProgress] = useState(0)
+  const { slug } = useParams()
+
+  const currentPost = posts.find((post) => post.slug === slug)
+  const navItems = currentPost
+    ? currentPost.content.sections.map((section) => ({
+        id: section.id,
+        title: section.heading,
+      }))
+    : []
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,16 +39,6 @@ const BlogLayout = ({ children }) => {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  const navItems = [
-    { id: 'introduction', title: 'مقدمه' },
-    { id: 'ios-4', title: 'معرفی iOS 4' },
-    { id: 'ios-5', title: 'تحول با iOS 5' },
-    { id: 'ios-6', title: 'تغییرات iOS 6' },
-    { id: 'ios-7', title: 'انقلاب طراحی در iOS 7' },
-    { id: 'ios-8-9', title: 'پیشرفت‌های iOS 8 و 9' },
-    { id: 'ios-today', title: 'iOS امروز' },
-  ]
 
   return (
     <div className={`${styles.container} ${styles.equalSidebars}`}>

@@ -1,13 +1,14 @@
-import { newsItems } from '../data/news'
+import { posts } from '../data/posts'
 import NewsItem from '../NewsItem/NewsItem'
 import styles from './NewsList.module.css'
+import Link from 'next/link'
 
 export default function NewsList() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h2 className={styles.title}>پست‌های الی</h2>
-        <a href="#" className={styles.viewAll}>
+        <Link href="/blog" className={styles.viewAll}>
           مشاهده همه
           <svg
             className={styles.arrow}
@@ -23,11 +24,11 @@ export default function NewsList() {
             <line x1="19" y1="12" x2="5" y2="12"></line>
             <polyline points="12 19 5 12 12 5"></polyline>
           </svg>
-        </a>
+        </Link>
       </div>
       <div className={styles.list}>
-        {newsItems.map((item) => (
-          <NewsItem key={item.id} item={item} />
+        {posts.slice(0, 3).map((post) => (
+          <NewsItem key={post.id} item={post} />
         ))}
       </div>
     </div>

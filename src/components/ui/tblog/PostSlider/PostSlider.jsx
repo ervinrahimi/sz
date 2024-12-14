@@ -2,13 +2,13 @@
 
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
-import PostCard from '../PostCard/PostCard'
 import styles from './PostSlider.module.css'
-
+import { posts } from '../data/posts'
 import 'swiper/css'
 import 'swiper/css/pagination'
+import PostCard from '../PostCard/PostCard'
 
-export default function PostSlider({ posts }) {
+export default function PostSlider() {
   return (
     <div className={styles.sliderContainer}>
       <div className={styles.swiperWrapper}>
@@ -27,10 +27,10 @@ export default function PostSlider({ posts }) {
             },
             1024: {
               slidesPerView: 3,
-            }
+            },
           }}
         >
-          {posts.map(post => (
+          {posts.map((post) => (
             <SwiperSlide key={post.id}>
               <PostCard post={post} />
             </SwiperSlide>
@@ -40,4 +40,3 @@ export default function PostSlider({ posts }) {
     </div>
   )
 }
-

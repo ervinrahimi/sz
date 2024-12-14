@@ -1,13 +1,14 @@
 import styles from './NewsItem.module.css'
+import Link from 'next/link'
 
 export default function NewsItem({ item }) {
   return (
-    <div className={styles.newsItem}>
+    <Link href={`/blog/${item.slug}`} className={styles.newsItem}>
       <img src={item.image} alt={item.title} className={styles.image} />
       <div className={styles.content}>
-        <span className={styles.category}>{item.category}</span>
+        <span className={styles.category}>مقاله</span>
         <h3 className={styles.title}>{item.title}</h3>
-        <p className={styles.subtitle}>{item.subtitle}</p>
+        <p className={styles.subtitle}>{item.description}</p>
         <div className={styles.meta}>
           <div className={styles.dateTime}>
             <svg
@@ -43,10 +44,10 @@ export default function NewsItem({ item }) {
               <circle cx="12" cy="12" r="10"></circle>
               <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
-            {item.time}
+            {item.name}
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

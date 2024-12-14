@@ -3,8 +3,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay } from 'swiper/modules'
-import { sliderItems } from '../data/news'
+import { posts } from '../data/posts'
 import styles from './FeaturedSlider.module.css'
+import Link from 'next/link'
 
 import 'swiper/css'
 
@@ -12,6 +13,9 @@ export default function FeaturedSlider() {
   const [progress, setProgress] = useState(0)
   const progressRef = useRef(null)
   const autoplayDuration = 5000 // 5 seconds
+
+  // Select at least 5 posts (or all if there are fewer than 5)
+  const featuredPosts = posts.slice(0, Math.max(5, posts.length))
 
   useEffect(() => {
     if (progressRef.current) {
@@ -61,26 +65,28 @@ export default function FeaturedSlider() {
         onSlideChange={handleSlideChange}
         dir="rtl"
       >
-        {sliderItems.map(item => (
-          <SwiperSlide key={item.id}>
-            <div className={styles.slide}>
-              <img src={item.image} alt={item.title} className={styles.image} />
-              <div className={styles.overlay}>
-                <h3 className={styles.title}>{item.title}</h3>
-                <p className={styles.subtitle}>{item.subtitle}</p>
-                <div className={styles.content}>
-                  <div className={styles.author}>
-                    <img 
-                      src={item.author.avatar} 
-                      alt={item.author.name} 
-                      className={styles.avatar}
-                    />
-                    <span className={styles.name}>{item.author.name}</span>
+        {featuredPosts.map((post) => (
+          <SwiperSlide key={post.id}>
+            <Link href={`/blog/${post.slug}`}>
+              <div className={styles.slide}>
+                <img src={post.image} alt={post.title} className={styles.image} />
+                <div className={styles.overlay}>
+                  <h3 className={styles.title}>{post.title}</h3>
+                  <p className={styles.subtitle}>{post.description}</p>
+                  <div className={styles.content}>
+                    <div className={styles.author}>
+                      <img
+                        src={post.author.avatar}
+                        alt={post.author.name}
+                        className={styles.avatar}
+                      />
+                      <span className={styles.name}>{post.author.name}</span>
+                    </div>
+                    <div className={styles.date}>{post.author.date}</div>
                   </div>
-                  <div className={styles.date}>{item.date}</div>
                 </div>
               </div>
-            </div>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>
@@ -90,4 +96,3 @@ export default function FeaturedSlider() {
     </div>
   )
 }
-
