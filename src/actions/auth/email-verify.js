@@ -28,5 +28,5 @@ export const emailVerify = async (token) => {
 
   await deleteToken(existingToken)
 
-  return { success: 'Email verified!' }
+  return { success: 'Email verified!', email: existingUser.email }
 }

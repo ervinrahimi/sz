@@ -13,8 +13,9 @@ import TopHeader from './TopHeader'
 import { SoltanZadeLogoSVG } from '@/assets/svgs/Logos/Logos'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import toast from 'react-hot-toast'
 
-export default function Header({ otherPages }) {
+export default function Header({ otherPages, user }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
 
@@ -43,6 +44,10 @@ export default function Header({ otherPages }) {
       return () => clearTimeout(timer)
     }
   }, [isAnimating])
+
+  const handleToast = () => {
+    toast('این امکان به زودی در درسترس قرار میگیرد!')
+  }
 
   return (
     <header className={otherPages ? styles.headerWrapperP : styles.headerWrapper}>
@@ -73,17 +78,15 @@ export default function Header({ otherPages }) {
         </div>
         <div className={styles.actions}>
           <div className={styles.iconGroup}>
-            <Link href="/Dashboard">
+            <Link href={user ? user?.role === 0 ? "/Dashboard" : "/admin" : '/auth'}>
               <button className={styles.iconButton} aria-label="حساب کاربری">
                 <RiUser3Line />
               </button>
             </Link>
             <div className={styles.iconDivider}></div>
-            <Link href="/">
-              <button className={styles.iconButton} aria-label="سبد خرید">
+              <button onClick={handleToast} className={styles.iconButton} aria-label="سبد خرید">
                 <RiShoppingCart2Line />
               </button>
-            </Link>
           </div>
           <button className={`${styles.textIconButton} ${styles.consultationButton}`}>
             <RiCustomerService2Line />

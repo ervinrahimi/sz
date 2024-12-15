@@ -261,7 +261,24 @@
   height: 1.5rem;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1500px) {
+  .desktopNav {
+    padding: 0.3rem;
+    gap: 0.1rem;
+  }
+
+  .navItem {
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+    padding: 0.3rem 0.6rem;
+    border-radius: 1.5rem;
+    transition: background-color 0.3s ease;
+  }
+}
+
+
+@media (max-width: 1240px) {
   .mainHeader {
     padding: 1rem 2rem;
   }
@@ -297,7 +314,7 @@
   }
 }
 
-@media (min-width: 1025px) {
+@media (min-width: 1240px) {
   .menuButton {
     display: none;
   }
