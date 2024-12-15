@@ -78,7 +78,7 @@ export default function Header({ otherPages, user }) {
         </div>
         <div className={styles.actions}>
           <div className={styles.iconGroup}>
-            <Link href={user ? user?.role === 0 ? "/Dashboard" : "/admin" : '/auth'}>
+            <Link href={user ? user?.role === 1 ? "/admin" : "/Dashboard" : '/auth'}>
               <button className={styles.iconButton} aria-label="حساب کاربری">
                 <RiUser3Line />
               </button>

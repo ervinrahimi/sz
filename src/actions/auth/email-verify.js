@@ -14,7 +14,7 @@ export const emailVerify = async (token) => {
 
   if (hasExpired) return { error: 'Token has expired!' }
 
-  const existingUser = await prisma.user.findUnique({ where: { email: existingToken.identifier} })
+  const existingUser = await prisma.user.findUnique({ where: { email: existingToken.identifier } })
 
   if (!existingUser) return { error: 'Email does not exist!' }
 
@@ -28,5 +28,15 @@ export const emailVerify = async (token) => {
 
   await deleteToken(existingToken)
 
-  return { success: 'Email verified!', email: existingUser.email }
+  const loginToken = crypto.randomUUID()
+  await prisma.verificationToken.create({
+    data: {
+      identifier: existingUser.email,
+      token: loginToken,
+      expires: new Date(Date.now() + 10 * 60 * 1000), // انقضای 10 دقیقه‌ای
+    },
+  })
+
+  // بازگرداندن token
+  return { success: 'Email verified!', email: existingUser.email, loginToken }
 }
