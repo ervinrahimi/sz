@@ -1,5 +1,3 @@
-// src/components/ui/Products/ProductsBox.jsx
-
 'use client'
 
 import React from 'react'
@@ -14,17 +12,20 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/navigation'
 
-import './BlogBoxSwiper.css'
+// import './BlogBoxSwiper.css'
 
 // import required modules
 import { Navigation } from 'swiper/modules'
 
-export default function BlogBox({ title, subTitle, cardBoxes }) {
+// Import posts data
+import { posts } from '@/components/ui/tblog/data/posts'
+
+export default function BlogBox({ title, subTitle }) {
   const router = useRouter()
 
-  const handleViewClick = (link) => () => {
-    if (link) {
-      router.push(link)
+  const handleViewClick = (slug) => () => {
+    if (slug) {
+      router.push(`/blog/${slug}`)
     } else {
       toast.error('لینک مشاهده موجود نیست')
     }
@@ -45,61 +46,45 @@ export default function BlogBox({ title, subTitle, cardBoxes }) {
           spaceBetween={40}
           centeredSlides={false}
           breakpoints={{
-            // سایز دسکتاپ
-            1024: {
-              slidesPerView: 4,
-            },
-            // سایز لپ‌تاپ
-            768: {
-              slidesPerView: 3,
-            },
-            // سایز تبلت
-            640: {
-              slidesPerView: 2,
-            },
-            // سایز موبایل
-            0: {
-              slidesPerView: 1,
-            },
+            1024: { slidesPerView: 4 },
+            768: { slidesPerView: 3 },
+            640: { slidesPerView: 2 },
+            0: { slidesPerView: 1 },
           }}
           className="mySwiper"
         >
-          {cardBoxes &&
-            cardBoxes.map((box, index) => (
-                <SwiperSlide key={index}>
-                  <div className={styles.box}>
-                    <div className={styles.colorContainer}>
-                      <span className={styles.tag} >{box.tag}</span>
-                    </div>
-                    <Image
-                      className={styles.image}
-                      src={box.imageUrl || ''} // لینک عکس
-                      width={1000}
-                      height={1000}
-                      alt={'car-image'}
-                      onClick={handleViewClick(box.viewLink)}
-                    />
-                    <h4 className={styles.title} onClick={handleViewClick(box.viewLink)}>
-                      {box.title}
-                    </h4>
-                    <h3 className={styles.subTitle} onClick={handleViewClick(box.viewLink)}>
-                      {box.date}
-                    </h3>
-                    <p className={styles.text}>{box.description.slice(0, 120) + '...'}</p>
-                    <div className={styles.line}>
-                      <span></span>
-                    </div>
-                    <div className={styles.actionBox}>
-                      <button
-                        className={styles.actionButton}
-                        onClick={handleViewClick(box.viewLink)}
-                      >
-                        مشاهده مقاله
-                      </button>
-                    </div>
-                  </div>
-                </SwiperSlide>
-            ))}
+          {posts.map((post, index) => (
+            <SwiperSlide key={index}>
+              <div className={styles.box}>
+                <div className={styles.colorContainer}>
+                  <span className={styles.tag}>{post.content.sections[0].heading}</span>
+                </div>
+                <Image
+                  className={styles.image}
+                  src={post.image || '/placeholder.svg?height=1000&width=1000'}
+                  width={1000}
+                  height={1000}
+                  alt={post.title}
+                  onClick={handleViewClick(post.slug)}
+                />
+                <h4 className={styles.title} onClick={handleViewClick(post.slug)}>
+                  {post.title}
+                </h4>
+                <h3 className={styles.subTitle} onClick={handleViewClick(post.slug)}>
+                  {post.author.date}
+                </h3>
+                <p className={styles.text}>{post.description.slice(0, 120) + '...'}</p>
+                <div className={styles.line}>
+                  <span></span>
+                </div>
+                <div className={styles.actionBox}>
+                  <button className={styles.actionButton} onClick={handleViewClick(post.slug)}>
+                    مشاهده مقاله
+                  </button>
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
     </>
