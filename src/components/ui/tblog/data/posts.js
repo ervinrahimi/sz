@@ -8,7 +8,7 @@ export const posts = [
     author: {
       name: 'تیم تحریریه',
       avatar: '/uploads/logo.jpg',
-      date: '۲۴ آذر ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'بررسی جامع خودرو Geely Azkara',
@@ -68,7 +68,7 @@ export const posts = [
     author: {
       name: 'تیم تحریریه',
       avatar: '/uploads/logo.jpg',
-      date: '۲۴ آذر ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'مقایسه خودروهای برقی و بنزینی',
@@ -121,7 +121,7 @@ export const posts = [
     author: {
       name: 'تیم تحریریه',
       avatar: '/uploads/logo.jpg',
-      date: '۲۵ آذر ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'ورود خودروهای الکتریکی به ایران و تأثیر آن بر آینده حمل‌ونقل',
@@ -181,7 +181,7 @@ export const posts = [
     author: {
       name: 'تیم تحریریه',
       avatar: '/uploads/logo.jpg',
-      date: '۲۶ آذر ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'تاریخچه شرکت فردا موتورز (FMC)',
@@ -240,7 +240,7 @@ export const posts = [
     author: {
       name: 'تیم تحریریه',
       avatar: '/uploads/logo.jpg',
-      date: '۲۸ آذر ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'تاریخچه شرکت MG',
@@ -299,7 +299,7 @@ export const posts = [
     author: {
       name: 'تیم تحریریه',
       avatar: '/uploads/logo.jpg',
-      date: '۲۷ آذر ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'بررسی کامل خودروی FMC 511',
@@ -364,7 +364,7 @@ export const posts = [
     author: {
       name: 'تیم تحریریه',
       avatar: '/uploads/logo.jpg',
-      date: '۲۷ آذر ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'بررسی کامل خودروی FMC SX5',
@@ -435,7 +435,7 @@ export const posts = [
     author: {
       name: 'تیم تحریریه',
       avatar: '/uploads/logo.jpg',
-      date: '۲۸ آذر ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'بررسی کامل خودروی FMC T5',
@@ -506,7 +506,7 @@ export const posts = [
     author: {
       name: 'تیم تحریریه',
       avatar: '/uploads/logo.jpg',
-      date: '۲۸ آذر ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'بررسی کامل خودروی سوبا M4',
@@ -578,7 +578,7 @@ export const posts = [
     author: {
       name: 'تیم تحریریه',
       avatar: '/uploads/logo.jpg',
-      date: '۲۸ آذر ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'معرفی بهترین خودروهای اقتصادی برای خانواده‌ها',
@@ -638,7 +638,7 @@ export const posts = [
     author: {
       name: 'سارا احمدی',
       avatar: '/uploads/logo.jpg',
-      date: '۲ دی ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'آینده صنعت خودرو: خودروهای خودران و هوش مصنوعی',
@@ -698,7 +698,7 @@ export const posts = [
     author: {
       name: 'رضا کریمی',
       avatar: '/uploads/logo.jpg',
-      date: '۵ دی ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'مقایسه سیستم‌های هیبریدی و تمام الکتریکی در خودروها',
@@ -757,7 +757,7 @@ export const posts = [
     author: {
       name: 'مریم محمدی',
       avatar: '/uploads/logo.jpg',
-      date: '۸ دی ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'نقش هوش مصنوعی در بهبود ایمنی خودروها',
@@ -823,7 +823,7 @@ export const posts = [
     author: {
       name: 'علی رضایی',
       avatar: '/uploads/logo.jpg',
-      date: '۱۲ دی ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'بررسی تأثیر فناوری‌های نوین بر صنعت خودروسازی ایران',
@@ -883,7 +883,7 @@ export const posts = [
     author: {
       name: 'نیما کاظمی',
       avatar: '/uploads/logo.jpg',
-      date: '۱۵ دی ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'مقایسه سیستم‌های تعلیق در خودروهای اسپرت و شهری',
@@ -943,7 +943,7 @@ export const posts = [
     author: {
       name: 'محمد علوی',
       avatar: '/uploads/logo.jpg',
-      date: '۲۰ دی ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'آینده حمل و نقل: خودروهای پرنده',
@@ -1009,7 +1009,7 @@ export const posts = [
     author: {
       name: 'زهرا محمدی',
       avatar: '/uploads/logo.jpg',
-      date: '۲۵ دی ۱۴۰۲',
+      date: 'آذر ماه',
     },
     content: {
       title: 'نقش فناوری‌های نوین در کاهش مصرف سوخت خودروها',
