@@ -2,24 +2,43 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import styles from './legal-contact.module.css'
 import { useState, useEffect } from 'react'
+import styles from './legal-contact.module.css'
 
-const images = [
-  "https://images.netdirector.co.uk/gforces-auto/image/upload/w_343,h_257,dpr_2.0,q_auto,c_fill,f_auto,fl_lossy/auto-client/7e7647bedb4566cf14afe1bf58bc257a/website_thumbnail_2_mobile.jpg",
-  "https://automobilefarsi.com/images/aks/1403/08/AutomobileFa-Suba-M4-1-14030828-600400.webp",
-  "https://hips.hearstapps.com/autoweek/assets/mg5.jpg"
+// داده‌های مقالات همراه با تصاویر
+const articles = [
+  {
+    id: 1,
+    title: 'بررسی جامع خودرو Geely Azkara',
+    slug: 'comprehensive-review-geely-azkara',
+    description: 'بررسی طراحی، مشخصات فنی، امکانات رفاهی و مقایسه با رقبا برای خودروی جیلی آزکارا.',
+    image: '/uploads/geely_azkara.jpg'
+  },
+  {
+    id: 2,
+    title: 'مقایسه خودروهای برقی و بنزینی',
+    slug: 'electric-vs-gasoline-cars',
+    description: 'بررسی مزایا و معایب خودروهای برقی و بنزینی و تاثیرات آنها بر محیط زیست و هزینه‌های نگهداری.',
+    image: '/uploads/electric_vs_gasoline.jpg'
+  },
+  {
+    id: 3,
+    title: 'ورود خودروهای الکتریکی به ایران و تأثیر آن بر آینده حمل‌ونقل',
+    slug: 'electric-cars-in-iran',
+    description: 'تحلیلی بر ورود خودروهای الکتریکی به ایران و اثرات زیست‌محیطی و اقتصادی آن.',
+    image: '/uploads/electric_cars_iran.jpg'
+  }
 ];
 
 export default function LegalContact() {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentArticleIndex, setCurrentArticleIndex] = useState(0);
   const [opacity, setOpacity] = useState(1);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setOpacity(0);
       setTimeout(() => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+        setCurrentArticleIndex((prevIndex) => (prevIndex + 1) % articles.length);
         setOpacity(1);
       }, 300);
     }, 6000);
@@ -27,20 +46,20 @@ export default function LegalContact() {
     return () => clearInterval(interval);
   }, []);
 
+  const currentArticle = articles[currentArticleIndex];
+
   return (
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.content}>
-          <h1 className={styles.title}>به سلطان زاده خوش آمدید</h1>
-          <p className={styles.subtitle}>
-            بهترین خودروها را با بهترین قیمت‌ها از ما بخواهید
-          </p>
+          <h1 className={styles.title}>{currentArticle.title}</h1>
+          <p className={styles.subtitle}>{currentArticle.description}</p>
           <div className={styles.buttons}>
-            <Link href="/cars" className={styles.primaryButton}>
-              مشاهده خودروها
+            <Link href={`/blog/${currentArticle.slug}`} className={styles.primaryButton}>
+              مشاهده مقاله
             </Link>
-            <Link href="/sales-plan" className={styles.secondaryButton}>
-              پیشنهادات ویژه
+            <Link href="/blog" className={styles.secondaryButton}>
+              رفتن به صفحه مقالات
               <svg
                 width="20"
                 height="20"
@@ -69,8 +88,8 @@ export default function LegalContact() {
         </div>
         <div className={styles.imageWrapper}>
           <Image
-            src={images[currentImageIndex]}
-            alt="Legal Professional"
+            src={currentArticle.image}
+            alt={currentArticle.title}
             width={500}
             height={600}
             className={styles.image}
@@ -79,6 +98,5 @@ export default function LegalContact() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-
