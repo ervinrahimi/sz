@@ -15,7 +15,7 @@ import 'swiper/css/free-mode'
 import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
 import 'swiper/css/pagination'
-import './StyleProductDetail.css'
+// import './StyleProductDetail.css'
 import { useState } from 'react'
 import Link from 'next/link'
 import CommentForm from '../Comments/CommentForm'
@@ -102,14 +102,14 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
                 spaceBetween={10}
                 thumbs={{ swiper: thumbsSwiper }}
                 modules={[FreeMode, Navigation, Thumbs]}
-                className="mySwiper2"
+                className={styles.mySwiper2}
               >
                 {carImages.slice(1).map((image, index) => (
                   <SwiperSlide key={index}>
                     <Image
                       src={image}
                       alt={`Car image ${index + 2}`}
-                      className="mySwiperImage1"
+                      className={styles.mySwiperImage1}
                       height={1080}
                       width={1080}
                     />
@@ -124,14 +124,85 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
                 freeMode={true}
                 watchSlidesProgress={true}
                 modules={[FreeMode, Navigation, Thumbs]}
-                className="mySwiper"
+                className={styles.mySwiper}
               >
                 {carImages.slice(1).map((image, index) => (
                   <SwiperSlide key={index}>
                     <Image
                       src={image}
                       alt={`Thumbnail ${index + 2}`}
-                      className="mySwiperImage2"
+                      className={styles.mySwiperImage2}
+                      height={1080}
+                      width={1080}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+
+              <Swiper
+                loop={true}
+                spaceBetween={10}
+                navigation={{
+                  prevEl: `.${styles.prevButton}`,
+                  nextEl: `.${styles.nextButton}`,
+                }}
+                thumbs={{
+                  swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
+                }}
+                modules={[FreeMode, Navigation, Thumbs]}
+                className={styles.mainSwiper}
+              >
+                {carImages.map((image, index) => (
+                  <SwiperSlide key={index} className={styles.mainSlide}>
+                    <Image
+                      src={image}
+                      alt={`Car image ${index + 2}`}
+                      className={styles.mainImage}
+                      height={1080}
+                      width={1080}
+                    />
+                  </SwiperSlide>
+                ))}
+                <button className={`${styles.navigationButton} ${styles.prevButton}`}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M15 18L9 12L15 6"
+                      stroke="#000"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <button className={`${styles.navigationButton} ${styles.nextButton}`}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M9 18L15 12L9 6"
+                      stroke="#000"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              </Swiper>
+
+              <Swiper
+                onSwiper={setThumbsSwiper}
+                loop={true}
+                spaceBetween={10}
+                slidesPerView={4}
+                freeMode={true}
+                watchSlidesProgress={true}
+                modules={[FreeMode, Navigation, Thumbs]}
+                className={styles.thumbsSwiper}
+              >
+                {carImages.map((image, index) => (
+                  <SwiperSlide key={index} className={styles.thumbSlide}>
+                    <Image
+                      src={image}
+                      alt={`Thumbnail ${index + 2}`}
+                      className={styles.thumbImage}
                       height={1080}
                       width={1080}
                     />

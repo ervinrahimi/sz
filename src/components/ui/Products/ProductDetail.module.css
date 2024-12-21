@@ -634,3 +634,182 @@
     margin-left: auto;
   }
 }
+
+#app {
+  height: 100%;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  border-radius: 20px;
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+.swiper {
+  width: 90%;
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.swiper-slide {
+  background-size: cover;
+  background-position: center;
+}
+
+.mySwiper2 {
+  height: 80%;
+  width: 90%;
+}
+
+.mySwiper {
+  height: 20%;
+  box-sizing: border-box;
+  padding: 20px 0 50px;
+}
+
+.mySwiper .swiper-slide {
+  width: 25%;
+  height: 100%;
+}
+
+.mySwiper .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+.swiper-slide img {
+  border-radius: 20px;
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+.mySwiperImage1 {
+  height: 450px;
+}
+
+.mySwiperImage2 {
+  height: 100px;
+}
+
+
+.mainSwiper {
+  width: 100%;
+  height: 500px;
+  margin-bottom: 10px;
+}
+
+.mainSlide {
+  width: 100%;
+  height: 100%;
+}
+
+.mainImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbsSwiper {
+  height: 100px;
+  box-sizing: border-box;
+  padding: 10px 0;
+}
+
+.thumbSlide {
+  width: 25%;
+  height: 100%;
+  opacity: 0.4;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.thumbSlide.active {
+  opacity: 1;
+}
+
+.thumbImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.navigationButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.prevButton {
+  left: 10px;
+}
+
+.nextButton {
+  right: 10px;
+}
+
+.navigationButton:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .mainSwiper {
+    height: 300px;
+  }
+  
+  .thumbsSwiper {
+    height: 70px;
+  }
+  
+  .thumbSlide {
+    width: 33.333%;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainSwiper {
+    height: 200px;
+  }
+  
+  .thumbsSwiper {
+    height: 60px;
+  }
+  
+  .thumbSlide {
+    width: 50%;
+  }
+  
+  .navigationButton {
+    width: 36px;
+    height: 36px;
+  }
+}
+
