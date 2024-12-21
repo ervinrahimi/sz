@@ -152,7 +152,7 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
                 modules={[FreeMode, Navigation, Thumbs]}
                 className={styles.mainSwiper}
               >
-                {carImages.map((image, index) => (
+                {carImages.slice(1).map((image, index) => (
                   <SwiperSlide key={index} className={styles.mainSlide}>
                     <Image
                       src={image}
@@ -197,7 +197,7 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
                 modules={[FreeMode, Navigation, Thumbs]}
                 className={styles.thumbsSwiper}
               >
-                {carImages.map((image, index) => (
+                {carImages.slice(1).map((image, index) => (
                   <SwiperSlide key={index} className={styles.thumbSlide}>
                     <Image
                       src={image}
