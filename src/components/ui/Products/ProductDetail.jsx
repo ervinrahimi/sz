@@ -93,7 +93,7 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
           {/* Swiper for multiple images */}
           {hasMultipleImages && (
             <>
-              <Swiper
+              {/* <Swiper
                 style={{
                   '--swiper-navigation-color': '#fff',
                   '--swiper-pagination-color': '#fff',
@@ -137,7 +137,7 @@ export default function ProductDetail({ car, cardBoxSections, user }) {
                     />
                   </SwiperSlide>
                 ))}
-              </Swiper>
+              </Swiper> */}
 
               <Swiper
                 loop={true}
