@@ -17,14 +17,6 @@ export default function Page({ params }) {
       <HeroSection />
       <BlogLayout>
         <article className={styles.blogPost}>
-          <h1 className={styles.title}>{post.title}</h1>
-          <div className={styles.authorInfo}>
-            <img src={post.author.avatar} alt={post.author.name} className={styles.authorAvatar} />
-            <span className={styles.authorName}>{post.author.name}</span>
-            <span className={styles.postDate}>{post.author.date}</span>
-          </div>
-          <img src={post.image} alt={post.title} className={styles.image} />
-          <p className={styles.description}>{post.description}</p>
           {post.content.sections.map((section) => (
             <div key={section.id} id={section.id}>
               <h3 className={styles.sectionHeading}>{section.heading}</h3>
