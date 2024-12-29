@@ -9,9 +9,7 @@ export default function SecondaryFooter() {
         <div className={styles.links}>
           <a href="/Privacy-Policy" className={styles.link}>حریم خصوصی</a>
           <span className={styles.separator}>•</span>
-          <a href="/Terms-And-Conditions" className={styles.link}>شرایط استفاده</a>
-          <span className={styles.separator}>•</span>
-          <a href="#" className={styles.link}>شرایط گارانتی</a>
+          <a href="/Terms-And-Conditions" className={styles.link}>خط مشی سایت</a>
         </div>
         <div className={styles.copyright}>
           © {currentYear} سلطان زاده. تمامی حقوق محفوظ است
